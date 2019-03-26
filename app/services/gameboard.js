@@ -6,6 +6,11 @@ export default class GameboardService extends Service {
 
   @service ('map') mapService;
 
+  rect = null;
+  centerX = null;
+  centerY = null;
+
+
   drawGrid(id, backgroundColor, withLabels, layout, hexes, withTiles) {
     var canvas = document.getElementById(id);
     if (!canvas) { return; }

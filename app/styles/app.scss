@@ -25,3 +25,12 @@ figure > canvas {
   //flex: 1 1 0;
   margin: 0;
 }
+
+
+// Transports
+.ship {
+  position: absolute;
+  img {
+    height: 60px;
+  }
+}

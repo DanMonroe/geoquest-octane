@@ -18,17 +18,19 @@ export default class GameboardComponent extends Component {
   @service ('hex') hexService;
   @service ('map') mapService;
   @service ('gameboard') gameboard;
+  @service ('transport') transport;
 
-  @tracked ships = emberArray();
+  // @tracked ships = emberArray();
+  @tracked showShip = true;
   // @tracked tilesLoaded = null;
   @tracked showTileGraphics = ENV.game.board.showTileGraphics;
   @tracked showTilesWithLabels = ENV.game.board.showTilesWithLabels;
   // @tracked tileGraphics = [];
   // @tracked currentLayout = [];
 
-  @tracked rect = null;
-  @tracked centerX = null;
-  @tracked centerY = null;
+  // @tracked rect = null;
+  // @tracked centerX = null;
+  // @tracked centerY = null;
 
   constructor() {
     super(...arguments);
@@ -36,46 +38,6 @@ export default class GameboardComponent extends Component {
     this.mapService.loadTiles(Map1, this.showTileGraphics, this.showTilesWithLabels);
   }
 
-
-  loadTiles(tileset) {
-    console.log(tileset);
-
-    this.currentLayout = new Layout({
-      orientation: Layout.FLAT,
-      size: new Point({x:48, y:48}),
-      origin: new Point({x:0, y:0})
-    });
-
-
-    let tileGraphicsLoaded = 0;
-    for (let i = 0; i < tileset.length; i++) {
-
-      let tileGraphic = new Image();
-      tileGraphic.src = tileset[i];
-      tileGraphic.onload = (tile) => {
-        // Once the image is loaded increment the loaded graphics count and check if all images are ready.
-        // console.log(tile, this);
-
-        tileGraphicsLoaded++;
-
-        if (tileGraphicsLoaded === tileset.length) {
-         this.tilesLoaded = Map1.MAP;
-
-          this.gameboard.drawGrid(
-            "gamecanvas",
-            "hsl(60, 10%, 85%)",
-            this.showTilesWithLabels,
-            this.currentLayout,
-            this.mapService.hexMap,
-            this.showTileGraphics
-          );
-
-        }
-      }
-
-      this.tileGraphics.pushObject(tileGraphic);
-    }
-  }
 
 
 
@@ -87,13 +49,18 @@ export default class GameboardComponent extends Component {
     let rect = canvas.getBoundingClientRect();
     let centerX = (rect.width / 2) + rect.left;
     let centerY = (rect.height / 2) + rect.top;
-    this.rect = rect;
-    this.centerX = centerX;
-    this.centerY = centerY;
+    this.gameboard.set('rect', rect);
+    this.gameboard.set('centerX', centerX);
+    this.gameboard.set('centerY', centerY);
 
     // Map setup
     this.mapService.setHexMap(this.hexService.createHexesFromMap(Map1.MAP));
     this.mapService.setTwoDimensionalMap(Map1.MAP);
+
+    // Ship setup
+    if (this.showShip) {
+      this.transport.setupShip()
+    }
   }
 
   @action

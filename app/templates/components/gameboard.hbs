@@ -8,17 +8,17 @@
                 onMouseMove={{action "hexMouseMove"}}
         ></canvas>
       </figure>
-      {{#if this.ships}}
+      {{#if this.transport.ships}}
         <Ship
-          @ships={{this.ships}}
-          @hexLayout={{this.currentLayout}}
-          @q={{this.shipHex.q}}
-          @r={{this.shipHex.r}}
-          @s={{this.shipHex.s}}
-          @hex={{this.shipHex}}
-          @point={{this.shipPoint}}
-          @mapCenterX={{this.centerX}}
-          @mapCenterY={{this.centerY}}
+          @ships={{this.transport.ships}}
+          @hexLayout={{this.mapService.currentLayout}}
+          @q={{this.transport.shipHex.q}}
+          @r={{this.transport.shipHex.r}}
+          @s={{this.transport.shipHex.s}}
+          @hex={{this.transport.hipHex}}
+          @point={{this.transport.shipPoint}}
+          @mapCenterX={{this.gameboard.centerX}}
+          @mapCenterY={{this.gameboard.centerY}}
         />
       {{/if}}
     </div>
@@ -34,7 +34,7 @@
   Ship: {{this.shipHex.q}} {{this.shipHex.r}} {{this.shipHex.s}}
 </div>
 <div>
-  Rect centers: {{centerX}} : {{centerY}}
+  Rect centers: {{this.gameboard.centerX}} : {{this.gameboard.centerY}}
 </div>
 <div>
   <button {{action "toggleTiles"}}>Toggle Tiles</button>
