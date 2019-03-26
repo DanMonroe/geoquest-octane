@@ -1,4 +1,5 @@
 import { Point } from './point';
+import { Hex } from './hex';
 
 export class Layout {
 
@@ -54,7 +55,7 @@ export class Layout {
     let pt = new Point({x:(p.x - origin.x) / size.x, y:(p.y - origin.y) / size.y});
     let q = M.b0 * pt.x + M.b1 * pt.y;
     let r = M.b2 * pt.x + M.b3 * pt.y;
-    return new Point({q:q, r:r, s:-q - r});
+    return new Hex({q:q, r:r, s:-q - r});
   }
 
   hexCornerOffset(corner) {

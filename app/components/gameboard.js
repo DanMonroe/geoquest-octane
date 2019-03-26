@@ -32,6 +32,10 @@ export default class GameboardComponent extends Component {
   // @tracked centerX = null;
   // @tracked centerY = null;
 
+  @tracked pathDistanceToMouseHex = 0;
+  @tracked mouseXY;
+  @tracked currentHex;
+
   constructor() {
     super(...arguments);
 
@@ -66,11 +70,51 @@ export default class GameboardComponent extends Component {
   @action
   hexReport(hexId, event) {
     console.group('hex report');
+
+    let x = event.clientX - this.gameboard.centerX;
+    let y = event.clientY - this.gameboard.centerY;
+    console.log('click centerX', this.gameboard.centerX, 'centerY', this.gameboard.centerY, event, "x:", x, "y:", y);
+    let point = new Point({x:x, y:y});
+    console.log('clicked point', point);
+    console.log('this.currentLayout', this.mapService.currentLayout);
+    let clickedHex = this.mapService.currentLayout.pixelToHex(point).round();
+
+    let mappedHex = this.mapService.findHexByQRS(clickedHex.q, clickedHex.r, clickedHex.s);
+    // let mappedHex = this.mapService.hexMap.find((hex) => {
+    //   return (clickedHex.q === hex.q) && (clickedHex.r === hex.r) && (clickedHex.s === hex.s)
+    // })
+    console.log('mappedHex', mappedHex);
+
+    let hexToPixelPoint = this.mapService.currentLayout.hexToPixel(clickedHex);
+    console.log('point', hexToPixelPoint);
+
+    if(this.moveShipOnClick) {
+      this.get('moveShipToHexTask').cancelAll();
+      let path = this.mapService.findPath(this.mapService.twoDimensionalMap, this.transport.shipHex, mappedHex);
+      this.moveShipAlongPath(path);
+    }
+
+    console.groupEnd();
   }
 
   @action
   hexMouseMove(event) {
-    let x = event.clientX - this.centerX;
-    let y = event.clientY - this.centerY;
+    let x = event.clientX - this.gameboard.centerX;
+    let y = event.clientY - this.gameboard.centerY;
+
+    let point = new Point({x:x, y:y});
+    let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
+
+    let targetHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
+
+    if(targetHex) {
+      let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.twoDimensionalMap, this.transport.shipHex, targetHex);
+      this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
+    } else {
+      this.pathDistanceToMouseHex = 0;
+    }
+
+    this.mouseXY = `X:${event.clientX} Y:${event.clientY}`;
+    this.currentHex = `Q:${thisHex.q} R:${thisHex.r} S:${thisHex.s}`;
   }
 }

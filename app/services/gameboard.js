@@ -59,7 +59,7 @@ export default class GameboardService extends Service {
     ctx.textBaseline = "middle";
 
     // TODO put map t (tile) back in when we add mapp to the hex
-    // ctx.fillText((hex.map.id + " " + hex.map.t), center.x, center.y-7);
+    ctx.fillText((hex.map.id + " " + hex.map.t), center.x, center.y-7);
     ctx.fillText((hex.q + "," + hex.r), center.x, center.y+8);
   }
 

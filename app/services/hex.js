@@ -5,6 +5,12 @@ import {assert} from '@ember/debug';
 
 export default class HexService extends Service {
 
+  hasSameCoordinates(aHex, bHex) {
+    return (aHex.q === bHex.q &&
+      aHex.r === bHex.r &&
+      aHex.s === bHex.s);
+  }
+
   createHexesFromMap(map) {
     assert('Map array MUST be odd lengths to have a hexagonal shape.',(map.length % 2 === 1) && (map[0].length % 2 === 1));
 
