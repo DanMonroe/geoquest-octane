@@ -1,0 +1,48 @@
+<!--https://www.redblobgames.com/grids/hexagons/implementation.html-->
+<AnimatedContainer class="gameboard">
+  <section>
+    <div class="hexwrapper">
+      <figure>
+        <canvas {{did-insert (action this.setupGameCanvas)}} id="gamecanvas" width="550" height="580"
+                onClick={{action "hexReport" "gamecanvas-flat"}}
+                onMouseMove={{action "hexMouseMove"}}
+        ></canvas>
+      </figure>
+      {{#if this.ships}}
+        <Ship
+          @ships={{this.ships}}
+          @hexLayout={{this.currentLayout}}
+          @q={{this.shipHex.q}}
+          @r={{this.shipHex.r}}
+          @s={{this.shipHex.s}}
+          @hex={{this.shipHex}}
+          @point={{this.shipPoint}}
+          @mapCenterX={{this.centerX}}
+          @mapCenterY={{this.centerY}}
+        />
+      {{/if}}
+    </div>
+  </section>
+</AnimatedContainer>
+<div>
+  Mouse X:Y{{input value=mouseXY}}
+</div>
+<div>
+  Mouse Hex: {{input value=currentHex}} Path Distance: {{pathDistanceToMouseHex}}
+</div>
+<div>
+  Ship: {{this.shipHex.q}} {{this.shipHex.r}} {{this.shipHex.s}}
+</div>
+<div>
+  Rect centers: {{centerX}} : {{centerY}}
+</div>
+<div>
+  <button {{action "toggleTiles"}}>Toggle Tiles</button>
+  <button {{action "findPath"}}>Find Path</button>
+</div>
+<div>
+  Move ship on click: {{input type="checkbox" name="moveShipOnClick" checked=this.moveShipOnClick}}
+</div>
+<div>
+  [{{#if this.tilesLoaded}}tiles loaded{{/if}}]
+</div>
