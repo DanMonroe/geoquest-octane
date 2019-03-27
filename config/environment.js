@@ -30,17 +30,20 @@ module.exports = function(environment) {
       board: {
         showCenterRect: true,
         showTilesWithLabels: true,
-        showTileGraphics: false
+        showTileGraphics: true
       },
 
       ship: {
         start: {
-          Q: 2,
-          R: 1,
-          S: -3
+          Q: 1,
+          R: 0,
+          S: -1
         }
       }
     }
+          // Q: 2,
+          // R: 1,
+          // S: -3
   };
 
   if (environment === 'development') {

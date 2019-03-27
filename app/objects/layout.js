@@ -45,6 +45,9 @@ export class Layout {
     let origin = this.origin;
     let x = (M.f0 * h.q + M.f1 * h.r) * size.x;
     let y = (M.f2 * h.q + M.f3 * h.r) * size.y;
+
+    // console.log('hexToPixel', x, y, M.f0, M.f1, M.f2, M.f3, size);
+
     return new Point({x:x + origin.x, y:y + origin.y});
   }
 
@@ -55,6 +58,13 @@ export class Layout {
     let pt = new Point({x:(p.x - origin.x) / size.x, y:(p.y - origin.y) / size.y});
     let q = M.b0 * pt.x + M.b1 * pt.y;
     let r = M.b2 * pt.x + M.b3 * pt.y;
+
+    // console.log('pixelToHex', q, r, M.b1, M.b2, M.b3, p);
+
+    // var q2 = ( 2./3 * pt.x                        ) / size.x
+    // var r2 = (-1./3 * pt.x  + Math.sqrt(3)/3 * pt.y) / size.y
+    // console.log('pixelToHex', q, q2, r, r2);
+
     return new Hex({q:q, r:r, s:-q - r});
   }
 

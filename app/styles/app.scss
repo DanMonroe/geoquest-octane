@@ -1,10 +1,31 @@
-#gamecanvas {
+body {
+  margin:0;
+  padding:0;
+}
+
+#gamecanvas, #hexcanvas {
   height: 500px;
   width: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#hexcanvas {
+  //background-color: rgba(255, 0, 0, 0.2);
 }
 
 .gameboard {
   position: relative;
+}
+.debugWrapper {
+  position: absolute;
+  left:0;
+  bottom: 50px;
+}
+
+.hideTiles {
+  display: none;
 }
 
 figure {
@@ -31,6 +52,6 @@ figure > canvas {
 .ship {
   position: absolute;
   img {
-    height: 60px;
+    height: 42px;
   }
 }

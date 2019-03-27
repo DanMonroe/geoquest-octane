@@ -20,21 +20,18 @@ export default class GameboardComponent extends Component {
   @service ('gameboard') gameboard;
   @service ('transport') transport;
 
-  // @tracked ships = emberArray();
   @tracked showShip = true;
-  // @tracked tilesLoaded = null;
+  @tracked moveShipOnClick = true;
+
+  // @tracked showTileGraphics = false;
   @tracked showTileGraphics = ENV.game.board.showTileGraphics;
   @tracked showTilesWithLabels = ENV.game.board.showTilesWithLabels;
-  // @tracked tileGraphics = [];
-  // @tracked currentLayout = [];
-
-  // @tracked rect = null;
-  // @tracked centerX = null;
-  // @tracked centerY = null;
 
   @tracked pathDistanceToMouseHex = 0;
   @tracked mouseXY;
   @tracked currentHex;
+
+  @tracked hexcontext;
 
   constructor() {
     super(...arguments);
@@ -43,10 +40,18 @@ export default class GameboardComponent extends Component {
   }
 
 
+  @action
+  setupHexCanvas(canvas) {
+    console.log(canvas);
+    let hexcontext = canvas.getContext('2d');
+    this.hexcontext = hexcontext;
+  }
+
 
 
   @action
   setupGameCanvas(canvas) {
+    console.log(canvas);
 
     // canvas
     // let canvas = document.getElementById('gamecanvas');
@@ -58,17 +63,24 @@ export default class GameboardComponent extends Component {
     this.gameboard.set('centerY', centerY);
 
     // Map setup
-    this.mapService.setHexMap(this.hexService.createHexesFromMap(Map1.MAP));
-    this.mapService.setTwoDimensionalMap(Map1.MAP);
+    this.mapService.set('hexMap', this.hexService.createHexesFromMap(Map1.MAP));
+    this.mapService.set('twoDimensionalMap', Map1.MAP);
 
     // Ship setup
     if (this.showShip) {
       this.transport.setupShip()
     }
+
+
   }
 
+  // @action
+  // gamehexClick(event) {
+  //   console.group('gamehexClick');
+  // }
+
   @action
-  hexReport(hexId, event) {
+  hexReport(event) {
     console.group('hex report');
 
     let x = event.clientX - this.gameboard.centerX;
@@ -80,18 +92,16 @@ export default class GameboardComponent extends Component {
     let clickedHex = this.mapService.currentLayout.pixelToHex(point).round();
 
     let mappedHex = this.mapService.findHexByQRS(clickedHex.q, clickedHex.r, clickedHex.s);
-    // let mappedHex = this.mapService.hexMap.find((hex) => {
-    //   return (clickedHex.q === hex.q) && (clickedHex.r === hex.r) && (clickedHex.s === hex.s)
-    // })
+
     console.log('mappedHex', mappedHex);
 
     let hexToPixelPoint = this.mapService.currentLayout.hexToPixel(clickedHex);
     console.log('point', hexToPixelPoint);
 
     if(this.moveShipOnClick) {
-      this.get('moveShipToHexTask').cancelAll();
+      this.transport.moveShipToHexTask.cancelAll();
       let path = this.mapService.findPath(this.mapService.twoDimensionalMap, this.transport.shipHex, mappedHex);
-      this.moveShipAlongPath(path);
+      this.transport.moveShipAlongPath(path);
     }
 
     console.groupEnd();
@@ -116,5 +126,12 @@ export default class GameboardComponent extends Component {
 
     this.mouseXY = `X:${event.clientX} Y:${event.clientY}`;
     this.currentHex = `Q:${thisHex.q} R:${thisHex.r} S:${thisHex.s}`;
+
+    // this.gameboard.drawHex(this.hexcontext, this.mapService.currentLayout, thisHex, "red");
+  }
+
+  @action
+  toggleTiles() {
+    this.showTileGraphics = !this.showTileGraphics;
   }
 }

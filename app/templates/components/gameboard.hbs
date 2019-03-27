@@ -3,10 +3,15 @@
   <section>
     <div class="hexwrapper">
       <figure>
-        <canvas {{did-insert (action this.setupGameCanvas)}} id="gamecanvas" width="550" height="580"
-                onClick={{action "hexReport" "gamecanvas-flat"}}
-                onMouseMove={{action "hexMouseMove"}}
+        <canvas {{did-insert (action this.setupGameCanvas)}} id="gamecanvas" width="540" height="540"
+         class="{{if this.showTileGraphics "showTiles" "hideTiles"}}"
         ></canvas>
+        {{#if this.mapService.hexMap}}
+          <canvas {{did-insert (action this.setupHexCanvas)}} id="hexcanvas" width="540" height="540"
+                onClick={{action "hexReport"}}
+                onMouseMove={{action "hexMouseMove"}}
+          ></canvas>
+        {{/if}}
       </figure>
       {{#if this.transport.ships}}
         <Ship
@@ -24,25 +29,26 @@
     </div>
   </section>
 </AnimatedContainer>
-<div>
-  Mouse X:Y{{input value=mouseXY}}
-</div>
-<div>
-  Mouse Hex: {{input value=currentHex}} Path Distance: {{pathDistanceToMouseHex}}
-</div>
-<div>
-  Ship: {{this.transport.shipHex.q}} {{this.transport.shipHex.r}} {{this.transport.shipHex.s}}
-</div>
-<div>
-  Rect centers: {{this.gameboard.centerX}} : {{this.gameboard.centerY}}
-</div>
-<div>
-  <button {{action "toggleTiles"}}>Toggle Tiles</button>
-  <button {{action "findPath"}}>Find Path</button>
-</div>
-<div>
-  Move ship on click: {{input type="checkbox" name="moveShipOnClick" checked=this.moveShipOnClick}}
-</div>
-<div>
-  [{{#if this.tilesLoaded}}tiles loaded{{/if}}]
+<div class="debugWrapper">
+  <div>
+    Mouse X:Y{{input value=mouseXY}}
+  </div>
+  <div>
+    Mouse Hex: {{input value=currentHex}} Path Distance: {{pathDistanceToMouseHex}}
+  </div>
+  <div>
+    Ship: {{this.transport.shipHex.q}} {{this.transport.shipHex.r}} {{this.transport.shipHex.s}}
+  </div>
+  <div>
+    Rect centers: {{this.gameboard.centerX}} : {{this.gameboard.centerY}}
+  </div>
+  <div>
+    <button {{action "toggleTiles"}}>Toggle Tiles</button>
+  </div>
+  <div>
+    Move ship on click: {{input type="checkbox" name="moveShipOnClick" checked=this.moveShipOnClick}}
+  </div>
+  <div>
+    [{{#if this.tilesLoaded}}tiles loaded{{/if}}]
+  </div>
 </div>

@@ -4,6 +4,8 @@ import { A as emberArray } from '@ember/array';
 import Ship from '../objects/transports/ship'
 // import { Ship } from '../objects/transports/ship'
 import { tracked } from '@glimmer/tracking';
+import { task, timeout } from 'ember-concurrency';
+
 
 import ENV from 'geoquest-octane/config/environment';
 
@@ -51,4 +53,26 @@ export default class TransportService extends Service {
 
     this.ships = ships;
   }
+
+  @task(function*(ship, targetHex) {
+    // console.log('Moving to', targetHex);
+    this.shipHex = targetHex;
+    ship.set('hex', targetHex);
+    yield timeout(300);
+    // console.log('done move');
+  }).enqueue() moveShipToHexTask;
+
+  moveShipAlongPath(path) {
+    if (path && path.length) {
+      // console.log('Moving ship along path', path);
+      for (let move = 0, pathLen = path.length; move < pathLen; move++) {
+        let nextHex = path[move];
+        let ship = this.ships.objectAt(0);
+        this.moveShipToHexTask.perform(ship, nextHex);
+      }
+      // })
+      console.log('done');
+    }
+  }
+
 }

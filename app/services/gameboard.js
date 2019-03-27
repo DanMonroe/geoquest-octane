@@ -14,24 +14,33 @@ export default class GameboardService extends Service {
   drawGrid(id, backgroundColor, withLabels, layout, hexes, withTiles) {
     var canvas = document.getElementById(id);
     if (!canvas) { return; }
-    var ctx = canvas.getContext('2d');
+    var gamecontext = canvas.getContext('2d');
     var width = canvas.width;
     var height = canvas.height;
 
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0, 0, width, height);
-    ctx.translate(width/2, height/2);
+    // gamecontext.fillStyle = backgroundColor;
+    // gamecontext.fillRect(0, 0, width, height);
+    gamecontext.translate(width/2, height/2);
+
+
+    var hexcanvas = document.getElementById('hexcanvas');
+    var hexcontext = hexcanvas.getContext('2d');
+    hexcontext.translate(width/2, height/2);
+
+
 
     hexes.forEach((hex) => {
-      this.drawHex(ctx, layout, hex);
-      if (withLabels) this.drawHexLabel(ctx, layout, hex);
-      if (withTiles) this.drawHexTile(ctx, layout, hex);
+      this.drawHex(hexcontext, layout, hex);
+      if (withLabels) this.drawHexLabel(hexcontext, layout, hex);
+      if (withTiles) this.drawHexTile(gamecontext, layout, hex);
     });
 
     if (ENV.game.board.showCenterRect) {
-      ctx.fillStyle = "red"
-      ctx.fillRect(-3, -3, 6, 6);
+      hexcontext.fillStyle = "red"
+      hexcontext.fillRect(-3, -3, 6, 6);
     }
+
+    // ctx.translate(0, 0);
   }
 
   drawHex(ctx, layout, hex, fillStyle) {
@@ -76,10 +85,12 @@ export default class GameboardService extends Service {
     let tileGraphic = this.mapService.getTileGraphic(hex.map.t);
 
     let point = layout.hexToPixel(hex);
-    let x = Math.floor(point.x) - 48;
-    let y = Math.floor(point.y) - 53;
-    // console.log('hex:', hex, 'point:', point, tileGraphic, 'x:', x, 'y:', y);
-    ctx.drawImage(tileGraphic , x, y );
+    let x = Math.floor(point.x) - layout.size.x;
+    let y = Math.floor(point.y) - layout.size.y - 4;
+    // let x = Math.floor(point.x) - 36;
+    // let y = Math.floor(point.y) - 41;
+    // console.log('hex:', hex, 'point:', point, tileGraphic, 'x:', x, 'y:', y, layout);
+    ctx.drawImage(tileGraphic , x, y, layout.size.x*2, layout.size.y*2);
   }
 
   colorForHex(hex) {

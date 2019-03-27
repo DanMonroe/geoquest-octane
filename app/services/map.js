@@ -17,13 +17,13 @@ export default class MapService extends Service {
   currentLayout = null;
   tilesLoaded = 0;
 
-  setHexMap(map) {
-    this.hexMap = map;
-  }
-
-  setTwoDimensionalMap(map) {
-    this.twoDimensionalMap = map;
-  }
+  // setHexMap(map) {
+  //   this.hexMap = map;
+  // }
+  //
+  // setTwoDimensionalMap(map) {
+  //   this.twoDimensionalMap = map;
+  // }
 
   loadTiles(map, showTileGraphics, showTilesWithLabels) {
     let tileset = map.TILEIMAGES
@@ -31,7 +31,7 @@ export default class MapService extends Service {
 
     this.currentLayout = new Layout({
       orientation: Layout.FLAT,
-      size: new Point({x:48, y:48}),
+      size: new Point({x:36, y:36}),
       origin: new Point({x:0, y:0})
     });
 
@@ -39,7 +39,7 @@ export default class MapService extends Service {
     let tileGraphicsLoaded = 0;
     for (let i = 0; i < tileset.length; i++) {
 
-      let tileGraphic = new Image();
+      let tileGraphic = new Image(36, 36);
       tileGraphic.src = tileset[i];
       tileGraphic.onload = () => {
         // Once the image is loaded increment the loaded graphics count and check if all images are ready.
@@ -203,8 +203,6 @@ export default class MapService extends Service {
 
     // No result was found - empty array signifies failure to find path.
     return [];
-
-
   }
 
 }
