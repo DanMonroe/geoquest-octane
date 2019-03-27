@@ -28,10 +28,12 @@ export default class GameboardComponent extends Component {
   @tracked showTilesWithLabels = ENV.game.board.showTilesWithLabels;
 
   @tracked pathDistanceToMouseHex = 0;
+  @tracked mousePoint;
   @tracked mouseXY;
   @tracked currentHex;
 
   @tracked hexcontext;
+  @tracked mousecontext;
 
   constructor() {
     super(...arguments);
@@ -45,6 +47,17 @@ export default class GameboardComponent extends Component {
     console.log(canvas);
     let hexcontext = canvas.getContext('2d');
     this.hexcontext = hexcontext;
+    // console.log('this.gameboard.centerX', this.gameboard.centerX);
+    // hexcontext.translate(this.gameboard.centerX/2, this.gameboard.centerY/2);
+  }
+
+  @action
+  setupMouseCanvas(canvas) {
+    console.log(canvas);
+    let mousecontext = canvas.getContext('2d');
+    this.mousecontext = mousecontext;
+// console.log('this.gameboard.centerX', this.gameboard.centerX);
+//     mousecontext.translate(this.gameboard.centerX/2, this.gameboard.centerY/2);
   }
 
 
@@ -52,7 +65,6 @@ export default class GameboardComponent extends Component {
   @action
   setupGameCanvas(canvas) {
     console.log(canvas);
-
     // canvas
     // let canvas = document.getElementById('gamecanvas');
     let rect = canvas.getBoundingClientRect();
@@ -72,6 +84,8 @@ export default class GameboardComponent extends Component {
     }
 
 
+    // TODO remove
+    this.showTileGraphics = false;
   }
 
   // @action
@@ -88,12 +102,15 @@ export default class GameboardComponent extends Component {
     console.log('click centerX', this.gameboard.centerX, 'centerY', this.gameboard.centerY, event, "x:", x, "y:", y);
     let point = new Point({x:x, y:y});
     console.log('clicked point', point);
-    console.log('this.currentLayout', this.mapService.currentLayout);
+    // console.log('this.currentLayout', this.mapService.currentLayout);
     let clickedHex = this.mapService.currentLayout.pixelToHex(point).round();
 
     let mappedHex = this.mapService.findHexByQRS(clickedHex.q, clickedHex.r, clickedHex.s);
 
     console.log('mappedHex', mappedHex);
+
+    this.gameboard.drawHex(this.mousecontext, this.mapService.currentLayout, mappedHex, "red", "red");
+
 
     let hexToPixelPoint = this.mapService.currentLayout.hexToPixel(clickedHex);
     console.log('point', hexToPixelPoint);
@@ -125,6 +142,7 @@ export default class GameboardComponent extends Component {
     }
 
     this.mouseXY = `X:${event.clientX} Y:${event.clientY}`;
+    this.mousePoint = `X:${point.x} Y:${point.y}`;
     this.currentHex = `Q:${thisHex.q} R:${thisHex.r} S:${thisHex.s}`;
 
     // this.gameboard.drawHex(this.hexcontext, this.mapService.currentLayout, thisHex, "red");

@@ -75,7 +75,7 @@ export class Map1 extends Basemap {
 
       [
         {id: 6, col: 0, row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
-        {id: 13, col: 1, row: 6, t: 4, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null} },
+        {id: 13, col: 1, row: 6, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null} },
         {id: 20, col: 2, row: 6, t: 2, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null} },
         {id: 27, col: 3, row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
         null,

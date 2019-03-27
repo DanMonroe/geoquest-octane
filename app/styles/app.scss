@@ -3,7 +3,7 @@ body {
   padding:0;
 }
 
-#gamecanvas, #hexcanvas {
+#gamecanvas, #hexcanvas, #mousecanvas {
   height: 500px;
   width: 500px;
   position: absolute;
@@ -11,8 +11,14 @@ body {
   left: 0;
 }
 
+#gamecanvas {
+  z-index: 150;
+}
 #hexcanvas {
-  //background-color: rgba(255, 0, 0, 0.2);
+  z-index: 200;
+}
+#mousecanvas {
+  z-index: 300;
 }
 
 .gameboard {
@@ -50,6 +56,9 @@ figure > canvas {
 
 // Transports
 .ship {
+
+  display:none;
+
   position: absolute;
   img {
     height: 42px;

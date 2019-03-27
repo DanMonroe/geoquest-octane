@@ -8,6 +8,8 @@
         ></canvas>
         {{#if this.mapService.hexMap}}
           <canvas {{did-insert (action this.setupHexCanvas)}} id="hexcanvas" width="540" height="540"
+          ></canvas>
+          <canvas {{did-insert (action this.setupMouseCanvas)}} id="mousecanvas" width="540" height="540"
                 onClick={{action "hexReport"}}
                 onMouseMove={{action "hexMouseMove"}}
           ></canvas>
@@ -34,7 +36,10 @@
     Mouse X:Y{{input value=mouseXY}}
   </div>
   <div>
-    Mouse Hex: {{input value=currentHex}} Path Distance: {{pathDistanceToMouseHex}}
+    Path Distance: {{pathDistanceToMouseHex}}
+  </div>
+  <div>
+    Mouse Hex: {{input value=currentHex}} Mouse Point: {{mousePoint}}
   </div>
   <div>
     Ship: {{this.transport.shipHex.q}} {{this.transport.shipHex.r}} {{this.transport.shipHex.s}}

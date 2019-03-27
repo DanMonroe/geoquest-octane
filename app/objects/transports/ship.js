@@ -52,7 +52,7 @@ export default EmberObject.extend({
       let point = this.hexLayout.hexToPixel(this.hex);
       let newx = this.mapCenterX + parseFloat(point.x - 21);   // - 30
       let newy = this.mapCenterY + parseFloat(point.y - 21);  // - 30
-console.log('ship:', this.mapCenterX, this.mapCenterY, this.hex, point, newx, newy);
+// console.log('ship:', this.mapCenterX, this.mapCenterY, this.hex, point, newx, newy);
 
       return htmlSafe(`top: ${newy}px; left: ${newx}px;`);
     }

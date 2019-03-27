@@ -31,9 +31,14 @@ export default class MapService extends Service {
 
     this.currentLayout = new Layout({
       orientation: Layout.FLAT,
-      size: new Point({x:36, y:36}),
+      size: new Point({x:100, y:100}),
       origin: new Point({x:0, y:0})
     });
+    // this.currentLayout = new Layout({
+    //   orientation: Layout.FLAT,
+    //   size: new Point({x:36, y:36}),
+    //   origin: new Point({x:0, y:0})
+    // });
 
 
     let tileGraphicsLoaded = 0;

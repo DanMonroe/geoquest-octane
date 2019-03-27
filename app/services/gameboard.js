@@ -1,14 +1,15 @@
 import Service from '@ember/service';
 import ENV from 'geoquest-octane/config/environment';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class GameboardService extends Service {
 
   @service ('map') mapService;
 
-  rect = null;
-  centerX = null;
-  centerY = null;
+  @tracked rect = null;
+  @tracked centerX = null;
+  @tracked centerY = null;
 
 
   drawGrid(id, backgroundColor, withLabels, layout, hexes, withTiles) {
@@ -27,6 +28,10 @@ export default class GameboardService extends Service {
     var hexcontext = hexcanvas.getContext('2d');
     hexcontext.translate(width/2, height/2);
 
+    var mousecanvas = document.getElementById('mousecanvas');
+    var mousecontext = mousecanvas.getContext('2d');
+    mousecontext.translate(width/2, height/2);
+
 
 
     hexes.forEach((hex) => {
@@ -37,16 +42,21 @@ export default class GameboardService extends Service {
 
     if (ENV.game.board.showCenterRect) {
       hexcontext.fillStyle = "red"
-      hexcontext.fillRect(-3, -3, 6, 6);
+      hexcontext.fillRect(-4, -4, 8, 8);
+
+      mousecontext.fillStyle = "purple"
+      mousecontext.fillRect(-3, -3, 6, 6);
     }
 
     // ctx.translate(0, 0);
   }
 
-  drawHex(ctx, layout, hex, fillStyle) {
+  drawHex(ctx, layout, hex, fillStyle, strokeStyle = "black") {
     let corners = layout.polygonCorners(hex);
+
+    // console.log('corners', corners, hex);
     ctx.beginPath();
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = strokeStyle;
     ctx.lineWidth = 1;
     if (fillStyle) {
       ctx.fillStyle = fillStyle;
@@ -87,9 +97,7 @@ export default class GameboardService extends Service {
     let point = layout.hexToPixel(hex);
     let x = Math.floor(point.x) - layout.size.x;
     let y = Math.floor(point.y) - layout.size.y - 4;
-    // let x = Math.floor(point.x) - 36;
-    // let y = Math.floor(point.y) - 41;
-    // console.log('hex:', hex, 'point:', point, tileGraphic, 'x:', x, 'y:', y, layout);
+
     ctx.drawImage(tileGraphic , x, y, layout.size.x*2, layout.size.y*2);
   }
 
