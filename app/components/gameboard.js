@@ -21,6 +21,7 @@ export default class GameboardComponent extends Component {
 
   // @tracked showTileGraphics = false;
   @tracked showTileGraphics = ENV.game.board.showTileGraphics;
+  @tracked showTileHexInfo = true;
   @tracked showTilesWithLabels = ENV.game.board.showTilesWithLabels;
 
   @tracked pathDistanceToMouseHex = 0;
@@ -67,8 +68,8 @@ export default class GameboardComponent extends Component {
 
     // create viewport
     var viewport = new concrete.Viewport({
-      width: 540,
-      height: 540,
+      width: 600,
+      height: 600,
       container: concreteContainer
     });
 
@@ -96,31 +97,6 @@ export default class GameboardComponent extends Component {
         key: 1
       }
     ];
-      // {
-      //   x: viewport.width/2,
-      //   y: viewport.height/2,
-      //   layer: mouseLayer,
-      //   key: 2
-      // }
-
-
-    // draw scene
-    // loop through gameLayers (eventually)
-    // gameLayers.forEach((gameLayer) => {
-    //   var scene = gameLayer.layer.scene,
-    //     context = scene.context;
-    //
-    //   scene.clear();
-    //   context.save();
-    //   // context.beginPath();
-    //   // context.arc(gameLayer.x, gameLayer.y, 60, 0, Math.PI*2, false);
-    //   context.fillStyle = gameLayer.color;
-    //   context.fill();
-    //   context.restore();
-    // });
-
-
-    // viewport.render();
 
     this.gameboard.viewport = viewport;
 
@@ -296,5 +272,13 @@ export default class GameboardComponent extends Component {
   @action
   toggleTiles() {
     this.showTileGraphics = !this.showTileGraphics;
+    this.gameboard.viewport.layers[0].visible = this.showTileGraphics;
+    this.gameboard.viewport.render();
+  }
+  @action
+  toggleHexInfo() {
+    this.showTileHexInfo = !this.showTileHexInfo;
+    this.gameboard.viewport.layers[1].visible = this.showTileHexInfo;
+    this.gameboard.viewport.render();
   }
 }
