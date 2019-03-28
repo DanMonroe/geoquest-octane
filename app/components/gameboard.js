@@ -8,7 +8,7 @@ import concrete from 'concretejs';
 
 import ENV from 'geoquest-octane/config/environment';
 
-import { Map1 } from 'geoquest-octane/objects/maps/map1';
+import { Map2 } from 'geoquest-octane/objects/maps/map2';
 
 export default class GameboardComponent extends Component {
 
@@ -36,7 +36,7 @@ export default class GameboardComponent extends Component {
   constructor() {
     super(...arguments);
 
-    this.mapService.loadTiles(Map1, this.showTileGraphics, this.showTilesWithLabels);
+    this.mapService.loadTiles(Map2, this.showTileGraphics, this.showTilesWithLabels);
   }
 
 // <canvas {{did-insert (action this.setupGameCanvas)}} id="gamecanvas" width="540" height="540"
@@ -62,8 +62,8 @@ export default class GameboardComponent extends Component {
     console.log(concreteContainer);
 
     // Map setup
-    this.mapService.set('hexMap', this.hexService.createHexesFromMap(Map1.MAP));
-    this.mapService.set('twoDimensionalMap', Map1.MAP);
+    this.mapService.set('hexMap', this.hexService.createHexesFromMap(Map2.MAP));
+    this.mapService.set('twoDimensionalMap', Map2.MAP);
 
     // create viewport
     var viewport = new concrete.Viewport({
@@ -209,8 +209,8 @@ export default class GameboardComponent extends Component {
     this.gameboard.set('centerY', centerY);
 
     // Map setup
-    this.mapService.set('hexMap', this.hexService.createHexesFromMap(Map1.MAP));
-    this.mapService.set('twoDimensionalMap', Map1.MAP);
+    this.mapService.set('hexMap', this.hexService.createHexesFromMap(Map2.MAP));
+    this.mapService.set('twoDimensionalMap', Map2.MAP);
 
     // Ship setup
     if (this.showShip) {

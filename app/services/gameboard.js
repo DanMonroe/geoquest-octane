@@ -112,13 +112,26 @@ export default class GameboardService extends Service {
     //   return;
     // }
 
-    let tileGraphic = this.mapService.getTileGraphic(hex.map.t);
 
     let point = layout.hexToPixel(hex);
     let x = Math.floor(point.x) - layout.size.x;
     let y = Math.floor(point.y) - layout.size.y - 4;
 
-    ctx.drawImage(tileGraphic , x, y, layout.size.x*2, layout.size.y*2);
+    let tileGraphics = [];
+    if (typeof hex.map.t === 'number') {
+      tileGraphics.push(this.mapService.getTileGraphic(hex.map.t));
+    } else if(Array.isArray(hex.map.t)) {
+      hex.map.t.forEach((tileIndex) => {
+        tileGraphics.push(this.mapService.getTileGraphic(tileIndex));
+      });
+    }
+
+
+    // let tileGraphic = this.mapService.getTileGraphic(hex.map.t);
+
+    tileGraphics.forEach((tile) => {
+      ctx.drawImage(tile , x, y, layout.size.x*2, layout.size.y*2);
+    })
   }
 
   colorForHex(hex) {
