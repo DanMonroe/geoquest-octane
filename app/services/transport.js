@@ -42,6 +42,7 @@ export default class TransportService extends Service {
     //   hex: this.shipHex,
     //   point: this.shipPoint
     // }));
+
     ships.push(Ship.create({
       id: 1,
       mapCenterX: this.gameboard.centerX,
@@ -50,6 +51,14 @@ export default class TransportService extends Service {
       hex: this.shipHex,
       point: this.shipPoint
     }));
+    // ships.push(Ship.create({
+    //   id: 1,
+    //   mapCenterX: this.gameboard.centerX,
+    //   mapCenterY: this.gameboard.centerY,
+    //   hexLayout: this.mapService.currentLayout,
+    //   hex: this.shipHex,
+    //   point: this.shipPoint
+    // }));
 
     this.ships = ships;
   }

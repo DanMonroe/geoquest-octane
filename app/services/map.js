@@ -3,6 +3,7 @@ import { Layout } from '../objects/layout'
 import { Point } from '../objects/point'
 import { Graph } from '../objects/graph'
 import { BinaryHeap } from '../objects/binary-heap'
+import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 
 export default class MapService extends Service {
@@ -15,7 +16,7 @@ export default class MapService extends Service {
   twoDimensionalMap = null;
   tileGraphics = [];
   currentLayout = null;
-  tilesLoaded = 0;
+  @tracked tilesLoaded = false;
 
   // setHexMap(map) {
   //   this.hexMap = map;
@@ -29,16 +30,16 @@ export default class MapService extends Service {
     let tileset = map.TILEIMAGES
     // console.log(tileset);
 
-    this.currentLayout = new Layout({
-      orientation: Layout.FLAT,
-      size: new Point({x:100, y:100}),
-      origin: new Point({x:0, y:0})
-    });
     // this.currentLayout = new Layout({
     //   orientation: Layout.FLAT,
-    //   size: new Point({x:36, y:36}),
+    //   size: new Point({x:100, y:100}),
     //   origin: new Point({x:0, y:0})
     // });
+    this.currentLayout = new Layout({
+      orientation: Layout.FLAT,
+      size: new Point({x:36, y:36}),
+      origin: new Point({x:0, y:0})
+    });
 
 
     let tileGraphicsLoaded = 0;
@@ -53,16 +54,17 @@ export default class MapService extends Service {
         tileGraphicsLoaded++;
 
         if (tileGraphicsLoaded === tileset.length) {
-          this.tilesLoaded = map.MAP;
+          console.log('tiles loaded');
+          this.tilesLoaded = true;
 
-          this.gameboard.drawGrid(
-            "gamecanvas",
-            "hsl(60, 10%, 85%)",
-            showTilesWithLabels,
-            this.currentLayout,
-            this.mapService.hexMap,
-            showTileGraphics
-          );
+          // this.gameboard.drawGrid(
+          //   "gamecanvas",
+          //   "hsl(60, 10%, 85%)",
+          //   showTilesWithLabels,
+          //   this.currentLayout,
+          //   this.mapService.hexMap,
+          //   showTileGraphics
+          // );
 
         }
       }

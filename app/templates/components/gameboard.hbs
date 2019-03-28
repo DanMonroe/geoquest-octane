@@ -2,19 +2,13 @@
 <AnimatedContainer class="gameboard">
   <section>
     <div class="hexwrapper">
-      <figure>
-        <canvas {{did-insert (action this.setupGameCanvas)}} id="gamecanvas" width="540" height="540"
-         class="{{if this.showTileGraphics "showTiles" "hideTiles"}}"
-        ></canvas>
-        {{#if this.mapService.hexMap}}
-          <canvas {{did-insert (action this.setupHexCanvas)}} id="hexcanvas" width="540" height="540"
-          ></canvas>
-          <canvas {{did-insert (action this.setupMouseCanvas)}} id="mousecanvas" width="540" height="540"
-                onClick={{action "hexReport"}}
-                onMouseMove={{action "hexMouseMove"}}
-          ></canvas>
-        {{/if}}
-      </figure>
+      {{#if this.mapService.tilesLoaded}}
+        <figure id="concreteContainer"
+          {{did-insert (action this.setupGameboardCanvases)}}
+          {{will-destroy (action this.teardownGameboardCanvases)}}
+        >
+        </figure>
+      {{/if}}
       {{#if this.transport.ships}}
         <Ship
           @ships={{this.transport.ships}}
@@ -49,11 +43,5 @@
   </div>
   <div>
     <button {{action "toggleTiles"}}>Toggle Tiles</button>
-  </div>
-  <div>
-    Move ship on click: {{input type="checkbox" name="moveShipOnClick" checked=this.moveShipOnClick}}
-  </div>
-  <div>
-    [{{#if this.tilesLoaded}}tiles loaded{{/if}}]
   </div>
 </div>

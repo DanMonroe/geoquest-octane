@@ -10,29 +10,20 @@ export default class GameboardService extends Service {
   @tracked rect = null;
   @tracked centerX = null;
   @tracked centerY = null;
-
+  @tracked viewport;
 
   drawGrid(id, backgroundColor, withLabels, layout, hexes, withTiles) {
-    var canvas = document.getElementById(id);
-    if (!canvas) { return; }
-    var gamecontext = canvas.getContext('2d');
-    var width = canvas.width;
-    var height = canvas.height;
 
-    // gamecontext.fillStyle = backgroundColor;
-    // gamecontext.fillRect(0, 0, width, height);
-    gamecontext.translate(width/2, height/2);
+    this.viewport.scene.clear();
 
+    var width = this.viewport.width;
+    var height = this.viewport.height;
 
-    var hexcanvas = document.getElementById('hexcanvas');
-    var hexcontext = hexcanvas.getContext('2d');
+    let hexcontext = this.viewport.layers[1].scene.context;
     hexcontext.translate(width/2, height/2);
 
-    var mousecanvas = document.getElementById('mousecanvas');
-    var mousecontext = mousecanvas.getContext('2d');
-    mousecontext.translate(width/2, height/2);
-
-
+    let gamecontext = this.viewport.layers[0].scene.context;
+    gamecontext.translate(width/2, height/2);
 
     hexes.forEach((hex) => {
       this.drawHex(hexcontext, layout, hex);
@@ -40,13 +31,42 @@ export default class GameboardService extends Service {
       if (withTiles) this.drawHexTile(gamecontext, layout, hex);
     });
 
-    if (ENV.game.board.showCenterRect) {
-      hexcontext.fillStyle = "red"
-      hexcontext.fillRect(-4, -4, 8, 8);
+    this.viewport.render();
 
-      mousecontext.fillStyle = "purple"
-      mousecontext.fillRect(-3, -3, 6, 6);
-    }
+    // var canvas = document.getElementById(id);
+    // if (!canvas) { return; }
+    // var gamecontext = canvas.getContext('2d');
+    // var width = canvas.width;
+    // var height = canvas.height;
+    //
+    // // gamecontext.fillStyle = backgroundColor;
+    // // gamecontext.fillRect(0, 0, width, height);
+    // gamecontext.translate(width/2, height/2);
+    //
+    //
+    // var hexcanvas = document.getElementById('hexcanvas');
+    // var hexcontext = hexcanvas.getContext('2d');
+    // hexcontext.translate(width/2, height/2);
+    //
+    // var mousecanvas = document.getElementById('mousecanvas');
+    // var mousecontext = mousecanvas.getContext('2d');
+    // mousecontext.translate(width/2, height/2);
+    //
+
+
+    // hexes.forEach((hex) => {
+    //   this.drawHex(hexcontext, layout, hex);
+    //   if (withLabels) this.drawHexLabel(hexcontext, layout, hex);
+    //   if (withTiles) this.drawHexTile(gamecontext, layout, hex);
+    // });
+    //
+    // if (ENV.game.board.showCenterRect) {
+    //   hexcontext.fillStyle = "red"
+    //   hexcontext.fillRect(-4, -4, 8, 8);
+    //
+    //   mousecontext.fillStyle = "purple"
+    //   mousecontext.fillRect(-3, -3, 6, 6);
+    // }
 
     // ctx.translate(0, 0);
   }

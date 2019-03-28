@@ -3,12 +3,12 @@ body {
   padding:0;
 }
 
-#gamecanvas, #hexcanvas, #mousecanvas {
+#concreteContainer > canvas, #gamecanvas, #hexcanvas, #mousecanvas {
   height: 500px;
   width: 500px;
-  position: absolute;
-  top: 0;
-  left: 0;
+  //position: absolute;
+  //top: 0;
+  //left: 0;
 }
 
 #gamecanvas {
@@ -25,9 +25,9 @@ body {
   position: relative;
 }
 .debugWrapper {
-  position: absolute;
-  left:0;
-  bottom: 50px;
+  //position: absolute;
+  //left:0;
+  //bottom: 50px;
 }
 
 .hideTiles {
@@ -57,7 +57,7 @@ figure > canvas {
 // Transports
 .ship {
 
-  display:none;
+  //display:none;
 
   position: absolute;
   img {

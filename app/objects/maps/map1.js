@@ -20,7 +20,7 @@ export class Map1 extends Basemap {
         {id: 21, col: 3, row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
         {id: 28, col: 4, row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
         {id: 35, col: 5, row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
-        {id: 42, col: 6, row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
+        {id: 42, col: 6, row: 0, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null} },
       ],
 
       [
@@ -29,7 +29,7 @@ export class Map1 extends Basemap {
         {id: 15, col: 2, row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
         {id: 22, col: 3, row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
         {id: 29, col: 4, row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
-        {id: 36, col: 5, row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
+        {id: 36, col: 5, row: 1, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null} },
         {id: 43, col: 6, row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
       ],
 
@@ -39,7 +39,7 @@ export class Map1 extends Basemap {
         {id: 16, col: 2, row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
         {id: 23, col: 3, row: 2, t: 6, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null} },
         {id: 30, col: 4, row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
-        {id: 37, col: 5, row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
+        {id: 37, col: 5, row: 2, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null} },
         {id: 44, col: 6, row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
       ],
 
