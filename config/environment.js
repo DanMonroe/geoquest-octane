@@ -33,13 +33,30 @@ module.exports = function(environment) {
         showTileGraphics: true
       },
 
-      ship: {
-        start: {
-          Q: 1,
-          R: 0,
-          S: -1
+      transports: [
+        {
+          name: 'ship',
+          index: 0,
+          start: {
+            Q: -2,
+            R: 3,
+            S: -1
+          },
+          img: "images/ship.svg",
+          sightRange: 5
+        },
+        {
+          name: 'galleon',
+          index: 1,
+          start: {
+            Q: 1,
+            R: -4,
+            S: 3
+          },
+          img: "images/galleon.svg",
+          sightRange: 3
         }
-      }
+      ]
     }
           // Q: 2,
           // R: 1,

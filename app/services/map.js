@@ -26,15 +26,10 @@ export default class MapService extends Service {
   //   this.twoDimensionalMap = map;
   // }
 
-  loadTiles(map, showTileGraphics, showTilesWithLabels) {
+  loadTiles(map) {
     let tileset = map.TILEIMAGES
     // console.log(tileset);
 
-    // this.currentLayout = new Layout({
-    //   orientation: Layout.FLAT,
-    //   size: new Point({x:100, y:100}),
-    //   origin: new Point({x:0, y:0})
-    // });
     this.currentLayout = new Layout({
       orientation: Layout.FLAT,
       size: new Point({x:36, y:36}),
@@ -49,23 +44,12 @@ export default class MapService extends Service {
       tileGraphic.src = tileset[i];
       tileGraphic.onload = () => {
         // Once the image is loaded increment the loaded graphics count and check if all images are ready.
-        // console.log(tile, this);
 
         tileGraphicsLoaded++;
 
         if (tileGraphicsLoaded === tileset.length) {
-          console.log('tiles loaded');
+          // console.log('tiles loaded');
           this.tilesLoaded = true;
-
-          // this.gameboard.drawGrid(
-          //   "gamecanvas",
-          //   "hsl(60, 10%, 85%)",
-          //   showTilesWithLabels,
-          //   this.currentLayout,
-          //   this.mapService.hexMap,
-          //   showTileGraphics
-          // );
-
         }
       }
 

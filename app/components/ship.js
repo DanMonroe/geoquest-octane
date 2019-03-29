@@ -1,14 +1,16 @@
 import Component from '@ember/component';
 import move from 'ember-animated/motions/move';
-import { htmlSafe } from '@ember/string';
-import { computed } from '@ember/object';
+// import { htmlSafe } from '@ember/string';
+// import { computed } from '@ember/object';
 
 export default Component.extend({
   hex: null,
   point: null,
-  shipImage: "images/ship.svg",
+  shipImage: null,
+  hexLayout: null,
   mapCenterX: 0,
   mapCenterY: 0,
+  siteRange: 1,
 
   transition: function * ({ keptSprites }) {
     keptSprites.forEach(move);

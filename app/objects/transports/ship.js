@@ -45,10 +45,9 @@ import { htmlSafe } from '@ember/string';
 export default EmberObject.extend({
   name: 'Ship',
 
-  style: computed('mapCenterX', 'mapCenterY', 'hex', 'hexLayout', function() {
-    // debugger;
-    if (this.hexLayout && this.hex) {
 
+  style: computed('mapCenterX','mapCenterY', 'hex', 'hexLayout', function() {
+    if (this.hexLayout && this.hex) {
       let point = this.hexLayout.hexToPixel(this.hex);
       let newx = this.mapCenterX + parseFloat(point.x - 21);   // - 30
       let newy = this.mapCenterY + parseFloat(point.y - 21);  // - 30

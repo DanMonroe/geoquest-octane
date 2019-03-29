@@ -4,36 +4,27 @@
     <div class="hexwrapper">
       {{#if this.mapService.tilesLoaded}}
         <figure id="concreteContainer"
-          {{did-insert (action this.setupGameboardCanvases)}}
+          {{did-insert (action this.setupGame)}}
           {{will-destroy (action this.teardownGameboardCanvases)}}
         >
         </figure>
       {{/if}}
-      {{#if this.transport.ships}}
-        <Ship
-          @ships={{this.transport.ships}}
-          @hexLayout={{this.mapService.currentLayout}}
-          @q={{this.transport.shipHex.q}}
-          @r={{this.transport.shipHex.r}}
-          @s={{this.transport.shipHex.s}}
-          @hex={{this.transport.hipHex}}
-          @point={{this.transport.shipPoint}}
-          @mapCenterX={{this.gameboard.centerX}}
-          @mapCenterY={{this.gameboard.centerY}}
-        />
+
+      {{#if this.ships}}
+        <Ship @ships={{this.ships}}/>
       {{/if}}
     </div>
   </section>
 </AnimatedContainer>
 <div class="debugWrapper">
   <div>
-    Mouse X:Y{{input value=mouseXY}}
+    Mouse X:Y{{input value=this.gameboard.mouseXY}}
   </div>
   <div>
-    Path Distance: {{pathDistanceToMouseHex}}
+    Path Distance: {{this.gameboard.pathDistanceToMouseHex}}
   </div>
   <div>
-    Mouse Hex: {{input value=currentHex}} Mouse Point: {{mousePoint}}
+    Mouse Hex: {{input value=this.gameboard.currentHex}} Mouse Point: {{this.gameboard.mousePoint}}
   </div>
   <div>
     Ship: {{this.transport.shipHex.q}} {{this.transport.shipHex.r}} {{this.transport.shipHex.s}}
