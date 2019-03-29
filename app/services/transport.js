@@ -6,7 +6,6 @@ import Ship from '../objects/transports/ship'
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 
-
 import ENV from 'geoquest-octane/config/environment';
 
 export default class TransportService extends Service {
@@ -15,18 +14,12 @@ export default class TransportService extends Service {
   @service ('gameboard') gameboard;
 
   @tracked ships = emberArray();
-  // @tracked shipHex = null;
-  // @tracked shipPoint = null;
-  // @tracked galleonHex = null;
-  // @tracked galleonPoint = null;
 
   @tracked transportHexes = [];
   @tracked transportPoints = [];
 
-  // TRANSPORTS = {
-  //   SHIP: 0,
-  //   GALLEON: 1
-  // };
+  @tracked moveQueueEnabled = false;
+  @tracked moveQueue = emberArray();
 
   setupShips() {
 
@@ -50,6 +43,10 @@ export default class TransportService extends Service {
         point: startPoint,
         shipImage: transport.img,
         sightRange: transport.sightRange,
+        speed: transport.speed,
+        patrol: transport.patrol,
+        currentWaypoint: -1,
+
         hexLayout: this.mapService.currentLayout,
         mapCenterX: this.gameboard.centerX,
         mapCenterY: this.gameboard.centerY
@@ -57,121 +54,119 @@ export default class TransportService extends Service {
 
       this.ships.push(ship);
 
-      console.log(transport.name, ship);
+      // console.log(transport.name, ship);
     });
 
     return this.ships;
-    // // SHIP
-    // let startShipHex = this.mapService.hexMap.find((hex) => {
-    //   return (ENV.game.ship.start.Q === hex.q) &&
-    //     (ENV.game.ship.start.R === hex.r) &&
-    //     (ENV.game.ship.start.S === hex.s)
-    // });
-    // console.log('startShipHex', startShipHex);
-    //
-    // this.transportHexes.push(startShipHex);
-    // this.transportPoints.push(this.mapService.currentLayout.hexToPixel(startShipHex));
-    //
-    // ships.push(Ship.create({
-    //   id: this.TRANSPORTS.SHIP,
-    //   hex: this.transportHexes[this.TRANSPORTS.SHIP],
-    //   point: this.transportPoints[this.TRANSPORTS.SHIP],
-    //   shipImage: "images/ship.svg",
-    //   sightRange: 4
-    // }));
 
-    // GALLEON
   }
 
-  // setupShip() {
-  //   let startShipHex = this.mapService.hexMap.find((hex) => {
-  //     return (ENV.game.ship.start.Q === hex.q) &&
-  //       (ENV.game.ship.start.R === hex.r) &&
-  //       (ENV.game.ship.start.S === hex.s)
-  //   });
-  //   console.log('startShipHex', startShipHex);
-  //
-  //   this.shipHex = startShipHex;
-  //   let shipPoint = this.mapService.currentLayout.hexToPixel(startShipHex)
-  //
-  //   console.log('shipPoint', shipPoint);
-  //   this.shipPoint = shipPoint;
-  //
-  //   let startGalleonHex = this.mapService.hexMap.find((hex) => {
-  //     return (ENV.game.galleon.start.Q === hex.q) &&
-  //       (ENV.game.galleon.start.R === hex.r) &&
-  //       (ENV.game.galleon.start.S === hex.s)
-  //   });
-  //   console.log('startGalleonHex', startGalleonHex);
-  //
-  //   this.galleonHex = startGalleonHex;
-  //   let galleonPoint = this.mapService.currentLayout.hexToPixel(startGalleonHex)
-  //
-  //   console.log('GalleonPoint', galleonPoint);
-  //   this.galleonPoint = galleonPoint;
-  //
-  //   let ships = emberArray();
-  //
-  //   // ships.push(new Ship({
-  //   //   id: 1,
-  //   //   mapCenterX: this.gameboard.centerX,
-  //   //   mapCenterY: this.gameboard.centerY,
-  //   //   hexLayout: this.mapService.currentLayout,
-  //   //   hex: this.shipHex,
-  //   //   point: this.shipPoint
-  //   // }));
-  //
-  //   ships.push(Ship.create({
-  //     id: 1,
-  //     mapCenterX: this.gameboard.centerX,
-  //     mapCenterY: this.gameboard.centerY,
-  //     hexLayout: this.mapService.currentLayout,
-  //     hex: this.shipHex,
-  //     point: this.shipPoint,
-  //     shipImage: "images/ship.svg",
-  //     siteRange: 4
-  //   }));
-  //   // ships.push(Ship.create({
-  //   //   id: 1,
-  //   //   mapCenterX: this.gameboard.centerX,
-  //   //   mapCenterY: this.gameboard.centerY,
-  //   //   hexLayout: this.mapService.currentLayout,
-  //   //   hex: this.shipHex,
-  //   //   point: this.shipPoint
-  //   // }));
-  //
-  //   ships.push(Ship.create({
-  //     id: 2,
-  //     mapCenterX: this.gameboard.centerX,
-  //     mapCenterY: this.gameboard.centerY,
-  //     hexLayout: this.mapService.currentLayout,
-  //     hex: this.galleonHex,
-  //     point: this.galleonPoint,
-  //     shipImage: "images/galleon.svg",
-  //     siteRange: 3
-  //   }));
-  //
-  //   this.ships = ships;
-  // }
+  setupPatrols() {
+    this.ships.forEach((transport) => {
+      if (transport.patrol.length > 0) {
+        // console.log(`setting up patrol for ${transport.name}`);
+
+        this.pushTransportWaypointToMoveQueue(transport)
+      }
+    })
+  }
+
+  pushTransportWaypointToMoveQueue(transport) {
+    // console.log('pushTransportWaypointToMoveQueue', transport);
+    transport.currentWaypoint++;
+    if (transport.currentWaypoint >= transport.patrol.length) {
+      transport.currentWaypoint = 0;
+    }
+    let currentWaypointHex = transport.patrol[transport.currentWaypoint];
+    let targetHex = this.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
+    let transportHex = this.transportHexes[transport.id];
+    let path = this.mapService.findPath(this.mapService.twoDimensionalMap, transportHex, targetHex);
+    let moveObject = {
+      transport: transport,
+      path: path,
+      finishedCallback: () => {
+        // console.log('in move finishedCallback for ' + transport.name);
+        this.pushTransportWaypointToMoveQueue(transport);
+      }
+    }
+    this.moveQueue.pushObject(moveObject);
+
+  }
+
+  @task( function*() {
+    // console.log('in moveQueue', this.moveQueueEnabled);
+    while (this.moveQueueEnabled === true) {
+      yield timeout(600);
+      // yield timeout(1000);
+
+      if (this.moveQueue.length > 0) {
+        // console.log(`found ${this.moveQueue.length} move objects`);
+        this.moveQueue.forEach((moveObject) => {
+          // console.log(moveObject);
+
+          if (moveObject.path.length > 0) {
+            let firstMove = moveObject.path[0]
+// console.log(`moving ${moveObject.transport.name} to`, firstMove);
+            this.moveTransportTask.perform(moveObject.transport,firstMove);
+            moveObject.path.shiftObject();
+          } else {
+// console.log(`no moves left for moving ${moveObject.transport.name}`);
+            if (typeof moveObject.finishedCallback === 'function') {
+              moveObject.finishedCallback();
+            }
+            this.moveQueue.removeObject(moveObject);
+
+          }
+        });
+
+      } else {
+        console.log('waiting....');
+      }
+    }
+  }) moveQueueTask;
+
+  @task(function*(transport, targetHex) {
+
+    this.transportHexes[transport.id] = targetHex;
+
+    transport.set('hex', targetHex);
+
+    yield timeout(transport.speed);
+
+  }).enqueue() moveTransportTask;
 
   @task(function*(ship, targetHex) {
-    // console.log('Moving to', targetHex);
     this.transportHexes[ENV.game.transports[0].index] = targetHex;
-    // this.shipHex = targetHex;
+
     ship.set('hex', targetHex);
-    yield timeout(300);
-    // console.log('done move');
+
+    yield timeout(ship.speed);
   }).enqueue() moveShipToHexTask;
 
   moveShipAlongPath(path) {
     if (path && path.length) {
-      // console.log('Moving ship along path', path);
+
+      console.log('Moving ship along path', path);
       for (let move = 0, pathLen = path.length; move < pathLen; move++) {
         let nextHex = path[move];
         let ship = this.ships.objectAt(0);
+        // this.moveTransportTask.perform(ship, nextHex);
         this.moveShipToHexTask.perform(ship, nextHex);
       }
-      // })
+
+
+//       let moveObject = {
+//         transport: this.ships.objectAt(0),
+//         path: path,
+//         finishedCallback: () => {
+//           console.log('in move finishedCallback for Ship');
+//           // this.pushTransportWaypointToMoveQueue(transport);
+//         }
+//       }
+//
+//       this.moveQueue.pushObject(moveObject);
+
+
       console.log('done');
     }
   }

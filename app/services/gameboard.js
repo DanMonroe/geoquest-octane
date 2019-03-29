@@ -278,8 +278,8 @@ export default class GameboardService extends Service {
 
       // this.drawHex(this.mousecontext, this.mapService.currentLayout, mappedHex, "red", "red");
 
-      let hexToPixelPoint = this.mapService.currentLayout.hexToPixel(clickedHex);
-      console.log('point', hexToPixelPoint);
+      // let hexToPixelPoint = this.mapService.currentLayout.hexToPixel(clickedHex);
+      // console.log('point', hexToPixelPoint);
 
       // move ship
       let shipHex = this.transport.transportHexes[ENV.game.transports[0].index];

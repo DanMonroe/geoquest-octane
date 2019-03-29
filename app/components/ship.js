@@ -11,6 +11,9 @@ export default Component.extend({
   mapCenterX: 0,
   mapCenterY: 0,
   siteRange: 1,
+  speed: null,
+  patrol: null,
+  currentWaypoint: -1,
 
   transition: function * ({ keptSprites }) {
     keptSprites.forEach(move);

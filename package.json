@@ -1,6 +1,6 @@
 {
   "name": "geoquest-octane",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Small description for geoquest-octane goes here",
   "repository": "",
@@ -24,6 +24,7 @@
     "@glimmer/component": "^0.14.0-alpha.3",
     "babel-eslint": "^8.0.2",
     "broccoli-asset-rev": "^3.0.0",
+    "concretejs": "^3.0.2",
     "ember-animated": "^0.5.1",
     "ember-auto-import": "^1.2.21",
     "ember-cli": "github:ember-cli/ember-cli#6b3e7551158d74d693d540a854cea46f76e0d51a",
@@ -50,8 +51,7 @@
     "eslint-plugin-node": "^8.0.1",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.8.0",
-    "sass": "^1.17.3",
-    "concretejs": "^3.0.2"
+    "sass": "^1.17.3"
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"

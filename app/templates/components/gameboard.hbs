@@ -27,13 +27,14 @@
     Mouse Hex: {{input value=this.gameboard.currentHex}} Mouse Point: {{this.gameboard.mousePoint}}
   </div>
   <div>
-    Ship: {{this.transport.shipHex.q}} {{this.transport.shipHex.r}} {{this.transport.shipHex.s}}
+    Ship: {{this.playerShipHex.q}} {{this.playerShipHex.r}} {{this.playerShipHex.s}}
   </div>
-  <div>
-    Rect centers: {{this.gameboard.centerX}} : {{this.gameboard.centerY}}
-  </div>
+  <!--<div>-->
+    <!--Rect centers: {{!this.gameboard.centerX}} : {{!this.gameboard.centerY}}-->
+  <!--</div>-->
   <div>
     <button {{action "toggleTiles"}}>Toggle Tiles</button>
     <button {{action "toggleHexInfo"}}>Toggle Hex Info</button>
+    <button {{action "toggleMoveQueue"}}>Move queue running: {{this.transport.moveQueueTask.isRunning}}</button>
   </div>
 </div>

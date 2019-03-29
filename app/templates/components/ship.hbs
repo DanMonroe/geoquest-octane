@@ -1,4 +1,4 @@
-{{#animated-each ships use=transition duration=400 key="id" watch="style" as |ship|}}
+{{#animated-each this.ships use=this.transition duration=400 key="id" watch="style" as |ship|}}
   <div class="ship" style={{ship.style}} >
     <img src={{ship.shipImage}} />
   </div>
