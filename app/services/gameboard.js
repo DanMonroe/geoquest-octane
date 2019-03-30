@@ -21,12 +21,12 @@ export default class GameboardService extends Service {
   @tracked mouseXY;
   @tracked currentHex;
 
-  @tracked showTileGraphics = false;
+  @tracked showTileGraphics = ENV.game.board.showTileGraphics;
   @tracked showTileHexInfo = false;
   @tracked showTilesWithLabels = true;
 
   setupGameboardCanvases(concreteContainer, map) {
-    console.log(concreteContainer);
+    // console.log(concreteContainer);
 
     // Map setup
     this.mapService.set('hexMap', this.hexService.createHexesFromMap(map.MAP));
@@ -44,9 +44,25 @@ export default class GameboardService extends Service {
     let hexLayer = new concrete.Layer();
     let mouseLayer = new concrete.Layer();
 
-    // hexLayer.visible = false;
+    hexLayer.visible = false;
     // add layers
     viewport.add(gameLayer).add(hexLayer).add(mouseLayer);
+
+    // let gameLayers = [
+    //   {
+    //     x: viewport.width / 2,
+    //     y: viewport.height / 2,
+    //     layer: gameLayer,
+    //     color: 'tan',
+    //     key: 0
+    //   },
+    //   {
+    //     x: viewport.width / 2,
+    //     y: viewport.height / 2,
+    //     layer: hexLayer,
+    //     key: 1
+    //   }
+    // ];
 
     this.viewport = viewport;
 

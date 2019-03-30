@@ -36,7 +36,7 @@ export default class MapService extends Service {
 
   loadTiles(map) {
     let tileset = map.TILEIMAGES
-    console.log(tileset);
+    // console.log(tileset);
 
     this.tileGraphics = [];
     this.tilesLoaded = false;
@@ -50,10 +50,8 @@ export default class MapService extends Service {
 
         tileGraphicsLoaded++;
 
-        console.log('tileGraphicsLoaded', tileGraphicsLoaded);
-
         if (tileGraphicsLoaded === tileset.length) {
-          console.log('tiles loaded');
+          // console.log('tiles loaded');
           this.tilesLoaded = true;
         }
       }

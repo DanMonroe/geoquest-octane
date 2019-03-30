@@ -44,35 +44,18 @@ export default class GameboardComponent extends Component {
     this.loadMap(1);
   }
 
-  setupGameTest() {
-    let canvasContainer = document.getElementById('concreteContainer');
-    if (canvasContainer) {
-      this.setupGame(canvasContainer);
-    }
-  }
-  loadImageTest() {
-    // let testGraphic = new Image(36, 36);
-    // testGraphic.src = `/images/test/skull.svg`;
-    // console.log('loading', testGraphic);
-    // testGraphic.onload = () => {
-    //   console.log('testGraphic onload');
-    // }
-    // console.log('loadImageTest end');
-    this.loadMap(1);
-  }
-
   loadMap(mapIndex) {
     this.map = this.model.mapdata[mapIndex].map;
     this.transports = this.model.mapdata[mapIndex].transports;
-    // this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
+    this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
 
-    // this.mapService.loadTiles(this.map);
+    this.mapService.loadTiles(this.map, this.showTileGraphics, this.showTilesWithLabels);
 
-    // let canvasContainer = document.getElementById('concreteContainer');
-    // if (canvasContainer) {
-    //   this.teardownGameboardCanvases(canvasContainer);
-    //   this.setupGame(canvasContainer);
-    // }
+    let canvasContainer = document.getElementById('concreteContainer');
+    if (canvasContainer) {
+      this.teardownGameboardCanvases(canvasContainer);
+      this.setupGame(canvasContainer);
+    }
   }
 
   @action
@@ -83,7 +66,6 @@ export default class GameboardComponent extends Component {
 
   @action
   setupGame(concreteContainer) {
-    console.log('in setupGame');
     this.gameboard.setupGameboardCanvases(concreteContainer, this.map);
     this.ships = this.transport.setupShips(this.transports);
 
