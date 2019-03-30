@@ -47,15 +47,15 @@ export default class GameboardComponent extends Component {
   loadMap(mapIndex) {
     this.map = this.model.mapdata[mapIndex].map;
     this.transports = this.model.mapdata[mapIndex].transports;
-    this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
+    // this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
 
-    this.mapService.loadTiles(this.map, this.showTileGraphics, this.showTilesWithLabels);
+    this.mapService.loadTiles(this.map);
 
-    let canvasContainer = document.getElementById('concreteContainer');
-    if (canvasContainer) {
-      this.teardownGameboardCanvases(canvasContainer);
-      this.setupGame(canvasContainer);
-    }
+    // let canvasContainer = document.getElementById('concreteContainer');
+    // if (canvasContainer) {
+    //   this.teardownGameboardCanvases(canvasContainer);
+    //   this.setupGame(canvasContainer);
+    // }
   }
 
   @action

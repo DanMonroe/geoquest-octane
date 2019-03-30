@@ -1,4 +1,5 @@
 <!--https://www.redblobgames.com/grids/hexagons/implementation.html-->
+{{#if this.mapService.tilesLoaded}}
 <AnimatedContainer class="gameboard">
   <section>
       {{!#power-select
@@ -14,17 +15,15 @@
         {{!map.name}}
       {{!/power-select}}
     <div class="hexwrapper">
-      {{#if this.mapService.tilesLoaded}}
         <figure id="concreteContainer"
           {{did-insert (action this.setupGame)}}
           {{will-destroy (action this.teardownGameboardCanvases)}}
         >
         </figure>
-      {{/if}}
 
-      {{#if this.ships}}
-        <Ship @ships={{this.ships}}/>
-      {{/if}}
+        {{#if this.ships}}
+          <Ship @ships={{this.ships}}/>
+        {{/if}}
     </div>
   </section>
 </AnimatedContainer>
@@ -77,3 +76,4 @@
   <div>
   </div>
 </div>
+{{/if}}
