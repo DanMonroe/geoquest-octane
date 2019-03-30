@@ -41,7 +41,7 @@ export default class MapService extends Service {
     for (let i = 0; i < tileset.length; i++) {
 
       let tileGraphic = new Image(36, 36);
-      tileGraphic.src = `/assets/images/hex/${tileset[i]}`;
+      tileGraphic.src = `/images/hex/${tileset[i]}`;
       tileGraphic.onload = () => {
         // Once the image is loaded increment the loaded graphics count and check if all images are ready.
 

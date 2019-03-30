@@ -7,7 +7,8 @@ export class GridNode {
     // this.y = arguments[0].y;
   }
 
-  getCost(fromNeighbor) {
+  // getCost(fromNeighbor) {
+  getCost() {
     return this.path.w;
     // return this.weight;
   }

@@ -76,7 +76,8 @@ export default class PathService extends Service {
   // TODO
   // expand when more tile types available
   // for now, return blocked if the neighbor.m !== 'w" // water
-  isWall(neighbor) {
+  // isWall(neighbor) {
+  isWall() {
     return false;
     // return neighbor.m !== 'w';
   }

@@ -6,8 +6,6 @@ import Ship from '../objects/transports/ship'
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 
-import ENV from 'geoquest-octane/config/environment';
-
 export default class TransportService extends Service {
 
   @service ('map') mapService;
@@ -41,7 +39,7 @@ export default class TransportService extends Service {
         name: transport.name,
         hex: startHex,
         point: startPoint,
-        shipImage: `/assets/images/transports/${transport.img}`,
+        shipImage: `/images/transports/${transport.img}`,
         sightRange: transport.sightRange,
         speed: transport.speed,
         patrol: transport.patrol,
@@ -148,7 +146,7 @@ export default class TransportService extends Service {
   moveShipAlongPath(path) {
     if (path && path.length) {
 
-      console.log('Moving ship along path', path);
+      // console.log('Moving ship along path', path);
       for (let move = 0, pathLen = path.length; move < pathLen; move++) {
         let nextHex = path[move];
         let ship = this.ships.objectAt(0);
@@ -169,7 +167,7 @@ export default class TransportService extends Service {
 //       this.moveQueue.pushObject(moveObject);
 
 
-      console.log('done');
+      // console.log('done');
     }
   }
 

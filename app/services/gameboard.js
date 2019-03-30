@@ -47,21 +47,21 @@ export default class GameboardService extends Service {
     // add layers
     viewport.add(gameLayer).add(hexLayer).add(mouseLayer);
 
-    let gameLayers = [
-      {
-        x: viewport.width / 2,
-        y: viewport.height / 2,
-        layer: gameLayer,
-        color: 'tan',
-        key: 0
-      },
-      {
-        x: viewport.width / 2,
-        y: viewport.height / 2,
-        layer: hexLayer,
-        key: 1
-      }
-    ];
+    // let gameLayers = [
+    //   {
+    //     x: viewport.width / 2,
+    //     y: viewport.height / 2,
+    //     layer: gameLayer,
+    //     color: 'tan',
+    //     key: 0
+    //   },
+    //   {
+    //     x: viewport.width / 2,
+    //     y: viewport.height / 2,
+    //     layer: hexLayer,
+    //     key: 1
+    //   }
+    // ];
 
     this.viewport = viewport;
 
