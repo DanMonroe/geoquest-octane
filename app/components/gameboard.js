@@ -41,17 +41,24 @@ export default class GameboardComponent extends Component {
     super(...arguments);
     this.model = arguments[1];
     this.mapService.loadLayout();
-    this.loadMap(1);
+    // this.loadMap(1);
   }
 
-  loadImageTest() {
-    let testGraphic = new Image(36, 36);
-    testGraphic.src = `/images/test/skull.svg`;
-    console.log('loading', testGraphic);
-    testGraphic.onload = () => {
-      console.log('testGraphic onload');
+  setupGameTest() {
+    let canvasContainer = document.getElementById('concreteContainer');
+    if (canvasContainer) {
+      this.setupGame(canvasContainer);
     }
-    console.log('loadImageTest end');
+  }
+  loadImageTest() {
+    // let testGraphic = new Image(36, 36);
+    // testGraphic.src = `/images/test/skull.svg`;
+    // console.log('loading', testGraphic);
+    // testGraphic.onload = () => {
+    //   console.log('testGraphic onload');
+    // }
+    // console.log('loadImageTest end');
+    this.loadMap(1);
   }
 
   loadMap(mapIndex) {
