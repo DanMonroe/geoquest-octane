@@ -16,8 +16,8 @@
       {{!/power-select}}
     <div class="hexwrapper">
         <figure id="concreteContainer"
-          {{! (action this.setupGame)}}
-          {{!will-destroy (action this.teardownGameboardCanvases)}}
+          {{did-insert (action this.setupGame)}}
+          {{will-destroy (action this.teardownGameboardCanvases)}}
         >
         </figure>
 

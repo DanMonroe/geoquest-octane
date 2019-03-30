@@ -41,7 +41,7 @@ export default class GameboardComponent extends Component {
     super(...arguments);
     this.model = arguments[1];
     this.mapService.loadLayout();
-    // this.loadMap(1);
+    this.loadMap(1);
   }
 
   setupGameTest() {
@@ -66,7 +66,7 @@ export default class GameboardComponent extends Component {
     this.transports = this.model.mapdata[mapIndex].transports;
     // this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
 
-    this.mapService.loadTiles(this.map);
+    // this.mapService.loadTiles(this.map);
 
     // let canvasContainer = document.getElementById('concreteContainer');
     // if (canvasContainer) {
@@ -83,6 +83,7 @@ export default class GameboardComponent extends Component {
 
   @action
   setupGame(concreteContainer) {
+    console.log('in setupGame');
     this.gameboard.setupGameboardCanvases(concreteContainer, this.map);
     this.ships = this.transport.setupShips(this.transports);
 
