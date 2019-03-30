@@ -3,13 +3,13 @@ import { Basemap } from './basemap';
 export class Map1 extends Basemap {
 
   static TILEIMAGES = [
-    "/images/hex/ZeshioHexKitDemo_096.png", // water
-    "/images/hex/ZeshioHexKitDemo_104.png",  // sand
-    "/images/hex/ZeshioHexKitDemo_000.png", // lava
-    "/images/hex/ZeshioHexKitDemo_005.png", // cool lava rock
-    "/images/hex/ZeshioHexKitDemo_023.png",
-    "/images/hex/ZeshioHexKitDemo_047.png",
-    "/images/hex/ZeshioHexKitDemo_102.png", // palm trees
+    "ZeshioHexKitDemo_096.png", // water
+    "ZeshioHexKitDemo_104.png",  // sand
+    "ZeshioHexKitDemo_000.png", // lava
+    "ZeshioHexKitDemo_005.png", // cool lava rock
+    "ZeshioHexKitDemo_023.png",
+    "ZeshioHexKitDemo_047.png",
+    "ZeshioHexKitDemo_102.png", // palm trees
   ];
 
   static MAP = [

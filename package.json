@@ -44,6 +44,7 @@
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^2.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
+    "ember-power-select": "^2.3.0",
     "ember-qunit": "^4.1.2",
     "ember-resolver": "^5.1.3",
     "ember-source": "https://s3.amazonaws.com/builds.emberjs.com/canary/shas/60d9e8aeea8f3fa6d00bdd3480d69efc74fca1e1.tgz",
@@ -56,6 +57,5 @@
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

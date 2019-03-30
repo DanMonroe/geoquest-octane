@@ -82,7 +82,7 @@ export default class GameboardService extends Service {
 
     concreteContainer.addEventListener('click', (event) => {
       if (this.viewport) {
-        this.hexReport(event)
+        this.hexClick(event)
       }
     });
 
@@ -206,12 +206,8 @@ export default class GameboardService extends Service {
         tileGraphics.push(this.mapService.getTileGraphic(tileIndex));
       });
     }
-
-
-    // let tileGraphic = this.mapService.getTileGraphic(hex.map.t);
-
     tileGraphics.forEach((tile) => {
-      ctx.drawImage(tile , x, y, layout.size.x*2, layout.size.y*2);
+      ctx.drawImage(tile , x, y, (layout.size.x*2)+1, (layout.size.y*2)+1);
     })
   }
 
@@ -253,41 +249,29 @@ export default class GameboardService extends Service {
     this.currentHex = `Q:${thisHex.q} R:${thisHex.r} S:${thisHex.s}`;
   }
 
-  hexReport(event) {
-    console.groupCollapsed('hex report');
+  hexClick(event) {
+    // console.groupCollapsed('hex report');
 
     let boundingRect = this.viewport.container.getBoundingClientRect(),
       x = event.clientX - boundingRect.left - this.centerX,
       y = event.clientY - boundingRect.top -this.centerY;
-    // key = this.viewport.getIntersection(x, y);
-    // console.log(boundingRect, x, y);
-
-
-    // let x = event.clientX - this.centerX;
-    // let y = event.clientY - this.centerY;
-    console.log('click centerX', this.centerX, 'centerY', this.centerY, event, "x:", x, "y:", y);
     let point = new Point({x:x, y:y});
-    console.log('clicked point', point);
-    // console.log('this.currentLayout', this.mapService.currentLayout);
     let clickedHex = this.mapService.currentLayout.pixelToHex(point).round();
-
     let mappedHex = this.mapService.findHexByQRS(clickedHex.q, clickedHex.r, clickedHex.s);
 
-    console.log('mappedHex', mappedHex);
+    // console.log(boundingRect, x, y);
+    // console.log('click centerX', this.centerX, 'centerY', this.centerY, event, "x:", x, "y:", y);
+    // console.log('clicked point', point);
+    // console.log('this.currentLayout', this.mapService.currentLayout);
+    // console.log('mappedHex', mappedHex);
+
     if (mappedHex && mappedHex.id) {
-
-      // this.drawHex(this.mousecontext, this.mapService.currentLayout, mappedHex, "red", "red");
-
-      // let hexToPixelPoint = this.mapService.currentLayout.hexToPixel(clickedHex);
-      // console.log('point', hexToPixelPoint);
-
       // move ship
       let shipHex = this.transport.transportHexes[ENV.game.transports[0].index];
       this.transport.moveShipToHexTask.cancelAll();
       let path = this.mapService.findPath(this.mapService.twoDimensionalMap, shipHex, mappedHex);
       this.transport.moveShipAlongPath(path);
-
     }
-    console.groupEnd();
+    // console.groupEnd();
   }
 }

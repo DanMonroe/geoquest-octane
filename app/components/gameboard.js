@@ -7,8 +7,8 @@ import { alias } from '@ember/object/computed';
 
 import ENV from 'geoquest-octane/config/environment';
 
-import { Map2 } from 'geoquest-octane/objects/maps/map2';
-import { Map3 } from 'geoquest-octane/objects/maps/map3';
+// import { Map2 } from 'geoquest-octane/objects/maps/map2';
+// import { Map3 } from 'geoquest-octane/objects/maps/map3';
 
 export default class GameboardComponent extends Component {
 
@@ -24,24 +24,38 @@ export default class GameboardComponent extends Component {
   @tracked showTileHexInfo = true;
   @tracked showTilesWithLabels = ENV.game.board.showTilesWithLabels;
 
+  @tracked map = null;
+  @tracked transports = null;
   @tracked ships = emberArray();
 
   @alias playerShipHex = this.transport.transportHexes[ENV.game.transports[0].index];
 
-  // @tracked hexcontext;
-  // @tracked mousecontext;
+  mapOptions = [
+    {name: "Small", value: 1},
+    {name: "Island", value: 2},
+    {name: "Patrolling Pirate", value: 3}
+  ];
 
   constructor() {
     super(...arguments);
+    this.map = arguments[1].mapdata.map;
+    this.transports = arguments[1].mapdata.transports;
+    this.selectedMap = this.mapOptions.findBy('value', arguments[1].mapdata.mapid);
 
-    this.mapService.loadTiles(Map3, this.showTileGraphics, this.showTilesWithLabels);
+    this.mapService.loadTiles(this.map, this.showTileGraphics, this.showTilesWithLabels);
+  }
+
+  @action
+  changeMap (map) {
+    window.location.href = `/maps/${map.value}`
   }
 
   @action
   setupGame(concreteContainer) {
-    this.gameboard.setupGameboardCanvases(concreteContainer, Map3);
-    this.ships = this.transport.setupShips();
-    console.log(this.ships);
+
+    this.gameboard.setupGameboardCanvases(concreteContainer, this.map);
+    this.ships = this.transport.setupShips(this.transports);
+
     this.transport.setupPatrols();
 
     this.transport.moveQueueTask.perform();
@@ -103,7 +117,7 @@ export default class GameboardComponent extends Component {
 //
 //     concreteContainer.addEventListener('click', (event) => {
 //       if (this.gameboard.viewport) {
-//         this.hexReport(event)
+//         this.hexClick(event)
 //       }
 //     });
 //
@@ -189,7 +203,7 @@ export default class GameboardComponent extends Component {
   // }
 
   // @action
-  // hexReport(event) {
+  // hexClick(event) {
   //   console.groupCollapsed('hex report');
   //
   //   let boundingRect = this.gameboard.viewport.container.getBoundingClientRect(),

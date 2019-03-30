@@ -3,9 +3,9 @@ import { Basemap } from './basemap';
 export class Map3 extends Basemap {
 
   static TILEIMAGES = [
-    "/images/hex/ZeshioHexKitDemo_096.png", // water
-    "/images/hex/ZeshioHexKitDemo_104.png",  // sand
-    "/images/hex/ZeshioHexKitDemo_102.png" // palm trees
+    "ZeshioHexKitDemo_096.png", // water
+    "ZeshioHexKitDemo_104.png",  // sand
+    "ZeshioHexKitDemo_102.png" // palm trees
 
   ];
 

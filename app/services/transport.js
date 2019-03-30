@@ -18,12 +18,12 @@ export default class TransportService extends Service {
   @tracked transportHexes = [];
   @tracked transportPoints = [];
 
-  @tracked moveQueueEnabled = false;
+  @tracked moveQueueEnabled = true;
   @tracked moveQueue = emberArray();
 
-  setupShips() {
+  setupShips(transports) {
 
-    ENV.game.transports.forEach((transport) => {
+    transports.forEach((transport) => {
       let startHex = this.mapService.hexMap.find((hex) => {
         return (transport.start.Q === hex.q) &&
           (transport.start.R === hex.r) &&
@@ -41,7 +41,7 @@ export default class TransportService extends Service {
         name: transport.name,
         hex: startHex,
         point: startPoint,
-        shipImage: transport.img,
+        shipImage: `/assets/images/transports/${transport.img}`,
         sightRange: transport.sightRange,
         speed: transport.speed,
         patrol: transport.patrol,
@@ -120,7 +120,7 @@ export default class TransportService extends Service {
         });
 
       } else {
-        console.log('waiting....');
+        // console.log('waiting....');
       }
     }
   }) moveQueueTask;
@@ -136,7 +136,9 @@ export default class TransportService extends Service {
   }).enqueue() moveTransportTask;
 
   @task(function*(ship, targetHex) {
-    this.transportHexes[ENV.game.transports[0].index] = targetHex;
+    // let ship = this.ships.objectAt(0);
+    // debugger;
+    this.transportHexes[ship.id] = targetHex;
 
     ship.set('hex', targetHex);
 

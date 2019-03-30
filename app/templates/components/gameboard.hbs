@@ -1,6 +1,18 @@
 <!--https://www.redblobgames.com/grids/hexagons/implementation.html-->
 <AnimatedContainer class="gameboard">
   <section>
+      {{#power-select
+        tagName="div"
+        class="pickMap"
+        searchEnabled=false
+        options=mapOptions
+        placeholder="Please select a map"
+        selected=selectedMap
+        onchange=(action "changeMap")
+      as |map|
+      }}
+        {{map.name}}
+      {{/power-select}}
     <div class="hexwrapper">
       {{#if this.mapService.tilesLoaded}}
         <figure id="concreteContainer"
@@ -17,24 +29,51 @@
   </section>
 </AnimatedContainer>
 <div class="debugWrapper">
-  <div>
-    Mouse X:Y{{input value=this.gameboard.mouseXY}}
-  </div>
-  <div>
-    Path Distance: {{this.gameboard.pathDistanceToMouseHex}}
-  </div>
-  <div>
-    Mouse Hex: {{input value=this.gameboard.currentHex}} Mouse Point: {{this.gameboard.mousePoint}}
-  </div>
-  <div>
-    Ship: {{this.playerShipHex.q}} {{this.playerShipHex.r}} {{this.playerShipHex.s}}
+  <div class="row">
+    <div class="col label">
+      <div>
+        Mouse X:Y
+      </div>
+      <div>
+        Mouse Hex:
+      </div>
+      <div>
+        Mouse Point:
+      </div>
+      <div>
+        Path Distance From Ship:
+      </div>
+    </div>
+    <div class="col">
+      <div>
+        {{input value=this.gameboard.mouseXY}}
+      </div>
+      <div>
+        {{input value=this.gameboard.currentHex}}
+      </div>
+      <div>
+        {{this.gameboard.mousePoint}}
+      </div>
+      <div>
+        {{this.gameboard.pathDistanceToMouseHex}}
+      </div>
+    </div>
+    <div class="col">
+      <div>
+        <button {{action "toggleTiles"}}>Toggle Tiles</button>
+      </div>
+      <div>
+        <button {{action "toggleHexInfo"}}>Toggle Hex Info</button>
+      </div>
+      <div>
+        <button {{action "toggleMoveQueue"}}>Enable Enemy Patrols: {{this.transport.moveQueueTask.isRunning}}</button>
+      </div>
+    </div>
+
   </div>
   <!--<div>-->
     <!--Rect centers: {{!this.gameboard.centerX}} : {{!this.gameboard.centerY}}-->
   <!--</div>-->
   <div>
-    <button {{action "toggleTiles"}}>Toggle Tiles</button>
-    <button {{action "toggleHexInfo"}}>Toggle Hex Info</button>
-    <button {{action "toggleMoveQueue"}}>Move queue running: {{this.transport.moveQueueTask.isRunning}}</button>
   </div>
 </div>
