@@ -26,17 +26,20 @@ export default class MapService extends Service {
   //   this.twoDimensionalMap = map;
   // }
 
-  loadTiles(map) {
-    let tileset = map.TILEIMAGES
-    // console.log(tileset);
-
+  loadLayout() {
     this.currentLayout = new Layout({
       orientation: Layout.FLAT,
       size: new Point({x:36, y:36}),
       origin: new Point({x:0, y:0})
     });
+  }
 
+  loadTiles(map) {
+    let tileset = map.TILEIMAGES
+    // console.log(tileset);
 
+    this.tileGraphics = [];
+    this.tilesLoaded = false;
     let tileGraphicsLoaded = 0;
     for (let i = 0; i < tileset.length; i++) {
 

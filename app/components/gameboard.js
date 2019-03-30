@@ -21,38 +21,51 @@ export default class GameboardComponent extends Component {
 
   // @tracked showTileGraphics = false;
   @tracked showTileGraphics = ENV.game.board.showTileGraphics;
-  @tracked showTileHexInfo = true;
-  @tracked showTilesWithLabels = ENV.game.board.showTilesWithLabels;
+  @tracked showTileHexInfo = false;
+  @tracked showTilesWithLabels = true;
 
   @tracked map = null;
   @tracked transports = null;
+  @tracked selectedMap = 0;
   @tracked ships = emberArray();
 
   @alias playerShipHex = this.transport.transportHexes[ENV.game.transports[0].index];
 
   mapOptions = [
-    {name: "Small", value: 1},
-    {name: "Island", value: 2},
-    {name: "Patrolling Pirate", value: 3}
+    {name: "Small", value: 0},
+    {name: "Island", value: 1},
+    {name: "Patrolling Pirate", value: 2}
   ];
 
   constructor() {
     super(...arguments);
-    this.map = arguments[1].mapdata.map;
-    this.transports = arguments[1].mapdata.transports;
-    this.selectedMap = this.mapOptions.findBy('value', arguments[1].mapdata.mapid);
+    this.model = arguments[1];
+    this.mapService.loadLayout();
+    this.loadMap(1);
+  }
+
+  loadMap(mapIndex) {
+    this.map = this.model.mapdata[mapIndex].map;
+    this.transports = this.model.mapdata[mapIndex].transports;
+    this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
 
     this.mapService.loadTiles(this.map, this.showTileGraphics, this.showTilesWithLabels);
+
+    let canvasContainer = document.getElementById('concreteContainer');
+    if (canvasContainer) {
+      this.teardownGameboardCanvases(canvasContainer);
+      this.setupGame(canvasContainer);
+    }
   }
 
   @action
   changeMap (map) {
-    window.location.href = `/maps/${map.value}`
+    this.loadMap(map.value);
+    // window.location.href = `/maps/${map.value}`
   }
 
   @action
   setupGame(concreteContainer) {
-
     this.gameboard.setupGameboardCanvases(concreteContainer, this.map);
     this.ships = this.transport.setupShips(this.transports);
 
@@ -64,6 +77,7 @@ export default class GameboardComponent extends Component {
   @action
   teardownGameboardCanvases(concreteContainer) {
     concreteContainer.removeEventListener('click', this.handleContainerClick);
+    // concreteContainer.removeEventListener('click', this.handleContainerClick);
   }
 
 //   setupGameboardCanvases(concreteContainer) {

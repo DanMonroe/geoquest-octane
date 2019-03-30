@@ -1,7 +1,7 @@
 <!--https://www.redblobgames.com/grids/hexagons/implementation.html-->
 <AnimatedContainer class="gameboard">
   <section>
-      {{#power-select
+      {{!#power-select
         tagName="div"
         class="pickMap"
         searchEnabled=false
@@ -11,8 +11,8 @@
         onchange=(action "changeMap")
       as |map|
       }}
-        {{map.name}}
-      {{/power-select}}
+        {{!map.name}}
+      {{!/power-select}}
     <div class="hexwrapper">
       {{#if this.mapService.tilesLoaded}}
         <figure id="concreteContainer"

@@ -21,6 +21,8 @@ export default class TransportService extends Service {
 
   setupShips(transports) {
 
+    this.ships = emberArray();
+
     transports.forEach((transport) => {
       let startHex = this.mapService.hexMap.find((hex) => {
         return (transport.start.Q === hex.q) &&
