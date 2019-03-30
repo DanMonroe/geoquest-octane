@@ -44,6 +44,16 @@ export default class GameboardComponent extends Component {
     this.loadMap(1);
   }
 
+  loadImageTest() {
+    let testGraphic = new Image(36, 36);
+    testGraphic.src = `/images/test/skull.svg`;
+    console.log('loading', testGraphic);
+    testGraphic.onload = () => {
+      console.log('testGraphic onload');
+    }
+    console.log('loadImageTest end');
+  }
+
   loadMap(mapIndex) {
     this.map = this.model.mapdata[mapIndex].map;
     this.transports = this.model.mapdata[mapIndex].transports;
