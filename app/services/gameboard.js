@@ -72,14 +72,14 @@ export default class GameboardService extends Service {
     this.set('centerX', centerX);
     this.set('centerY', centerY);
 
-    this.drawGrid(
-      "gamecanvas",
-      "hsl(60, 10%, 85%)",
-      this.showTilesWithLabels,
-      this.mapService.currentLayout,
-      this.mapService.hexMap,
-      this.showTileGraphics
-    );
+    // this.drawGrid(
+    //   "gamecanvas",
+    //   "hsl(60, 10%, 85%)",
+    //   this.showTilesWithLabels,
+    //   this.mapService.currentLayout,
+    //   this.mapService.hexMap,
+    //   this.showTileGraphics
+    // );
 
     concreteContainer.addEventListener('click', (event) => {
       if (this.viewport) {

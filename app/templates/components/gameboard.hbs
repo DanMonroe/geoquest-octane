@@ -14,13 +14,13 @@
         {{!map.name}}
       {{!/power-select}}
     <div class="hexwrapper">
-      {{#if this.mapService.tilesLoaded}}
+      {{!#if this.mapService.tilesLoaded}}
         <figure id="concreteContainer"
           {{did-insert (action this.setupGame)}}
           {{will-destroy (action this.teardownGameboardCanvases)}}
         >
         </figure>
-      {{/if}}
+      {{!/if}}
 
       {{#if this.ships}}
         <Ship @ships={{this.ships}}/>
@@ -28,6 +28,7 @@
     </div>
   </section>
 </AnimatedContainer>
+<img src="images/hex/ZeshioHexKitDemo_002.png"/>
 <div class="debugWrapper">
   <div class="row">
     <div class="col label">

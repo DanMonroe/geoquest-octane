@@ -40,22 +40,24 @@ export default class GameboardComponent extends Component {
   constructor() {
     super(...arguments);
     this.model = arguments[1];
-    this.mapService.loadLayout();
-    this.loadMap(1);
+    // this.mapService.loadLayout();
+    // this.ships = this.transport.setupShips(this.transports);
+    // this.transport.setupPatrols();
+    // this.loadMap(1);
   }
 
   loadMap(mapIndex) {
     this.map = this.model.mapdata[mapIndex].map;
     this.transports = this.model.mapdata[mapIndex].transports;
-    this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
+    // this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
 
-    this.mapService.loadTiles(this.map, this.showTileGraphics, this.showTilesWithLabels);
+    // this.mapService.loadTiles(this.map, this.startGame);
 
-    let canvasContainer = document.getElementById('concreteContainer');
-    if (canvasContainer) {
-      this.teardownGameboardCanvases(canvasContainer);
-      this.setupGame(canvasContainer);
-    }
+    // let canvasContainer = document.getElementById('concreteContainer');
+    // if (canvasContainer) {
+    //   this.teardownGameboardCanvases(canvasContainer);
+    //   this.setupGame(canvasContainer);
+    // }
   }
 
   @action
@@ -66,12 +68,32 @@ export default class GameboardComponent extends Component {
 
   @action
   setupGame(concreteContainer) {
+    this.loadMap(1);
+    this.mapService.loadLayout();
     this.gameboard.setupGameboardCanvases(concreteContainer, this.map);
     this.ships = this.transport.setupShips(this.transports);
-
     this.transport.setupPatrols();
 
-    this.transport.moveQueueTask.perform();
+
+    this.mapService.loadTiles(this.map, this.startGame, this);
+
+    // this.transport.moveQueueTask.perform();
+  }
+
+  startGame(thisGameboardComponent) {
+    console.log('in startGame');
+    // debugger;
+
+    thisGameboardComponent.gameboard.drawGrid(
+      "gamecanvas",
+      "hsl(60, 10%, 85%)",
+      true,
+      thisGameboardComponent.mapService.currentLayout,
+      thisGameboardComponent.mapService.hexMap,
+      true
+    );
+
+    thisGameboardComponent.transport.moveQueueTask.perform();
   }
 
   @action

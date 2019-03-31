@@ -34,7 +34,7 @@ export default class MapService extends Service {
     });
   }
 
-  loadTiles(map) {
+  loadTiles(map, tilesLoadedCallback, gameboardComponent) {
     let tileset = map.TILEIMAGES
     // console.log(tileset);
 
@@ -53,6 +53,9 @@ export default class MapService extends Service {
         if (tileGraphicsLoaded === tileset.length) {
           // console.log('tiles loaded');
           this.tilesLoaded = true;
+          if (tilesLoadedCallback) {
+            tilesLoadedCallback(gameboardComponent);
+          }
         }
       }
 
