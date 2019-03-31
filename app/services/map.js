@@ -26,7 +26,7 @@ export default class MapService extends Service {
     });
   }
 
-  loadTiles(map, tilesLoadedCallback, gameboardComponent) {
+  loadTiles(map) {
     let tileset = map.TILEIMAGES
     // console.log(tileset);
 
@@ -36,7 +36,7 @@ export default class MapService extends Service {
     for (let i = 0; i < tileset.length; i++) {
 
       let tileGraphic = new Image(36, 36);
-      tileGraphic.src = `images/hex/${tileset[i]}`;
+      tileGraphic.src = `/images/hex/${tileset[i]}`;
       tileGraphic.onload = () => {
         // Once the image is loaded increment the loaded graphics count and check if all images are ready.
 
@@ -45,9 +45,6 @@ export default class MapService extends Service {
         if (tileGraphicsLoaded === tileset.length) {
           // console.log('tiles loaded');
           this.tilesLoaded = true;
-          if (tilesLoadedCallback) {
-            tilesLoadedCallback(gameboardComponent);
-          }
         }
       }
 
