@@ -10,7 +10,7 @@ export default Component.extend({
   hexLayout: null,
   mapCenterX: 0,
   mapCenterY: 0,
-  siteRange: 1,
+  sightRange: 1,
   speed: null,
   patrol: null,
   currentWaypoint: -1,

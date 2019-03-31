@@ -22,8 +22,11 @@
         </figure>
       {{/if}}
 
-      {{#if this.ships}}
-        <Ship @ships={{this.ships}}/>
+      {{#if this.players}}
+        <Agents @agents={{this.players}}/>
+      {{/if}}
+      {{#if this.agents}}
+        <Agents @agents={{this.agents}}/>
       {{/if}}
     </div>
   </section>

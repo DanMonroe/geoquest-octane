@@ -10,27 +10,8 @@ export default class IndexRoute extends Route {
       {
         mapid: 0,
         map: Map1,
-        transports: [
-          {
-            name: 'ship',
-            index: 0,
-            start: {
-              Q: 1,
-              R: 0,
-              S: -1
-            },
-            img: "ship.svg",
-            sightRange: 5,
-            speed: 300,
-            patrol: []
-          }
-        ]
-      },
-      {
-        mapid: 1,
-        map: Map2,
-        transports: [
-          {
+        agents: {
+          player: {
             name: 'ship',
             index: 0,
             start: {
@@ -43,30 +24,50 @@ export default class IndexRoute extends Route {
             speed: 300,
             patrol: []
           },
-          {
-            name: 'galleon',
-            index: 1,
+          game: []
+        }
+      },
+      {
+        mapid: 1,
+        map: Map2,
+        agents: {
+          player: {
+            name: 'ship',
+            index: 0,
             start: {
               Q: 1,
-              R: -4,
-              S: 3
+              R: 0,
+              S: -1
             },
-            img: "galleon.svg",
-            sightRange: 3,
-            speed: 600,
-            patrol: [
-              {Q:0, R:-4, S:4}, {Q:4, R:-4, S:0}, {Q:1, R:0, S:-1}, {Q:4, R:-1, S:-3}, {Q:0, R:-1, S:1}
-            ]
-          }
-
-
-        ]
+            img: "ship.svg",
+            sightRange: 5,
+            speed: 300,
+            patrol: []
+          },
+          game: [
+            {
+              name: 'galleon',
+              index: 1,
+              start: {
+                Q: 1,
+                R: -4,
+                S: 3
+              },
+              img: "galleon.svg",
+              sightRange: 3,
+              speed: 600,
+              patrol: [
+                {Q: 0, R: -4, S: 4}, {Q: 4, R: -4, S: 0}, {Q: 1, R: 0, S: -1}, {Q: 4, R: -1, S: -3}, {Q: 0, R: -1, S: 1}
+              ]
+            }
+          ]
+        }
       },
       {
         mapid: 2,
         map: Map3,
-        transports: [
-          {
+        agents: {
+          player: {
             name: 'ship',
             index: 0,
             start: {
@@ -76,31 +77,34 @@ export default class IndexRoute extends Route {
             },
             img: "ship.svg",
             sightRange: 5,
-            speed: 300,
+            speed: 500,
             patrol: []
           },
-          {
-            name: 'galleon',
-            index: 1,
-            start: {
-              Q: 1,
-              R: -4,
-              S: 3
-            },
-            img: "galleon.svg",
-            sightRange: 3,
-            speed: 600,
-            patrol: [
-              {Q: -1, R: -1, S: 2}, {Q: -2, R: -2, S: 4}, {Q: 0, R: -4, S: 4}, {Q: 2, R: -1, S: -1}, {
-                Q: 4,
+          game: [
+            {
+              name: 'galleon',
+              index: 1,
+              start: {
+                Q: 1,
                 R: -4,
-                S: 0
-              }, {Q: 2, R: -5, S: 3}
-            ]
-          }
-        ]
+                S: 3
+              },
+              img: "galleon.svg",
+              sightRange: 3,
+              speed: 600,
+              patrol: [
+                {Q: -1, R: -1, S: 2}, {Q: -2, R: -2, S: 4}, {Q: 0, R: -4, S: 4}, {Q: 2, R: -1, S: -1}, {
+                  Q: 4,
+                  R: -4,
+                  S: 0
+                }, {Q: 2, R: -5, S: 3}
+              ]
+            }
+          ]
+        }
       }
     ]
+
     return data;
   }
 }

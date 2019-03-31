@@ -31,38 +31,9 @@ module.exports = function(environment) {
         showCenterRect: true,
         showTilesWithLabels: true,
         showTileGraphics: true
-      },
+      }
 
-      transports: [
-        {
-          name: 'ship',
-          index: 0,
-          start: {
-            Q: -2,
-            R: 3,
-            S: -1
-          },
-          img: "images/ship.svg",
-          sightRange: 5,
-          speed: 300,
-          patrol: []
-        },
-        {
-          name: 'galleon',
-          index: 1,
-          start: {
-            Q: 1,
-            R: -4,
-            S: 3
-          },
-          img: "images/galleon.svg",
-          sightRange: 3,
-          speed: 600,
-          patrol: [
-            {Q:-1, R:-1, S:2}, {Q:-2, R:-2, S:4}, {Q:0, R:-4, S:4}, {Q:2, R:-1, S:-1}, {Q:4, R:-4, S:0}, {Q:2, R:-5, S:3}
-          ]
-        }
-      ]
+
     }
   // {Q:-1, R:-1, S:0}, {Q:-2, R:-2, S:0}, {Q:2, R:-1, S:-1}, {Q:4, R:-4, S:0}, {Q:2, R:-5, S:3}
 

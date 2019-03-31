@@ -1,0 +1,5 @@
+{{#animated-each this.agents use=this.transition duration=600 key="id" watch="style" as |agent|}}
+  <div class="agent" style={{agent.style}} >
+    <img src={{agent.agentImage}} />
+  </div>
+{{/animated-each}}

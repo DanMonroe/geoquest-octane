@@ -1,10 +1,14 @@
 import Service from '@ember/service';
 import {inject as service} from '@ember/service';
 import { A as emberArray } from '@ember/array';
+import { isPresent } from '@ember/utils';
 import Ship from '../objects/transports/ship'
 // import { Ship } from '../objects/transports/ship'
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
+
+import { Player } from '../objects/agents/player'
+import { Enemy } from '../objects/agents/enemy'
 
 export default class TransportService extends Service {
 
@@ -12,7 +16,8 @@ export default class TransportService extends Service {
   @service ('play') play;
   @service ('gameboard') gameboard;
 
-  @tracked ships = emberArray();
+  @tracked players = emberArray();  // Needs to be an array for animated-each
+  @tracked agents = emberArray();
 
   @tracked transportHexes = [];
   @tracked transportPoints = [];
@@ -20,15 +25,44 @@ export default class TransportService extends Service {
   @tracked moveQueueEnabled = true;
   @tracked moveQueue = emberArray();
 
-  setupShips(transports) {
+  setupAgents(agents) {
 
-    this.ships = emberArray();
+    this.players = emberArray();
+    this.agents = emberArray();
 
-    transports.forEach((transport) => {
+    let playerStartHex = this.mapService.hexMap.find((hex) => {
+      return (agents.player.start.Q === hex.q) &&
+        (agents.player.start.R === hex.r) &&
+        (agents.player.start.S === hex.s)
+    });
+
+    let playerStartPoint = this.mapService.currentLayout.hexToPixel(playerStartHex);
+
+    this.transportHexes.push(playerStartHex);
+    this.transportPoints.push(playerStartPoint);
+
+    let player = new Player();
+    player.id = agents.player.index;
+    player.name = agents.player.name;
+    player.hex = playerStartHex;
+    player.point = playerStartPoint;
+    player.agentImage = `/images/transports/${agents.player.img}`;
+    player.sightRange = agents.player.sightRange;
+    player.speed = agents.player.speed;
+    player.patrol = agents.player.patrol;
+    player.currentWaypoint = -1;
+    player.state = agents.player.state
+    player.hexLayout = this.mapService.currentLayout;
+    player.mapCenterX = this.gameboard.centerX;
+    player.mapCenterY = this.gameboard.centerY;
+
+    this.players.push(player);
+
+    agents.game.forEach((gameAgent) => {
       let startHex = this.mapService.hexMap.find((hex) => {
-        return (transport.start.Q === hex.q) &&
-          (transport.start.R === hex.r) &&
-          (transport.start.S === hex.s)
+        return (gameAgent.start.Q === hex.q) &&
+          (gameAgent.start.R === hex.r) &&
+          (gameAgent.start.S === hex.s)
       });
       // console.log('startHex', startHex);
 
@@ -37,58 +71,61 @@ export default class TransportService extends Service {
       this.transportHexes.push(startHex);
       this.transportPoints.push(startPoint);
 
-      let ship = Ship.create({
-        id: transport.index,
-        name: transport.name,
-        hex: startHex,
-        point: startPoint,
-        shipImage: `/images/transports/${transport.img}`,
-        sightRange: transport.sightRange,
-        speed: transport.speed,
-        patrol: transport.patrol,
-        currentWaypoint: -1,
 
-        hexLayout: this.mapService.currentLayout,
-        mapCenterX: this.gameboard.centerX,
-        mapCenterY: this.gameboard.centerY
-      });
+      let enemy = new Enemy();
+      enemy.id = gameAgent.index;
+      enemy.name = gameAgent.name;
+      enemy.hex = startHex;
+      enemy.point = startPoint;
+      enemy.agentImage = `/images/transports/${gameAgent.img}`;
+      enemy.sightRange = gameAgent.sightRange;
+      enemy.speed = gameAgent.speed;
+      enemy.patrol = gameAgent.patrol;
+      enemy.currentWaypoint = -1;
+      enemy.state = gameAgent.state;
+      enemy.hexLayout = this.mapService.currentLayout;
+      enemy.mapCenterX = this.gameboard.centerX;
+      enemy.mapCenterY = this.gameboard.centerY;
 
-      this.ships.push(ship);
+      this.agents.push(enemy);
 
-      // console.log(transport.name, ship);
+      // console.log(gameAgent.name, ship);
     });
 
-    return this.ships;
+    return {
+      players: this.players,
+      agents: this.agents
+    };
 
   }
 
   setupPatrols() {
     this.moveQueue = emberArray();
-    this.ships.forEach((transport) => {
-      if (transport.patrol.length > 0) {
+    this.agents.forEach((agent) => {
+      if (isPresent(agent.patrol) > 0) {
         // console.log(`setting up patrol for ${transport.name}`);
 
-        this.pushTransportWaypointToMoveQueue(transport)
+        this.pushTransportWaypointToMoveQueue(agent)
       }
     })
   }
 
-  pushTransportWaypointToMoveQueue(transport) {
+  pushTransportWaypointToMoveQueue(agent) {
     // console.log('pushTransportWaypointToMoveQueue', transport);
-    transport.currentWaypoint++;
-    if (transport.currentWaypoint >= transport.patrol.length) {
-      transport.currentWaypoint = 0;
+    agent.currentWaypoint++;
+    if (agent.currentWaypoint >= agent.patrol.length) {
+      agent.currentWaypoint = 0;
     }
-    let currentWaypointHex = transport.patrol[transport.currentWaypoint];
+    let currentWaypointHex = agent.patrol[agent.currentWaypoint];
     let targetHex = this.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
-    let transportHex = this.transportHexes[transport.id];
-    let path = this.mapService.findPath(this.mapService.twoDimensionalMap, transportHex, targetHex);
+    let agentHex = this.transportHexes[agent.id];
+    let path = this.mapService.findPath(this.mapService.twoDimensionalMap, agentHex, targetHex);
     let moveObject = {
-      transport: transport,
+      agent: agent,
       path: path,
       finishedCallback: () => {
         // console.log('in move finishedCallback for ' + transport.name);
-        this.pushTransportWaypointToMoveQueue(transport);
+        this.pushTransportWaypointToMoveQueue(agent);
       }
     }
     this.moveQueue.pushObject(moveObject);
@@ -113,7 +150,7 @@ export default class TransportService extends Service {
             let firstMove = moveObject.path[0]
 
             // attempt the move
-            this.moveTransportTask.perform(moveObject.transport,firstMove);
+            this.moveTransportTask.perform(moveObject.agent,firstMove);
 
             // we're done, remove it from the list of waypoints to go to
             moveObject.path.shiftObject();
@@ -134,6 +171,21 @@ export default class TransportService extends Service {
       } else {
         // console.log('waiting....');
       }
+
+// console.log(this.moveQueue);
+      let consoleTableItems = []
+      this.moveQueue.forEach((moveObject) => {
+        let logItem = {
+          name: moveObject.agent.name,
+          'player distance': moveObject.agent.playerDistance,
+          'sight': moveObject.agent.sightRange,
+          'state': moveObject.agent.state,
+        };
+        consoleTableItems.push(logItem);
+      })
+      if (consoleTableItems.length) {
+        // console.table(consoleTableItems);
+      }
     }
   }) moveQueueTask;
 
@@ -141,7 +193,8 @@ export default class TransportService extends Service {
 
     this.transportHexes[transport.id] = targetHex;
 
-    transport.set('hex', targetHex);
+    transport.hex = targetHex;
+    // transport.set('hex', targetHex);
 
     this.play.onTransportMoved(transport, targetHex);
 
@@ -154,7 +207,8 @@ export default class TransportService extends Service {
     // debugger;
     this.transportHexes[ship.id] = targetHex;
 
-    ship.set('hex', targetHex);
+    ship.hex = targetHex;
+    // ship.set('hex', targetHex);
 
     yield timeout(ship.speed);
   }).enqueue() moveShipToHexTask;
@@ -165,9 +219,9 @@ export default class TransportService extends Service {
       // console.log('Moving ship along path', path);
       for (let move = 0, pathLen = path.length; move < pathLen; move++) {
         let nextHex = path[move];
-        let ship = this.ships.objectAt(0);
+        let player = this.players.objectAt(0);
         // this.moveTransportTask.perform(ship, nextHex);
-        this.moveShipToHexTask.perform(ship, nextHex);
+        this.moveShipToHexTask.perform(player, nextHex);
       }
 
 

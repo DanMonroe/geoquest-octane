@@ -24,11 +24,13 @@ export default class GameboardComponent extends Component {
   @tracked showTilesWithLabels = true;
 
   @tracked map = null;
-  @tracked transports = null;
+  @tracked mapIndex = null;
+  @tracked players = emberArray();
+  @tracked agents = emberArray();
   @tracked selectedMap = 0;
-  @tracked ships = emberArray();
+  // @tracked ships = emberArray();
 
-  @alias playerShipHex = this.transport.transportHexes[ENV.game.transports[0].index];
+  // @alias playerShipHex = this.transport.transportHexes[ENV.game.agents.player.index];
 
 
   mapOptions = [
@@ -50,8 +52,9 @@ export default class GameboardComponent extends Component {
   // }
 
   loadMap(mapIndex) {
+    this.mapIndex = mapIndex;
     this.map = this.model.mapdata[mapIndex].map;
-    this.transports = this.model.mapdata[mapIndex].transports;
+    // this.agents = this.model.mapdata[mapIndex].agents;
     this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
 
     this.mapService.loadTiles(this.map);
@@ -73,7 +76,11 @@ export default class GameboardComponent extends Component {
   @action
   setupGame(concreteContainer) {
     this.gameboard.setupGameboardCanvases(concreteContainer, this.map);
-    this.ships = this.transport.setupShips(this.transports);
+    let agentsObj = this.transport.setupAgents(this.model.mapdata[this.mapIndex].agents);
+
+    this.players = agentsObj.players;
+    this.agents = agentsObj.agents;
+    // this.ships = this.transport.setupAgents(this.agents);
 
     this.transport.setupPatrols();
 

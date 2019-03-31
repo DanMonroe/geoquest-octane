@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import concrete from 'concretejs';
 import { Point } from '../objects/point'
+import { Player } from '../objects/agents/player'
 
 export default class GameboardService extends Service {
 
@@ -171,11 +172,11 @@ export default class GameboardService extends Service {
 
     let point = new Point({x:x, y:y});
     let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
-
     let targetHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
-    let shipHex = this.transport.transportHexes[ENV.game.transports[0].index];
 
     if(targetHex) {
+      let shipHex = this.transport.transportHexes[Player.transportHexIndex];
+      // let shipHex = this.transport.transportHexes[ENV.game.agents.player.index];
       let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.twoDimensionalMap, shipHex, targetHex);
       this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
     } else {
@@ -205,7 +206,7 @@ export default class GameboardService extends Service {
 
     if (mappedHex && mappedHex.id) {
       // move ship
-      let shipHex = this.transport.transportHexes[ENV.game.transports[0].index];
+      let shipHex = this.transport.transportHexes[Player.transportHexIndex];
       this.transport.moveShipToHexTask.cancelAll();
       let path = this.mapService.findPath(this.mapService.twoDimensionalMap, shipHex, mappedHex);
       this.transport.moveShipAlongPath(path);
