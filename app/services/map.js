@@ -18,14 +18,6 @@ export default class MapService extends Service {
   currentLayout = null;
   @tracked tilesLoaded = false;
 
-  // setHexMap(map) {
-  //   this.hexMap = map;
-  // }
-  //
-  // setTwoDimensionalMap(map) {
-  //   this.twoDimensionalMap = map;
-  // }
-
   loadLayout() {
     this.currentLayout = new Layout({
       orientation: Layout.FLAT,

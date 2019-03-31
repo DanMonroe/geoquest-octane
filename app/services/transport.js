@@ -62,6 +62,7 @@ export default class TransportService extends Service {
   }
 
   setupPatrols() {
+    this.moveQueue = emberArray();
     this.ships.forEach((transport) => {
       if (transport.patrol.length > 0) {
         // console.log(`setting up patrol for ${transport.name}`);

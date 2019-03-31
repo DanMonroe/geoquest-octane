@@ -48,22 +48,6 @@ export default class GameboardService extends Service {
     // add layers
     viewport.add(gameLayer).add(hexLayer).add(mouseLayer);
 
-    // let gameLayers = [
-    //   {
-    //     x: viewport.width / 2,
-    //     y: viewport.height / 2,
-    //     layer: gameLayer,
-    //     color: 'tan',
-    //     key: 0
-    //   },
-    //   {
-    //     x: viewport.width / 2,
-    //     y: viewport.height / 2,
-    //     layer: hexLayer,
-    //     key: 1
-    //   }
-    // ];
-
     this.viewport = viewport;
 
     let centerX = (viewport.width / 2);
@@ -115,42 +99,6 @@ export default class GameboardService extends Service {
 
     this.viewport.render();
 
-    // var canvas = document.getElementById(id);
-    // if (!canvas) { return; }
-    // var gamecontext = canvas.getContext('2d');
-    // var width = canvas.width;
-    // var height = canvas.height;
-    //
-    // // gamecontext.fillStyle = backgroundColor;
-    // // gamecontext.fillRect(0, 0, width, height);
-    // gamecontext.translate(width/2, height/2);
-    //
-    //
-    // var hexcanvas = document.getElementById('hexcanvas');
-    // var hexcontext = hexcanvas.getContext('2d');
-    // hexcontext.translate(width/2, height/2);
-    //
-    // var mousecanvas = document.getElementById('mousecanvas');
-    // var mousecontext = mousecanvas.getContext('2d');
-    // mousecontext.translate(width/2, height/2);
-    //
-
-
-    // hexes.forEach((hex) => {
-    //   this.drawHex(hexcontext, layout, hex);
-    //   if (withLabels) this.drawHexLabel(hexcontext, layout, hex);
-    //   if (withTiles) this.drawHexTile(gamecontext, layout, hex);
-    // });
-    //
-    // if (ENV.game.board.showCenterRect) {
-    //   hexcontext.fillStyle = "red"
-    //   hexcontext.fillRect(-4, -4, 8, 8);
-    //
-    //   mousecontext.fillStyle = "purple"
-    //   mousecontext.fillRect(-3, -3, 6, 6);
-    // }
-
-    // ctx.translate(0, 0);
   }
 
   drawHex(ctx, layout, hex, fillStyle, strokeStyle = "black") {
@@ -185,14 +133,6 @@ export default class GameboardService extends Service {
   }
 
   drawHexTile(ctx, layout, hex) {
-
-    // if(hex.id >= TILEMAP.length){
-    //   return;
-    // }
-    // let tileIndex = TILEMAP[hex.id];
-    // if (!hex.map.t) {
-    //   return;
-    // }
 
 
     let point = layout.hexToPixel(hex);
