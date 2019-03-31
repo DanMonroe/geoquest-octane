@@ -1,0 +1,2 @@
+/images/*  /images/:splat
+/*    /index.html    200
