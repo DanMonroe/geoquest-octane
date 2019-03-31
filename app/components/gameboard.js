@@ -14,6 +14,7 @@ export default class GameboardComponent extends Component {
   @service ('map') mapService;
   @service ('gameboard') gameboard;
   @service ('transport') transport;
+  @service ('play') play;
 
   // @tracked showShip = true;
 
@@ -29,6 +30,7 @@ export default class GameboardComponent extends Component {
 
   @alias playerShipHex = this.transport.transportHexes[ENV.game.transports[0].index];
 
+
   mapOptions = [
     {name: "Small", value: 0},
     {name: "Island", value: 1},
@@ -41,6 +43,11 @@ export default class GameboardComponent extends Component {
     this.mapService.loadLayout();
     this.loadMap(1);
   }
+
+  // get enemyToPlayerDistance() {
+  //   console.log('getting enemy ship');
+  //   return this.ships.objectAt(1).enemyToPlayerDistance;
+  // }
 
   loadMap(mapIndex) {
     this.map = this.model.mapdata[mapIndex].map;

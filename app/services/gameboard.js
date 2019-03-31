@@ -21,9 +21,6 @@ export default class GameboardService extends Service {
   @tracked mouseXY;
   @tracked currentHex;
 
-  @tracked showTileGraphics = ENV.game.board.showTileGraphics;
-  @tracked showTileHexInfo = false;
-  @tracked showTilesWithLabels = true;
 
   setupGameboardCanvases(concreteContainer, map) {
     // console.log(concreteContainer);
@@ -59,10 +56,10 @@ export default class GameboardService extends Service {
     this.drawGrid(
       "gamecanvas",
       "hsl(60, 10%, 85%)",
-      this.showTilesWithLabels,
+      true,
       this.mapService.currentLayout,
       this.mapService.hexMap,
-      this.showTileGraphics
+      true
     );
 
     concreteContainer.addEventListener('click', (event) => {

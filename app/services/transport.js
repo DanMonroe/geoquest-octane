@@ -9,6 +9,7 @@ import { task, timeout } from 'ember-concurrency';
 export default class TransportService extends Service {
 
   @service ('map') mapService;
+  @service ('play') play;
   @service ('gameboard') gameboard;
 
   @tracked ships = emberArray();
@@ -100,21 +101,31 @@ export default class TransportService extends Service {
       yield timeout(600);
       // yield timeout(1000);
 
+      // if there are things to move
       if (this.moveQueue.length > 0) {
-        // console.log(`found ${this.moveQueue.length} move objects`);
-        this.moveQueue.forEach((moveObject) => {
-          // console.log(moveObject);
 
+        this.moveQueue.forEach((moveObject) => {
+
+          // is there anywhere for this object to go?
           if (moveObject.path.length > 0) {
+
+            // grab the next waypoint
             let firstMove = moveObject.path[0]
-// console.log(`moving ${moveObject.transport.name} to`, firstMove);
+
+            // attempt the move
             this.moveTransportTask.perform(moveObject.transport,firstMove);
+
+            // we're done, remove it from the list of waypoints to go to
             moveObject.path.shiftObject();
+
           } else {
-// console.log(`no moves left for moving ${moveObject.transport.name}`);
+
+            // no moves left for this object
             if (typeof moveObject.finishedCallback === 'function') {
               moveObject.finishedCallback();
             }
+
+            // remove the object from the global move list
             this.moveQueue.removeObject(moveObject);
 
           }
@@ -131,6 +142,8 @@ export default class TransportService extends Service {
     this.transportHexes[transport.id] = targetHex;
 
     transport.set('hex', targetHex);
+
+    this.play.onTransportMoved(transport, targetHex);
 
     yield timeout(transport.speed);
 
