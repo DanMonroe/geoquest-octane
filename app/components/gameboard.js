@@ -3,7 +3,6 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import {inject as service} from '@ember/service';
 import { A as emberArray } from '@ember/array';
-import { alias } from '@ember/object/computed';
 
 import ENV from 'geoquest-octane/config/environment';
 
@@ -14,7 +13,7 @@ export default class GameboardComponent extends Component {
   @service ('map') mapService;
   @service ('gameboard') gameboard;
   @service ('transport') transport;
-  @service ('play') play;
+  @service ('game') game;
 
   // @tracked showShip = true;
 
@@ -85,6 +84,8 @@ export default class GameboardComponent extends Component {
     this.transport.setupPatrols();
 
     this.transport.moveQueueTask.perform();
+
+    this.game.gameClock.perform();
   }
 
   @action
@@ -114,6 +115,15 @@ export default class GameboardComponent extends Component {
 
     if (this.transport.moveQueueEnabled && this.transport.moveQueueTask.isIdle) {
       this.transport.moveQueueTask.perform();
+    }
+  }
+
+  @action
+  toggleGameClock() {
+    this.game.gameClockEnabled = !this.game.gameClockEnabled;
+
+    if (this.game.gameClockEnabled && this.game.gameClock.isIdle) {
+      this.game.gameClock.perform();
     }
   }
 }

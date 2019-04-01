@@ -2,8 +2,6 @@ import Service from '@ember/service';
 import {inject as service} from '@ember/service';
 import { A as emberArray } from '@ember/array';
 import { isPresent } from '@ember/utils';
-import Ship from '../objects/transports/ship'
-// import { Ship } from '../objects/transports/ship'
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 
@@ -13,7 +11,7 @@ import { Enemy } from '../objects/agents/enemy'
 export default class TransportService extends Service {
 
   @service ('map') mapService;
-  @service ('play') play;
+  @service ('game') game;
   @service ('gameboard') gameboard;
 
   @tracked players = emberArray();  // Needs to be an array for animated-each
@@ -196,7 +194,7 @@ export default class TransportService extends Service {
     transport.hex = targetHex;
     // transport.set('hex', targetHex);
 
-    this.play.onTransportMoved(transport, targetHex);
+    this.game.onTransportMoved(transport, targetHex);
 
     yield timeout(transport.speed);
 

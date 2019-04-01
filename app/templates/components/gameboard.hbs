@@ -63,6 +63,9 @@
     </div>
     <div class="col">
       <div>
+        <button {{action "toggleGameClock"}}>Game clock running: {{this.game.gameClock.isRunning}}</button>
+      </div>
+      <div>
         <button {{action "toggleTiles"}}>Toggle Tiles</button>
       </div>
       <div>
@@ -74,10 +77,10 @@
     </div>
     <div class="col">
       <div>
-        Enemy Distance: {{this.play.enemyToPlayerDistance}}
+        Enemy Distance: {{this.game.enemyToPlayerDistance}}
       </div>
       <div>
-        Enemy Status: {{this.play.enemyStatus}}
+        Enemy Status: {{this.game.enemyStatus}}
       </div>
     </div>
 
