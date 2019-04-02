@@ -18,12 +18,13 @@ export class Hex {
   s = null;
   map = null;
 
-  constructor() {
-    this.id = arguments[0].id;
-    this.q = arguments[0].q;
-    this.r = arguments[0].r;
-    this.s = arguments[0].s;
-    this.map = arguments[0].map;
+  constructor(args) {
+
+    this.id = args.id;
+    this.q = args.q;
+    this.r = args.r;
+    this.s = args.s;
+    this.map = args.map;
 
     assert('q + r + s must be 0', Math.round(this.q + this.r + this.s) === 0);
   }

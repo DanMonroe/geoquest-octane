@@ -4,8 +4,8 @@ export class Graph {
   nodes = [];
   dirtyNodes = [];
 
-  constructor() {
-    this.gridIn = arguments[0].gridIn;
+  constructor(args) {
+    this.gridIn = args.gridIn;
     // this.y = arguments[0].y;
   }
 

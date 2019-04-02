@@ -33,10 +33,10 @@ export class Layout {
   size = null;
   origin = null;
 
-  constructor() {
-    this.orientation = arguments[0].orientation;
-    this.size = arguments[0].size;
-    this.origin = arguments[0].origin;
+  constructor(args) {
+    this.orientation = args.orientation;
+    this.size = args.size;
+    this.origin = args.origin;
   }
 
   hexToPixel(h) {
@@ -49,6 +49,13 @@ export class Layout {
     // console.log('hexToPixel', x, y, M.f0, M.f1, M.f2, M.f3, size);
 
     return new Point({x:x + origin.x, y:y + origin.y});
+  }
+
+  evenq_offset_to_pixel(hex) {
+    let size = this.size;
+    let x = size.x * 3 / 2 * hex.q;
+    let y = size.y * Math.sqrt(3) * (hex.r - 0.5 * (hex.q));
+    return new Point({x: x, y: y});
   }
 
   pixelToHex(p) {

@@ -2,9 +2,9 @@ export class BinaryHeap {
   content = [];
   scoreFunction = null;
 
-  constructor() {
-    this.content = arguments[0].content;
-    this.scoreFunction = arguments[0].scoreFunction;
+  constructor(args) {
+    this.content = args.content;
+    this.scoreFunction = args.scoreFunction;
   }
 
   push(element) {

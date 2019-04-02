@@ -18,8 +18,8 @@ export default class GameboardComponent extends Component {
   // @tracked showShip = true;
 
   // @tracked showTileGraphics = false;
-  @tracked showTileGraphics = ENV.game.board.showTileGraphics;
-  @tracked showTileHexInfo = false;
+  @tracked showTileGraphics = false;
+  @tracked showTileHexInfo = true;
   @tracked showTilesWithLabels = true;
 
   @tracked map = null;
@@ -42,7 +42,8 @@ export default class GameboardComponent extends Component {
     super(...arguments);
     this.model = arguments[1];
     this.mapService.loadLayout();
-    this.loadMap(3);
+    this.loadMap(0);
+    // this.loadMap(3);
     // this.loadMap(1);
   }
 
@@ -75,18 +76,17 @@ export default class GameboardComponent extends Component {
 
   @action
   setupGame(concreteContainer) {
-    this.gameboard.setupGameboardCanvases(concreteContainer, this.map);
+    this.gameboard.setupGameboardCanvases(concreteContainer, this.map, this.showTileHexInfo, this.showTileGraphics);
     let agentsObj = this.transport.setupAgents(this.model.mapdata[this.mapIndex].agents);
 
     this.players = agentsObj.players;
     this.agents = agentsObj.agents;
-    // this.ships = this.transport.setupAgents(this.agents);
 
     this.transport.setupPatrols();
 
-    this.transport.moveQueueTask.perform();
-
-    this.game.gameClock.perform();
+    // TODO put these back in:
+    // this.transport.moveQueueTask.perform();
+    // this.game.gameClock.perform();
   }
 
   @action
