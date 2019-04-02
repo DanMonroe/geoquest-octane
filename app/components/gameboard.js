@@ -42,7 +42,8 @@ export default class GameboardComponent extends Component {
     super(...arguments);
     this.model = arguments[1];
     this.mapService.loadLayout();
-    this.loadMap(1);
+    this.loadMap(3);
+    // this.loadMap(1);
   }
 
   // get enemyToPlayerDistance() {

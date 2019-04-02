@@ -36,6 +36,11 @@ export default class GameboardService extends Service {
       height: 650,
       container: concreteContainer
     });
+    // let viewport = new concrete.Viewport({
+    //   width: 680,
+    //   height: 650,
+    //   container: concreteContainer
+    // });
 
 // create layers
     let gameLayer = new concrete.Layer();
