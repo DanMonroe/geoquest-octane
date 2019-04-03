@@ -1,9 +1,10 @@
 import Route from '@ember/routing/route'
 
-import { Map1 } from 'geoquest-octane/objects/maps/map1'
-import { Map2 } from 'geoquest-octane/objects/maps/map2'
-import { Map3 } from 'geoquest-octane/objects/maps/map3'
-import { Map4 } from 'geoquest-octane/objects/maps/map4'
+import { Map1 } from 'geoquest-octane/objects/maps/map1';
+import { Map2 } from 'geoquest-octane/objects/maps/map2';
+import { Map3 } from 'geoquest-octane/objects/maps/map3';
+import { Map4 } from 'geoquest-octane/objects/maps/map4';
+import { Map5 } from 'geoquest-octane/objects/maps/map5'; // rectangular
 
 export default class IndexRoute extends Route {
   model() {
@@ -116,6 +117,27 @@ export default class IndexRoute extends Route {
               Q: 1,
               R: 0,
               S: -1
+            },
+            img: "ship.svg",
+            sightRange: 5,
+            speed: 500,
+            patrol: []
+          },
+          game: []
+        }
+      },
+
+      {
+        mapid: 4,
+        map: Map5,
+        agents: {
+          player: {
+            name: 'ship',
+            index: 0,
+            start: {
+              Q: 2,
+              R: 0,
+              S: -2
             },
             img: "ship.svg",
             sightRange: 5,

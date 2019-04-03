@@ -25,11 +25,8 @@ export default class GameboardService extends Service {
 
 
   setupGameboardCanvases(concreteContainer, map, showTileHexInfo, showTileGraphics) {
-    // console.log(concreteContainer);
 
     // Map setup
-
-    console.log('map.MAP.length', map.MAP.length);
 
     this.mapService.set('hexMap', this.hexService.createHexesFromMap(map.MAP));
     this.mapService.set('twoDimensionalMap', map.MAP);
@@ -40,13 +37,8 @@ export default class GameboardService extends Service {
       height: 650,
       container: concreteContainer
     });
-    // let viewport = new concrete.Viewport({
-    //   width: 680,
-    //   height: 650,
-    //   container: concreteContainer
-    // });
 
-// create layers
+    // create layers
     let gameLayer = new concrete.Layer();
     let hexLayer = new concrete.Layer();
     let mouseLayer = new concrete.Layer();
@@ -58,11 +50,16 @@ export default class GameboardService extends Service {
 
     this.viewport = viewport;
 
-    let centerX = (viewport.width / 2);
-    let centerY = (viewport.height / 2);
+    // let centerX = (viewport.width / 2);
+    // let centerY = (viewport.height / 2);
 
-    this.set('centerX', centerX);
-    this.set('centerY', centerY);
+    this.mapService.set('mapOriginX', 100);
+    this.mapService.set('mapOriginY', 100);
+
+    let centerX = 100;
+    let centerY = 100;
+    this.set('centerX', centerX);  // remove
+    this.set('centerY', centerY);  // remove
 
     this.drawGrid(
       "gamecanvas",
@@ -95,79 +92,30 @@ export default class GameboardService extends Service {
 
     let hexcontext = this.viewport.layers[1].scene.context;
     console.log('hexcontext', hexcontext);
-    hexcontext.translate(100, 100);
+    hexcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
     // hexcontext.translate(width/2, height/2);
 
     let gamecontext = this.viewport.layers[0].scene.context;
-    gamecontext.translate(100, 100);
+    gamecontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
     // gamecontext.translate(width/2, height/2);
 
 
+    // let generatedhexes = this.hexService.makeQDoubledRectangularShape(0, 5, 0, 5);
+// console.log('generated hexes', generatedhexes);
 
-    // temphard coded
-    // hexes = this.shapeRectangle(5, 4, this.hexService.permuteQRS);
-    hexes = this.hexService.makeQDoubledRectangularShape(0, 5, 0, 5);
-    // hexes = this.hexService.makeQDoubledRectangularShape(0, 7, 0, 11 );
-console.log('hexes', hexes);
-
-
+    // generatedhexes.forEach((hex) => {
     hexes.forEach((hex) => {
       this.drawHex(hexcontext, layout, hex);
       if (withLabels) this.drawHexLabel(hexcontext, layout, hex);
       if (withTiles) this.drawHexTile(gamecontext, layout, hex);
-
-
-      // todo remove render each time
-      this.viewport.render();
     });
 
     this.viewport.render();
 
   }
 
-
-
-  shapeRectangle(w, h, constructor) {
-    var hexes = [];
-    var i1 = -Math.floor(w/2), i2 = i1 + w;
-    var j1 = -Math.floor(h/2), j2 = j1 + h;
-    // var i1 = -Math.floor(w/2), i2 = i1 + w;
-    // var j1 = -Math.floor(h/2), j2 = j1 + h;
-
-    let index = 0;
-    for (var j = 0; j < w; j++) {
-      for (var i = 0; i < h; i++, index++) {
-        hexes.push(new Hex({
-          id:index,
-          q:i, r:j, s:-i-j,
-          map:{id:index, t:0}
-        }));
-        // hexes.push(constructor(i, j, -i-j));
-      }
-    }
-    // let index = 0;
-    // for (var j = j1; j < j2; j++) {
-    //   var jOffset = -Math.floor(j/2);
-    //   for (var i = i1 + jOffset; i < i2 + jOffset; i++, index++) {
-    //     let mapId = (i*j)+i;
-    //     hexes.push(new Hex({
-    //       id:index,
-    //       q:i, r:j, s:-i-j,
-    //       map:{id:index, t:0}
-    //     }));
-    //     // hexes.push(constructor(i, j, -i-j));
-    //   }
-    // }
-    return hexes;
-  }
-
-
-
-
-
   drawHex(ctx, layout, hex, fillStyle, strokeStyle = "black") {
-console.log(hex);
-    // let corners = layout.evenq_offset_to_pixel(hex);
+// console.log(hex);
     let corners = layout.polygonCorners(hex);
 
     // console.log('corners', corners, hex);
@@ -193,9 +141,11 @@ console.log(hex);
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // TODO put map t (tile) back in when we add mapp to the hex
+    // TODO put map t (tile) back in when we add map to the hex
+    ctx.fillText(('id:' + hex.map.id), center.x, center.y-15);
     // ctx.fillText((hex.map.id + " " + hex.map.t), center.x, center.y-7);
-    ctx.fillText((hex.col + "," + hex.row), center.x, center.y+8);
+    ctx.fillText((hex.col + "," + hex.row), center.x, center.y);
+    ctx.fillText((hex.q + "," + hex.r + "," + hex.s), center.x, center.y+15);
     // ctx.fillText((hex.q + "," + hex.r), center.x, center.y+8);
   }
 

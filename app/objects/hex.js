@@ -16,14 +16,18 @@ export class Hex {
   q = null;
   r = null;
   s = null;
+  col = null;
+  row = null;
   map = null;
 
   constructor(args) {
-
+    // let {id, q, r, s, map} = args;
     this.id = args.id;
     this.q = args.q;
     this.r = args.r;
     this.s = args.s;
+    this.col = args.col;
+    this.row = args.row;
     this.map = args.map;
 
     assert('q + r + s must be 0', Math.round(this.q + this.r + this.s) === 0);
@@ -46,6 +50,8 @@ export class Hex {
   //   return new Hex({q:-this.r, r:-this.s, s:-this.q });
   // },
   direction(direction) {
+    console.warn('Does this need to update based on column because of double coordinates?')
+    debugger;
     return Hex.DIRECTIONS[direction];
   }
 

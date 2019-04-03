@@ -1,10 +1,7 @@
 import { Point } from './point';
 import { Hex } from './hex';
-// import { DoubledCoordinates } from './doubled-coordinates';
-// import {assert} from '@ember/debug';
 
-//from https://www.redblobgames.com/grids/hexagons/#hex-to-pixel  - sources: lib.js
-
+// from https://www.redblobgames.com/grids/hexagons/#hex-to-pixel  - sources: lib.js
 
 export class DoubledCoordinates {
 

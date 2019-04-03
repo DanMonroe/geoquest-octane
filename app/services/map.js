@@ -18,6 +18,9 @@ export default class MapService extends Service {
   currentLayout = null;
   @tracked tilesLoaded = false;
 
+  @tracked mapOriginX = null;
+  @tracked mapOriginY = null;
+
   loadLayout() {
     this.currentLayout = new Layout({
       orientation: Layout.FLAT,
@@ -96,8 +99,7 @@ export default class MapService extends Service {
   findPath(gridIn, startHex, targetHex, options = {}) {
 // console.log('findPath', gridIn, startHex, targetHex);
 
-    var heuristic = this.pathService.heuristics.hex;
-    // var heuristic = options.heuristic || this.path.heuristics.hex;
+    var distance = this.pathService.heuristics.hex;
 
     var closest = options.closest || false;
 
@@ -106,17 +108,21 @@ export default class MapService extends Service {
     let graph = new Graph({
       gridIn: gridIn
     });
-    graph.setup();
+    graph.setup(); // cleans all nodes
+
     let startNode = this.findNodeFromHex(graph.gridIn, startHex);
     let endNode = this.findNodeFromHex(graph.gridIn, targetHex);
-    // let startNode = this.convertHexToNode(graph.gridIn, startHex);
-    // let endNode = this.convertHexToNode(graph.gridIn, targetHex);
 
     var closestNode = startNode; // set the start node to be the closest if required
 
-    // this.path.initFindPathMap();
+    // path:
+    // path.h = heuristic path ("smart" shortest distance - only search in directions that are closer to target)
+    // path.g = g score is the shortest distance from start to current node.
+    // path.f = neighbor.path.g + neighbor.path.h ??
+    // path.w = path weight for the node (used for walls, blocking, travel through cost)
 
-    startNode.path.h = heuristic(startNode, endNode);
+    startNode.path.h = distance(startNode, endNode);
+
     graph.markDirty(startNode);
 
     openHeap.push(startNode);
@@ -135,7 +141,6 @@ export default class MapService extends Service {
 
       // Find all neighbors for the current node.
       var neighbors = graph.neighbors(currentNode);
-
       for (var i = 0, il = neighbors.length; i < il; ++i) {
         var neighbor = neighbors[i];
 
@@ -158,7 +163,7 @@ export default class MapService extends Service {
             // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
             neighbor.path.visited = true;
             neighbor.path.parent = currentNode;
-            neighbor.path.h = neighbor.path.h || heuristic(neighbor, endNode);
+            neighbor.path.h = neighbor.path.h || distance(neighbor, endNode);
             neighbor.path.g = gScore;
             neighbor.path.f = neighbor.path.g + neighbor.path.h;
             graph.markDirty(neighbor);

@@ -9,14 +9,44 @@ export class Graph {
     // this.y = arguments[0].y;
   }
 
-  static directions = [
+  // directions go in this order from originating hex:
+  // SE, NE, N, NW, SW, S
+  static directions_even = [
     {col:1, row:0},
     {col:1, row:-1},
+    {col:0, row:-1},
+    {col:-1, row:-1},
+    {col:-1, row:0},
+    {col:0, row:1}
+  ];
+
+  static directions_odd = [
+    {col:1, row:1},
+    {col:1, row:0},
     {col:0, row:-1},
     {col:-1, row:0},
     {col:-1, row:1},
     {col:0, row:1}
   ];
+
+  // from article, double coord neighbors... not correct!
+  // static directions = [
+  //   {col:1, row:1},
+  //   {col:1, row:-1},
+  //   {col:0, row:-2},
+  //   {col:-1, row:-1},
+  //   {col:-1, row:1},
+  //   {col:0, row:2}
+  // ];
+  //
+  // static directions = [
+  //   {col:1, row:0},
+  //   {col:1, row:-1},
+  //   {col:0, row:-1},
+  //   {col:-1, row:0},
+  //   {col:-1, row:1},
+  //   {col:0, row:1}
+  // ];
 
   // TODO update the originalMAP object to include weight as int.
   setup() {
@@ -72,18 +102,27 @@ export class Graph {
     this.dirtyNodes.push(node);
   }
 
+  // static doubleheight_neighbor(hex, direction) {
+  //   let dir = this.doubleheight_directions[direction]
+  //   return DoubledCoordinates({col:hex.col + dir.col, row:hex.col + dir.col});
+  // }
+
+  // with double coords, directions change based on column modulus 2
+  getDirections(col) {
+      return (col % 2 === 0) ? Graph.directions_even : Graph.directions_odd;
+  }
+
   neighbors(node) {
     let neighbors = [];
 
-    // could be node or hex
-    // let currentCol = currentHex.col || currentHex.map.col;
-    // let currentRow = currentHex.row || currentHex.map.row;
     let currentCol = node.col;
     let currentRow = node.row;
 
+    let directions = this.getDirections(currentCol);
+
     for (let i = 0; i < 6; i++) {
-      let directionsCol = Graph.directions[i].col;
-      let directionsRow = Graph.directions[i].row;
+      let directionsCol = directions[i].col;
+      let directionsRow = directions[i].row;
 
       let neighbor = this.getNeighborByColAndRow(
         currentCol + directionsCol,
@@ -92,13 +131,7 @@ export class Graph {
 
       neighbors.push(neighbor);
 
-      // let gridNode = GridNode.create(neighbor);
-
-      // neighbors.push(gridNode);
     }
-
-    // console.log('neighbors', neighbors);
-
     return neighbors;
   }
 

@@ -16,18 +16,37 @@ export default class PathService extends Service {
      the absolute value of each of these three numbers, and the distance is
      the largest of these three values.
      */
-    hex (pos0, pos1) {
-      if (!pos0 || !pos1) {
+    hex (posA, posB) {
+      if (!posA || !posB) {
         return 0
       }
       // debugger;
-      let d1 = pos1.q - pos0.q
-      let d2 = pos1.r - pos0.r
-      let d3 = pos1.s - pos0.s
+      // console.group("Hex Distance");
+      let d1 = posB.q - posA.q
+      let d2 = posB.r - posA.r
+      let d3 = posB.s - posA.s
       let distance = Math.max(Math.abs(d1), Math.abs(d2), Math.abs(d3))
+
+      // console.log('posA q/r/s:', posA.q, posA.r, posA.s);
+      // console.log('posB q/r/s:', posB.q, posB.r, posB.s);
+
+      // console.log('d1, d2, d3, distance:',d1, d2, d3, distance);
+      // console.groupEnd();
 
       return distance
     },
+
+    doubleCoord(posA, posB) {
+      // debugger;
+      if (!posA || !posB) {
+        return 0
+      }
+      let dx = Math.abs(posA.col - posB.col);
+      let dy = Math.abs(posA.row - posB.row);
+      let distance = dx + Math.max(0, (dy-dx) / 2);
+      return distance;
+    },
+
     manhattan (pos0, pos1) {
       var d1 = Math.abs(pos1.col - pos0.col)
       var d2 = Math.abs(pos1.row - pos0.row)

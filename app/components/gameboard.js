@@ -42,7 +42,7 @@ export default class GameboardComponent extends Component {
     super(...arguments);
     this.model = arguments[1];
     this.mapService.loadLayout();
-    this.loadMap(0);
+    this.loadMap(4);
     // this.loadMap(3);
     // this.loadMap(1);
   }
