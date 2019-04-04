@@ -5,8 +5,8 @@ import { DoubledCoordinates } from '../objects/doubled-coordinates'
 export default class HexService extends Service {
 
   q = null;
-  q = null;
-  q = null;
+  r = null;
+  s = null;
   col = null;
   row = null;
 
