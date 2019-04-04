@@ -34,6 +34,11 @@ export default class TransportService extends Service {
         (agents.player.start.S === hex.s)
     });
 
+    if (!playerStartHex) {
+      console.warn("Could not find player start hex.  Setting to first one in map");
+      // TODO this probably should never happen
+      playerStartHex = this.mapService.hexMap[0];
+    }
     let playerStartPoint = this.mapService.currentLayout.hexToPixel(playerStartHex);
 
     this.transportHexes.push(playerStartHex);

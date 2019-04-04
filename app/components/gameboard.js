@@ -29,8 +29,9 @@ export default class GameboardComponent extends Component {
   @tracked selectedMap = 0;
   // @tracked ships = emberArray();
 
-  // @alias playerShipHex = this.transport.transportHexes[ENV.game.agents.player.index];
-
+  @tracked dragging = false;
+  @tracked dragoffx = 0; // See mousedown and mousemove events for explanation
+  @tracked dragoffy = 0;
 
   mapOptions = [
     {name: "Small", value: 0},
@@ -76,6 +77,7 @@ export default class GameboardComponent extends Component {
 
   @action
   setupGame(concreteContainer) {
+    this.gameboard.setupQRSFromMap(this.map.MAP);
     this.gameboard.setupGameboardCanvases(concreteContainer, this.map, this.showTileHexInfo, this.showTileGraphics);
     let agentsObj = this.transport.setupAgents(this.model.mapdata[this.mapIndex].agents);
 

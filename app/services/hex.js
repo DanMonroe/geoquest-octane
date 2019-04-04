@@ -21,26 +21,29 @@ export default class HexService extends Service {
     let rows = map.length;
     let cols = map[0].length;
 
+    // The first object in the map arry will be the start
+    // get the q,r,s from the map object
+    // q,r,s MUST be previously set. (in gameboard.setupQRSFromMap)
+
     for (let col = 0; col < cols; col++) {
       for (let row = 0; row < rows; row++) {
 
         let mapObject = map[row][col];
 
-        let q = col;
-        let r = -(Math.floor(col/2)) + row;
-        let s = -q-r;
-
-        mapObject.q = q;
-        mapObject.r = r;
-        mapObject.s = s;
-
+        // let q = col;
+        // let r = -(Math.floor(col/2)) + row;
+        // let s = -q-r;
+        //
+        // mapObject.q = q;
+        // mapObject.r = r;
+        // mapObject.s = s;
         hexes.push(new Hex({
           id: mapObject.id,
-          col: col,
-          row: (row*2) + (col&1),
-          q: q,
-          r: r,
-          s: s,
+          col: mapObject.col,
+          row: mapObject.row,
+          q: mapObject.q,
+          r: mapObject.r,
+          s: mapObject.s,
           map: mapObject
         }));
       }
