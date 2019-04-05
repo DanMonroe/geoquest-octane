@@ -39,6 +39,24 @@ export class Layout {
     this.origin = args.origin;
   }
 
+  hexWidth() {
+    if (!this.orientation) {
+      return 0;
+    }
+    return this.orientation.type === 'flat' ?
+      2 * this.size.x :
+      Math.sqrt(3) * this.size.x;
+  }
+
+  hexHeight() {
+    if (!this.orientation) {
+      return 0;
+    }
+    return this.orientation.type === 'flat' ?
+      Math.sqrt(3) * this.size.y :
+      2 * this.size.y;
+  }
+
   hexToPixel(h) {
     let M = this.orientation;
     let size = this.size;
@@ -79,6 +97,9 @@ export class Layout {
     let M = this.orientation;
     let size = this.size;
     let angle = 2.0 * Math.PI * (M.start_angle - corner) / 6.0;
+
+// TODO here 4/4  17:40
+    // return new Point({x:(size.x * Math.cos(angle)) - 100, y:(size.y * Math.sin(angle)) - 100});
     return new Point({x:size.x * Math.cos(angle), y:size.y * Math.sin(angle)});
   }
 
@@ -87,6 +108,7 @@ export class Layout {
     let center = this.hexToPixel(hex);
     for (let i = 0; i < 6; i++) {
       let offset = this.hexCornerOffset(i);
+// console.log(offset);
       corners.push(new Point({x:center.x + offset.x, y:center.y + offset.y}));
     }
     return corners;

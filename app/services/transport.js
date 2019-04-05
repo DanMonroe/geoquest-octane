@@ -122,7 +122,7 @@ export default class TransportService extends Service {
     let currentWaypointHex = agent.patrol[agent.currentWaypoint];
     let targetHex = this.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
     let agentHex = this.transportHexes[agent.id];
-    let path = this.mapService.findPath(this.mapService.twoDimensionalMap, agentHex, targetHex);
+    let path = this.mapService.findPath(this.mapService.worldMap, agentHex, targetHex);
     let moveObject = {
       agent: agent,
       path: path,

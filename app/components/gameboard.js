@@ -14,6 +14,7 @@ export default class GameboardComponent extends Component {
   @service ('gameboard') gameboard;
   @service ('transport') transport;
   @service ('game') game;
+  @service ('camera') camera;
 
   // @tracked showShip = true;
 
@@ -97,19 +98,24 @@ export default class GameboardComponent extends Component {
     // concreteContainer.removeEventListener('click', this.handleContainerClick);
   }
 
+  @action
+  scrollSouth() {
+    console.log('scroll south');
+    this.gameboard.scroll({x: 0, y:50});
+  }
 
   @action
   toggleTiles() {
     this.showTileGraphics = !this.showTileGraphics;
-    this.gameboard.viewport.layers[0].visible = this.showTileGraphics;
-    this.gameboard.viewport.render();
+    this.camera.viewport.layers[0].visible = this.showTileGraphics;
+    this.camera.viewport.render();
   }
 
   @action
   toggleHexInfo() {
     this.showTileHexInfo = !this.showTileHexInfo;
-    this.gameboard.viewport.layers[1].visible = this.showTileHexInfo;
-    this.gameboard.viewport.render();
+    this.camera.viewport.layers[1].visible = this.showTileHexInfo;
+    this.camera.viewport.render();
   }
 
   @action

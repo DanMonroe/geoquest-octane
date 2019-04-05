@@ -31,6 +31,9 @@
     </div>
   </section>
 </AnimatedContainer>
+<div class="cameraNav">
+    <button {{action "scrollSouth"}}>South</button>
+</div>
 <div class="debugWrapper">
   <div class="row">
     <div class="col label">
@@ -44,27 +47,33 @@
         Mouse Point:
       </div>
       <div>
-        Path Distance From Ship:
-      </div>
-      <div>
         Camera:
       </div>
     </div>
     <div class="col">
       <div>
-        {{input value=this.gameboard.mouseXY}}
+        {{this.gameboard.mouseXY}}
       </div>
       <div>
-        {{input value=this.gameboard.currentHex}}
+        {{this.gameboard.currentHex}}
       </div>
       <div>
         {{this.gameboard.mousePoint}}
       </div>
       <div>
-        {{this.gameboard.pathDistanceToMouseHex}}
+        X:{{this.camera.x}} Y:{{this.camera.y}}
       </div>
       <div>
-        {{this.camera}}
+        maxX:{{this.camera.maxX}} maxY:{{this.camera.maxY}}
+      </div>
+      <div>
+        viewport width:{{this.camera.viewportWidth}} height:{{this.camera.viewportHeight}}
+      </div>
+      <div>
+        world width:{{this.camera.worldX}} height:{{this.camera.worldY}}
+      </div>
+      <div>
+        max viewport hexes: X:{{this.camera.maxViewportHexesX}} Y:{{this.camera.maxViewportHexesY}}
       </div>
     </div>
     <div class="col">
@@ -82,6 +91,9 @@
       </div>
     </div>
     <div class="col">
+      <div>
+          Path Distance: {{this.gameboard.pathDistanceToMouseHex}}
+      </div>
       <div>
         Enemy Distance: {{this.game.enemyToPlayerDistance}}
       </div>

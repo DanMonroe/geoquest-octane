@@ -22,7 +22,7 @@ export default class GameService extends Service {
 
     onTransportMoved(transport, targetHex) {
     let shipHex = this.transport.transportHexes[0];
-    let pathDistanceToShipHex = this.mapService.findPath(this.mapService.twoDimensionalMap, shipHex, targetHex);
+    let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex);
     transport.playerDistance = pathDistanceToShipHex.length;
 
     this.enemyToPlayerDistance = pathDistanceToShipHex.length;

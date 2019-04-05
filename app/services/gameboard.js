@@ -1,27 +1,33 @@
 import Service from '@ember/service';
-import ENV from 'geoquest-octane/config/environment';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import concrete from 'concretejs';
 import { Point } from '../objects/point'
 import { Player } from '../objects/agents/player'
-import { Hex } from '../objects/hex'
 
 export default class GameboardService extends Service {
 
   @service ('map') mapService;
   @service ('hex') hexService;
+  @service ('camera') camera;
   @service ('transport') transport;
 
   @tracked rect = null;
+
+  @tracked mapOriginX = null;
+  @tracked mapOriginY = null;
+
   @tracked centerX = null;
   @tracked centerY = null;
+
   @tracked viewport;
+  @tracked redraw = false;
 
   @tracked pathDistanceToMouseHex = 0;
-  @tracked mousePoint;
-  @tracked mouseXY;
-  @tracked currentHex;
+  @tracked mousePoint = `X: Y:`;
+  @tracked mouseXY = `X: Y:`;
+  @tracked currentHex = `Q:  R:  S: `;
+
 
   setupQRSFromMap(map) {
 
@@ -65,19 +71,20 @@ export default class GameboardService extends Service {
       let subsetMapCols = [];
       for (let c = startCol; c < (startCol + colsToGrab); c++) {
         let thisMapObject = map.MAP[r][c];
-        console.log(thisMapObject);
+        // console.log(thisMapObject);
         subsetMapCols.push(thisMapObject);
       }
       subsetMap.push(subsetMapCols);
     }
-    console.log('subsetMap', subsetMap);
+    // console.log('subsetMap', subsetMap);
     this.mapService.set('hexMap', this.hexService.createHexesFromMap(subsetMap));
 
     // TODO  the createHexesFromMap is creating the coords of the hexes at 0,0,0 for the first one
     // TODO instead of figuring out what the hex q,r,s coords should be
 
 
-    this.mapService.set('twoDimensionalMap', map.MAP);
+    this.mapService.set('worldMap', map.MAP);
+    this.camera.setUpWorldMap();
 
     // create viewport
     let viewport = new concrete.Viewport({
@@ -101,30 +108,29 @@ export default class GameboardService extends Service {
     // add layers
     viewport.add(gameLayer).add(hexLayer).add(mouseLayer);
 
-    this.viewport = viewport;
+    // this.viewport = viewport;
+    this.camera.viewport = viewport;
+    this.camera.viewportWidth = viewport.width;
+    this.camera.viewportHeight = viewport.height;
+    console.log('viewport', viewport);
+
 
     // let centerX = (viewport.width / 2);
     // let centerY = (viewport.height / 2);
 
     // this.mapService.set('mapOriginX', 50);
     // this.mapService.set('mapOriginY', 50);
-    this.mapService.set('mapOriginX', 100);
-    this.mapService.set('mapOriginY', 100);
+    this.mapService.set('mapOriginX', 25);
+    this.mapService.set('mapOriginY', 25);
 
     let centerX = 100;
     let centerY = 100;
     this.set('centerX', centerX);  // remove
     this.set('centerY', centerY);  // remove
 
-
-
-
-
     this.drawGrid(
       "gamecanvas",
-      "hsl(60, 10%, 85%)",
       true,
-      this.mapService.currentLayout,
       this.mapService.hexMap,
       true
     );
@@ -136,54 +142,72 @@ export default class GameboardService extends Service {
     false);
 
     concreteContainer.addEventListener('click', (event) => {
-      if (this.viewport) {
+      if (this.camera.viewport) {
         this.hexClick(event)
       }
     });
 
     concreteContainer.addEventListener('mousemove', (event) => {
-      if (this.viewport) {
+      if (this.camera.viewport) {
         this.hexMouseMove(event)
       }
     });
   }
 
-  drawGrid(id, backgroundColor, withLabels, layout, hexes, withTiles) {
+  scroll(args) {
 
-    this.viewport.scene.clear();
+    let scrollX = args.x;
+    let scrollY = args.y;
 
-    var width = this.viewport.width;
-    var height = this.viewport.height;
+    console.log(scrollX, scrollY);
 
-    let hexcontext = this.viewport.layers[1].scene.context;
-    console.log('hexcontext', hexcontext);
-    hexcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
-    // hexcontext.translate(width/2, height/2);
+    this.redraw = true;
 
-    let gamecontext = this.viewport.layers[0].scene.context;
-    gamecontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
-    // gamecontext.translate(width/2, height/2);
+    // call another function that does:
+    if (this.redraw) {
 
-
-    // let generatedhexes = this.hexService.makeQDoubledRectangularShape(0, 5, 0, 5);
-// console.log('generated hexes', generatedhexes);
-
-    // generatedhexes.forEach((hex) => {
-    hexes.forEach((hex) => {
-      this.drawHex(hexcontext, layout, hex);
-      if (withLabels) this.drawHexLabel(hexcontext, layout, hex);
-      if (withTiles) this.drawHexTile(gamecontext, layout, hex);
-    });
-
-    this.viewport.render();
+      this.drawGrid(
+        "gamecanvas",
+        true,
+        this.mapService.hexMap,
+        true
+      );
+      this.redraw = false;
+    }
 
   }
 
-  drawHex(ctx, layout, hex, fillStyle, strokeStyle = "black") {
-// console.log(hex);
-    let corners = layout.polygonCorners(hex);
+  drawGrid(id, withLabels, hexes, withTiles) {
+  // drawGrid(id, backgroundColor, withLabels, layout, hexes, withTiles) {
 
-    // console.log('corners', corners, hex);
+    this.camera.viewport.scene.clear();
+
+
+    let hexcontext = this.camera.viewport.layers[1].scene.context;
+console.log('hexcontext', hexcontext, 'this.mapService.mapOriginX', this.mapService.mapOriginX, 'this.mapService.mapOriginY', this.mapService.mapOriginY);
+    hexcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
+
+    let gamecontext = this.camera.viewport.layers[0].scene.context;
+    gamecontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
+
+    hexcontext.fillStyle = "purple"
+    hexcontext.fillRect(this.mapService.mapOriginX-3, this.mapService.mapOriginY-3, 6, 6);
+
+    hexes.forEach((hex) => {
+      this.drawHex(hexcontext, hex);
+      if (withLabels) this.drawHexLabel(hexcontext, hex);
+      if (withTiles) this.drawHexTile(gamecontext, hex);
+    });
+
+    this.camera.viewport.render();
+
+  }
+
+  drawHex(ctx, hex, fillStyle, strokeStyle = "black") {
+// console.log(hex);
+    let corners = this.mapService.currentLayout.polygonCorners(hex);
+
+// console.log('corners', corners, hex);
     ctx.beginPath();
     ctx.strokeStyle = strokeStyle;
     ctx.lineWidth = 1;
@@ -198,8 +222,8 @@ export default class GameboardService extends Service {
 
   }
 
-  drawHexLabel(ctx, layout, hex) {
-    var center = layout.hexToPixel(hex);
+  drawHexLabel(ctx, hex) {
+    let center = this.mapService.currentLayout.hexToPixel(hex);
 // console.log('center', center);
     ctx.fillStyle = this.colorForHex(hex);
     ctx.font = "14px sans-serif";
@@ -208,18 +232,17 @@ export default class GameboardService extends Service {
 
     // TODO put map t (tile) back in when we add map to the hex
     ctx.fillText(('id:' + hex.map.id), center.x, center.y-15);
-    // ctx.fillText((hex.map.id + " " + hex.map.t), center.x, center.y-7);
     ctx.fillText((hex.col + "," + hex.row), center.x, center.y);
     ctx.fillText((hex.q + "," + hex.r + "," + hex.s), center.x, center.y+15);
-    // ctx.fillText((hex.q + "," + hex.r), center.x, center.y+8);
+
+    ctx.fillStyle="red";
+    ctx.fillRect(center.x-2, center.y-2, 4, 4);
   }
 
-  drawHexTile(ctx, layout, hex) {
-
-
-    let point = layout.hexToPixel(hex);
-    let x = Math.floor(point.x) - layout.size.x;
-    let y = Math.floor(point.y) - layout.size.y - 4;
+  drawHexTile(ctx, hex) {
+    let point = this.mapService.currentLayout.hexToPixel(hex);
+    let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
+    let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
 
     let tileGraphics = [];
     if (typeof hex.map.t === 'number') {
@@ -230,7 +253,7 @@ export default class GameboardService extends Service {
       });
     }
     tileGraphics.forEach((tile) => {
-      ctx.drawImage(tile , x, y, (layout.size.x*2)+1, (layout.size.y*2)+1);
+      ctx.drawImage(tile , x, y, (this.mapService.currentLayout.size.x*2)+1, (this.mapService.currentLayout.size.y*2)+1);
     })
   }
 
@@ -250,7 +273,7 @@ export default class GameboardService extends Service {
   }
 
   hexMouseMove(event) {
-    let boundingRect = this.viewport.container.getBoundingClientRect(),
+    let boundingRect = this.camera.viewport.container.getBoundingClientRect(),
       x = event.clientX - boundingRect.left - this.centerX,
       y = event.clientY - boundingRect.top -this.centerY;
 
@@ -266,7 +289,7 @@ export default class GameboardService extends Service {
     if(targetHex) {
       let shipHex = this.transport.transportHexes[Player.transportHexIndex];
       // let shipHex = this.transport.transportHexes[ENV.game.agents.player.index];
-      let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.twoDimensionalMap, shipHex, targetHex);
+      let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex);
       this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
     } else {
       this.pathDistanceToMouseHex = 0;
@@ -280,7 +303,7 @@ export default class GameboardService extends Service {
   hexClick(event) {
     // console.groupCollapsed('hex report');
 
-    let boundingRect = this.viewport.container.getBoundingClientRect(),
+    let boundingRect = this.camera.viewport.container.getBoundingClientRect(),
       x = event.clientX - boundingRect.left - this.centerX,
       y = event.clientY - boundingRect.top -this.centerY;
     let point = new Point({x:x, y:y});
@@ -291,14 +314,14 @@ export default class GameboardService extends Service {
       // move ship
       let shipHex = this.transport.transportHexes[Player.transportHexIndex];
       this.transport.moveShipToHexTask.cancelAll();
-      let path = this.mapService.findPath(this.mapService.twoDimensionalMap, shipHex, mappedHex);
+      let path = this.mapService.findPath(this.mapService.worldMap, shipHex, mappedHex);
       this.transport.moveShipAlongPath(path);
     }
     // console.groupEnd();
   }
 
   getMouse(e) {
-    let boundingRect = this.viewport.container.getBoundingClientRect();
+    let boundingRect = this.camera.viewport.container.getBoundingClientRect();
     var element = boundingRect, offsetX = 0, offsetY = 0, mx, my;
     // var element = this.canvas, offsetX = 0, offsetY = 0, mx, my;
 

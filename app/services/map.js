@@ -13,7 +13,7 @@ export default class MapService extends Service {
   @service ('path') pathService;
 
   hexMap = null;
-  twoDimensionalMap = null;
+  worldMap = null;
   tileGraphics = [];
   currentLayout = null;
   @tracked tilesLoaded = false;

@@ -10,10 +10,16 @@ body {
   background-color: lightgray;
 }
 
+#concreteContainer {
+  position: relative;
+  margin: 20px;
+  min-height: 330px;
+}
+
 #concreteContainer > canvas, #gamecanvas, #hexcanvas, #mousecanvas {
   height: 500px;
   width: 500px;
-  //position: absolute;
+  position: absolute;
   //top: 0;
   //left: 0;
 }
@@ -45,13 +51,14 @@ body {
   }
   .col {
     float: left;
-    width: 24%;
+    //width: 24%;
     &.label {
       text-align: right;
       margin-right: 10px;
     }
     div {
       margin-bottom: 10px;
+      white-space: nowrap;
     }
   }
   button {
