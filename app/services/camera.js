@@ -13,8 +13,8 @@ export default class CameraService extends Service {
    * In this implementation, we are assuming that (x,y)
    * points to the top left corner of visible portion of the map.
    */
-  x = 0;
-  y = 0;
+  @tracked x = 0;
+  @tracked y = 0;
 
   // camera viewport
   viewport = null;
@@ -90,15 +90,36 @@ export default class CameraService extends Service {
     let scrollX = args.x;
     let scrollY = args.y;
 
-    console.log(scrollX, scrollY);
+    this.x += scrollX;
+    this.y += scrollY;
+
+    // console.log(scrollX, scrollY);
 
     this.redraw = true;
 
     // call another function that does:
     if (this.redraw) {
 
-      this.viewport.layers[0].scene.context.translate(scrollX, scrollY);
-      this.viewport.layers[1].scene.context.translate(scrollX, scrollY);
+      let tilesslayer = this.viewport.layers[0];
+      let hexeslayer = this.viewport.layers[1];
+
+      // console.log(hexeslayer);
+
+      let absoluteX = Math.abs(this.x);
+      let absoluteY = Math.abs(this.y);
+
+      let clearStartX = -5 - this.mapService.mapOriginX;
+      let clearStartY = -5 - this.mapService.mapOriginY;
+      let clearEndX = 5 + hexeslayer.width + absoluteX;
+      let clearEndY = 5 + hexeslayer.height + absoluteY;
+
+      // console.log('clearing rect', clearStartX, clearStartY, clearEndX, clearEndY, hexeslayer.scene.context);
+
+      tilesslayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
+      hexeslayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
+
+      tilesslayer.scene.context.translate(scrollX, scrollY);
+      hexeslayer.scene.context.translate(scrollX, scrollY);
 
       // move drawGrid into camera service?
       this.gameboard.drawGrid(

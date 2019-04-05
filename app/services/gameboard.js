@@ -112,7 +112,7 @@ export default class GameboardService extends Service {
     this.camera.viewport = viewport;
     this.camera.viewportWidth = viewport.width;
     this.camera.viewportHeight = viewport.height;
-    console.log('viewport', viewport);
+    // console.log('viewport', viewport);
 
 
     // let centerX = (viewport.width / 2);
@@ -185,20 +185,9 @@ export default class GameboardService extends Service {
   // }
 
   drawGrid(id, withLabels, hexes, withTiles) {
-  // drawGrid(id, backgroundColor, withLabels, layout, hexes, withTiles) {
 
-    this.camera.viewport.scene.clear();
-
-
-    let hexcontext = this.camera.viewport.layers[1].scene.context;
-// // console.log('hexcontext', hexcontext, 'this.mapService.mapOriginX', this.mapService.mapOriginX, 'this.mapService.mapOriginY', this.mapService.mapOriginY);
-//     hexcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
-//
     let gamecontext = this.camera.viewport.layers[0].scene.context;
-//     gamecontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
-
-    // hexcontext.fillStyle = "purple"
-    // hexcontext.fillRect(this.mapService.mapOriginX-3, this.mapService.mapOriginY-3, 6, 6);
+    let hexcontext = this.camera.viewport.layers[1].scene.context;
 
     hexes.forEach((hex) => {
       this.drawHex(hexcontext, hex);
@@ -207,7 +196,6 @@ export default class GameboardService extends Service {
     });
 
     this.camera.viewport.render();
-
   }
 
   drawHex(ctx, hex, fillStyle, strokeStyle = "black") {
