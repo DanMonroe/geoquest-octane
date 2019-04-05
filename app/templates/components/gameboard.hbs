@@ -31,13 +31,32 @@
     </div>
   </section>
 </AnimatedContainer>
+
 <div class="cameraNav">
-    <button {{action "doSomething"}}>Do it</button>
-    <button {{action "scrollNorth"}}>North</button>
-    <button {{action "scrollEast"}}>East</button>
-    <button {{action "scrollWest"}}>West</button>
-    <button {{action "scrollSouth"}}>South</button>
+  <span>Scroll Map:</span>
+  <PressAndHoldButton
+    @press={{perform this.camera.scrollMap 0 5}}
+    @release={{cancel-all this.camera.scrollMap}}>
+    North
+  </PressAndHoldButton>
+  <PressAndHoldButton
+    @press={{perform this.camera.scrollMap -5 0}}
+    @release={{cancel-all this.camera.scrollMap}}>
+    East
+  </PressAndHoldButton>
+  <PressAndHoldButton
+    @press={{perform this.camera.scrollMap 5 0}}
+    @release={{cancel-all this.camera.scrollMap}}>
+    West
+  </PressAndHoldButton>
+  <PressAndHoldButton
+    @press={{perform this.camera.scrollMap 0 -5 }}
+    @release={{cancel-all this.camera.scrollMap}}>
+    South
+  </PressAndHoldButton>
+  <button {{action "doSomething"}}>Do it</button>
 </div>
+
 <div class="debugWrapper">
   <div class="row">
     <div class="col label">

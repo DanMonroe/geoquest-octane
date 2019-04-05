@@ -2,6 +2,7 @@ import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import {assert} from '@ember/debug';
+import { task, timeout } from 'ember-concurrency';
 
 export default class CameraService extends Service {
 
@@ -84,6 +85,18 @@ export default class CameraService extends Service {
   get maxViewportHexesY() {
     return Math.floor(this.viewportHeight / this.mapService.currentLayout.hexHeight());
   }
+
+  // http://ember-concurrency.com/docs/examples/increment-buttons
+  @task( function*(x, y) {
+    let speed = 300;
+    while (true) {
+
+      this.scroll({x: x, y: y});
+
+      yield timeout(speed);
+      speed = Math.max(25, speed * 0.8);
+    }
+  }) scrollMap;
 
   scroll(args) {
 
