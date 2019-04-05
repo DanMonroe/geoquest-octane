@@ -123,8 +123,8 @@ export default class CameraService extends Service {
 
       let clearStartX = -5 - this.mapService.mapOriginX;
       let clearStartY = -5 - this.mapService.mapOriginY;
-      let clearEndX = 5 + hexeslayer.width + absoluteX;
-      let clearEndY = 5 + hexeslayer.height + absoluteY;
+      let clearEndX = 15 + hexeslayer.width + absoluteX;
+      let clearEndY = 15 + hexeslayer.height + absoluteY;
 
       // console.log('clearing rect', clearStartX, clearStartY, clearEndX, clearEndY, hexeslayer.scene.context);
 
