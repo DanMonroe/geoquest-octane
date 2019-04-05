@@ -16,8 +16,6 @@ export default class GameboardComponent extends Component {
   @service ('game') game;
   @service ('camera') camera;
 
-  // @tracked showShip = true;
-
   // @tracked showTileGraphics = false;
   @tracked showTileGraphics = false;
   @tracked showTileHexInfo = true;
@@ -98,10 +96,18 @@ export default class GameboardComponent extends Component {
     // concreteContainer.removeEventListener('click', this.handleContainerClick);
   }
 
+  // TODO make nav buttons speed up like ember-concurrency demo
+  // http://ember-concurrency.com/docs/examples/increment-buttons
+  
   @action
   scrollSouth() {
     console.log('scroll south');
-    this.gameboard.scroll({x: 0, y:50});
+    this.camera.scroll({x: 0, y:5});
+  }
+  @action
+  scrollEast() {
+    console.log('scroll east');
+    this.camera.scroll({x: 5, y:0});
   }
 
   @action

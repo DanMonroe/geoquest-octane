@@ -12,19 +12,21 @@ export default class MapService extends Service {
   @service ('map') mapService;
   @service ('path') pathService;
 
+  @tracked hexSize = 36; //
+
   hexMap = null;
   worldMap = null;
   tileGraphics = [];
   currentLayout = null;
   @tracked tilesLoaded = false;
 
-  @tracked mapOriginX = null;
-  @tracked mapOriginY = null;
+  @tracked mapOriginX = 36;
+  @tracked mapOriginY = 36;
 
   loadLayout() {
     this.currentLayout = new Layout({
       orientation: Layout.FLAT,
-      size: new Point({x:36, y:36}),
+      size: new Point({x:this.hexSize, y:this.hexSize}),
       origin: new Point({x:0, y:0})
     });
   }

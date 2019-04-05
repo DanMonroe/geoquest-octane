@@ -6,6 +6,7 @@ import {assert} from '@ember/debug';
 export default class CameraService extends Service {
 
   @service ('map') mapService;
+  @service ('gameboard') gameboard;  // remove this ?
 
   /**
    * x and y: The current position of the camera.
@@ -83,4 +84,32 @@ export default class CameraService extends Service {
   get maxViewportHexesY() {
     return Math.floor(this.viewportHeight / this.mapService.currentLayout.hexHeight());
   }
+
+  scroll(args) {
+
+    let scrollX = args.x;
+    let scrollY = args.y;
+
+    console.log(scrollX, scrollY);
+
+    this.redraw = true;
+
+    // call another function that does:
+    if (this.redraw) {
+
+      this.viewport.layers[0].scene.context.translate(scrollX, scrollY);
+      this.viewport.layers[1].scene.context.translate(scrollX, scrollY);
+
+      // move drawGrid into camera service?
+      this.gameboard.drawGrid(
+        "gamecanvas",
+        true,
+        this.mapService.hexMap,
+        true
+      );
+      this.redraw = false;
+    }
+
+  }
+
 }

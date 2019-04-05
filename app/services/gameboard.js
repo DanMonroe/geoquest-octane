@@ -63,10 +63,10 @@ export default class GameboardService extends Service {
     // id: 36,col: 2,row: 3,
 
     let subsetMap = [];
-    let rowsToGrab = 3;
-    let colsToGrab = 4;
-    let startRow = 2;
-    let startCol = 2
+    let rowsToGrab = 8;
+    let colsToGrab = 16;
+    let startRow = 0;
+    let startCol = 0
     for (let r = startRow; r < (startRow + rowsToGrab); r++) {
       let subsetMapCols = [];
       for (let c = startCol; c < (startCol + colsToGrab); c++) {
@@ -120,13 +120,20 @@ export default class GameboardService extends Service {
 
     // this.mapService.set('mapOriginX', 50);
     // this.mapService.set('mapOriginY', 50);
-    this.mapService.set('mapOriginX', 25);
-    this.mapService.set('mapOriginY', 25);
+    // this.mapService.set('mapOriginX', 36);
+    // this.mapService.set('mapOriginY', 36);
 
     let centerX = 100;
     let centerY = 100;
     this.set('centerX', centerX);  // remove
     this.set('centerY', centerY);  // remove
+
+
+    let hexcontext = this.camera.viewport.layers[1].scene.context;
+    hexcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
+
+    let gamecontext = this.camera.viewport.layers[0].scene.context;
+    gamecontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
 
     this.drawGrid(
       "gamecanvas",
@@ -154,28 +161,28 @@ export default class GameboardService extends Service {
     });
   }
 
-  scroll(args) {
-
-    let scrollX = args.x;
-    let scrollY = args.y;
-
-    console.log(scrollX, scrollY);
-
-    this.redraw = true;
-
-    // call another function that does:
-    if (this.redraw) {
-
-      this.drawGrid(
-        "gamecanvas",
-        true,
-        this.mapService.hexMap,
-        true
-      );
-      this.redraw = false;
-    }
-
-  }
+  // scroll(args) {
+  //
+  //   let scrollX = args.x;
+  //   let scrollY = args.y;
+  //
+  //   console.log(scrollX, scrollY);
+  //
+  //   this.redraw = true;
+  //
+  //   // call another function that does:
+  //   if (this.redraw) {
+  //
+  //     this.drawGrid(
+  //       "gamecanvas",
+  //       true,
+  //       this.mapService.hexMap,
+  //       true
+  //     );
+  //     this.redraw = false;
+  //   }
+  //
+  // }
 
   drawGrid(id, withLabels, hexes, withTiles) {
   // drawGrid(id, backgroundColor, withLabels, layout, hexes, withTiles) {
@@ -184,14 +191,14 @@ export default class GameboardService extends Service {
 
 
     let hexcontext = this.camera.viewport.layers[1].scene.context;
-console.log('hexcontext', hexcontext, 'this.mapService.mapOriginX', this.mapService.mapOriginX, 'this.mapService.mapOriginY', this.mapService.mapOriginY);
-    hexcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
-
+// // console.log('hexcontext', hexcontext, 'this.mapService.mapOriginX', this.mapService.mapOriginX, 'this.mapService.mapOriginY', this.mapService.mapOriginY);
+//     hexcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
+//
     let gamecontext = this.camera.viewport.layers[0].scene.context;
-    gamecontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
+//     gamecontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
 
-    hexcontext.fillStyle = "purple"
-    hexcontext.fillRect(this.mapService.mapOriginX-3, this.mapService.mapOriginY-3, 6, 6);
+    // hexcontext.fillStyle = "purple"
+    // hexcontext.fillRect(this.mapService.mapOriginX-3, this.mapService.mapOriginY-3, 6, 6);
 
     hexes.forEach((hex) => {
       this.drawHex(hexcontext, hex);
