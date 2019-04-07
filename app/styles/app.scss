@@ -44,6 +44,8 @@ body {
 }
 
 .debugWrapper {
+  margin: 5px;
+
   .row:after {
     content: "";
     display: table;
@@ -61,10 +63,10 @@ body {
       white-space: nowrap;
     }
   }
+}
   button {
     padding: 5px;
   }
-}
 
 .hideTiles {
   display: none;

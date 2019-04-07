@@ -54,8 +54,8 @@ export default class CameraService extends Service {
   setUpWorldMap() {
     assert("Must set currentLayout and worldMap", this.mapService.currentLayout && this.mapService.worldMap);
 
-    let hexWidth = this.mapService.currentLayout.hexWidth();
-    let hexHeight = this.mapService.currentLayout.hexHeight();
+    let hexWidth = this.mapService.currentLayout.hexWidth;
+    let hexHeight = this.mapService.currentLayout.hexHeight;
     // console.log('hexWidth', hexWidth, 'hexHeight', hexHeight);
 
     let mapRows = this.mapService.worldMap.length
@@ -80,10 +80,16 @@ export default class CameraService extends Service {
 
   // How many hexes fit in the viewport:
   get maxViewportHexesX() {
-    return Math.floor(this.viewportWidth / this.mapService.currentLayout.hexWidth());
+    // let hexPairWidth = this.mapService.currentLayout.hexWidth * 1.5;
+    let numPairs = Math.floor(this.viewportWidth / this.mapService.currentLayout.hexPairWidth);
+    let viewportWidthRemainder = this.viewportWidth - (numPairs * this.mapService.currentLayout.hexPairWidth);
+    return viewportWidthRemainder >= this.mapService.currentLayout.hexWidth ?
+      (numPairs * 2) + 1 :
+      numPairs * 2;
   }
   get maxViewportHexesY() {
-    return Math.floor(this.viewportHeight / this.mapService.currentLayout.hexHeight());
+    let viewportHeightMinusHalfHex = this.viewportHeight - (this.mapService.currentLayout.hexHeight / 2);
+    return Math.floor(viewportHeightMinusHalfHex / this.mapService.currentLayout.hexHeight);
   }
 
   // http://ember-concurrency.com/docs/examples/increment-buttons
@@ -99,7 +105,7 @@ export default class CameraService extends Service {
   }) scrollMap;
 
   scroll(args) {
-
+// console.log(args);
     let scrollX = args.x;
     let scrollY = args.y;
 
@@ -113,24 +119,114 @@ export default class CameraService extends Service {
     // call another function that does:
     if (this.redraw) {
 
+      // TODO
+      /*
+      As we scroll, figure out when to grab a new section of hexes and reset hexMap
+
+      >>>>  Find out the most LeftX, LeftY, RightX, RightY during the loading of the hexes
+      >>>>  Use the first and last Point.  they have the x,y coords we need
+
+
+      if this.x + viewport width > width of currently selected hexes
+
+      this.gameboard.setHexmapSubset(startRow, startCol, rowsToGrab, colsToGrab);
+
+     */
+
+
       let tilesslayer = this.viewport.layers[0];
       let hexeslayer = this.viewport.layers[1];
 
       // console.log(hexeslayer);
 
-      let absoluteX = Math.abs(this.x);
-      let absoluteY = Math.abs(this.y);
+
+      // console.log('absoluteX', absoluteX);
+      // console.log(this.mapService.worldMap[0].length);
+      // console.log(this.mapService.numCols);
+
+
+      // maxRightXLoaded = x coord of right side of the last hex of the loaded hexes
+      // minLeftXLoaded = x coord of left side of the first hex of the loaded hexes
+      /**
+       *
+      432 - rightpoint
+      400 viewport
+      72 = hex width
+       absoluteX / 2  = 36
+       */
+
+      // 400 + 36 > 432   - load new
+
+      // East
+      if (scrollX < 0) {
+        // console.log(this.viewportWidth + (-this.x / 2));
+        if (this.viewportWidth + (-this.x) > this.mapService.bottomRightPoint.x + (this.mapService.currentLayout.hexWidth / 2)) {
+          // console.log('this.mapService.startCol + this.mapService.numCols', this.mapService.startCol + this.mapService.numCols);
+          if ((this.mapService.startCol + this.mapService.numCols) < this.mapService.worldMap[0].length) {
+
+            // console.log('load new hexes');
+            this.gameboard.setHexmapSubset(this.mapService.startRow, this.mapService.startCol + 1, this.mapService.numRows, this.mapService.numCols);
+          } else {
+            // console.log('hit eastern most limit');
+          }
+        }
+      }
+
+      // South
+      if (scrollY < 0) {
+        // console.log(this.viewportHeight + (-this.y), this.mapService.bottomRightPoint.y);
+        if (this.viewportHeight + (-this.y) >= this.mapService.bottomRightPoint.y) {
+          // console.log('this.mapService.startRow + this.mapService.numRows', this.mapService.startRow + this.mapService.numRows);
+          if ((this.mapService.startRow + this.mapService.numRows) < this.mapService.worldMap.length) {
+
+            // console.log('load new hexes');
+            this.gameboard.setHexmapSubset(this.mapService.startRow + 1, this.mapService.startCol, this.mapService.numRows, this.mapService.numCols);
+          } else {
+            // console.log('hit southern most limit');
+          }
+        }
+      }
+
+      // North
+      if (scrollY > 0) {
+        // console.log(-this.y - this.mapService.currentLayout.hexHeight, this.mapService.topLeftPoint.y);
+        if (-this.y - this.mapService.currentLayout.hexHeight <= this.mapService.topLeftPoint.y) {
+          if (this.mapService.startRow > 0) {
+
+            // console.log('load new hexes');
+            this.gameboard.setHexmapSubset(this.mapService.startRow - 1, this.mapService.startCol, this.mapService.numRows, this.mapService.numCols);
+          } else {
+            // console.log('hit northern most limit');
+          }
+        }
+      }
+
+      // West
+      if (scrollX > 0) {
+        // console.log(-this.x - this.mapService.currentLayout.hexWidth, this.mapService.topLeftPoint.x);
+        if (-this.x - this.mapService.currentLayout.hexWidth <= this.mapService.topLeftPoint.x - (this.mapService.currentLayout.hexWidth/2)) {
+          if (this.mapService.startCol > 0) {
+
+            // console.log('load new hexes');
+            this.gameboard.setHexmapSubset(this.mapService.startRow, this.mapService.startCol-1, this.mapService.numRows, this.mapService.numCols);
+          } else {
+            // console.log('hit western most limit');
+          }
+        }
+      }
+
+
+
+      // clear rectangle
 
       let clearStartX = -5 - this.mapService.mapOriginX;
       let clearStartY = -5 - this.mapService.mapOriginY;
-      let clearEndX = 15 + hexeslayer.width + absoluteX;
-      let clearEndY = 15 + hexeslayer.height + absoluteY;
-
-      // console.log('clearing rect', clearStartX, clearStartY, clearEndX, clearEndY, hexeslayer.scene.context);
-
+      let clearEndX = 15 + hexeslayer.width + Math.abs(this.x);
+      let clearEndY = 15 + hexeslayer.height + Math.abs(this.y);
       tilesslayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
       hexeslayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
 
+      // Move
       tilesslayer.scene.context.translate(scrollX, scrollY);
       hexeslayer.scene.context.translate(scrollX, scrollY);
 
@@ -141,6 +237,11 @@ export default class CameraService extends Service {
         this.mapService.hexMap,
         true
       );
+
+
+
+
+
       this.redraw = false;
     }
 

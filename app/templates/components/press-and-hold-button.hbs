@@ -1,0 +1,11 @@
+<button
+  class="btn"
+  role="button"
+  onmousedown={{action "sendPress"}}
+  onmouseleave={{action "sendRelease"}}
+  onmouseup={{action "sendRelease"}}
+  ontouchstart={{action "sendPress"}}
+  ontouchend={{action "sendRelease"}}
+  ...attributes>
+  {{yield}}
+</button>

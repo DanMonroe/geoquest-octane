@@ -35,22 +35,22 @@
 <div class="cameraNav">
   <span>Scroll Map:</span>
   <PressAndHoldButton
-    @press={{perform this.camera.scrollMap 0 5}}
+    @press={{perform this.camera.scrollMap 0 6}}
     @release={{cancel-all this.camera.scrollMap}}>
     North
   </PressAndHoldButton>
   <PressAndHoldButton
-    @press={{perform this.camera.scrollMap -5 0}}
+    @press={{perform this.camera.scrollMap -6 0}}
     @release={{cancel-all this.camera.scrollMap}}>
     East
   </PressAndHoldButton>
   <PressAndHoldButton
-    @press={{perform this.camera.scrollMap 5 0}}
+    @press={{perform this.camera.scrollMap 6 0}}
     @release={{cancel-all this.camera.scrollMap}}>
     West
   </PressAndHoldButton>
   <PressAndHoldButton
-    @press={{perform this.camera.scrollMap 0 -5 }}
+    @press={{perform this.camera.scrollMap 0 -6 }}
     @release={{cancel-all this.camera.scrollMap}}>
     South
   </PressAndHoldButton>
@@ -97,6 +97,15 @@
       </div>
       <div>
         max viewport hexes: X:{{this.camera.maxViewportHexesX}} Y:{{this.camera.maxViewportHexesY}}
+      </div>
+      <div>
+        hexes: width:{{this.mapService.currentLayout.hexWidth}} height:{{this.mapService.currentLayout.hexHeight}}
+      </div>
+      <div>
+        top left: x:{{this.mapService.topLeftPoint.x}} y:{{this.mapService.topLeftPoint.y}}
+      </div>
+      <div>
+        bottom right: x:{{this.mapService.bottomRightPoint.x}} y:{{this.mapService.bottomRightPoint.y}}
       </div>
     </div>
     <div class="col">

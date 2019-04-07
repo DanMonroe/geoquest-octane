@@ -56,28 +56,31 @@ export default class GameboardService extends Service {
 
     // this.mapService.set('hexMap', this.hexService.createHexesFromMap(map.MAP));
 
-    // subset of hexes:
-    // this.mapService.hexMap is ALL the hexes
-    // can we draw only the number of hexes that will fit in the canvas viewport?
-    // lets try 3 x 4 first, starting with id 35 (2, 1, -3)  map5 is row:2, col:2
-    // id: 36,col: 2,row: 3,
-
-    let subsetMap = [];
-    let rowsToGrab = 8;
-    let colsToGrab = 16;
-    let startRow = 0;
-    let startCol = 0
-    for (let r = startRow; r < (startRow + rowsToGrab); r++) {
-      let subsetMapCols = [];
-      for (let c = startCol; c < (startCol + colsToGrab); c++) {
-        let thisMapObject = map.MAP[r][c];
-        // console.log(thisMapObject);
-        subsetMapCols.push(thisMapObject);
-      }
-      subsetMap.push(subsetMapCols);
-    }
-    // console.log('subsetMap', subsetMap);
-    this.mapService.set('hexMap', this.hexService.createHexesFromMap(subsetMap));
+    // // subset of hexes:
+    // // this.mapService.hexMap is ALL the hexes
+    // // can we draw only the number of hexes that will fit in the canvas viewport?
+    // // lets try 3 x 4 first, starting with id 35 (2, 1, -3)  map5 is row:2, col:2
+    // // id: 36,col: 2,row: 3,
+    //
+    // console.log('x hexes', this.camera.maxViewportHexesX);
+    // console.log('y hexes', this.camera.maxViewportHexesY);
+    //
+    // let subsetMap = [];
+    // let rowsToGrab = 8;
+    // let colsToGrab = 16;
+    // let startRow = 0;
+    // let startCol = 0
+    // for (let r = startRow; r < (startRow + rowsToGrab); r++) {
+    //   let subsetMapCols = [];
+    //   for (let c = startCol; c < (startCol + colsToGrab); c++) {
+    //     let thisMapObject = map.MAP[r][c];
+    //     // console.log(thisMapObject);
+    //     subsetMapCols.push(thisMapObject);
+    //   }
+    //   subsetMap.push(subsetMapCols);
+    // }
+    // // console.log('subsetMap', subsetMap);
+    // this.mapService.set('hexMap', this.hexService.createHexesFromMap(subsetMap));
 
     // TODO  the createHexesFromMap is creating the coords of the hexes at 0,0,0 for the first one
     // TODO instead of figuring out what the hex q,r,s coords should be
@@ -88,7 +91,7 @@ export default class GameboardService extends Service {
 
     // create viewport
     let viewport = new concrete.Viewport({
-      width: 340,
+      width: 400,
       height: 325,
       container: concreteContainer
     });
@@ -115,13 +118,27 @@ export default class GameboardService extends Service {
     // console.log('viewport', viewport);
 
 
-    // let centerX = (viewport.width / 2);
-    // let centerY = (viewport.height / 2);
 
-    // this.mapService.set('mapOriginX', 50);
-    // this.mapService.set('mapOriginY', 50);
-    // this.mapService.set('mapOriginX', 36);
-    // this.mapService.set('mapOriginY', 36);
+    // subset of hexes:
+    // this.mapService.hexMap is ALL the hexes
+    // can we draw only the number of hexes that will fit in the canvas viewport?
+    // lets try 3 x 4 first, starting with id 35 (2, 1, -3)  map5 is row:2, col:2
+    // id: 36,col: 2,row: 3,
+
+    // console.log('x hexes', this.camera.maxViewportHexesX);
+    // console.log('y hexes', this.camera.maxViewportHexesY);
+
+
+    let colsToGrab = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
+    let rowsToGrab = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
+    // let rowsToGrab = 8;
+    // let colsToGrab = 16;
+    let startRow = 0;
+    let startCol = 0
+
+    this.setHexmapSubset(startRow, startCol, rowsToGrab, colsToGrab);
+
+
 
     let centerX = 100;
     let centerY = 100;
@@ -161,28 +178,46 @@ export default class GameboardService extends Service {
     });
   }
 
-  // scroll(args) {
-  //
-  //   let scrollX = args.x;
-  //   let scrollY = args.y;
-  //
-  //   console.log(scrollX, scrollY);
-  //
-  //   this.redraw = true;
-  //
-  //   // call another function that does:
-  //   if (this.redraw) {
-  //
-  //     this.drawGrid(
-  //       "gamecanvas",
-  //       true,
-  //       this.mapService.hexMap,
-  //       true
-  //     );
-  //     this.redraw = false;
-  //   }
-  //
-  // }
+  // TODO
+  /**
+   *
+>>>>  Find out the most LeftX, LeftY, RightX, RightY during the loading of the hexes
+>>>>  Use the first and last Point.  they have the x,y coords we need
+   *
+   */
+
+  setHexmapSubset(startRow, startCol, numRows, numCols) {
+    let subsetMap = [];
+    for (let r = startRow; r < (startRow + numRows); r++) {
+      let subsetMapCols = [];
+      for (let c = startCol; c < (startCol + numCols); c++) {
+        let thisMapObject = this.mapService.worldMap[r][c];
+        // console.log(thisMapObject);
+        subsetMapCols.push(thisMapObject);
+      }
+      subsetMap.push(subsetMapCols);
+    }
+
+    // console.log('subsetMap', subsetMap);
+    this.mapService.set('hexMap', this.hexService.createHexesFromMap(subsetMap));
+    this.mapService.set('startRow', startRow);
+    this.mapService.set('startCol', startCol);
+    this.mapService.set('numRows', numRows);
+    this.mapService.set('numCols', numCols);
+
+    let mapLength = this.mapService.hexMap.length;
+    let topLeftPoint = this.mapService.currentLayout.hexToPixel(this.mapService.hexMap[0]);
+    let bottomRightPoint = this.mapService.currentLayout.hexToPixel(this.mapService.hexMap[mapLength-1]);
+    this.mapService.set('topLeftPoint', topLeftPoint);
+    this.mapService.set('bottomRightPoint', bottomRightPoint);
+
+    // console.log(this.mapService.hexMap[0], topLeftPoint);
+    // console.log(this.mapService.hexMap[mapLength-1], bottomRightPoint);
+  }
+
+  setMaxRightXLoaded() {
+
+  }
 
   drawGrid(id, withLabels, hexes, withTiles) {
 

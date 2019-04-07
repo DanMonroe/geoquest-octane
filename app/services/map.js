@@ -14,7 +14,7 @@ export default class MapService extends Service {
 
   @tracked hexSize = 36; //
 
-  hexMap = null;
+  @tracked hexMap = null;
   worldMap = null;
   tileGraphics = [];
   currentLayout = null;
@@ -23,12 +23,37 @@ export default class MapService extends Service {
   @tracked mapOriginX = 36;
   @tracked mapOriginY = 36;
 
+  // what hexes are currently loaded in the map
+  @tracked topLeftPoint;
+  @tracked bottomRightPoint;
+  @tracked startRow;
+  @tracked startCol;
+  @tracked numRows = 0;
+  @tracked numCols = 0;
+
+  get maxRightXLoaded() {
+    console.log('maxRightXLoaded');
+
+    if (!this.numCols) {
+      return 0;
+    }
+
+    if (this.numCols % 2 === 0) {
+      let width = (this.numCols / 2)
+    } else {
+    }
+  }
+
   loadLayout() {
     this.currentLayout = new Layout({
       orientation: Layout.FLAT,
       size: new Point({x:this.hexSize, y:this.hexSize}),
       origin: new Point({x:0, y:0})
     });
+
+    let hexPairWidth = this.currentLayout.hexWidth * 1.5;
+    return hexPairWidth;
+
   }
 
   loadTiles(map) {

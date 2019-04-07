@@ -32,29 +32,49 @@ export class Layout {
   orientation = null;
   size = null;
   origin = null;
+  _hexWidth = 0;
+  _hexPairWidth = 0;
+  _hexHeight = 0;
 
   constructor(args) {
     this.orientation = args.orientation;
     this.size = args.size;
     this.origin = args.origin;
-  }
 
-  hexWidth() {
-    if (!this.orientation) {
-      return 0;
-    }
-    return this.orientation.type === 'flat' ?
+    this.hexWidth = this.orientation.type === 'flat' ?
       2 * this.size.x :
       Math.sqrt(3) * this.size.x;
-  }
 
-  hexHeight() {
-    if (!this.orientation) {
-      return 0;
-    }
-    return this.orientation.type === 'flat' ?
+    this.hexHeight = this.orientation.type === 'flat' ?
       Math.sqrt(3) * this.size.y :
       2 * this.size.y;
+
+    this.hexPairWidth = this.hexWidth * 1.5;
+
+  }
+
+  get hexWidth() {
+    return this._hexWidth;
+  }
+
+  set hexWidth(width) {
+    this._hexWidth = width;
+  }
+
+  get hexHeight() {
+    return this._hexHeight;
+  }
+
+  set hexHeight(height) {
+    this._hexHeight = height;
+  }
+
+  get hexPairWidth() {
+    return this._hexPairWidth;
+  }
+
+  set hexPairWidth(width) {
+    this._hexPairWidth = width;
   }
 
   hexToPixel(h) {
@@ -98,8 +118,6 @@ export class Layout {
     let size = this.size;
     let angle = 2.0 * Math.PI * (M.start_angle - corner) / 6.0;
 
-// TODO here 4/4  17:40
-    // return new Point({x:(size.x * Math.cos(angle)) - 100, y:(size.y * Math.sin(angle)) - 100});
     return new Point({x:size.x * Math.cos(angle), y:size.y * Math.sin(angle)});
   }
 
