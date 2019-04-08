@@ -114,9 +114,14 @@ export default class MapService extends Service {
   findPath(gridIn, startHex, targetHex, options = {}) {
 // console.log('findPath', gridIn, startHex, targetHex);
 
+    if (options.debug) {
+      console.groupCollapsed(`findPath from ${startHex.id} to ${targetHex.id}`);
+    }
+
     var distance = this.pathService.heuristics.hex;
 
-    var closest = options.closest || false;
+    var closest = options.closest || true;
+    // console.log('closest', closest);
 
     let openHeap = this.createHeap();
     let graph = new Graph({
@@ -141,13 +146,31 @@ export default class MapService extends Service {
 
     openHeap.push(startNode);
 
+    if (options.debug) {
+      console.log('startNode', startNode, 'endNode', endNode);
+    }
+
+    let visitedCounter = 0;
+
     while (openHeap.size() > 0) {
+
       // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
       var currentNode = openHeap.pop();
+      if (options.debug) {
+        console.log('openHeap.size()', openHeap.size(), 'currentNode', currentNode);
+      }
 
       // End case -- result has been found, return the traced path.
       if (currentNode.id === endNode.id) {
-        return this.pathService.to(currentNode);
+        if (options.debug) {
+          console.log('currentNode.id === endNode.id - done');
+        }
+
+        let path = this.pathService.to(currentNode);
+        if (options.debug) {
+          console.groupEnd();
+        }
+        return path;
       }
 
       // Normal case -- move currentNode from open to closed, process each of its neighbors.
@@ -159,7 +182,14 @@ export default class MapService extends Service {
         var neighbor = neighbors[i];
 
         if(neighbor) {
-          if (neighbor.path.closed || neighbor.path.w !== 0 || !this.camera.hexWithinViewport(neighbor)) {
+
+          if (neighbor.path.closed || neighbor.path.w !== 0) {
+
+            // TODO hexWithinViewport is bust after scrolling....
+          // if (neighbor.path.closed || neighbor.path.w !== 0 || !this.camera.hexWithinViewport(neighbor)) {
+
+
+
             // TODO cant get theWall to work
             // if (neighbor.closed || neighbor.isWall) {
             // if (neighbor.closed || neighbor.isWall()) {
@@ -174,6 +204,13 @@ export default class MapService extends Service {
 
           if (!beenVisited || gScore < neighbor.path.g) {
 
+            if (options.debug) {
+              visitedCounter++;
+              console.log('visited neighbor', neighbor.id, visitedCounter, neighbor);
+              this.drawVisitedRect(neighbor, visitedCounter)
+
+            }
+
             // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
             neighbor.path.visited = true;
             neighbor.path.parent = currentNode;
@@ -182,7 +219,7 @@ export default class MapService extends Service {
             neighbor.path.f = neighbor.path.g + neighbor.path.h;
             graph.markDirty(neighbor);
             if (closest) {
-              // If the neighbour is closer than the current closestNode or if it's equally close but has
+              // If the neighbor is closer than the current closestNode or if it's equally close but has
               // a cheaper path than the current closest node then it becomes the closest node
               if (neighbor.path.h < closestNode.path.h || (neighbor.path.h === closestNode.path.h && neighbor.path.g < closestNode.path.g)) {
                 closestNode = neighbor;
@@ -194,6 +231,7 @@ export default class MapService extends Service {
               openHeap.push(neighbor);
             } else {
               // Already seen the node, but since it has been rescored we need to reorder it in the heap
+              console.log('rescoring');
               openHeap.rescoreElement(neighbor);
             }
           } // if
@@ -203,11 +241,32 @@ export default class MapService extends Service {
     } // while
 
     if (closest) {
-      return this.pathService.to(closestNode);
+      let path = this.pathService.to(closestNode);
+      if (options.debug) {
+        console.groupEnd();
+      }
+      // debugger;
+      return path;
     }
 
+    console.groupEnd();
     // No result was found - empty array signifies failure to find path.
     return [];
   }
 
+
+  drawVisitedRect(neighbor, visitedCounter) {
+
+      let ctx = this.camera.viewport.layers[2].scene.context;
+      let center = this.currentLayout.hexToPixel(neighbor);
+      ctx.fillStyle="yellow";
+      ctx.fillRect(center.x+15, center.y-18, 16, 12);
+      ctx.fillStyle = "black";
+      ctx.font = "10px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(visitedCounter, center.x+23, center.y-11);
+
+      this.camera.viewport.render();
+  }
 }

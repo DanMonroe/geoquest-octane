@@ -16,8 +16,9 @@ export default class GameboardComponent extends Component {
   @service ('camera') camera;
 
   // @tracked showTileGraphics = false;
-  @tracked showTileGraphics = false;
+  @tracked showTileGraphics = true;
   @tracked showTileHexInfo = true;
+  @tracked showDebugLayer = true;
   @tracked showTilesWithLabels = true;
 
   @tracked map = null;
@@ -76,7 +77,7 @@ export default class GameboardComponent extends Component {
   @action
   setupGame(concreteContainer) {
     this.gameboard.setupQRSFromMap(this.map.MAP);
-    this.gameboard.setupGameboardCanvases(concreteContainer, this.map, this.showTileHexInfo, this.showTileGraphics);
+    this.gameboard.setupGameboardCanvases(concreteContainer, this.map, this.showTileHexInfo, this.showTileGraphics, this.showDebugLayer);
     let agentsObj = this.transport.setupAgents(this.model.mapdata[this.mapIndex].agents);
 
     this.players = agentsObj.players;
@@ -98,15 +99,23 @@ export default class GameboardComponent extends Component {
   @action
   doSomething() {
 
-    let hexeslayer = this.camera.viewport.layers[1];
-console.log('viewport', this.camera.viewport);
-
-    hexeslayer.scene.context.fillStyle = "purple"
-    hexeslayer.scene.context.fillRect(-5 - this.mapService.mapOriginX, -5-this.mapService.mapOriginX, hexeslayer.width+5, hexeslayer.height+5);
-
-    this.camera.viewport.render();
+//     let hexeslayer = this.camera.viewport.layers[1];
+// // console.log('viewport', this.camera.viewport);
+//
+//     hexeslayer.scene.context.fillStyle = "purple"
+//     hexeslayer.scene.context.fillRect(-5 - this.mapService.mapOriginX, -5-this.mapService.mapOriginX, hexeslayer.width+5, hexeslayer.height+5);
+//
+//     this.camera.viewport.render();
   }
 
+
+  @action
+  toggleDebugLayer() {
+    this.showDebugLayer = !this.showDebugLayer;
+    this.camera.viewport.layers[2].visible = this.showDebugLayer;
+    this.gameboard.showDebugLayer = this.showDebugLayer;
+    this.camera.viewport.render();
+  }
 
   @action
   toggleTiles() {

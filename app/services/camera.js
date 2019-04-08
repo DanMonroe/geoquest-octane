@@ -95,22 +95,21 @@ export default class CameraService extends Service {
 
   hexWithinViewport (hex) {
     let point = this.mapService.currentLayout.hexToPixel(hex)
-    // console.log(point);
-    return (point.y + this.offsetY <= this.viewportHeight) &&
-      (point.x + this.offsetX >= 0) &&
-      (point.x + this.offsetX <= this.viewportWidth) &&
-      (point.y + this.offsetY >= 0)
+    // return (point.y + this.offsetY <= this.viewportHeight) &&
+    //   (point.x + this.offsetX >= 0) &&
+    //   (point.x + this.offsetX <= this.viewportWidth) &&
+    //   (point.y + this.offsetY >= 0)
 
-    // let isNorth = point.y + this.offsetY <= this.viewportHeight;
-    // let isEast = point.x + this.offsetX >= 0;
-    // let isWest = point.x + this.offsetX <= this.viewportWidth;
-    // let isSouth = point.y + this.offsetY >= 0;
-    //
-    // let inViewport = isNorth && isEast && isWest && isSouth;
-    // if (!inViewport) {
-    //   console.log(isNorth, isEast, isWest, isSouth, point, hex);
-    // }
-    // return inViewport;
+    let isNorth = point.y + this.offsetY <= this.viewportHeight;
+    let isEast = point.x + this.offsetX >= 0;
+    let isWest = point.x + this.offsetX <= this.viewportWidth;
+    let isSouth = point.y + this.offsetY >= 0;
+
+    let inViewport = isNorth && isEast && isWest && isSouth;
+    if (!inViewport) {
+      console.log(isNorth, isEast, isWest, isSouth, point, hex);
+    }
+    return inViewport;
   }
 
   // http://ember-concurrency.com/docs/examples/increment-buttons
@@ -157,6 +156,7 @@ export default class CameraService extends Service {
 
       let tilesslayer = this.viewport.layers[0];
       let hexeslayer = this.viewport.layers[1];
+      let debuglayer = this.viewport.layers[2];
 
       // console.log(hexeslayer);
 
@@ -250,6 +250,7 @@ export default class CameraService extends Service {
       // Move
       tilesslayer.scene.context.translate(scrollX, scrollY);
       hexeslayer.scene.context.translate(scrollX, scrollY);
+      debuglayer.scene.context.translate(scrollX, scrollY);
 
       // move drawGrid into camera service?
       this.gameboard.drawGrid(
