@@ -25,6 +25,9 @@ export default class CameraService extends Service {
    */
   @tracked viewportWidth = 0;
   @tracked viewportHeight = 0;
+  offsetX = 0;
+  offsetY = 0;
+
   // get viewportWidth() {
   //   // debugger;
   //   console.count();
@@ -56,7 +59,6 @@ export default class CameraService extends Service {
 
     let hexWidth = this.mapService.currentLayout.hexWidth;
     let hexHeight = this.mapService.currentLayout.hexHeight;
-    // console.log('hexWidth', hexWidth, 'hexHeight', hexHeight);
 
     let mapRows = this.mapService.worldMap.length
     let mapColumns = this.mapService.worldMap[0].length
@@ -72,9 +74,8 @@ export default class CameraService extends Service {
     let worldY = Math.round((mapRows * hexHeight) + (hexHeight / 2));
     this.set('worldY', worldY);
 
-    // console.log('mapRows', mapRows, 'mapColumns', mapColumns);
-    // console.log('worldX', worldX, 'worldY', worldY);
   }
+
   worldX = 0;
   worldY = 0;
 
@@ -90,6 +91,26 @@ export default class CameraService extends Service {
   get maxViewportHexesY() {
     let viewportHeightMinusHalfHex = this.viewportHeight - (this.mapService.currentLayout.hexHeight / 2);
     return Math.floor(viewportHeightMinusHalfHex / this.mapService.currentLayout.hexHeight);
+  }
+
+  hexWithinViewport (hex) {
+    let point = this.mapService.currentLayout.hexToPixel(hex)
+    // console.log(point);
+    return (point.y + this.offsetY <= this.viewportHeight) &&
+      (point.x + this.offsetX >= 0) &&
+      (point.x + this.offsetX <= this.viewportWidth) &&
+      (point.y + this.offsetY >= 0)
+
+    // let isNorth = point.y + this.offsetY <= this.viewportHeight;
+    // let isEast = point.x + this.offsetX >= 0;
+    // let isWest = point.x + this.offsetX <= this.viewportWidth;
+    // let isSouth = point.y + this.offsetY >= 0;
+    //
+    // let inViewport = isNorth && isEast && isWest && isSouth;
+    // if (!inViewport) {
+    //   console.log(isNorth, isEast, isWest, isSouth, point, hex);
+    // }
+    // return inViewport;
   }
 
   // http://ember-concurrency.com/docs/examples/increment-buttons

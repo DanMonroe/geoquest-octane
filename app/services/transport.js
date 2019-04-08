@@ -12,6 +12,7 @@ export default class TransportService extends Service {
 
   @service ('map') mapService;
   @service ('game') game;
+  @service ('camera') camera;
   @service ('gameboard') gameboard;
 
   @tracked players = emberArray();  // Needs to be an array for animated-each
@@ -41,6 +42,7 @@ export default class TransportService extends Service {
     }
     let playerStartPoint = this.mapService.currentLayout.hexToPixel(playerStartHex);
 
+    console.log('playerStartPoint', playerStartPoint);
     this.transportHexes.push(playerStartHex);
     this.transportPoints.push(playerStartPoint);
 
@@ -56,8 +58,10 @@ export default class TransportService extends Service {
     player.currentWaypoint = -1;
     player.state = agents.player.state
     player.hexLayout = this.mapService.currentLayout;
-    player.mapCenterX = this.gameboard.centerX;
-    player.mapCenterY = this.gameboard.centerY;
+    player.mapService = this.mapService;
+    player.camera = this.camera;
+    // player.mapCenterX = this.gameboard.centerX;
+    // player.mapCenterY = this.gameboard.centerY;
 
     this.players.push(player);
 

@@ -119,7 +119,9 @@ export class Graph {
     let currentRow = node.row;
 
     let directions = this.getDirections(currentCol);
-
+    // if (node.id === 116) {
+    //   console.group('node 116');
+    // }
     for (let i = 0; i < 6; i++) {
       let directionsCol = directions[i].col;
       let directionsRow = directions[i].row;
@@ -132,6 +134,10 @@ export class Graph {
       neighbors.push(neighbor);
 
     }
+    // if (node.id === 116) {
+    //   console.log('node 116', node, 'neighbors', neighbors);
+    //   console.groupEnd();
+    // }
     return neighbors;
   }
 
@@ -140,12 +146,15 @@ export class Graph {
       return null;
     }
     if (row < 0 || col < 0) {
+      // console.log('row < 0 || col < 0', row, col);
       return null;
     }
     if (row >= this.grid.length) {
+      // console.log('row >= this.grid.length', row, col, this.grid.length);
       return null;
     }
     if (col > this.grid[row].length) {
+      // console.log('col > this.grid[row].length', row, col, this.grid[row].length);
       return null;
     }
 

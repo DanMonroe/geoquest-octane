@@ -117,6 +117,11 @@ export default class GameboardService extends Service {
     this.camera.viewportHeight = viewport.height;
     // console.log('viewport', viewport);
 
+    let boundingRect = this.camera.viewport.container.getBoundingClientRect();
+    this.camera.offsetX = boundingRect.x;
+    this.camera.offsetY = boundingRect.y;
+
+
 
 
     // subset of hexes:
@@ -215,10 +220,6 @@ export default class GameboardService extends Service {
     // console.log(this.mapService.hexMap[mapLength-1], bottomRightPoint);
   }
 
-  setMaxRightXLoaded() {
-
-  }
-
   drawGrid(id, withLabels, hexes, withTiles) {
 
     let gamecontext = this.camera.viewport.layers[0].scene.context;
@@ -302,58 +303,79 @@ export default class GameboardService extends Service {
     }
   }
 
-  hexMouseMove(event) {
-    let boundingRect = this.camera.viewport.container.getBoundingClientRect(),
-      x = event.clientX - boundingRect.left - this.centerX,
-      y = event.clientY - boundingRect.top -this.centerY;
-
-    // let mouse = this.getMouse(event);
-    // console.log('mouse', mouse);
-    // let x = mouse.x + this.centerX;
-    // let y = mouse.y + this.centerY;
+  getHexAtMousePoint(event, shouldUpdateDebugInfo) {
+    let mouse = this.getMouse(event);
+    let x = mouse.x;
+    let y = mouse.y;
 
     let point = new Point({x:x, y:y});
     let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
     let targetHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
+
+    if(shouldUpdateDebugInfo) {
+      this.mouseXY = `X:${event.clientX} Y:${event.clientY}`;
+      this.mousePoint = `X:${point.x} Y:${point.y}`;
+      this.currentHex = `Q:${thisHex.q} R:${thisHex.r} S:${thisHex.s}`;
+    }
+
+    return targetHex;
+  }
+
+  hexMouseMove(event) {
+
+    let targetHex = this.getHexAtMousePoint(event, true);
+    // let mouse = this.getMouse(event);
+    // let x = mouse.x;
+    // let y = mouse.y;
+    //
+    // let point = new Point({x:x, y:y});
+    // let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
+    // // console.log('point', point, 'thisHex', thisHex);
+    // let targetHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
+
 
     if(targetHex) {
       let shipHex = this.transport.transportHexes[Player.transportHexIndex];
       // let shipHex = this.transport.transportHexes[ENV.game.agents.player.index];
       let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex);
       this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
+      // console.log(pathDistanceToMouseHex);
     } else {
       this.pathDistanceToMouseHex = 0;
     }
 
-    this.mouseXY = `X:${event.clientX} Y:${event.clientY}`;
-    this.mousePoint = `X:${point.x} Y:${point.y}`;
-    this.currentHex = `Q:${thisHex.q} R:${thisHex.r} S:${thisHex.s}`;
+    // this.mouseXY = `X:${event.clientX} Y:${event.clientY}`;
+    // this.mousePoint = `X:${point.x} Y:${point.y}`;
+    // this.currentHex = `Q:${thisHex.q} R:${thisHex.r} S:${thisHex.s}`;
   }
 
   hexClick(event) {
-    // console.groupCollapsed('hex report');
+    let targetHex = this.getHexAtMousePoint(event, false);
+    // let mouse = this.getMouse(event);
+    // let x = mouse.x;
+    // let y = mouse.y;
+    //
+    // let point = new Point({x:x, y:y});
+    // let clickedHex = this.mapService.currentLayout.pixelToHex(point).round();
+    // let mappedHex = this.mapService.findHexByQRS(clickedHex.q, clickedHex.r, clickedHex.s);
 
-    let boundingRect = this.camera.viewport.container.getBoundingClientRect(),
-      x = event.clientX - boundingRect.left - this.centerX,
-      y = event.clientY - boundingRect.top -this.centerY;
-    let point = new Point({x:x, y:y});
-    let clickedHex = this.mapService.currentLayout.pixelToHex(point).round();
-    let mappedHex = this.mapService.findHexByQRS(clickedHex.q, clickedHex.r, clickedHex.s);
-
-    if (mappedHex && mappedHex.id) {
+    if (targetHex && targetHex.id) {
+console.log('targetHex', targetHex);
       // move ship
       let shipHex = this.transport.transportHexes[Player.transportHexIndex];
       this.transport.moveShipToHexTask.cancelAll();
-      let path = this.mapService.findPath(this.mapService.worldMap, shipHex, mappedHex);
+      let path = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex);
+      console.log(path  );
       this.transport.moveShipAlongPath(path);
     }
-    // console.groupEnd();
   }
 
   getMouse(e) {
     let boundingRect = this.camera.viewport.container.getBoundingClientRect();
-    var element = boundingRect, offsetX = 0, offsetY = 0, mx, my;
-    // var element = this.canvas, offsetX = 0, offsetY = 0, mx, my;
+    // console.log('boundingRect',boundingRect);
+    var element = boundingRect, mx, my;
+    let offsetX = boundingRect.x + this.camera.x + this.mapService.currentLayout.halfHexWidth;
+    let offsetY = boundingRect.y + this.camera.y + this.mapService.currentLayout.halfHexWidth;
 
     // Compute the total offset
     if (element.offsetParent !== undefined) {

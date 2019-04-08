@@ -12,9 +12,13 @@ export class Player extends BaseAgent {
 
   get style() {
     if (this.hexLayout && this.hex) {
-      let point = this.hexLayout.hexToPixel(this.hex);
-      let newx = this.mapCenterX + parseFloat(point.x - 21);   // - 30
-      let newy = this.mapCenterY + parseFloat(point.y - 21);  // - 30
+
+      let agentsHexOnMap = this.mapService.findHexByQRS(this.hex.q, this.hex.r, this.hex.s);
+      let point = this.hexLayout.hexToPixel(agentsHexOnMap);
+      let newx = parseFloat(point.x + this.mapService.currentLayout.halfHexWidth + this.camera.x);   // - 30
+      let newy = parseFloat(point.y + this.mapService.currentLayout.halfHexWidth + this.camera.y);  // - 30
+      // let newx = parseFloat(point.x + 36);   // - 30
+      // let newy = parseFloat(point.y + 36);  // - 30
 
       return htmlSafe(`top: ${newy}px; left: ${newx}px;`);
     }

@@ -9,8 +9,9 @@ import { inject as service } from '@ember/service';
 export default class MapService extends Service {
 
   @service ('gameboard') gameboard;
-  @service ('map') mapService;
+  // @service ('map') mapService;
   @service ('path') pathService;
+  @service ('camera') camera;
 
   @tracked hexSize = 36; //
 
@@ -30,19 +31,6 @@ export default class MapService extends Service {
   @tracked startCol;
   @tracked numRows = 0;
   @tracked numCols = 0;
-
-  get maxRightXLoaded() {
-    console.log('maxRightXLoaded');
-
-    if (!this.numCols) {
-      return 0;
-    }
-
-    if (this.numCols % 2 === 0) {
-      let width = (this.numCols / 2)
-    } else {
-    }
-  }
 
   loadLayout() {
     this.currentLayout = new Layout({
@@ -131,7 +119,6 @@ export default class MapService extends Service {
     var closest = options.closest || false;
 
     let openHeap = this.createHeap();
-
     let graph = new Graph({
       gridIn: gridIn
     });
@@ -172,8 +159,8 @@ export default class MapService extends Service {
         var neighbor = neighbors[i];
 
         if(neighbor) {
-          // TODO cant get theWall to work
-          if (neighbor.path.closed || neighbor.path.w !== 0) {
+          if (neighbor.path.closed || neighbor.path.w !== 0 || !this.camera.hexWithinViewport(neighbor)) {
+            // TODO cant get theWall to work
             // if (neighbor.closed || neighbor.isWall) {
             // if (neighbor.closed || neighbor.isWall()) {
             // Not a valid node to process, skip to next neighbor.

@@ -33,6 +33,7 @@ export class Layout {
   size = null;
   origin = null;
   _hexWidth = 0;
+  _halfHexWidth = 0;
   _hexPairWidth = 0;
   _hexHeight = 0;
 
@@ -49,7 +50,8 @@ export class Layout {
       Math.sqrt(3) * this.size.y :
       2 * this.size.y;
 
-    this.hexPairWidth = this.hexWidth * 1.5;
+    this.hexPairWidth = Math.round(this.hexWidth * 1.5);
+    this.halfHexWidth = Math.round(this.hexWidth * .5);
 
   }
 
@@ -59,6 +61,14 @@ export class Layout {
 
   set hexWidth(width) {
     this._hexWidth = width;
+  }
+
+  get halfHexWidth() {
+    return this._halfHexWidth;
+  }
+
+  set halfHexWidth(width) {
+    this._halfHexWidth = width;
   }
 
   get hexHeight() {

@@ -18,5 +18,7 @@ export class BaseAgent {
   speed = null;
   patrol = null;
   currentWaypoint = -1;
+  @tracked mapService = null;
+  @tracked camera = null;
 
 }
