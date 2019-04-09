@@ -157,6 +157,8 @@ export default class CameraService extends Service {
       let tilesslayer = this.viewport.layers[0];
       let hexeslayer = this.viewport.layers[1];
       let debuglayer = this.viewport.layers[2];
+      let fovlayer = this.viewport.layers[3];
+      let fovblockedlayer = this.viewport.layers[4];
 
       // console.log(hexeslayer);
 
@@ -246,11 +248,15 @@ export default class CameraService extends Service {
       let clearEndY = 15 + hexeslayer.height + Math.abs(this.y);
       tilesslayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
       hexeslayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
+      fovlayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
+      fovblockedlayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
 
       // Move
       tilesslayer.scene.context.translate(scrollX, scrollY);
       hexeslayer.scene.context.translate(scrollX, scrollY);
       debuglayer.scene.context.translate(scrollX, scrollY);
+      fovlayer.scene.context.translate(scrollX, scrollY);
+      fovblockedlayer.scene.context.translate(scrollX, scrollY);
 
       // move drawGrid into camera service?
       this.gameboard.drawGrid(

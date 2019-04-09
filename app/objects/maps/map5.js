@@ -7,1064 +7,1068 @@ export class Map5 extends Basemap {
     "ZeshioHexKitDemo_104.png"  // sand
   ];
 
-  //{id: 210,col: 10,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+  // path:
+  // w: weight - 1 = blocks ships movement
+  // v: visual - 1 = blocks sight
+
+  //{id: 210,col: 10,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
   static MAP =
 
 [[
-{id: 1,col: 0,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 17,col: 1,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 33,col: 2,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 49,col: 3,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 65,col: 4,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 81,col: 5,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 97,col: 6,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 113,col: 7,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 129,col: 8,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 145,col: 9,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 161,col: 10,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 177,col: 11,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 193,col: 12,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 209,col: 13,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 225,col: 14,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 241,col: 15,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 257,col: 16,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 273,col: 17,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 289,col: 18,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 305,col: 19,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 321,col: 20,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 337,col: 21,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 353,col: 22,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 369,col: 23,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 385,col: 24,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 401,col: 25,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 417,col: 26,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 433,col: 27,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 449,col: 28,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 465,col: 29,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 481,col: 30,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 497,col: 31,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 513,col: 32,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 529,col: 33,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 545,col: 34,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 561,col: 35,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 577,col: 36,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 593,col: 37,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 609,col: 38,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 625,col: 39,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 641,col: 40,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 657,col: 41,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 673,col: 42,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 689,col: 43,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 705,col: 44,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 721,col: 45,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 737,col: 46,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 753,col: 47,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 769,col: 48,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 785,col: 49,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 801,col: 50,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 817,col: 51,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 833,col: 52,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 849,col: 53,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 865,col: 54,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 881,col: 55,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 897,col: 56,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 913,col: 57,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 929,col: 58,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 945,col: 59,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 961,col: 60,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 977,col: 61,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 993,col: 62,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1009,col: 63,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 1,col: 0,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 17,col: 1,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 33,col: 2,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 49,col: 3,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 65,col: 4,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 81,col: 5,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 97,col: 6,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 113,col: 7,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 129,col: 8,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 145,col: 9,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 161,col: 10,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 177,col: 11,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 193,col: 12,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 209,col: 13,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 225,col: 14,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 241,col: 15,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 257,col: 16,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 273,col: 17,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 289,col: 18,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 305,col: 19,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 321,col: 20,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 337,col: 21,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 353,col: 22,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 369,col: 23,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 385,col: 24,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 401,col: 25,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 417,col: 26,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 433,col: 27,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 449,col: 28,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 465,col: 29,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 481,col: 30,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 497,col: 31,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 513,col: 32,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 529,col: 33,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 545,col: 34,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 561,col: 35,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 577,col: 36,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 593,col: 37,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 609,col: 38,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 625,col: 39,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 641,col: 40,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 657,col: 41,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 673,col: 42,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 689,col: 43,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 705,col: 44,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 721,col: 45,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 737,col: 46,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 753,col: 47,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 769,col: 48,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 785,col: 49,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 801,col: 50,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 817,col: 51,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 833,col: 52,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 849,col: 53,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 865,col: 54,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 881,col: 55,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 897,col: 56,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 913,col: 57,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 929,col: 58,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 945,col: 59,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 961,col: 60,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 977,col: 61,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 993,col: 62,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1009,col: 63,row: 0, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 2,col: 0,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 18,col: 1,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 34,col: 2,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 50,col: 3,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 66,col: 4,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 2,col: 0,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 18,col: 1,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 34,col: 2,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 50,col: 3,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 66,col: 4,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 82,col: 5,row: 1, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}}
-,{id: 98,col: 6,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 114,col: 7,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 130,col: 8,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 146,col: 9,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 162,col: 10,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 178,col: 11,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 194,col: 12,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 210,col: 13,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 226,col: 14,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 242,col: 15,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 258,col: 16,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 274,col: 17,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 290,col: 18,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 306,col: 19,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 322,col: 20,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 338,col: 21,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 354,col: 22,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 370,col: 23,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 386,col: 24,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 402,col: 25,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 418,col: 26,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 434,col: 27,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 450,col: 28,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 466,col: 29,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 482,col: 30,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 498,col: 31,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 514,col: 32,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 530,col: 33,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 546,col: 34,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 562,col: 35,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 578,col: 36,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 594,col: 37,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 610,col: 38,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 626,col: 39,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 642,col: 40,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 658,col: 41,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 674,col: 42,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 690,col: 43,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 706,col: 44,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 722,col: 45,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 738,col: 46,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 754,col: 47,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 770,col: 48,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 786,col: 49,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 802,col: 50,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 818,col: 51,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 834,col: 52,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 850,col: 53,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 866,col: 54,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 882,col: 55,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 898,col: 56,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 914,col: 57,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 930,col: 58,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 946,col: 59,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 962,col: 60,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 978,col: 61,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 994,col: 62,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1010,col: 63,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+,{id: 98,col: 6,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 114,col: 7,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 130,col: 8,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 146,col: 9,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 162,col: 10,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 178,col: 11,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 194,col: 12,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 210,col: 13,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 226,col: 14,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 242,col: 15,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 258,col: 16,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 274,col: 17,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 290,col: 18,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 306,col: 19,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 322,col: 20,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 338,col: 21,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 354,col: 22,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 370,col: 23,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 386,col: 24,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 402,col: 25,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 418,col: 26,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 434,col: 27,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 450,col: 28,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 466,col: 29,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 482,col: 30,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 498,col: 31,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 514,col: 32,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 530,col: 33,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 546,col: 34,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 562,col: 35,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 578,col: 36,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 594,col: 37,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 610,col: 38,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 626,col: 39,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 642,col: 40,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 658,col: 41,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 674,col: 42,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 690,col: 43,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 706,col: 44,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 722,col: 45,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 738,col: 46,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 754,col: 47,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 770,col: 48,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 786,col: 49,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 802,col: 50,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 818,col: 51,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 834,col: 52,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 850,col: 53,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 866,col: 54,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 882,col: 55,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 898,col: 56,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 914,col: 57,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 930,col: 58,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 946,col: 59,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 962,col: 60,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 978,col: 61,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 994,col: 62,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1010,col: 63,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 3,col: 0,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 19,col: 1,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 35,col: 2,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 51,col: 3,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 67,col: 4,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 3,col: 0,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 19,col: 1,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 35,col: 2,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 51,col: 3,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 67,col: 4,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 83,col: 5,row: 2, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}}
-,{id: 99,col: 6,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 115,col: 7,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 131,col: 8,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 147,col: 9,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 163,col: 10,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 179,col: 11,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 195,col: 12,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 211,col: 13,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 227,col: 14,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 243,col: 15,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 259,col: 16,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 275,col: 17,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 291,col: 18,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 307,col: 19,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 323,col: 20,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 339,col: 21,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 355,col: 22,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 371,col: 23,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 387,col: 24,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 403,col: 25,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 419,col: 26,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 435,col: 27,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 451,col: 28,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 467,col: 29,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 483,col: 30,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 499,col: 31,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 515,col: 32,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 531,col: 33,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 547,col: 34,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 563,col: 35,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 579,col: 36,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 595,col: 37,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 611,col: 38,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 627,col: 39,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 643,col: 40,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 659,col: 41,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 675,col: 42,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 691,col: 43,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 707,col: 44,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 723,col: 45,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 739,col: 46,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 755,col: 47,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 771,col: 48,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 787,col: 49,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 803,col: 50,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 819,col: 51,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 835,col: 52,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 851,col: 53,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 867,col: 54,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 883,col: 55,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 899,col: 56,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 915,col: 57,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 931,col: 58,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 947,col: 59,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 963,col: 60,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 979,col: 61,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 995,col: 62,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1011,col: 63,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+,{id: 99,col: 6,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 115,col: 7,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 131,col: 8,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 147,col: 9,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 163,col: 10,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 179,col: 11,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 195,col: 12,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 211,col: 13,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 227,col: 14,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 243,col: 15,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 259,col: 16,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 275,col: 17,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 291,col: 18,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 307,col: 19,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 323,col: 20,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 339,col: 21,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 355,col: 22,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 371,col: 23,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 387,col: 24,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 403,col: 25,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 419,col: 26,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 435,col: 27,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 451,col: 28,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 467,col: 29,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 483,col: 30,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 499,col: 31,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 515,col: 32,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 531,col: 33,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 547,col: 34,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 563,col: 35,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 579,col: 36,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 595,col: 37,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 611,col: 38,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 627,col: 39,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 643,col: 40,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 659,col: 41,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 675,col: 42,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 691,col: 43,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 707,col: 44,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 723,col: 45,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 739,col: 46,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 755,col: 47,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 771,col: 48,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 787,col: 49,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 803,col: 50,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 819,col: 51,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 835,col: 52,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 851,col: 53,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 867,col: 54,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 883,col: 55,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 899,col: 56,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 915,col: 57,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 931,col: 58,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 947,col: 59,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 963,col: 60,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 979,col: 61,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 995,col: 62,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1011,col: 63,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 4,col: 0,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 20,col: 1,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 36,col: 2,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 4,col: 0,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 20,col: 1,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 36,col: 2,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 52,col: 3,row: 3, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}}
-,{id: 68,col: 4,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+,{id: 68,col: 4,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 84,col: 5,row: 3, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}}
-,{id: 100,col: 6,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 116,col: 7,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 132,col: 8,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 148,col: 9,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 164,col: 10,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 180,col: 11,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 196,col: 12,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 212,col: 13,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 228,col: 14,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 244,col: 15,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 260,col: 16,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 276,col: 17,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 292,col: 18,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 308,col: 19,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 324,col: 20,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 340,col: 21,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 356,col: 22,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 372,col: 23,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 388,col: 24,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 404,col: 25,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 420,col: 26,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 436,col: 27,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 452,col: 28,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 468,col: 29,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 484,col: 30,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 500,col: 31,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 516,col: 32,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 532,col: 33,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 548,col: 34,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 564,col: 35,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 580,col: 36,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 596,col: 37,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 612,col: 38,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 628,col: 39,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 644,col: 40,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 660,col: 41,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 676,col: 42,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 692,col: 43,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 708,col: 44,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 724,col: 45,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 740,col: 46,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 756,col: 47,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 772,col: 48,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 788,col: 49,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 804,col: 50,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 820,col: 51,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 836,col: 52,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 852,col: 53,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 868,col: 54,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 884,col: 55,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 900,col: 56,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 916,col: 57,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 932,col: 58,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 948,col: 59,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 964,col: 60,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 980,col: 61,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 996,col: 62,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1012,col: 63,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+,{id: 100,col: 6,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 116,col: 7,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 132,col: 8,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 148,col: 9,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:1, visited:false, closed:false, parent:null}}
+,{id: 164,col: 10,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 180,col: 11,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 196,col: 12,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 212,col: 13,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 228,col: 14,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 244,col: 15,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 260,col: 16,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 276,col: 17,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 292,col: 18,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 308,col: 19,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 324,col: 20,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 340,col: 21,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 356,col: 22,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 372,col: 23,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 388,col: 24,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 404,col: 25,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 420,col: 26,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 436,col: 27,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 452,col: 28,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 468,col: 29,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 484,col: 30,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 500,col: 31,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 516,col: 32,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 532,col: 33,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 548,col: 34,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 564,col: 35,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 580,col: 36,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 596,col: 37,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 612,col: 38,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 628,col: 39,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 644,col: 40,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 660,col: 41,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 676,col: 42,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 692,col: 43,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 708,col: 44,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 724,col: 45,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 740,col: 46,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 756,col: 47,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 772,col: 48,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 788,col: 49,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 804,col: 50,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 820,col: 51,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 836,col: 52,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 852,col: 53,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 868,col: 54,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 884,col: 55,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 900,col: 56,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 916,col: 57,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 932,col: 58,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 948,col: 59,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 964,col: 60,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 980,col: 61,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 996,col: 62,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1012,col: 63,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 5,col: 0,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 21,col: 1,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 37,col: 2,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 53,col: 3,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 5,col: 0,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 21,col: 1,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 37,col: 2,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 53,col: 3,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 69,col: 4,row: 4, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}}
-,{id: 85,col: 5,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 101,col: 6,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 117,col: 7,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 133,col: 8,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 149,col: 9,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 165,col: 10,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 181,col: 11,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 197,col: 12,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 213,col: 13,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 229,col: 14,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 245,col: 15,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 261,col: 16,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 277,col: 17,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 293,col: 18,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 309,col: 19,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 325,col: 20,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 341,col: 21,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 357,col: 22,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 373,col: 23,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 389,col: 24,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 405,col: 25,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 421,col: 26,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 437,col: 27,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 453,col: 28,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 469,col: 29,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 485,col: 30,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 501,col: 31,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 517,col: 32,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 533,col: 33,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 549,col: 34,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 565,col: 35,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 581,col: 36,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 597,col: 37,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 613,col: 38,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 629,col: 39,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 645,col: 40,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 661,col: 41,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 677,col: 42,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 693,col: 43,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 709,col: 44,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 725,col: 45,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 741,col: 46,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 757,col: 47,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 773,col: 48,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 789,col: 49,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 805,col: 50,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 821,col: 51,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 837,col: 52,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 853,col: 53,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 869,col: 54,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 885,col: 55,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 901,col: 56,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 917,col: 57,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 933,col: 58,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 949,col: 59,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 965,col: 60,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 981,col: 61,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 997,col: 62,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1013,col: 63,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+,{id: 85,col: 5,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 101,col: 6,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 117,col: 7,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 133,col: 8,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 149,col: 9,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 165,col: 10,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 181,col: 11,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 197,col: 12,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 213,col: 13,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 229,col: 14,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 245,col: 15,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 261,col: 16,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 277,col: 17,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 293,col: 18,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 309,col: 19,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 325,col: 20,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 341,col: 21,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 357,col: 22,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 373,col: 23,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 389,col: 24,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 405,col: 25,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 421,col: 26,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 437,col: 27,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 453,col: 28,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 469,col: 29,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 485,col: 30,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 501,col: 31,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 517,col: 32,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 533,col: 33,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 549,col: 34,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 565,col: 35,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 581,col: 36,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 597,col: 37,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 613,col: 38,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 629,col: 39,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 645,col: 40,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 661,col: 41,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 677,col: 42,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 693,col: 43,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 709,col: 44,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 725,col: 45,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 741,col: 46,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 757,col: 47,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 773,col: 48,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 789,col: 49,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 805,col: 50,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 821,col: 51,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 837,col: 52,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 853,col: 53,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 869,col: 54,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 885,col: 55,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 901,col: 56,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 917,col: 57,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 933,col: 58,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 949,col: 59,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 965,col: 60,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 981,col: 61,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 997,col: 62,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1013,col: 63,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 6,col: 0,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 22,col: 1,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 38,col: 2,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 54,col: 3,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 70,col: 4,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 86,col: 5,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 102,col: 6,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 118,col: 7,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 134,col: 8,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 150,col: 9,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 166,col: 10,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 182,col: 11,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 198,col: 12,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 214,col: 13,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 230,col: 14,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 246,col: 15,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 262,col: 16,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 278,col: 17,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 294,col: 18,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 310,col: 19,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 326,col: 20,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 342,col: 21,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 358,col: 22,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 374,col: 23,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 390,col: 24,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 406,col: 25,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 422,col: 26,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 438,col: 27,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 454,col: 28,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 470,col: 29,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 486,col: 30,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 502,col: 31,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 518,col: 32,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 534,col: 33,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 550,col: 34,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 566,col: 35,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 582,col: 36,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 598,col: 37,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 614,col: 38,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 630,col: 39,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 646,col: 40,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 662,col: 41,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 678,col: 42,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 694,col: 43,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 710,col: 44,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 726,col: 45,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 742,col: 46,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 758,col: 47,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 774,col: 48,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 790,col: 49,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 806,col: 50,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 822,col: 51,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 838,col: 52,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 854,col: 53,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 870,col: 54,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 886,col: 55,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 902,col: 56,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 918,col: 57,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 934,col: 58,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 950,col: 59,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 966,col: 60,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 982,col: 61,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 998,col: 62,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1014,col: 63,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 6,col: 0,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 22,col: 1,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 38,col: 2,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 54,col: 3,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 70,col: 4,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 86,col: 5,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 102,col: 6,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 118,col: 7,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 134,col: 8,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 150,col: 9,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 166,col: 10,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 182,col: 11,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 198,col: 12,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 214,col: 13,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 230,col: 14,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 246,col: 15,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 262,col: 16,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 278,col: 17,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 294,col: 18,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 310,col: 19,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 326,col: 20,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 342,col: 21,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 358,col: 22,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 374,col: 23,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 390,col: 24,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 406,col: 25,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 422,col: 26,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 438,col: 27,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 454,col: 28,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 470,col: 29,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 486,col: 30,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 502,col: 31,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 518,col: 32,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 534,col: 33,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 550,col: 34,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 566,col: 35,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 582,col: 36,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 598,col: 37,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 614,col: 38,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 630,col: 39,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 646,col: 40,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 662,col: 41,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 678,col: 42,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 694,col: 43,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 710,col: 44,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 726,col: 45,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 742,col: 46,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 758,col: 47,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 774,col: 48,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 790,col: 49,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 806,col: 50,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 822,col: 51,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 838,col: 52,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 854,col: 53,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 870,col: 54,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 886,col: 55,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 902,col: 56,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 918,col: 57,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 934,col: 58,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 950,col: 59,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 966,col: 60,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 982,col: 61,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 998,col: 62,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1014,col: 63,row: 5, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 7,col: 0,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 23,col: 1,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 39,col: 2,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 55,col: 3,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 71,col: 4,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 87,col: 5,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 103,col: 6,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 119,col: 7,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 135,col: 8,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 151,col: 9,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 167,col: 10,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 183,col: 11,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 199,col: 12,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 215,col: 13,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 231,col: 14,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 247,col: 15,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 263,col: 16,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 279,col: 17,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 295,col: 18,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 311,col: 19,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 327,col: 20,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 343,col: 21,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 359,col: 22,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 375,col: 23,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 391,col: 24,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 407,col: 25,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 423,col: 26,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 439,col: 27,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 455,col: 28,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 471,col: 29,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 487,col: 30,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 503,col: 31,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 519,col: 32,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 535,col: 33,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 551,col: 34,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 567,col: 35,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 583,col: 36,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 599,col: 37,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 615,col: 38,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 631,col: 39,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 647,col: 40,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 663,col: 41,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 679,col: 42,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 695,col: 43,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 711,col: 44,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 727,col: 45,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 743,col: 46,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 759,col: 47,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 775,col: 48,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 791,col: 49,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 807,col: 50,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 823,col: 51,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 839,col: 52,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 855,col: 53,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 871,col: 54,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 887,col: 55,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 903,col: 56,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 919,col: 57,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 935,col: 58,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 951,col: 59,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 967,col: 60,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 983,col: 61,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 999,col: 62,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1015,col: 63,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 7,col: 0,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 23,col: 1,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 39,col: 2,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 55,col: 3,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 71,col: 4,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 87,col: 5,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 103,col: 6,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 119,col: 7,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 135,col: 8,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 151,col: 9,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 167,col: 10,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 183,col: 11,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 199,col: 12,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 215,col: 13,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 231,col: 14,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 247,col: 15,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 263,col: 16,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 279,col: 17,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 295,col: 18,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 311,col: 19,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 327,col: 20,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 343,col: 21,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 359,col: 22,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 375,col: 23,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 391,col: 24,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 407,col: 25,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 423,col: 26,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 439,col: 27,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 455,col: 28,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 471,col: 29,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 487,col: 30,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 503,col: 31,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 519,col: 32,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 535,col: 33,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 551,col: 34,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 567,col: 35,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 583,col: 36,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 599,col: 37,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 615,col: 38,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 631,col: 39,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 647,col: 40,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 663,col: 41,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 679,col: 42,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 695,col: 43,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 711,col: 44,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 727,col: 45,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 743,col: 46,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 759,col: 47,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 775,col: 48,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 791,col: 49,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 807,col: 50,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 823,col: 51,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 839,col: 52,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 855,col: 53,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 871,col: 54,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 887,col: 55,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 903,col: 56,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 919,col: 57,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 935,col: 58,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 951,col: 59,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 967,col: 60,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 983,col: 61,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 999,col: 62,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1015,col: 63,row: 6, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 8,col: 0,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 24,col: 1,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 40,col: 2,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 56,col: 3,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 72,col: 4,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 88,col: 5,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 104,col: 6,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 120,col: 7,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 136,col: 8,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 152,col: 9,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 168,col: 10,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 184,col: 11,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 200,col: 12,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 216,col: 13,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 232,col: 14,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 248,col: 15,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 264,col: 16,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 280,col: 17,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 296,col: 18,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 312,col: 19,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 328,col: 20,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 344,col: 21,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 360,col: 22,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 376,col: 23,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 392,col: 24,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 408,col: 25,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 424,col: 26,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 440,col: 27,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 456,col: 28,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 472,col: 29,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 488,col: 30,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 504,col: 31,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 520,col: 32,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 536,col: 33,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 552,col: 34,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 568,col: 35,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 584,col: 36,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 600,col: 37,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 616,col: 38,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 632,col: 39,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 648,col: 40,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 664,col: 41,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 680,col: 42,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 696,col: 43,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 712,col: 44,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 728,col: 45,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 744,col: 46,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 760,col: 47,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 776,col: 48,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 792,col: 49,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 808,col: 50,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 824,col: 51,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 840,col: 52,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 856,col: 53,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 872,col: 54,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 888,col: 55,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 904,col: 56,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 920,col: 57,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 936,col: 58,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 952,col: 59,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 968,col: 60,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 984,col: 61,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1000,col: 62,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1016,col: 63,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 8,col: 0,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 24,col: 1,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 40,col: 2,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 56,col: 3,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 72,col: 4,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 88,col: 5,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 104,col: 6,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 120,col: 7,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 136,col: 8,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 152,col: 9,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 168,col: 10,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 184,col: 11,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 200,col: 12,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 216,col: 13,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 232,col: 14,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 248,col: 15,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 264,col: 16,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 280,col: 17,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 296,col: 18,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 312,col: 19,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 328,col: 20,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 344,col: 21,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 360,col: 22,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 376,col: 23,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 392,col: 24,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 408,col: 25,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 424,col: 26,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 440,col: 27,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 456,col: 28,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 472,col: 29,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 488,col: 30,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 504,col: 31,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 520,col: 32,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 536,col: 33,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 552,col: 34,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 568,col: 35,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 584,col: 36,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 600,col: 37,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 616,col: 38,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 632,col: 39,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 648,col: 40,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 664,col: 41,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 680,col: 42,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 696,col: 43,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 712,col: 44,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 728,col: 45,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 744,col: 46,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 760,col: 47,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 776,col: 48,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 792,col: 49,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 808,col: 50,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 824,col: 51,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 840,col: 52,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 856,col: 53,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 872,col: 54,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 888,col: 55,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 904,col: 56,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 920,col: 57,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 936,col: 58,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 952,col: 59,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 968,col: 60,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 984,col: 61,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1000,col: 62,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1016,col: 63,row: 7, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 9,col: 0,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 25,col: 1,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 41,col: 2,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 57,col: 3,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 73,col: 4,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 89,col: 5,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 105,col: 6,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 121,col: 7,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 137,col: 8,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 153,col: 9,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 169,col: 10,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 185,col: 11,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 201,col: 12,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 217,col: 13,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 233,col: 14,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 249,col: 15,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 265,col: 16,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 281,col: 17,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 297,col: 18,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 313,col: 19,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 329,col: 20,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 345,col: 21,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 361,col: 22,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 377,col: 23,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 393,col: 24,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 409,col: 25,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 425,col: 26,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 441,col: 27,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 457,col: 28,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 473,col: 29,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 489,col: 30,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 505,col: 31,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 521,col: 32,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 537,col: 33,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 553,col: 34,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 569,col: 35,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 585,col: 36,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 601,col: 37,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 617,col: 38,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 633,col: 39,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 649,col: 40,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 665,col: 41,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 681,col: 42,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 697,col: 43,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 713,col: 44,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 729,col: 45,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 745,col: 46,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 761,col: 47,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 777,col: 48,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 793,col: 49,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 809,col: 50,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 825,col: 51,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 841,col: 52,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 857,col: 53,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 873,col: 54,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 889,col: 55,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 905,col: 56,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 921,col: 57,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 937,col: 58,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 953,col: 59,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 969,col: 60,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 985,col: 61,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1001,col: 62,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1017,col: 63,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 9,col: 0,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 25,col: 1,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 41,col: 2,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 57,col: 3,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 73,col: 4,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 89,col: 5,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 105,col: 6,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 121,col: 7,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 137,col: 8,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 153,col: 9,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 169,col: 10,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 185,col: 11,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 201,col: 12,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 217,col: 13,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 233,col: 14,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 249,col: 15,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 265,col: 16,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 281,col: 17,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 297,col: 18,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 313,col: 19,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 329,col: 20,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 345,col: 21,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 361,col: 22,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 377,col: 23,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 393,col: 24,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 409,col: 25,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 425,col: 26,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 441,col: 27,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 457,col: 28,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 473,col: 29,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 489,col: 30,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 505,col: 31,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 521,col: 32,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 537,col: 33,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 553,col: 34,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 569,col: 35,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 585,col: 36,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 601,col: 37,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 617,col: 38,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 633,col: 39,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 649,col: 40,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 665,col: 41,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 681,col: 42,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 697,col: 43,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 713,col: 44,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 729,col: 45,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 745,col: 46,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 761,col: 47,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 777,col: 48,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 793,col: 49,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 809,col: 50,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 825,col: 51,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 841,col: 52,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 857,col: 53,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 873,col: 54,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 889,col: 55,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 905,col: 56,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 921,col: 57,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 937,col: 58,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 953,col: 59,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 969,col: 60,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 985,col: 61,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1001,col: 62,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1017,col: 63,row: 8, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 10,col: 0,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 26,col: 1,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 42,col: 2,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 58,col: 3,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 74,col: 4,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 90,col: 5,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 106,col: 6,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 122,col: 7,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 138,col: 8,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 154,col: 9,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 170,col: 10,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 186,col: 11,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 202,col: 12,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 218,col: 13,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 234,col: 14,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 250,col: 15,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 266,col: 16,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 282,col: 17,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 298,col: 18,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 314,col: 19,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 330,col: 20,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 346,col: 21,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 362,col: 22,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 378,col: 23,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 394,col: 24,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 410,col: 25,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 426,col: 26,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 442,col: 27,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 458,col: 28,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 474,col: 29,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 490,col: 30,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 506,col: 31,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 522,col: 32,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 538,col: 33,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 554,col: 34,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 570,col: 35,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 586,col: 36,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 602,col: 37,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 618,col: 38,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 634,col: 39,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 650,col: 40,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 666,col: 41,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 682,col: 42,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 698,col: 43,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 714,col: 44,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 730,col: 45,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 746,col: 46,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 762,col: 47,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 778,col: 48,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 794,col: 49,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 810,col: 50,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 826,col: 51,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 842,col: 52,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 858,col: 53,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 874,col: 54,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 890,col: 55,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 906,col: 56,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 922,col: 57,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 938,col: 58,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 954,col: 59,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 970,col: 60,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 986,col: 61,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1002,col: 62,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1018,col: 63,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 10,col: 0,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 26,col: 1,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 42,col: 2,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 58,col: 3,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 74,col: 4,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 90,col: 5,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 106,col: 6,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 122,col: 7,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 138,col: 8,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 154,col: 9,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 170,col: 10,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 186,col: 11,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 202,col: 12,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 218,col: 13,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 234,col: 14,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 250,col: 15,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 266,col: 16,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 282,col: 17,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 298,col: 18,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 314,col: 19,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 330,col: 20,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 346,col: 21,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 362,col: 22,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 378,col: 23,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 394,col: 24,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 410,col: 25,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 426,col: 26,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 442,col: 27,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 458,col: 28,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 474,col: 29,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 490,col: 30,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 506,col: 31,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 522,col: 32,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 538,col: 33,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 554,col: 34,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 570,col: 35,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 586,col: 36,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 602,col: 37,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 618,col: 38,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 634,col: 39,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 650,col: 40,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 666,col: 41,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 682,col: 42,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 698,col: 43,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 714,col: 44,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 730,col: 45,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 746,col: 46,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 762,col: 47,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 778,col: 48,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 794,col: 49,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 810,col: 50,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 826,col: 51,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 842,col: 52,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 858,col: 53,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 874,col: 54,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 890,col: 55,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 906,col: 56,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 922,col: 57,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 938,col: 58,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 954,col: 59,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 970,col: 60,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 986,col: 61,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1002,col: 62,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1018,col: 63,row: 9, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 11,col: 0,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 27,col: 1,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 43,col: 2,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 59,col: 3,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 75,col: 4,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 91,col: 5,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 107,col: 6,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 123,col: 7,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 139,col: 8,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 155,col: 9,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 171,col: 10,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 187,col: 11,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 203,col: 12,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 219,col: 13,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 235,col: 14,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 251,col: 15,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 267,col: 16,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 283,col: 17,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 299,col: 18,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 315,col: 19,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 331,col: 20,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 347,col: 21,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 363,col: 22,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 379,col: 23,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 395,col: 24,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 411,col: 25,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 427,col: 26,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 443,col: 27,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 459,col: 28,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 475,col: 29,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 491,col: 30,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 507,col: 31,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 523,col: 32,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 539,col: 33,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 555,col: 34,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 571,col: 35,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 587,col: 36,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 603,col: 37,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 619,col: 38,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 635,col: 39,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 651,col: 40,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 667,col: 41,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 683,col: 42,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 699,col: 43,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 715,col: 44,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 731,col: 45,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 747,col: 46,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 763,col: 47,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 779,col: 48,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 795,col: 49,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 811,col: 50,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 827,col: 51,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 843,col: 52,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 859,col: 53,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 875,col: 54,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 891,col: 55,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 907,col: 56,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 923,col: 57,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 939,col: 58,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 955,col: 59,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 971,col: 60,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 987,col: 61,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1003,col: 62,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1019,col: 63,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 11,col: 0,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 27,col: 1,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 43,col: 2,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 59,col: 3,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 75,col: 4,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 91,col: 5,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 107,col: 6,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 123,col: 7,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 139,col: 8,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 155,col: 9,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 171,col: 10,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 187,col: 11,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 203,col: 12,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 219,col: 13,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 235,col: 14,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 251,col: 15,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 267,col: 16,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 283,col: 17,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 299,col: 18,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 315,col: 19,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 331,col: 20,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 347,col: 21,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 363,col: 22,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 379,col: 23,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 395,col: 24,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 411,col: 25,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 427,col: 26,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 443,col: 27,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 459,col: 28,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 475,col: 29,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 491,col: 30,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 507,col: 31,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 523,col: 32,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 539,col: 33,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 555,col: 34,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 571,col: 35,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 587,col: 36,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 603,col: 37,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 619,col: 38,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 635,col: 39,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 651,col: 40,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 667,col: 41,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 683,col: 42,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 699,col: 43,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 715,col: 44,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 731,col: 45,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 747,col: 46,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 763,col: 47,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 779,col: 48,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 795,col: 49,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 811,col: 50,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 827,col: 51,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 843,col: 52,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 859,col: 53,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 875,col: 54,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 891,col: 55,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 907,col: 56,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 923,col: 57,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 939,col: 58,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 955,col: 59,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 971,col: 60,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 987,col: 61,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1003,col: 62,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1019,col: 63,row: 10, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 12,col: 0,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 28,col: 1,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 44,col: 2,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 60,col: 3,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 76,col: 4,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 92,col: 5,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 108,col: 6,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 124,col: 7,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 140,col: 8,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 156,col: 9,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 172,col: 10,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 188,col: 11,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 204,col: 12,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 220,col: 13,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 236,col: 14,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 252,col: 15,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 268,col: 16,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 284,col: 17,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 300,col: 18,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 316,col: 19,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 332,col: 20,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 348,col: 21,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 364,col: 22,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 380,col: 23,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 396,col: 24,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 412,col: 25,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 428,col: 26,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 444,col: 27,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 460,col: 28,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 476,col: 29,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 492,col: 30,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 508,col: 31,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 524,col: 32,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 540,col: 33,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 556,col: 34,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 572,col: 35,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 588,col: 36,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 604,col: 37,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 620,col: 38,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 636,col: 39,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 652,col: 40,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 668,col: 41,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 684,col: 42,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 700,col: 43,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 716,col: 44,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 732,col: 45,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 748,col: 46,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 764,col: 47,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 780,col: 48,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 796,col: 49,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 812,col: 50,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 828,col: 51,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 844,col: 52,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 860,col: 53,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 876,col: 54,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 892,col: 55,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 908,col: 56,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 924,col: 57,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 940,col: 58,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 956,col: 59,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 972,col: 60,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 988,col: 61,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1004,col: 62,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1020,col: 63,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 12,col: 0,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 28,col: 1,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 44,col: 2,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 60,col: 3,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 76,col: 4,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 92,col: 5,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 108,col: 6,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 124,col: 7,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 140,col: 8,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 156,col: 9,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 172,col: 10,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 188,col: 11,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 204,col: 12,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 220,col: 13,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 236,col: 14,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 252,col: 15,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 268,col: 16,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 284,col: 17,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 300,col: 18,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 316,col: 19,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 332,col: 20,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 348,col: 21,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 364,col: 22,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 380,col: 23,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 396,col: 24,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 412,col: 25,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 428,col: 26,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 444,col: 27,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 460,col: 28,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 476,col: 29,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 492,col: 30,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 508,col: 31,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 524,col: 32,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 540,col: 33,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 556,col: 34,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 572,col: 35,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 588,col: 36,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 604,col: 37,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 620,col: 38,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 636,col: 39,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 652,col: 40,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 668,col: 41,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 684,col: 42,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 700,col: 43,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 716,col: 44,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 732,col: 45,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 748,col: 46,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 764,col: 47,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 780,col: 48,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 796,col: 49,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 812,col: 50,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 828,col: 51,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 844,col: 52,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 860,col: 53,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 876,col: 54,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 892,col: 55,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 908,col: 56,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 924,col: 57,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 940,col: 58,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 956,col: 59,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 972,col: 60,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 988,col: 61,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1004,col: 62,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1020,col: 63,row: 11, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 13,col: 0,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 29,col: 1,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 45,col: 2,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 61,col: 3,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 77,col: 4,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 93,col: 5,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 109,col: 6,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 125,col: 7,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 141,col: 8,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 157,col: 9,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 173,col: 10,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 189,col: 11,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 205,col: 12,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 221,col: 13,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 237,col: 14,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 253,col: 15,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 269,col: 16,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 285,col: 17,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 301,col: 18,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 317,col: 19,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 333,col: 20,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 349,col: 21,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 365,col: 22,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 381,col: 23,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 397,col: 24,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 413,col: 25,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 429,col: 26,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 445,col: 27,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 461,col: 28,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 477,col: 29,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 493,col: 30,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 509,col: 31,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 525,col: 32,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 541,col: 33,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 557,col: 34,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 573,col: 35,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 589,col: 36,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 605,col: 37,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 621,col: 38,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 637,col: 39,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 653,col: 40,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 669,col: 41,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 685,col: 42,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 701,col: 43,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 717,col: 44,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 733,col: 45,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 749,col: 46,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 765,col: 47,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 781,col: 48,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 797,col: 49,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 813,col: 50,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 829,col: 51,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 845,col: 52,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 861,col: 53,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 877,col: 54,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 893,col: 55,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 909,col: 56,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 925,col: 57,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 941,col: 58,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 957,col: 59,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 973,col: 60,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 989,col: 61,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1005,col: 62,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1021,col: 63,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 13,col: 0,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 29,col: 1,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 45,col: 2,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 61,col: 3,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 77,col: 4,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 93,col: 5,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 109,col: 6,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 125,col: 7,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 141,col: 8,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 157,col: 9,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 173,col: 10,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 189,col: 11,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 205,col: 12,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 221,col: 13,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 237,col: 14,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 253,col: 15,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 269,col: 16,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 285,col: 17,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 301,col: 18,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 317,col: 19,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 333,col: 20,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 349,col: 21,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 365,col: 22,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 381,col: 23,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 397,col: 24,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 413,col: 25,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 429,col: 26,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 445,col: 27,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 461,col: 28,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 477,col: 29,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 493,col: 30,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 509,col: 31,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 525,col: 32,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 541,col: 33,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 557,col: 34,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 573,col: 35,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 589,col: 36,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 605,col: 37,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 621,col: 38,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 637,col: 39,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 653,col: 40,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 669,col: 41,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 685,col: 42,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 701,col: 43,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 717,col: 44,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 733,col: 45,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 749,col: 46,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 765,col: 47,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 781,col: 48,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 797,col: 49,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 813,col: 50,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 829,col: 51,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 845,col: 52,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 861,col: 53,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 877,col: 54,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 893,col: 55,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 909,col: 56,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 925,col: 57,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 941,col: 58,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 957,col: 59,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 973,col: 60,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 989,col: 61,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1005,col: 62,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1021,col: 63,row: 12, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 14,col: 0,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 30,col: 1,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 46,col: 2,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 62,col: 3,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 78,col: 4,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 94,col: 5,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 110,col: 6,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 126,col: 7,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 142,col: 8,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 158,col: 9,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 174,col: 10,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 190,col: 11,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 206,col: 12,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 222,col: 13,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 238,col: 14,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 254,col: 15,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 270,col: 16,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 286,col: 17,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 302,col: 18,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 318,col: 19,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 334,col: 20,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 350,col: 21,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 366,col: 22,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 382,col: 23,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 398,col: 24,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 414,col: 25,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 430,col: 26,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 446,col: 27,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 462,col: 28,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 478,col: 29,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 494,col: 30,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 510,col: 31,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 526,col: 32,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 542,col: 33,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 558,col: 34,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 574,col: 35,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 590,col: 36,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 606,col: 37,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 622,col: 38,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 638,col: 39,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 654,col: 40,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 670,col: 41,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 686,col: 42,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 702,col: 43,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 718,col: 44,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 734,col: 45,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 750,col: 46,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 766,col: 47,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 782,col: 48,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 798,col: 49,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 814,col: 50,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 830,col: 51,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 846,col: 52,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 862,col: 53,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 878,col: 54,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 894,col: 55,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 910,col: 56,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 926,col: 57,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 942,col: 58,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 958,col: 59,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 974,col: 60,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 990,col: 61,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1006,col: 62,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1022,col: 63,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 14,col: 0,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 30,col: 1,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 46,col: 2,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 62,col: 3,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 78,col: 4,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 94,col: 5,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 110,col: 6,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 126,col: 7,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 142,col: 8,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 158,col: 9,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 174,col: 10,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 190,col: 11,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 206,col: 12,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 222,col: 13,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 238,col: 14,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 254,col: 15,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 270,col: 16,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 286,col: 17,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 302,col: 18,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 318,col: 19,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 334,col: 20,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 350,col: 21,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 366,col: 22,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 382,col: 23,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 398,col: 24,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 414,col: 25,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 430,col: 26,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 446,col: 27,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 462,col: 28,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 478,col: 29,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 494,col: 30,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 510,col: 31,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 526,col: 32,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 542,col: 33,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 558,col: 34,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 574,col: 35,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 590,col: 36,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 606,col: 37,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 622,col: 38,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 638,col: 39,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 654,col: 40,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 670,col: 41,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 686,col: 42,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 702,col: 43,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 718,col: 44,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 734,col: 45,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 750,col: 46,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 766,col: 47,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 782,col: 48,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 798,col: 49,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 814,col: 50,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 830,col: 51,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 846,col: 52,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 862,col: 53,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 878,col: 54,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 894,col: 55,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 910,col: 56,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 926,col: 57,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 942,col: 58,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 958,col: 59,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 974,col: 60,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 990,col: 61,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1006,col: 62,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1022,col: 63,row: 13, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 15,col: 0,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 31,col: 1,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 47,col: 2,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 63,col: 3,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 79,col: 4,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 95,col: 5,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 111,col: 6,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 127,col: 7,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 143,col: 8,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 159,col: 9,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 175,col: 10,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 191,col: 11,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 207,col: 12,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 223,col: 13,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 239,col: 14,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 255,col: 15,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 271,col: 16,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 287,col: 17,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 303,col: 18,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 319,col: 19,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 335,col: 20,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 351,col: 21,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 367,col: 22,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 383,col: 23,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 399,col: 24,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 415,col: 25,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 431,col: 26,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 447,col: 27,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 463,col: 28,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 479,col: 29,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 495,col: 30,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 511,col: 31,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 527,col: 32,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 543,col: 33,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 559,col: 34,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 575,col: 35,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 591,col: 36,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 607,col: 37,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 623,col: 38,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 639,col: 39,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 655,col: 40,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 671,col: 41,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 687,col: 42,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 703,col: 43,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 719,col: 44,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 735,col: 45,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 751,col: 46,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 767,col: 47,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 783,col: 48,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 799,col: 49,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 815,col: 50,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 831,col: 51,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 847,col: 52,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 863,col: 53,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 879,col: 54,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 895,col: 55,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 911,col: 56,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 927,col: 57,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 943,col: 58,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 959,col: 59,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 975,col: 60,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 991,col: 61,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1007,col: 62,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1023,col: 63,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 15,col: 0,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 31,col: 1,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 47,col: 2,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 63,col: 3,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 79,col: 4,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 95,col: 5,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 111,col: 6,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 127,col: 7,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 143,col: 8,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 159,col: 9,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 175,col: 10,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 191,col: 11,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 207,col: 12,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 223,col: 13,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 239,col: 14,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 255,col: 15,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 271,col: 16,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 287,col: 17,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 303,col: 18,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 319,col: 19,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 335,col: 20,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 351,col: 21,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 367,col: 22,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 383,col: 23,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 399,col: 24,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 415,col: 25,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 431,col: 26,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 447,col: 27,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 463,col: 28,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 479,col: 29,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 495,col: 30,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 511,col: 31,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 527,col: 32,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 543,col: 33,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 559,col: 34,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 575,col: 35,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 591,col: 36,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 607,col: 37,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 623,col: 38,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 639,col: 39,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 655,col: 40,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 671,col: 41,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 687,col: 42,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 703,col: 43,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 719,col: 44,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 735,col: 45,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 751,col: 46,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 767,col: 47,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 783,col: 48,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 799,col: 49,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 815,col: 50,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 831,col: 51,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 847,col: 52,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 863,col: 53,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 879,col: 54,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 895,col: 55,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 911,col: 56,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 927,col: 57,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 943,col: 58,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 959,col: 59,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 975,col: 60,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 991,col: 61,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1007,col: 62,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1023,col: 63,row: 14, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 [
-{id: 16,col: 0,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 32,col: 1,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 48,col: 2,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 64,col: 3,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 80,col: 4,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 96,col: 5,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 112,col: 6,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 128,col: 7,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 144,col: 8,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 160,col: 9,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 176,col: 10,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 192,col: 11,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 208,col: 12,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 224,col: 13,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 240,col: 14,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 256,col: 15,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 272,col: 16,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 288,col: 17,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 304,col: 18,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 320,col: 19,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 336,col: 20,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 352,col: 21,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 368,col: 22,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 384,col: 23,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 400,col: 24,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 416,col: 25,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 432,col: 26,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 448,col: 27,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 464,col: 28,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 480,col: 29,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 496,col: 30,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 512,col: 31,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 528,col: 32,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 544,col: 33,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 560,col: 34,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 576,col: 35,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 592,col: 36,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 608,col: 37,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 624,col: 38,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 640,col: 39,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 656,col: 40,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 672,col: 41,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 688,col: 42,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 704,col: 43,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 720,col: 44,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 736,col: 45,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 752,col: 46,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 768,col: 47,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 784,col: 48,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 800,col: 49,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 816,col: 50,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 832,col: 51,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 848,col: 52,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 864,col: 53,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 880,col: 54,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 896,col: 55,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 912,col: 56,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 928,col: 57,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 944,col: 58,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 960,col: 59,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 976,col: 60,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 992,col: 61,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1008,col: 62,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-,{id: 1024,col: 63,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
+{id: 16,col: 0,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 32,col: 1,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 48,col: 2,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 64,col: 3,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 80,col: 4,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 96,col: 5,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 112,col: 6,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 128,col: 7,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 144,col: 8,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 160,col: 9,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 176,col: 10,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 192,col: 11,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 208,col: 12,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 224,col: 13,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 240,col: 14,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 256,col: 15,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 272,col: 16,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 288,col: 17,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 304,col: 18,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 320,col: 19,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 336,col: 20,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 352,col: 21,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 368,col: 22,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 384,col: 23,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 400,col: 24,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 416,col: 25,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 432,col: 26,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 448,col: 27,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 464,col: 28,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 480,col: 29,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 496,col: 30,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 512,col: 31,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 528,col: 32,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 544,col: 33,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 560,col: 34,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 576,col: 35,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 592,col: 36,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 608,col: 37,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 624,col: 38,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 640,col: 39,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 656,col: 40,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 672,col: 41,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 688,col: 42,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 704,col: 43,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 720,col: 44,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 736,col: 45,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 752,col: 46,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 768,col: 47,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 784,col: 48,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 800,col: 49,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 816,col: 50,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 832,col: 51,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 848,col: 52,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 864,col: 53,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 880,col: 54,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 896,col: 55,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 912,col: 56,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 928,col: 57,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 944,col: 58,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 960,col: 59,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 976,col: 60,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 992,col: 61,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1008,col: 62,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
+,{id: 1024,col: 63,row: 15, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ],
 
 ];

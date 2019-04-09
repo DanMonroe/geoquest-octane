@@ -16,9 +16,10 @@ export default class GameboardComponent extends Component {
   @service ('camera') camera;
 
   // @tracked showTileGraphics = false;
-  @tracked showTileGraphics = true;
+  @tracked showTileGraphics = false;
   @tracked showTileHexInfo = true;
   @tracked showDebugLayer = true;
+  @tracked showFieldOfViewLayer = true;
   @tracked showTilesWithLabels = true;
 
   @tracked map = null;
@@ -77,7 +78,7 @@ export default class GameboardComponent extends Component {
   @action
   setupGame(concreteContainer) {
     this.gameboard.setupQRSFromMap(this.map.MAP);
-    this.gameboard.setupGameboardCanvases(concreteContainer, this.map, this.showTileHexInfo, this.showTileGraphics, this.showDebugLayer);
+    this.gameboard.setupGameboardCanvases(concreteContainer, this.map, this.showTileHexInfo, this.showTileGraphics, this.showDebugLayer, this.showFieldOfViewLayer);
     let agentsObj = this.transport.setupAgents(this.model.mapdata[this.mapIndex].agents);
 
     this.players = agentsObj.players;

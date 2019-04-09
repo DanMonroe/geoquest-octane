@@ -13,7 +13,7 @@ body {
 #concreteContainer {
   position: relative;
   margin: 20px;
-  min-height: 330px;
+  min-height: 440px;
 }
 
 #concreteContainer > canvas, #gamecanvas, #hexcanvas, #mousecanvas {
@@ -101,6 +101,7 @@ figure > canvas {
   position: absolute;
   img {
     //height: 16px;
+    //height: 21px;
     height: 42px;
   }
 }

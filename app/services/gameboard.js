@@ -11,6 +11,7 @@ export default class GameboardService extends Service {
   @service ('hex') hexService;
   @service ('camera') camera;
   @service ('transport') transport;
+  @service ('path') pathService;
 
   @tracked rect = null;
 
@@ -23,6 +24,7 @@ export default class GameboardService extends Service {
   @tracked viewport;
   @tracked redraw = false;
   @tracked showDebugLayer = false;
+  @tracked showFieldOfViewLayer = false;
 
   @tracked pathDistanceToMouseHex = 0;
   @tracked mousePoint = `X: Y:`;
@@ -52,7 +54,7 @@ export default class GameboardService extends Service {
     }
   }
 
-  setupGameboardCanvases(concreteContainer, map, showTileHexInfo, showTileGraphics, showDebugLayer) {
+  setupGameboardCanvases(concreteContainer, map, showTileHexInfo, showTileGraphics, showDebugLayer, showFieldOfViewLayer) {
 
     // Map setup
     this.mapService.set('worldMap', map.MAP);
@@ -60,8 +62,8 @@ export default class GameboardService extends Service {
 
     // create viewport
     let viewport = new concrete.Viewport({
-      width: 400,
-      height: 325,
+      width: 800,
+      height: 450,
       container: concreteContainer
     });
 
@@ -69,13 +71,17 @@ export default class GameboardService extends Service {
     let gameLayer = new concrete.Layer();
     let hexLayer = new concrete.Layer();
     let debugLayer = new concrete.Layer();
+    let fieldOfViewLayer = new concrete.Layer();
+    let fieldOfViewBlockedLayer = new concrete.Layer();
 
     gameLayer.visible = showTileGraphics;
     hexLayer.visible = showTileHexInfo;
     debugLayer.visible = showDebugLayer;
+    fieldOfViewLayer.visible = showFieldOfViewLayer;
+    fieldOfViewBlockedLayer.visible = showFieldOfViewLayer;
 
     // add layers
-    viewport.add(gameLayer).add(hexLayer).add(debugLayer);
+    viewport.add(gameLayer).add(hexLayer).add(debugLayer).add(fieldOfViewLayer).add(fieldOfViewBlockedLayer);
 
     // this.viewport = viewport;
     this.camera.viewport = viewport;
@@ -101,16 +107,24 @@ export default class GameboardService extends Service {
     // this.set('centerY', centerY);  // remove
 
 
-    let hexcontext = this.camera.viewport.layers[1].scene.context;
-    hexcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
-
     let gamecontext = this.camera.viewport.layers[0].scene.context;
     gamecontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
+
+    let hexcontext = this.camera.viewport.layers[1].scene.context;
+    hexcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
 
     let debugcontext = this.camera.viewport.layers[2].scene.context;
     debugcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
 
+    let FOVcontext = this.camera.viewport.layers[3].scene.context;
+    FOVcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
+
+    let FOVBlockedContext = this.camera.viewport.layers[4].scene.context;
+    FOVBlockedContext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
+
+    // console.log('FOVBlockedContext',FOVBlockedContext);
     this.showDebugLayer = showDebugLayer;
+    this.showFieldOfViewLayer = showFieldOfViewLayer;
 
     this.drawGrid(
       "gamecanvas",
@@ -246,8 +260,117 @@ export default class GameboardService extends Service {
 
   clearDebugLayer() {
     let debugLayer = this.camera.viewport.layers[2];
-    debugLayer.scene.context.clearRect(debugLayer.x-36, debugLayer.y-38, debugLayer.width + (-this.camera.x)+ 36, debugLayer.height + (-this.camera.y) + 36);
+    debugLayer.scene.context.clearRect(debugLayer.x-36, debugLayer.y-36, debugLayer.width + (-this.camera.x)+ 36, debugLayer.height + (-this.camera.y) + 36);
     this.camera.viewport.render();
+  }
+
+  clearFOVLayer() {
+    let fovLayer = this.camera.viewport.layers[3];
+    console.log('fovLayer',fovLayer);
+    // fovLayer.scene.clear();
+    fovLayer.scene.context.clearRect(fovLayer.x-36, fovLayer.y-36, fovLayer.width + (-this.camera.x)+ 36, fovLayer.height + (-this.camera.y) + 36);
+    this.camera.viewport.render();
+  }
+  clearFOVBlockedLayer() {
+    let fovBlockedLayer = this.camera.viewport.layers[4];
+    console.log('fovBlockedLayer',fovBlockedLayer, fovBlockedLayer.x-36, fovBlockedLayer.y-36, fovBlockedLayer.width + (-this.camera.x)+ 36, fovBlockedLayer.height + (-this.camera.y) + 36);
+    // fovBlockedLayer.scene.clear();
+    fovBlockedLayer.scene.context.clearRect(fovBlockedLayer.x-36, fovBlockedLayer.y-36, fovBlockedLayer.width + (-this.camera.x)+ 36, fovBlockedLayer.height + (-this.camera.y) + 36);
+    this.camera.viewport.render();
+  }
+
+  drawFieldOfView(startHex, targetHex) {
+    if (this.showFieldOfViewLayer) {
+      this.clearFOVLayer();
+      this.clearFOVBlockedLayer();
+
+      console.log('Field of View');
+
+      // figure distance between two hexes, add one for start hex = number of points to draw
+      var distanceFunction = this.pathService.heuristics.hex;
+      let startPoint = this.mapService.currentLayout.hexToPixel(startHex);
+      let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);
+      // console.log('startPoint', startPoint);
+      // console.log('targetPoint', targetPoint);
+
+      let distanceInHexes = distanceFunction(startHex, targetHex)
+
+
+      // extract distance
+      let lineDistance = Math.sqrt( Math.pow((targetPoint.x - startPoint.x),2) + Math.pow((targetPoint.y - startPoint.y),2));
+      let segmentDistance = lineDistance / distanceInHexes;
+      // console.log('line distance', lineDistance, ' / ', distanceInHexes, ' = segmentDistance', segmentDistance);
+
+      let angle = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
+      let sin = Math.sin(angle) * segmentDistance;
+      let cos = Math.cos(angle) * segmentDistance;
+
+      // create a line between start and target hex
+      let ctx = this.camera.viewport.layers[3].scene.context;
+
+
+      ctx.beginPath();
+      ctx.fillStyle = "#fff900";
+      // ctx.lineWidth = 3;
+      // ctx.fillStyle = "yellow";
+      ctx.moveTo(startPoint.x, startPoint.y);
+      let newY = startPoint.y;
+      let newX = startPoint.x;
+
+      let sightBlocked = false;
+      let blockedLoopStart = null;
+
+      for (let i = 0; i < distanceInHexes; i++) {
+        // move
+        newY += sin;
+        newX += cos;
+
+        if(!sightBlocked) {
+          let point = new Point({x:newX, y:newY});
+          let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
+          let segmentHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
+          // console.log('segmentHex', segmentHex);
+
+          // If point falls inside a hex that is blocks, then stop loop.
+          // each hex after that is blocked
+          if (segmentHex.map.path.v === 1) {
+            sightBlocked = true;
+            blockedLoopStart = i;
+            // ctx.strokeStyle = "red";
+            break;
+          }
+        }
+
+        ctx.moveTo(newX, newY);
+        ctx.arc(newX, newY, 4, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+console.log('newX',newX,'newY',newY);
+      if (blockedLoopStart) {
+        let blockedctx = this.camera.viewport.layers[4].scene.context;
+        // debugger;
+        blockedctx.fillStyle = "red";
+        newY -= sin;
+        newX -= cos;
+console.log('2 newX',newX,'newY',newY);
+
+        for (let j = blockedLoopStart; j < distanceInHexes; j++) {
+          console.log('blocked', j);
+          newY += sin;
+          newX += cos;
+console.log('3 newX',newX,'newY',newY);
+
+          blockedctx.moveTo(newX, newY);
+          blockedctx.arc(newX, newY, 4, 0, 2 * Math.PI);
+          blockedctx.fill();
+        }
+      }
+
+
+      this.camera.viewport.render();
+      // loop through points starting at startHex.
+
+    }
   }
 
   drawPathToTarget(startHex, pathDistanceToMouseHex) {
@@ -320,12 +443,15 @@ export default class GameboardService extends Service {
       this.lastMouseMoveTargetId = targetHex.id;
 
       let shipHex = this.transport.transportHexes[Player.transportHexIndex];
-      // let shipHex = this.transport.transportHexes[ENV.game.agents.player.index];
-      let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:true});
+
+      let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:false});
+      // let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:true});
+
       this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
       // console.log(pathDistanceToMouseHex);
 
       this.drawPathToTarget(shipHex, pathDistanceToMouseHex);
+      this.drawFieldOfView(shipHex, targetHex);
 
     } else {
       this.pathDistanceToMouseHex = 0;
