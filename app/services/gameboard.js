@@ -78,6 +78,8 @@ export default class GameboardService extends Service {
     let debugLayer = new Konva.Layer();
     let fieldOfViewLayer = new Konva.Layer();
 
+    gameLayer.disableHitGraph();
+    hexLayer.disableHitGraph();
     debugLayer.disableHitGraph();
     fieldOfViewLayer.disableHitGraph();
 
@@ -481,7 +483,7 @@ export default class GameboardService extends Service {
       // let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:true});
 
       this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
-      console.log(this.pathDistanceToMouseHex);
+      // console.log(this.pathDistanceToMouseHex);
 
       this.drawPathToTarget(shipHex, pathDistanceToMouseHex);
       this.drawFieldOfView(shipHex, targetHex);

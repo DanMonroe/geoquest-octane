@@ -152,7 +152,7 @@ export class Map5 extends Basemap {
 ,{id: 35,col: 2,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 51,col: 3,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 67,col: 4,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
-,{id: 83,col: 5,row: 2, t: 1, path: {f:0, g:0, h:0, w:1, v:1, visited:false, closed:false, parent:null}}
+,{id: 83,col: 5,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 99,col: 6,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 115,col: 7,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 131,col: 8,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
@@ -222,7 +222,7 @@ export class Map5 extends Basemap {
 ,{id: 100,col: 6,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 116,col: 7,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 132,col: 8,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
-,{id: 148,col: 9,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:1, visited:false, closed:false, parent:null}}
+,{id: 148,col: 9,row: 3, t: 1, path: {f:0, g:0, h:0, w:0, v:1, visited:false, closed:false, parent:null}}
 ,{id: 164,col: 10,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 180,col: 11,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 196,col: 12,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
@@ -283,7 +283,7 @@ export class Map5 extends Basemap {
 ,{id: 21,col: 1,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 37,col: 2,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 53,col: 3,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
-,{id: 69,col: 4,row: 4, t: 1, path: {f:0, g:0, h:0, w:1, v:1, visited:false, closed:false, parent:null}}
+,{id: 69,col: 4,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 85,col: 5,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 101,col: 6,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 117,col: 7,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
