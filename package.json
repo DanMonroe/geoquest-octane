@@ -24,7 +24,6 @@
     "@glimmer/component": "^0.14.0-alpha.3",
     "babel-eslint": "^8.0.2",
     "broccoli-asset-rev": "^3.0.0",
-    "concretejs": "^3.0.2",
     "ember-animated": "^0.5.1",
     "ember-auto-import": "^1.2.21",
     "ember-cli": "github:ember-cli/ember-cli#6b3e7551158d74d693d540a854cea46f76e0d51a",
@@ -57,5 +56,7 @@
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
   },
-  "dependencies": {}
+  "dependencies": {
+    "konva": "^3.2.4"
+  }
 }

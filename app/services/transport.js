@@ -42,7 +42,7 @@ export default class TransportService extends Service {
     }
     let playerStartPoint = this.mapService.currentLayout.hexToPixel(playerStartHex);
 
-    console.log('playerStartPoint', playerStartPoint);
+    // console.log('playerStartPoint', playerStartPoint);
     this.transportHexes.push(playerStartHex);
     this.transportPoints.push(playerStartPoint);
 

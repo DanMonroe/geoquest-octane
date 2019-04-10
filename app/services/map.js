@@ -5,6 +5,7 @@ import { Graph } from '../objects/graph'
 import { BinaryHeap } from '../objects/binary-heap'
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
+import Konva from 'konva';
 
 export default class MapService extends Service {
 
@@ -256,17 +257,45 @@ export default class MapService extends Service {
 
 
   drawVisitedRect(neighbor, visitedCounter) {
+      let debugLayer = this.camera.stage.getLayers()[2];
+      // debugLayer.removeChildren();
+      // debugLayer.clear();
+    let center = this.currentLayout.hexToPixel(neighbor);
 
-      let ctx = this.camera.viewport.layers[2].scene.context;
-      let center = this.currentLayout.hexToPixel(neighbor);
-      ctx.fillStyle="yellow";
-      ctx.fillRect(center.x+15, center.y-18, 16, 12);
-      ctx.fillStyle = "black";
-      ctx.font = "10px sans-serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(visitedCounter, center.x+23, center.y-11);
+    var rect = new Konva.Rect({
+      x: center.x+15,
+      y: center.y-18,
+      width: 16,
+      height: 12,
+      fill: 'yellow'
+    });
 
-      this.camera.viewport.render();
+    debugLayer.add(rect);
+
+    let counterText = new Konva.Text({
+      x: center.x+19,
+      y: center.y-15,
+      text: visitedCounter,
+      fontSize: 10,
+      fontFamily: 'sans-serif',
+      fill: 'black'
+    });
+    // counterText.offsetX(counterText.width() / 2);
+    debugLayer.add(counterText);
+
+    this.camera.stage.draw();
+
+
+    // let ctx = this.camera.viewport.layers[2].scene.context;
+    //   let center = this.currentLayout.hexToPixel(neighbor);
+    //   ctx.fillStyle="yellow";
+    //   ctx.fillRect(center.x+15, center.y-18, 16, 12);
+    //   ctx.fillStyle = "black";
+    //   ctx.font = "10px sans-serif";
+    //   ctx.textAlign = "center";
+    //   ctx.textBaseline = "middle";
+    //   ctx.fillText(visitedCounter, center.x+23, center.y-11);
+    //
+    //   this.camera.viewport.render();
   }
 }

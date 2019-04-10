@@ -16,7 +16,7 @@ export default class GameboardComponent extends Component {
   @service ('camera') camera;
 
   // @tracked showTileGraphics = false;
-  @tracked showTileGraphics = false;
+  @tracked showTileGraphics = true;
   @tracked showTileHexInfo = true;
   @tracked showDebugLayer = true;
   @tracked showFieldOfViewLayer = true;
@@ -44,14 +44,7 @@ export default class GameboardComponent extends Component {
     this.model = arguments[1];
     this.mapService.loadLayout();
     this.loadMap(4);
-    // this.loadMap(3);
-    // this.loadMap(1);
   }
-
-  // get enemyToPlayerDistance() {
-  //   console.log('getting enemy ship');
-  //   return this.ships.objectAt(1).enemyToPlayerDistance;
-  // }
 
   loadMap(mapIndex) {
     this.mapIndex = mapIndex;
@@ -63,11 +56,11 @@ export default class GameboardComponent extends Component {
 
     this.transport.setupPatrols();
 
-    let canvasContainer = document.getElementById('concreteContainer');
-    if (canvasContainer) {
-      this.teardownGameboardCanvases(canvasContainer);
-      this.setupGame(canvasContainer);
-    }
+    // let canvasContainer = document.getElementById('concreteContainer');
+    // if (canvasContainer) {
+    //   this.teardownGameboardCanvases(canvasContainer);
+    //   this.setupGame(canvasContainer);
+    // }
   }
 
   @action
@@ -100,6 +93,14 @@ export default class GameboardComponent extends Component {
   @action
   doSomething() {
 
+    let debugLayer = this.camera.stage.getLayers()[2];
+    // debugger;
+
+    // debugLayer.clear();
+    debugLayer.removeChildren();
+
+    this.camera.stage.draw();
+
 //     let hexeslayer = this.camera.viewport.layers[1];
 // // console.log('viewport', this.camera.viewport);
 //
@@ -113,23 +114,24 @@ export default class GameboardComponent extends Component {
   @action
   toggleDebugLayer() {
     this.showDebugLayer = !this.showDebugLayer;
-    this.camera.viewport.layers[2].visible = this.showDebugLayer;
     this.gameboard.showDebugLayer = this.showDebugLayer;
-    this.camera.viewport.render();
+    let layer = this.camera.stage.getLayers()[2];
+    layer.visible(this.showDebugLayer);
+
   }
 
   @action
   toggleTiles() {
     this.showTileGraphics = !this.showTileGraphics;
-    this.camera.viewport.layers[0].visible = this.showTileGraphics;
-    this.camera.viewport.render();
+    let layer = this.camera.stage.getLayers()[0];
+    layer.visible(this.showTileGraphics);
   }
 
   @action
   toggleHexInfo() {
     this.showTileHexInfo = !this.showTileHexInfo;
-    this.camera.viewport.layers[1].visible = this.showTileHexInfo;
-    this.camera.viewport.render();
+    let layer = this.camera.stage.getLayers()[1];
+    layer.visible(this.showTileHexInfo);
   }
 
   @action

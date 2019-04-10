@@ -86,7 +86,7 @@ export class Map5 extends Basemap {
 ,{id: 34,col: 2,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 50,col: 3,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 66,col: 4,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
-,{id: 82,col: 5,row: 1, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}}
+,{id: 82,col: 5,row: 1, t: 1, path: {f:0, g:0, h:0, w:1, v:1, visited:false, closed:false, parent:null}}
 ,{id: 98,col: 6,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 114,col: 7,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 130,col: 8,row: 1, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
@@ -152,7 +152,7 @@ export class Map5 extends Basemap {
 ,{id: 35,col: 2,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 51,col: 3,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 67,col: 4,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
-,{id: 83,col: 5,row: 2, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}}
+,{id: 83,col: 5,row: 2, t: 1, path: {f:0, g:0, h:0, w:1, v:1, visited:false, closed:false, parent:null}}
 ,{id: 99,col: 6,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 115,col: 7,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 131,col: 8,row: 2, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
@@ -216,9 +216,9 @@ export class Map5 extends Basemap {
 {id: 4,col: 0,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 20,col: 1,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 36,col: 2,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
-,{id: 52,col: 3,row: 3, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}}
+,{id: 52,col: 3,row: 3, t: 1, path: {f:0, g:0, h:0, w:1, v:1, visited:false, closed:false, parent:null}}
 ,{id: 68,col: 4,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
-,{id: 84,col: 5,row: 3, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}}
+,{id: 84,col: 5,row: 3, t: 1, path: {f:0, g:0, h:0, w:1, v:1, visited:false, closed:false, parent:null}}
 ,{id: 100,col: 6,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 116,col: 7,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 132,col: 8,row: 3, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
@@ -283,7 +283,7 @@ export class Map5 extends Basemap {
 ,{id: 21,col: 1,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 37,col: 2,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 53,col: 3,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
-,{id: 69,col: 4,row: 4, t: 1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}}
+,{id: 69,col: 4,row: 4, t: 1, path: {f:0, g:0, h:0, w:1, v:1, visited:false, closed:false, parent:null}}
 ,{id: 85,col: 5,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 101,col: 6,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}
 ,{id: 117,col: 7,row: 4, t: 0, path: {f:0, g:0, h:0, w:0, v:0, visited:false, closed:false, parent:null}}

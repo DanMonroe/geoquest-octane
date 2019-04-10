@@ -18,13 +18,20 @@ export default class CameraService extends Service {
   @tracked y = 0;
 
   // camera viewport
-  viewport = null;
+  // viewport = null;
+
+  // camera stage
+  stage = null;
+
+
   /**
    * width and height: The size of the camera's viewport.
    *
    */
-  @tracked viewportWidth = 0;
-  @tracked viewportHeight = 0;
+  @tracked stageWidth = 0;
+  @tracked stageHeight = 0;
+  // @tracked viewportWidth = 0;
+  // @tracked viewportHeight = 0;
   offsetX = 0;
   offsetY = 0;
 
@@ -48,11 +55,12 @@ export default class CameraService extends Service {
   get maxX() {
     let maxX = this.worldX - this.viewportWidth;
     return maxX;
-  };
+  }
+
   get maxY() {
     let maxY = this.worldY - this.viewportHeight;
     return maxY;
-  };
+  }
 
   setUpWorldMap() {
     assert("Must set currentLayout and worldMap", this.mapService.currentLayout && this.mapService.worldMap);
@@ -154,11 +162,6 @@ export default class CameraService extends Service {
      */
 
 
-      let tilesslayer = this.viewport.layers[0];
-      let hexeslayer = this.viewport.layers[1];
-      let debuglayer = this.viewport.layers[2];
-      let fovlayer = this.viewport.layers[3];
-      let fovblockedlayer = this.viewport.layers[4];
 
       // console.log(hexeslayer);
 
@@ -239,24 +242,26 @@ export default class CameraService extends Service {
       }
 
 
-
-      // clear rectangle
-
-      let clearStartX = -5 - this.mapService.mapOriginX;
-      let clearStartY = -5 - this.mapService.mapOriginY;
-      let clearEndX = 15 + hexeslayer.width + Math.abs(this.x);
-      let clearEndY = 15 + hexeslayer.height + Math.abs(this.y);
-      tilesslayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
-      hexeslayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
-      fovlayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
-      fovblockedlayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
-
-      // Move
-      tilesslayer.scene.context.translate(scrollX, scrollY);
-      hexeslayer.scene.context.translate(scrollX, scrollY);
-      debuglayer.scene.context.translate(scrollX, scrollY);
-      fovlayer.scene.context.translate(scrollX, scrollY);
-      fovblockedlayer.scene.context.translate(scrollX, scrollY);
+      // let tilesslayer = this.viewport.layers[0];
+      // let hexeslayer = this.viewport.layers[1];
+      // let debuglayer = this.viewport.layers[2];
+      // let fovlayer = this.viewport.layers[3];
+      //
+      // // clear rectangle
+      //
+      // let clearStartX = -5 - this.mapService.mapOriginX;
+      // let clearStartY = -5 - this.mapService.mapOriginY;
+      // let clearEndX = 15 + hexeslayer.width + Math.abs(this.x);
+      // let clearEndY = 15 + hexeslayer.height + Math.abs(this.y);
+      // tilesslayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
+      // hexeslayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
+      // fovlayer.scene.context.clearRect(clearStartX, clearStartY, clearEndX, clearEndY);
+      //
+      // // Move
+      // tilesslayer.scene.context.translate(scrollX, scrollY);
+      // hexeslayer.scene.context.translate(scrollX, scrollY);
+      // debuglayer.scene.context.translate(scrollX, scrollY);
+      // fovlayer.scene.context.translate(scrollX, scrollY);
 
       // move drawGrid into camera service?
       this.gameboard.drawGrid(

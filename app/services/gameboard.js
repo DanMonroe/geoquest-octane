@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import concrete from 'concretejs';
+import Konva from 'konva';
 import { Point } from '../objects/point'
 import { Player } from '../objects/agents/player'
 
@@ -61,36 +61,39 @@ export default class GameboardService extends Service {
     this.camera.setUpWorldMap();
 
     // create viewport
-    let viewport = new concrete.Viewport({
+    let stage = new Konva.Stage({
       width: 800,
       height: 450,
-      container: concreteContainer
+      container: '#concreteContainer' // or "#containerId" or ".containerClass"
     });
 
+
     // create layers
-    let gameLayer = new concrete.Layer();
-    let hexLayer = new concrete.Layer();
-    let debugLayer = new concrete.Layer();
-    let fieldOfViewLayer = new concrete.Layer();
-    let fieldOfViewBlockedLayer = new concrete.Layer();
+    // add canvas element
+    let layer = new Konva.Layer();
+    stage.add(layer);
 
-    gameLayer.visible = showTileGraphics;
-    hexLayer.visible = showTileHexInfo;
-    debugLayer.visible = showDebugLayer;
-    fieldOfViewLayer.visible = showFieldOfViewLayer;
-    fieldOfViewBlockedLayer.visible = showFieldOfViewLayer;
+    let gameLayer = new Konva.Layer();
+    let hexLayer = new Konva.Layer();
+    let debugLayer = new Konva.Layer();
+    let fieldOfViewLayer = new Konva.Layer();
 
-    // add layers
-    viewport.add(gameLayer).add(hexLayer).add(debugLayer).add(fieldOfViewLayer).add(fieldOfViewBlockedLayer);
+    debugLayer.disableHitGraph();
+    fieldOfViewLayer.disableHitGraph();
 
-    // this.viewport = viewport;
-    this.camera.viewport = viewport;
-    this.camera.viewportWidth = viewport.width;
-    this.camera.viewportHeight = viewport.height;
-    // console.log('viewport', viewport);
+    stage.add(gameLayer);
+    stage.add(hexLayer);
+    stage.add(debugLayer);
+    stage.add(fieldOfViewLayer);
 
-    let boundingRect = this.camera.viewport.container.getBoundingClientRect();
-    this.camera.offsetX = boundingRect.x;
+    this.camera.stage = stage;
+    this.camera.viewportWidth = stage.width();
+    this.camera.viewportHeight = stage.height();
+
+    let boundingRect = this.camera.stage.getClientRect();
+
+    // let boundingRect = this.camera.viewport.container.getBoundingClientRect();
+    this.camera.offsetX = boundingRect.x; // TODO need this offsetX and Y?
     this.camera.offsetY = boundingRect.y;
 
     let colsToGrab = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
@@ -106,22 +109,6 @@ export default class GameboardService extends Service {
     // this.set('centerX', centerX);  // remove
     // this.set('centerY', centerY);  // remove
 
-
-    let gamecontext = this.camera.viewport.layers[0].scene.context;
-    gamecontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
-
-    let hexcontext = this.camera.viewport.layers[1].scene.context;
-    hexcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
-
-    let debugcontext = this.camera.viewport.layers[2].scene.context;
-    debugcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
-
-    let FOVcontext = this.camera.viewport.layers[3].scene.context;
-    FOVcontext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
-
-    let FOVBlockedContext = this.camera.viewport.layers[4].scene.context;
-    FOVBlockedContext.translate(this.mapService.mapOriginX, this.mapService.mapOriginY);
-
     // console.log('FOVBlockedContext',FOVBlockedContext);
     this.showDebugLayer = showDebugLayer;
     this.showFieldOfViewLayer = showFieldOfViewLayer;
@@ -134,23 +121,32 @@ export default class GameboardService extends Service {
 
     );
 
+
+    this.camera.stage.on('click', () => {
+      this.hexClick(this.camera.stage.getPointerPosition());
+    });
+
+    this.camera.stage.on('mousemove', () => {
+      this.hexMouseMove(this.camera.stage.getPointerPosition());
+    });
+
     //fixes a problem where double clicking causes text to get selected on the canvas
-    concreteContainer.addEventListener('selectstart', (e) => {
-      e.preventDefault(); return false;
-      },
-    false);
+    // concreteContainer.addEventListener('selectstart', (e) => {
+    //   e.preventDefault(); return false;
+    //   },
+    // false);
 
-    concreteContainer.addEventListener('click', (event) => {
-      if (this.camera.viewport) {
-        this.hexClick(event)
-      }
-    });
-
-    concreteContainer.addEventListener('mousemove', (event) => {
-      if (this.camera.viewport) {
-        this.hexMouseMove(event)
-      }
-    });
+    // concreteContainer.addEventListener('click', (event) => {
+    //   if (this.camera.viewport) {
+    //     this.hexClick(event)
+    //   }
+    // });
+    //
+    // concreteContainer.addEventListener('mousemove', (event) => {
+    //   if (this.camera.viewport) {
+    //     this.hexMouseMove(event)
+    //   }
+    // });
   }
 
   // TODO
@@ -192,55 +188,97 @@ export default class GameboardService extends Service {
 
   drawGrid(id, withLabels, hexes, withTiles) {
 
-    let gamecontext = this.camera.viewport.layers[0].scene.context;
-    let hexcontext = this.camera.viewport.layers[1].scene.context;
+    let layers = this.camera.stage.getLayers();
+    // let hexlayer = layers[0];
+    let gamelayer = layers[0];
+    let hexlayer = layers[1];
+
+    // let gamecontext = this.camera.viewport.layers[0].scene.context;
+    // let hexcontext = this.camera.viewport.layers[1].scene.context;
 
     hexes.forEach((hex) => {
-      this.drawHex(hexcontext, hex);
-      if (withLabels) this.drawHexLabel(hexcontext, hex);
-      if (withTiles) this.drawHexTile(gamecontext, hex);
+      this.drawHex(hexlayer, hex);
+      if (withLabels) this.drawHexLabel(hexlayer, hex);
+      if (withTiles) this.drawHexTile(gamelayer, hex);
     });
+    this.camera.stage.draw();
 
-    this.camera.viewport.render();
+    // this.camera.viewport.render();
   }
 
-  drawHex(ctx, hex, fillStyle, strokeStyle = "black") {
-// console.log(hex);
+  drawHex(layer, hex) {
     let corners = this.mapService.currentLayout.polygonCorners(hex);
 
 // console.log('corners', corners, hex);
-    ctx.beginPath();
-    ctx.strokeStyle = strokeStyle;
-    ctx.lineWidth = 1;
-    if (fillStyle) {
-      ctx.fillStyle = fillStyle;
-    }
-    ctx.moveTo(corners[5].x, corners[5].y);
+
+    let points = [];
     for (var i = 0; i < 6; i++) {
-      ctx.lineTo(corners[i].x, corners[i].y);
+      points.push(corners[i].x);
+      points.push(corners[i].y);
     }
-    ctx.stroke();
+    let poly = new Konva.Line({
+      points: points,
+      stroke: 'black',
+      strokeWidth: 1,
+      closed: true
+    });
+
+    layer.add(poly);
 
   }
 
-  drawHexLabel(ctx, hex) {
+  drawHexLabel(layer, hex) {
     let center = this.mapService.currentLayout.hexToPixel(hex);
-// console.log('center', center);
-    ctx.fillStyle = this.colorForHex(hex);
-    ctx.font = "14px sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+
+    let idText = new Konva.Text({
+      x: center.x,
+      y: center.y-19,
+      text: 'id:' + hex.map.id,
+      fontSize: 14,
+      fontFamily: 'sans-serif',
+      fill: this.colorForHex(hex)
+    });
+    idText.offsetX(idText.width() / 2);
+
+    let colRowText = new Konva.Text({
+      x: center.x,
+      y: center.y-4,
+      text: hex.col + "," + hex.row,
+      fontSize: 14,
+      fontFamily: 'sans-serif',
+      fill: this.colorForHex(hex)
+    });
+    colRowText.offsetX(colRowText.width() / 2);
+
+    let qrsText = new Konva.Text({
+      x: center.x,
+      y: center.y+11,
+      text: hex.q + "," + hex.r + "," + hex.s,
+      fontSize: 14,
+      fontFamily: 'sans-serif',
+      fill: this.colorForHex(hex)
+    });
+    qrsText.offsetX(qrsText.width() / 2);
+
+    layer.add(idText);
+    layer.add(colRowText);
+    layer.add(qrsText);
+
+    let rect = new Konva.Rect({
+      x: center.x-2,
+      y: center.y-2,
+      width: 4,
+      height: 4,
+      fill: 'red'
+    });
+
+    // add the shape to the layer
+    layer.add(rect);
 
     // TODO put map t (tile) back in when we add map to the hex
-    ctx.fillText(('id:' + hex.map.id), center.x, center.y-15);
-    ctx.fillText((hex.col + "," + hex.row), center.x, center.y);
-    ctx.fillText((hex.q + "," + hex.r + "," + hex.s), center.x, center.y+15);
-
-    ctx.fillStyle="red";
-    ctx.fillRect(center.x-2, center.y-2, 4, 4);
   }
 
-  drawHexTile(ctx, hex) {
+  drawHexTile(layer, hex) {
     let point = this.mapService.currentLayout.hexToPixel(hex);
     let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
     let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
@@ -254,66 +292,50 @@ export default class GameboardService extends Service {
       });
     }
     tileGraphics.forEach((tile) => {
-      ctx.drawImage(tile , x, y, (this.mapService.currentLayout.size.x*2)+1, (this.mapService.currentLayout.size.y*2)+1);
+      let tileImage = new Konva.Image({
+        x: x,
+        y: y,
+        image: tile,
+        width: (this.mapService.currentLayout.size.x*2)+1,
+        height: (this.mapService.currentLayout.size.y*2)+1
+      });
+      layer.add(tileImage);
     })
   }
 
   clearDebugLayer() {
-    let debugLayer = this.camera.viewport.layers[2];
-    debugLayer.scene.context.clearRect(debugLayer.x-36, debugLayer.y-36, debugLayer.width + (-this.camera.x)+ 36, debugLayer.height + (-this.camera.y) + 36);
-    this.camera.viewport.render();
+    let debugLayer = this.camera.stage.getLayers()[2];
+    debugLayer.removeChildren();
+    debugLayer.clear();
   }
 
   clearFOVLayer() {
-    let fovLayer = this.camera.viewport.layers[3];
-    console.log('fovLayer',fovLayer);
-    // fovLayer.scene.clear();
-    fovLayer.scene.context.clearRect(fovLayer.x-36, fovLayer.y-36, fovLayer.width + (-this.camera.x)+ 36, fovLayer.height + (-this.camera.y) + 36);
-    this.camera.viewport.render();
-  }
-  clearFOVBlockedLayer() {
-    let fovBlockedLayer = this.camera.viewport.layers[4];
-    console.log('fovBlockedLayer',fovBlockedLayer, fovBlockedLayer.x-36, fovBlockedLayer.y-36, fovBlockedLayer.width + (-this.camera.x)+ 36, fovBlockedLayer.height + (-this.camera.y) + 36);
-    // fovBlockedLayer.scene.clear();
-    fovBlockedLayer.scene.context.clearRect(fovBlockedLayer.x-36, fovBlockedLayer.y-36, fovBlockedLayer.width + (-this.camera.x)+ 36, fovBlockedLayer.height + (-this.camera.y) + 36);
-    this.camera.viewport.render();
+    let layer = this.camera.stage.getLayers()[3];
+    layer.removeChildren();
+    layer.clear();
   }
 
   drawFieldOfView(startHex, targetHex) {
     if (this.showFieldOfViewLayer) {
       this.clearFOVLayer();
-      this.clearFOVBlockedLayer();
-
-      console.log('Field of View');
 
       // figure distance between two hexes, add one for start hex = number of points to draw
-      var distanceFunction = this.pathService.heuristics.hex;
+      let distanceFunction = this.pathService.heuristics.hex;
       let startPoint = this.mapService.currentLayout.hexToPixel(startHex);
       let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);
-      // console.log('startPoint', startPoint);
-      // console.log('targetPoint', targetPoint);
 
       let distanceInHexes = distanceFunction(startHex, targetHex)
-
 
       // extract distance
       let lineDistance = Math.sqrt( Math.pow((targetPoint.x - startPoint.x),2) + Math.pow((targetPoint.y - startPoint.y),2));
       let segmentDistance = lineDistance / distanceInHexes;
-      // console.log('line distance', lineDistance, ' / ', distanceInHexes, ' = segmentDistance', segmentDistance);
 
       let angle = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
       let sin = Math.sin(angle) * segmentDistance;
       let cos = Math.cos(angle) * segmentDistance;
 
-      // create a line between start and target hex
-      let ctx = this.camera.viewport.layers[3].scene.context;
+      let layer = this.camera.stage.getLayers()[3];
 
-
-      ctx.beginPath();
-      ctx.fillStyle = "#fff900";
-      // ctx.lineWidth = 3;
-      // ctx.fillStyle = "yellow";
-      ctx.moveTo(startPoint.x, startPoint.y);
       let newY = startPoint.y;
       let newX = startPoint.x;
 
@@ -341,34 +363,38 @@ export default class GameboardService extends Service {
           }
         }
 
-        ctx.moveTo(newX, newY);
-        ctx.arc(newX, newY, 4, 0, 2 * Math.PI);
-        ctx.fill();
+        let circle = new Konva.Circle({
+          x: newX,
+          y: newY,
+          radius: 4,
+          fill: '#fff900'
+        });
+
+        // add the shape to the layer
+        layer.add(circle);
+
       }
-console.log('newX',newX,'newY',newY);
-      if (blockedLoopStart) {
-        let blockedctx = this.camera.viewport.layers[4].scene.context;
-        // debugger;
-        blockedctx.fillStyle = "red";
+
+      if (blockedLoopStart !== null) {
         newY -= sin;
         newX -= cos;
-console.log('2 newX',newX,'newY',newY);
 
         for (let j = blockedLoopStart; j < distanceInHexes; j++) {
-          console.log('blocked', j);
           newY += sin;
           newX += cos;
-console.log('3 newX',newX,'newY',newY);
 
-          blockedctx.moveTo(newX, newY);
-          blockedctx.arc(newX, newY, 4, 0, 2 * Math.PI);
-          blockedctx.fill();
+          let circle = new Konva.Circle({
+            x: newX,
+            y: newY,
+            radius: 4,
+            fill: 'red'
+          });
+
+          layer.add(circle);
         }
       }
 
-
-      this.camera.viewport.render();
-      // loop through points starting at startHex.
+      this.camera.stage.draw();
 
     }
   }
@@ -379,22 +405,25 @@ console.log('3 newX',newX,'newY',newY);
 
       let startPoint = this.mapService.currentLayout.hexToPixel(startHex);
 
-      let ctx = this.camera.viewport.layers[2].scene.context;
-
-      ctx.beginPath();
-      ctx.strokeStyle = "purple";
-      ctx.lineWidth = 3;
-      ctx.fillStyle = "purple";
-      ctx.moveTo(startPoint.x, startPoint.y);
-
+      let points = [startPoint.x, startPoint.y];
       let pathLength = pathDistanceToMouseHex.length;
       for (let i = 0; i < pathLength; i++) {
         let nextPoint = this.mapService.currentLayout.hexToPixel(pathDistanceToMouseHex[i]);
-        ctx.lineTo(nextPoint.x, nextPoint.y);
+        points.push(nextPoint.x);
+        points.push(nextPoint.y);
       }
-      ctx.stroke();
 
-      this.camera.viewport.render();
+      var purpleline = new Konva.Line({
+        points: points,
+        stroke: 'purple',
+        strokeWidth: 3,
+        lineCap: 'round',
+        lineJoin: 'round'
+      });
+
+      let debugLayer = this.camera.stage.getLayers()[2]
+      debugLayer.add(purpleline);
+      this.camera.stage.draw();
     }
   }
 
@@ -414,17 +443,19 @@ console.log('3 newX',newX,'newY',newY);
     }
   }
 
-  getHexAtMousePoint(event, shouldUpdateDebugInfo) {
-    let mouse = this.getMouse(event);
-    let x = mouse.x;
-    let y = mouse.y;
+  getHexAtMousePoint(mouseCoords, shouldUpdateDebugInfo) {
+  // getHexAtMousePoint(event, shouldUpdateDebugInfo) {
+  //   let mouse = this.getMouse(event);
+    let x = mouseCoords.x;
+    let y = mouseCoords.y;
 
     let point = new Point({x:x, y:y});
     let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
     let targetHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
 
     if(shouldUpdateDebugInfo) {
-      this.mouseXY = `X:${event.clientX} Y:${event.clientY}`;
+      this.mouseXY = `X:${mouseCoords.x} Y:${mouseCoords.y}`;
+      // this.mouseXY = `X:${event.clientX} Y:${event.clientY}`;
       this.mousePoint = `X:${point.x} Y:${point.y}`;
       this.currentHex = `Q:${thisHex.q} R:${thisHex.r} S:${thisHex.s}`;
     }
@@ -432,9 +463,11 @@ console.log('3 newX',newX,'newY',newY);
     return targetHex;
   }
 
-  hexMouseMove(event) {
+  hexMouseMove(mouseCoords) {
+  // hexMouseMove(event) {
 
-    let targetHex = this.getHexAtMousePoint(event, true);
+    let targetHex = this.getHexAtMousePoint(mouseCoords, true);
+    // let targetHex = this.getHexAtMousePoint(event, true);
 
 
     if(targetHex && targetHex.id != this.lastMouseMoveTargetId) {
@@ -448,7 +481,7 @@ console.log('3 newX',newX,'newY',newY);
       // let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:true});
 
       this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
-      // console.log(pathDistanceToMouseHex);
+      console.log(this.pathDistanceToMouseHex);
 
       this.drawPathToTarget(shipHex, pathDistanceToMouseHex);
       this.drawFieldOfView(shipHex, targetHex);
@@ -459,8 +492,10 @@ console.log('3 newX',newX,'newY',newY);
 
   }
 
-  hexClick(event) {
-    let targetHex = this.getHexAtMousePoint(event, false);
+  hexClick(mouseCoords) {
+  // hexClick(event) {
+    console.log(mouseCoords);
+    let targetHex = this.getHexAtMousePoint(mouseCoords, false);
 
     if (targetHex && targetHex.id) {
       // if (this.showDebugLayer) {
