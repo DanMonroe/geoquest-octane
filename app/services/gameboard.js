@@ -54,17 +54,19 @@ export default class GameboardService extends Service {
     }
   }
 
-  setupGameboardCanvases(concreteContainer, map, showTileHexInfo, showTileGraphics, showDebugLayer, showFieldOfViewLayer) {
+  setupGameboardCanvases(konvaContainer, map, showDebugLayer, showFieldOfViewLayer) {
 
-    // Map setup
-    this.mapService.set('worldMap', map.MAP);
-    this.camera.setUpWorldMap();
+    // // Map setup
+    // this.mapService.set('worldMap', map.MAP);
+    // this.mapService.set('worldMapHexes', this.hexService.createHexesFromMap(map.MAP));
+
+    // this.camera.setUpWorldMap();  // now camera.init
 
     // create viewport
     let stage = new Konva.Stage({
       width: 800,
       height: 450,
-      container: '#concreteContainer' // or "#containerId" or ".containerClass"
+      container: '#konvaContainer' // or "#containerId" or ".containerClass"
     });
 
 
@@ -115,13 +117,12 @@ export default class GameboardService extends Service {
     this.showDebugLayer = showDebugLayer;
     this.showFieldOfViewLayer = showFieldOfViewLayer;
 
-    this.drawGrid(
-      "gamecanvas",
-      true,
-      this.mapService.hexMap,
-      true
-
-    );
+    // this.drawGrid({
+    //   hexes: this.mapService.hexMap,
+    //   player: this.transport.players.objectAt(0),
+    //   withLabels: true,
+    //   withTiles: true
+    // });
 
 
     this.camera.stage.on('click', () => {
@@ -133,18 +134,18 @@ export default class GameboardService extends Service {
     });
 
     //fixes a problem where double clicking causes text to get selected on the canvas
-    // concreteContainer.addEventListener('selectstart', (e) => {
+    // konvaContainer.addEventListener('selectstart', (e) => {
     //   e.preventDefault(); return false;
     //   },
     // false);
 
-    // concreteContainer.addEventListener('click', (event) => {
+    // konvaContainer.addEventListener('click', (event) => {
     //   if (this.camera.viewport) {
     //     this.hexClick(event)
     //   }
     // });
     //
-    // concreteContainer.addEventListener('mousemove', (event) => {
+    // konvaContainer.addEventListener('mousemove', (event) => {
     //   if (this.camera.viewport) {
     //     this.hexMouseMove(event)
     //   }
@@ -188,24 +189,94 @@ export default class GameboardService extends Service {
     // console.log(this.mapService.hexMap[mapLength-1], bottomRightPoint);
   }
 
-  drawGrid(id, withLabels, hexes, withTiles) {
+  isHexInBlockedList(hex, blockedList) {
+    if (!blockedList || blockedList.length === 0) {
+      return false;
+    }
+    let blockedHex = blockedList.find(hex => {
+      return hex.id === hex.id;
+    })
+    return !!blockedHex;
+  }
+
+
+  setVisualsForNeighborHexes(currentIteration, maxRange, graph, player, currentNode) {
+console.log('setVisualsForNeighborHexes', currentIteration);
+    let neighbors = graph.neighbors(currentNode);
+    for (let i = 0, il = neighbors.length; i < il; ++i) {
+      let neighbor = neighbors[i];
+      if (neighbor) {
+        if (neighbor.checked) {
+          // console.log('checked');
+        } else {
+          // let distanceInHexes = this.pathService.heuristics.hex(player.hex, neighbor)
+          // console.log(neighbor, distanceInHexes);
+
+          neighbor.checked = true;
+
+          // if (distanceInHexes <= player.sightRange) {
+
+          let seenHex = this.mapService.findHexByQRS(neighbor.q, neighbor.r, neighbor.s);
+          // let seenHex = this.mapService.worldMapHexes[neighbor.id-1];
+          // console.log(seenHex, newSeenHex);
+
+          let returnFieldOfViewHexes = this.isFieldOfViewBlockedForHex(player.hex, seenHex);
+          // debugger;
+          let blocked = this.isHexInBlockedList(seenHex, returnFieldOfViewHexes.blocked)
+
+          seenHex.visual = {
+            seen: true,
+            canSee: !blocked
+          };
+        }
+
+        if (currentIteration < maxRange) {
+          this.setVisualsForNeighborHexes(currentIteration+1, maxRange, graph, player, neighbor);
+        }
+      }
+    }
+  }
+
+  mapPlayerFieldOfVision(args) {
+    let { player } = args;
+
+    this.mapService.graph.cleanNodes();
+
+    let startNode = this.mapService.findNodeFromHex(this.mapService.graph.gridIn, player.hex);
+
+    player.hex.visual = {
+      seen: true,
+      canSee: true
+    };
+
+    let start = performance.now();
+    // this.setVisualsForNeighborHexes(1, 2, graph, player, startNode);
+    this.setVisualsForNeighborHexes(1, player.sightRange, this.mapService.graph, player, startNode);
+    let end = performance.now();
+    console.log('setVisualsForNeighborHexes time', end -  start);
+  }
+
+  drawGrid(args) {
+    let { hexes, withLabels, withTiles } = args;
 
     let layers = this.camera.stage.getLayers();
-    // let hexlayer = layers[0];
-    let gamelayer = layers[0];
-    let hexlayer = layers[1];
+    let gameLayer = layers[0];
+    let hexLayer = layers[1];
 
-    // let gamecontext = this.camera.viewport.layers[0].scene.context;
-    // let hexcontext = this.camera.viewport.layers[1].scene.context;
+    // what hexes can player see?
+    // loop hexes
+
+    // this.mapPlayerFieldOfVision({
+    //   hexes: hexes,
+    //   player: player
+    // });
 
     hexes.forEach((hex) => {
-      this.drawHex(hexlayer, hex);
-      if (withLabels) this.drawHexLabel(hexlayer, hex);
-      if (withTiles) this.drawHexTile(gamelayer, hex);
+      this.drawHex(hexLayer, hex);
+      if (withLabels) this.drawHexLabel(hexLayer, hex);
+      if (withTiles) this.drawHexTile(gameLayer, hex);
     });
     this.camera.stage.draw();
-
-    // this.camera.viewport.render();
   }
 
   drawHex(layer, hex) {
@@ -213,18 +284,26 @@ export default class GameboardService extends Service {
 
 // console.log('corners', corners, hex);
 
+    // console.log(hex.visual);
+
     let points = [];
     for (var i = 0; i < 6; i++) {
       points.push(corners[i].x);
       points.push(corners[i].y);
     }
-    let poly = new Konva.Line({
+
+    let polyConfig = {
       points: points,
       stroke: 'black',
       strokeWidth: 1,
       closed: true
-    });
-
+    };
+    // if (!hex.visual || !hex.visual.canSee) {
+    //   polyConfig.fill = 'black';
+    //   polyConfig.opacity = 0.5; // change to 1 for prod
+    // }
+    let poly = new Konva.Line(polyConfig);
+    poly.id(hex.id);
     layer.add(poly);
 
   }
@@ -298,9 +377,12 @@ export default class GameboardService extends Service {
         x: x,
         y: y,
         image: tile,
+        opacity: 0,
         width: (this.mapService.currentLayout.size.x*2)+1,
         height: (this.mapService.currentLayout.size.y*2)+1
       });
+        // opacity: 1,
+      tileImage.id(hex.id);
       layer.add(tileImage);
     })
   }
@@ -317,87 +399,118 @@ export default class GameboardService extends Service {
     layer.clear();
   }
 
-  drawFieldOfView(startHex, targetHex) {
-    if (this.showFieldOfViewLayer) {
-      this.clearFOVLayer();
 
-      // figure distance between two hexes, add one for start hex = number of points to draw
-      let distanceFunction = this.pathService.heuristics.hex;
-      let startPoint = this.mapService.currentLayout.hexToPixel(startHex);
-      let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);
+  isFieldOfViewBlockedForHex(startHex, targetHex, sourceHexMap = this.mapService.hexMap) {
+    // console.count('isFieldOfViewBlockedForHex');
+    let distanceFunction = this.pathService.heuristics.hex;
+    let startPoint = this.mapService.currentLayout.hexToPixel(startHex);
+    let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);
 
-      let distanceInHexes = distanceFunction(startHex, targetHex)
+    let distanceInHexes = distanceFunction(startHex, targetHex);
 
-      // extract distance
-      let lineDistance = Math.sqrt( Math.pow((targetPoint.x - startPoint.x),2) + Math.pow((targetPoint.y - startPoint.y),2));
-      let segmentDistance = lineDistance / distanceInHexes;
+    // extract distance
+    let lineDistance = Math.sqrt( Math.pow((targetPoint.x - startPoint.x),2) + Math.pow((targetPoint.y - startPoint.y),2));
+    let segmentDistance = lineDistance / distanceInHexes;
 
-      let angle = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
-      let sin = Math.sin(angle) * segmentDistance;
-      let cos = Math.cos(angle) * segmentDistance;
+    let angle = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
+    let sin = Math.sin(angle) * segmentDistance;
+    let cos = Math.cos(angle) * segmentDistance;
 
-      let layer = this.camera.stage.getLayers()[3];
+    let newY = startPoint.y;
+    let newX = startPoint.x;
 
-      let newY = startPoint.y;
-      let newX = startPoint.x;
+    // let layer = this.camera.stage.getLayers()[3];
+    let sightBlocked = false;
+    let blockedLoopStart = null;
 
-      let sightBlocked = false;
-      let blockedLoopStart = null;
+    let returnFieldOfViewHexes = {
+      visible: [],
+      blocked: []
+    }
 
-      for (let i = 0; i < distanceInHexes; i++) {
-        // move
+    for (let i = 0; i < distanceInHexes; i++) {
+      // move
+      newY += sin;
+      newX += cos;
+
+      if(!sightBlocked) {
+        let point = new Point({x:newX, y:newY});
+        let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
+        let segmentHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s, sourceHexMap);
+
+        if (this.showFieldOfViewLayer) {
+          segmentHex.fovX = newX;
+          segmentHex.fovY = newY;
+        }
+        returnFieldOfViewHexes.visible.push(segmentHex);
+
+        // If point falls inside a hex that is blocks, then stop loop.
+        // each hex after that is blocked
+        if (segmentHex.map.path.v === 1) {
+          sightBlocked = true;
+          blockedLoopStart = i;
+          break;
+        }
+      }
+
+    }
+    if (blockedLoopStart !== null) {
+      // newY -= sin;
+      // newX -= cos;
+
+      for (let j = blockedLoopStart; j < distanceInHexes-1; j++) {
         newY += sin;
         newX += cos;
 
-        if(!sightBlocked) {
-          let point = new Point({x:newX, y:newY});
-          let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
-          let segmentHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
-          // console.log('segmentHex', segmentHex);
+        let point = new Point({x:newX, y:newY});
+        let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
+        let segmentHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
 
-          // If point falls inside a hex that is blocks, then stop loop.
-          // each hex after that is blocked
-          if (segmentHex.map.path.v === 1) {
-            sightBlocked = true;
-            blockedLoopStart = i;
-            // ctx.strokeStyle = "red";
-            break;
-          }
+        if (this.showFieldOfViewLayer) {
+          segmentHex.fovX = newX;
+          segmentHex.fovY = newY;
         }
+        returnFieldOfViewHexes.blocked.push(segmentHex);
+      }
+    }
 
+    // console.log(returnFieldOfViewHexes);
+    return returnFieldOfViewHexes;
+  }
+
+  drawFieldOfView(startHex, targetHex) {
+
+    if (this.showFieldOfViewLayer) {
+      this.clearFOVLayer();
+
+      let returnFieldOfViewHexes = this.isFieldOfViewBlockedForHex(startHex, targetHex);
+      let numVisibleHexes = returnFieldOfViewHexes.visible.length;
+      let numBlockedHexes = returnFieldOfViewHexes.blocked.length;
+
+      let layer = this.camera.stage.getLayers()[3];
+// console.group('fov')
+      for (let i = 0; i < numVisibleHexes; i++) {
+        // console.log('visible', returnFieldOfViewHexes.visible[i].fovX, returnFieldOfViewHexes.visible[i].fovY);
         let circle = new Konva.Circle({
-          x: newX,
-          y: newY,
+          x: returnFieldOfViewHexes.visible[i].fovX,
+          y: returnFieldOfViewHexes.visible[i].fovY,
           radius: 4,
-          fill: '#fff900'
+          fill: 'lightgreen'
         });
-
-        // add the shape to the layer
         layer.add(circle);
-
       }
-
-      if (blockedLoopStart !== null) {
-        newY -= sin;
-        newX -= cos;
-
-        for (let j = blockedLoopStart; j < distanceInHexes; j++) {
-          newY += sin;
-          newX += cos;
-
-          let circle = new Konva.Circle({
-            x: newX,
-            y: newY,
-            radius: 4,
-            fill: 'red'
-          });
-
-          layer.add(circle);
-        }
+      for (let i = 0; i < numBlockedHexes; i++) {
+        // console.log('blocked', returnFieldOfViewHexes.blocked[i].fovX, returnFieldOfViewHexes.blocked[i].fovY);
+        let circle = new Konva.Circle({
+          x: returnFieldOfViewHexes.blocked[i].fovX,
+          y: returnFieldOfViewHexes.blocked[i].fovY,
+          radius: 4,
+          fill: 'red'
+        });
+        layer.add(circle);
       }
-
+// console.groupEnd();
       this.camera.stage.draw();
-
     }
   }
 
@@ -471,7 +584,6 @@ export default class GameboardService extends Service {
     let targetHex = this.getHexAtMousePoint(mouseCoords, true);
     // let targetHex = this.getHexAtMousePoint(event, true);
 
-
     if(targetHex && targetHex.id != this.lastMouseMoveTargetId) {
       this.clearDebugLayer();
 
@@ -483,20 +595,18 @@ export default class GameboardService extends Service {
       // let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:true});
 
       this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
-      // console.log(this.pathDistanceToMouseHex);
 
       this.drawPathToTarget(shipHex, pathDistanceToMouseHex);
       this.drawFieldOfView(shipHex, targetHex);
 
     } else {
-      this.pathDistanceToMouseHex = 0;
+      // this.pathDistanceToMouseHex = 0;
     }
 
   }
 
   hexClick(mouseCoords) {
-  // hexClick(event) {
-    console.log(mouseCoords);
+  //   console.log(mouseCoords);
     let targetHex = this.getHexAtMousePoint(mouseCoords, false);
 
     if (targetHex && targetHex.id) {
@@ -508,29 +618,29 @@ export default class GameboardService extends Service {
       let shipHex = this.transport.transportHexes[Player.transportHexIndex];
       this.transport.moveShipToHexTask.cancelAll();
 
-      let path = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:true});
-      // console.log(path  );
+      let path = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:false});
+
       this.transport.moveShipAlongPath(path);
     }
   }
 
-  getMouse(e) {
-    let boundingRect = this.camera.viewport.container.getBoundingClientRect();
-    var element = boundingRect, mx, my;
-    let offsetX = boundingRect.x + this.camera.x + this.mapService.currentLayout.halfHexWidth;
-    let offsetY = boundingRect.y + this.camera.y + this.mapService.currentLayout.halfHexWidth;
-
-    // Compute the total offset
-    if (element.offsetParent !== undefined) {
-      do {
-        offsetX += element.offsetLeft;
-        offsetY += element.offsetTop;
-      } while ((element = element.offsetParent));
-    }
-
-    mx = e.pageX - offsetX;
-    my = e.pageY - offsetY;
-
-    return {x: mx, y: my};
-  }
+  // getMouse(e) {
+  //   let boundingRect = this.camera.viewport.container.getBoundingClientRect();
+  //   var element = boundingRect, mx, my;
+  //   let offsetX = boundingRect.x + this.camera.x + this.mapService.currentLayout.halfHexWidth;
+  //   let offsetY = boundingRect.y + this.camera.y + this.mapService.currentLayout.halfHexWidth;
+  //
+  //   // Compute the total offset
+  //   if (element.offsetParent !== undefined) {
+  //     do {
+  //       offsetX += element.offsetLeft;
+  //       offsetY += element.offsetTop;
+  //     } while ((element = element.offsetParent));
+  //   }
+  //
+  //   mx = e.pageX - offsetX;
+  //   my = e.pageY - offsetY;
+  //
+  //   return {x: mx, y: my};
+  // }
 }

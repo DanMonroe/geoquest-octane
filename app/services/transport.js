@@ -7,6 +7,7 @@ import { task, timeout } from 'ember-concurrency';
 
 import { Player } from '../objects/agents/player'
 import { Enemy } from '../objects/agents/enemy'
+// import { alias } from '@ember-decorators/object/computed';
 
 export default class TransportService extends Service {
 
@@ -14,9 +15,12 @@ export default class TransportService extends Service {
   @service ('game') game;
   @service ('camera') camera;
   @service ('gameboard') gameboard;
+  @service ('fieldOfView') fov;
 
   @tracked players = emberArray();  // Needs to be an array for animated-each
   @tracked agents = emberArray();
+
+  // @alias('players.objectAt(0)') player;
 
   @tracked transportHexes = [];
   @tracked transportPoints = [];
@@ -30,6 +34,9 @@ export default class TransportService extends Service {
     this.agents = emberArray();
 
     let playerStartHex = this.mapService.hexMap.find((hex) => {
+      if (!hex) {
+        return false;
+      }
       return (agents.player.start.Q === hex.q) &&
         (agents.player.start.R === hex.r) &&
         (agents.player.start.S === hex.s)
@@ -67,6 +74,9 @@ export default class TransportService extends Service {
 
     agents.game.forEach((gameAgent) => {
       let startHex = this.mapService.hexMap.find((hex) => {
+        if (!hex) {
+          return false;
+        }
         return (gameAgent.start.Q === hex.q) &&
           (gameAgent.start.R === hex.r) &&
           (gameAgent.start.S === hex.s)
@@ -216,6 +226,10 @@ export default class TransportService extends Service {
 
     ship.hex = targetHex;
     // ship.set('hex', targetHex);
+
+    // TODO update field ov vision hexes here ?
+    this.fov.updatePlayerFieldOfView(ship.hex);
+    // this.mapService.reportGetNeighborHexesInRange();
 
     yield timeout(ship.speed);
   }).enqueue() moveShipToHexTask;

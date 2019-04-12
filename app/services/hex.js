@@ -30,14 +30,7 @@ export default class HexService extends Service {
 
         let mapObject = map[row][col];
 
-        // let q = col;
-        // let r = -(Math.floor(col/2)) + row;
-        // let s = -q-r;
-        //
-        // mapObject.q = q;
-        // mapObject.r = r;
-        // mapObject.s = s;
-        hexes.push(new Hex({
+        hexes[mapObject.id-1] = new Hex({
           id: mapObject.id,
           col: mapObject.col,
           row: mapObject.row,
@@ -45,9 +38,23 @@ export default class HexService extends Service {
           r: mapObject.r,
           s: mapObject.s,
           map: mapObject
-        }));
+        });
+        // if (mapObject.id === 26) {
+        //   debugger
+        // }
+        // hexes.push(new Hex({
+        //   id: mapObject.id,
+        //   col: mapObject.col,
+        //   row: mapObject.row,
+        //   q: mapObject.q,
+        //   r: mapObject.r,
+        //   s: mapObject.s,
+        //   map: mapObject
+        // }));
+        // console.log(mapObject.id);
       }
     }
+    // console.log(hexes);
     return hexes;
   }
 

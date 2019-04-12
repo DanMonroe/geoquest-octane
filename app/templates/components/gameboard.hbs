@@ -15,7 +15,7 @@
       {{!/power-select}}
     <div class="hexwrapper">
       {{#if this.mapService.tilesLoaded}}
-        <figure id="concreteContainer"
+        <figure id="konvaContainer"
           {{did-insert (action this.setupGame)}}
           {{will-destroy (action this.teardownGameboardCanvases)}}
         >

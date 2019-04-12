@@ -14,10 +14,12 @@ export default class GameboardComponent extends Component {
   @service ('transport') transport;
   @service ('game') game;
   @service ('camera') camera;
+  @service ('path') pathService;
+  @service ('fieldOfView') fov;
 
   // @tracked showTileGraphics = false;
   @tracked showTileGraphics = true;
-  @tracked showTileHexInfo = true;
+  @tracked showTileHexInfo = false;
   @tracked showDebugLayer = true;
   @tracked showFieldOfViewLayer = true;
   @tracked showTilesWithLabels = true;
@@ -43,7 +45,7 @@ export default class GameboardComponent extends Component {
     super(...arguments);
     this.model = arguments[1];
     this.mapService.loadLayout();
-    this.loadMap(4);
+    this.loadMap(3);
   }
 
   loadMap(mapIndex) {
@@ -56,7 +58,7 @@ export default class GameboardComponent extends Component {
 
     this.transport.setupPatrols();
 
-    // let canvasContainer = document.getElementById('concreteContainer');
+    // let canvasContainer = document.getElementById('konvaContainer');
     // if (canvasContainer) {
     //   this.teardownGameboardCanvases(canvasContainer);
     //   this.setupGame(canvasContainer);
@@ -69,9 +71,14 @@ export default class GameboardComponent extends Component {
   }
 
   @action
-  setupGame(concreteContainer) {
+  setupGame(konvaContainer) {
+
+    // Map setup
     this.gameboard.setupQRSFromMap(this.map.MAP);
-    this.gameboard.setupGameboardCanvases(concreteContainer, this.map, this.showTileHexInfo, this.showTileGraphics, this.showDebugLayer, this.showFieldOfViewLayer);
+    this.mapService.initMap({map: this.map.MAP});
+    this.camera.initCamera();
+
+    this.gameboard.setupGameboardCanvases(konvaContainer, this.map, this.showDebugLayer, this.showFieldOfViewLayer);
     let agentsObj = this.transport.setupAgents(this.model.mapdata[this.mapIndex].agents);
 
     this.players = agentsObj.players;
@@ -79,35 +86,28 @@ export default class GameboardComponent extends Component {
 
     this.transport.setupPatrols();
 
+    this.gameboard.drawGrid({
+      hexes: this.mapService.hexMap,
+      withLabels: this.showTileHexInfo,
+      withTiles: this.showTileGraphics
+    });
+
+    this.fov.updatePlayerFieldOfView(this.transport.players.objectAt(0).hex)
+
     // TODO put these back in:
     // this.transport.moveQueueTask.perform();
     // this.game.gameClock.perform();
   }
 
   @action
-  teardownGameboardCanvases(concreteContainer) {
-    concreteContainer.removeEventListener('click', this.handleContainerClick);
-    // concreteContainer.removeEventListener('click', this.handleContainerClick);
+  teardownGameboardCanvases(konvaContainer) {
+    konvaContainer.removeEventListener('click', this.handleContainerClick);
+    // konvaContainer.removeEventListener('click', this.handleContainerClick);
   }
 
   @action
   doSomething() {
 
-    let debugLayer = this.camera.stage.getLayers()[2];
-    // debugger;
-
-    // debugLayer.clear();
-    debugLayer.removeChildren();
-
-    this.camera.stage.draw();
-
-//     let hexeslayer = this.camera.viewport.layers[1];
-// // console.log('viewport', this.camera.viewport);
-//
-//     hexeslayer.scene.context.fillStyle = "purple"
-//     hexeslayer.scene.context.fillRect(-5 - this.mapService.mapOriginX, -5-this.mapService.mapOriginX, hexeslayer.width+5, hexeslayer.height+5);
-//
-//     this.camera.viewport.render();
   }
 
 

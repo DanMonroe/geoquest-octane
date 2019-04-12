@@ -10,14 +10,16 @@ import Konva from 'konva';
 export default class MapService extends Service {
 
   @service ('gameboard') gameboard;
-  // @service ('map') mapService;
+  @service ('transport') transport;
   @service ('path') pathService;
   @service ('camera') camera;
+  @service ('hex') hexService;
 
-  @tracked hexSize = 36; //
+  @tracked hexSize = 36;  // get from init?  zoom level ?
 
   @tracked hexMap = null;
   worldMap = null;
+  worldMapHexes = null;  //  TODO need both worldMap and worldMapHexes?
   tileGraphics = [];
   currentLayout = null;
   @tracked tilesLoaded = false;
@@ -32,6 +34,18 @@ export default class MapService extends Service {
   @tracked startCol;
   @tracked numRows = 0;
   @tracked numCols = 0;
+
+  initMap(args) {
+    let { map } = args;
+    this.set('worldMap', map);
+    this.set('worldMapHexes', this.hexService.createHexesFromMap(map));
+
+    let graph = new Graph({
+      gridIn: this.worldMap
+    });
+    graph.setup(); // cleans all nodes
+    this.set('graph', graph);
+  }
 
   loadLayout() {
     this.currentLayout = new Layout({
@@ -75,8 +89,12 @@ export default class MapService extends Service {
     return this.tileGraphics[tileIndex];
   }
 
-  findHexByQRS(Q, R, S) {
-    let hex = this.hexMap.find((hex) => {
+  // ability to pass in the source of hexes to search - should make finding faster when passed in smaller subset of maps.
+  findHexByQRS(Q, R, S, sourceHexMap = this.hexMap) {
+    let hex = sourceHexMap.find((hex) => {
+      if (!hex) {
+        return false;
+      }
       return (Q === hex.q) && (R === hex.r) && (S === hex.s);
     });
     return hex;
@@ -125,10 +143,14 @@ export default class MapService extends Service {
     // console.log('closest', closest);
 
     let openHeap = this.createHeap();
-    let graph = new Graph({
-      gridIn: gridIn
-    });
-    graph.setup(); // cleans all nodes
+    // let graph = new Graph({
+    //   gridIn: gridIn
+    // });
+    // graph.setup(); // cleans all nodes
+
+    // TODO 4/11/19 do we need to clean all nodes each time we find path?
+    let graph = this.graph;
+    graph.cleanNodes();
 
     let startNode = this.findNodeFromHex(graph.gridIn, startHex);
     let endNode = this.findNodeFromHex(graph.gridIn, targetHex);
@@ -255,7 +277,53 @@ export default class MapService extends Service {
     return [];
   }
 
+  reportGetNeighborHexesInRange() {
+    let player = this.transport.players.objectAt(0);
+    let start = performance.now();
+    let neighborsInRangeArray = [];
+    this.getNeighborHexesInRange(1, player.sightRange, player.hex, neighborsInRangeArray)
+    let end = performance.now();
+    console.log('getNeighborHexesInRange time', end -  start);
+    console.log(neighborsInRangeArray);
+  }
 
+  // get an array of "neighbors" up to n range
+  // does not set any properties
+  getNeighborHexesInRange(currentIteration, maxRange, currentNode, neighborsInRangeArray) {
+  // getNeighborHexesInRange(currentIteration, maxRange, graph, currentNode, neighborsInRangeArray) {
+    // if(graph === null) {
+    //   graph = new Graph({
+    //     gridIn: this.worldMap
+    //   });
+    //   graph.setup(); // cleans all nodes
+    // }
+    this.graph.cleanNodes();
+
+    let neighbors = this.graph.neighbors(currentNode);
+    for (let i = 0, il = neighbors.length; i < il; ++i) {
+      let neighbor = neighbors[i];
+      if (neighbor) {
+        if (neighbor.visual && neighbor.visual.checked) {
+          // console.log('checked', neighbor);
+        } else {
+          neighbor.visual = neighbor.visual || {};
+          neighbor.visual.checked = true;
+
+          let hex = this.findHexByQRS(neighbor.q, neighbor.r, neighbor.s);
+          if (!neighborsInRangeArray.includes(hex)) {
+            neighborsInRangeArray.push(hex);
+          }
+        }
+
+        if (currentIteration < maxRange) {
+          this.getNeighborHexesInRange(currentIteration + 1, maxRange, neighbor, neighborsInRangeArray);
+          // this.getNeighborHexesInRange(currentIteration + 1, maxRange, graph, neighbor, neighborsInRangeArray);
+        }
+      }
+    }
+  }
+
+  // shows yellow boxes 'visited' during the findPath method
   drawVisitedRect(neighbor, visitedCounter) {
       let debugLayer = this.camera.stage.getLayers()[2];
       // debugLayer.removeChildren();

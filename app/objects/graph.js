@@ -59,32 +59,20 @@ export class Graph {
         if (sourceNode === null) {
           tempGrid[x][y] = null;
         } else {
-          // let localProps = {
-          //   x:x,
-          //   y:y,
-          //   weight:0
-          // };
-          // let assignedNode = assign(localProps, tempGrid[x][y]);
-          // var node = GridNode.create(assignedNode);
-          // var node = GridNode.create(tempGrid[x][y]);
-
-          // weight:row[y] !== null ? row[y].weight : 0
-          // tempGrid[x][y] = node;
           tempGrid[x][y] = sourceNode;
           this.nodes.push(sourceNode);
         }
-        // var node = GridNode.create({
-        //   x:x,
-        //   y:y,
-        //   weight:0
-        // });
-        //   // weight:row[y] !== null ? row[y].weight : 0
-        // tempGrid[x][y] = node;
-        // this.nodes.push(node);
       }
     }
     this.grid = tempGrid;
 
+    this.cleanNodes();
+    // for (var i = 0; i < this.nodes.length; i++) {
+    //   this.cleanNode(this.nodes[i]);
+    // }
+  }
+
+  cleanNodes() {
     for (var i = 0; i < this.nodes.length; i++) {
       this.cleanNode(this.nodes[i]);
     }
@@ -168,5 +156,9 @@ export class Graph {
     node.path.visited = false;
     node.path.closed = false;
     node.path.parent = null;
+
+    // node.fovX = null;
+    // node.fovY = null;
+    node.visual = {}
   }
 }

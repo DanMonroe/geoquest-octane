@@ -119,7 +119,7 @@ export default class IndexRoute extends Route {
               S: -1
             },
             img: "ship.svg",
-            sightRange: 5,
+            sightRange: 3,
             speed: 500,
             patrol: []
           },
@@ -135,12 +135,12 @@ export default class IndexRoute extends Route {
             name: 'ship',
             index: 0,
             start: {
-              Q: 1,
+              Q: 4,
               R: 0,
-              S: -1
+              S: -4
             },
             img: "ship.svg",
-            sightRange: 5,
+            sightRange: 3,
             speed: 500,
             patrol: []
           },

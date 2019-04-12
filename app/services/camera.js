@@ -62,7 +62,7 @@ export default class CameraService extends Service {
     return maxY;
   }
 
-  setUpWorldMap() {
+  initCamera() {
     assert("Must set currentLayout and worldMap", this.mapService.currentLayout && this.mapService.worldMap);
 
     let hexWidth = this.mapService.currentLayout.hexWidth;
@@ -125,7 +125,8 @@ export default class CameraService extends Service {
     let speed = 300;
     while (true) {
 
-      this.scroll({x: x, y: y});
+      // TODO fix and put back
+      // this.scroll({x: x, y: y});
 
       yield timeout(speed);
       speed = Math.max(25, speed * 0.8);
