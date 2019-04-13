@@ -128,7 +128,7 @@ export default class TransportService extends Service {
   }
 
   pushTransportWaypointToMoveQueue(agent) {
-    // console.log('pushTransportWaypointToMoveQueue', transport);
+    console.log('pushTransportWaypointToMoveQueue', transport);
     agent.currentWaypoint++;
     if (agent.currentWaypoint >= agent.patrol.length) {
       agent.currentWaypoint = 0;

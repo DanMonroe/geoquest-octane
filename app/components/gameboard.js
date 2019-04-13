@@ -22,7 +22,7 @@ export default class GameboardComponent extends Component {
   @tracked showTileHexInfo = false;
   @tracked showDebugLayer = true;
   @tracked showFieldOfViewLayer = true;
-  @tracked showTilesWithLabels = true;
+  // @tracked showTilesWithLabels = true;
 
   @tracked map = null;
   @tracked mapIndex = null;
@@ -45,7 +45,7 @@ export default class GameboardComponent extends Component {
     super(...arguments);
     this.model = arguments[1];
     this.mapService.loadLayout();
-    this.loadMap(3);
+    this.loadMap(2);
   }
 
   loadMap(mapIndex) {
@@ -84,6 +84,7 @@ export default class GameboardComponent extends Component {
     this.players = agentsObj.players;
     this.agents = agentsObj.agents;
 
+    // TODO re-add - fix bug when hex not found (not on map)
     this.transport.setupPatrols();
 
     this.gameboard.drawGrid({
@@ -125,6 +126,7 @@ export default class GameboardComponent extends Component {
     this.showTileGraphics = !this.showTileGraphics;
     let layer = this.camera.stage.getLayers()[0];
     layer.visible(this.showTileGraphics);
+    this.camera.stage.draw();
   }
 
   @action
@@ -132,6 +134,7 @@ export default class GameboardComponent extends Component {
     this.showTileHexInfo = !this.showTileHexInfo;
     let layer = this.camera.stage.getLayers()[1];
     layer.visible(this.showTileHexInfo);
+    this.camera.stage.draw();
   }
 
   @action

@@ -15,8 +15,8 @@ export class Player extends BaseAgent {
 
       let agentsHexOnMap = this.mapService.findHexByQRS(this.hex.q, this.hex.r, this.hex.s);
       let point = this.hexLayout.hexToPixel(agentsHexOnMap);
-      let newx = parseFloat(point.x + this.camera.x);   // - 30
-      let newy = parseFloat(point.y + this.camera.y);  // - 30
+      let newx = parseFloat(point.x + this.camera.x + 4);   // - 30
+      let newy = parseFloat(point.y + this.camera.y + 4);  // - 30
       // let newx = parseFloat(point.x + this.mapService.currentLayout.halfHexWidth + this.camera.x);   // - 30
       // let newy = parseFloat(point.y + this.mapService.currentLayout.halfHexWidth + this.camera.y);  // - 30
 

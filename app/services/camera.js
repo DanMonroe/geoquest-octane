@@ -35,6 +35,9 @@ export default class CameraService extends Service {
   offsetX = 0;
   offsetY = 0;
 
+  // @tracked worldX = 0;
+  // @tracked worldY = 0;
+
   // get viewportWidth() {
   //   // debugger;
   //   console.count();
@@ -77,6 +80,7 @@ export default class CameraService extends Service {
     } else { // even
       worldX = (mapColumns / 2) * (hexWidth * 1.5);
     }
+
     this.set('worldX', worldX);
 
     let worldY = Math.round((mapRows * hexHeight) + (hexHeight / 2));
@@ -84,8 +88,6 @@ export default class CameraService extends Service {
 
   }
 
-  worldX = 0;
-  worldY = 0;
 
   // How many hexes fit in the viewport:
   get maxViewportHexesX() {

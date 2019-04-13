@@ -15,7 +15,7 @@ export default class MapService extends Service {
   @service ('camera') camera;
   @service ('hex') hexService;
 
-  @tracked hexSize = 36;  // get from init?  zoom level ?
+  @tracked hexSize = 24;  // get from init?  zoom level ?
 
   @tracked hexMap = null;
   worldMap = null;

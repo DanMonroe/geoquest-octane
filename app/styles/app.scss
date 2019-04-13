@@ -3,7 +3,7 @@ body {
   padding:0;
   font-family: sans-serif;
   background-color: antiquewhite;
-  //background-image: url("/images/paper_texture1.jpg");
+  background-image: url("/images/paper_texture1.jpg");
 }
 
 .konva-scene-canvas {
@@ -14,7 +14,7 @@ body {
   position: relative;
   margin: 20px;
   min-height: 440px;
-  background-color: #000;
+  //background-color: #000;
 }
 
 #konvaContainer > canvas, #gamecanvas, #hexcanvas, #mousecanvas {
@@ -103,7 +103,8 @@ figure > canvas {
   img {
     //height: 16px;
     //height: 21px;
-    height: 42px;
+    height: 32px;
+    //height: 42px;
   }
 }
 

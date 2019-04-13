@@ -64,7 +64,7 @@ export default class GameboardService extends Service {
 
     // create viewport
     let stage = new Konva.Stage({
-      width: 800,
+      width: 1600,
       height: 450,
       container: '#konvaContainer' // or "#containerId" or ".containerClass"
     });
@@ -273,9 +273,14 @@ console.log('setVisualsForNeighborHexes', currentIteration);
 
     hexes.forEach((hex) => {
       this.drawHex(hexLayer, hex);
-      if (withLabels) this.drawHexLabel(hexLayer, hex);
-      if (withTiles) this.drawHexTile(gameLayer, hex);
+      this.drawHexLabel(hexLayer, hex);
+      this.drawHexTile(gameLayer, hex);
     });
+      // if (withLabels) this.drawHexLabel(hexLayer, hex);
+      // if (withTiles) this.drawHexTile(gameLayer, hex);
+
+    hexLayer.visible(withLabels);
+    gameLayer.visible(withTiles);
     this.camera.stage.draw();
   }
 
@@ -313,9 +318,9 @@ console.log('setVisualsForNeighborHexes', currentIteration);
 
     let idText = new Konva.Text({
       x: center.x,
-      y: center.y-19,
+      y: center.y-17,
       text: 'id:' + hex.map.id,
-      fontSize: 14,
+      fontSize: 11,
       fontFamily: 'sans-serif',
       fill: this.colorForHex(hex)
     });
@@ -325,7 +330,7 @@ console.log('setVisualsForNeighborHexes', currentIteration);
       x: center.x,
       y: center.y-4,
       text: hex.col + "," + hex.row,
-      fontSize: 14,
+      fontSize: 12,
       fontFamily: 'sans-serif',
       fill: this.colorForHex(hex)
     });
@@ -333,9 +338,9 @@ console.log('setVisualsForNeighborHexes', currentIteration);
 
     let qrsText = new Konva.Text({
       x: center.x,
-      y: center.y+11,
+      y: center.y+9,
       text: hex.q + "," + hex.r + "," + hex.s,
-      fontSize: 14,
+      fontSize: 11,
       fontFamily: 'sans-serif',
       fill: this.colorForHex(hex)
     });
