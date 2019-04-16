@@ -6,6 +6,14 @@ import { task, timeout } from 'ember-concurrency';
 
 export default class CameraService extends Service {
 
+  LAYERS = {
+    GAME: 0,
+    HEX: 1,
+    DEBUG: 2,
+    FOV: 3,
+    AGENTS: 4,
+  };
+
   @service ('map') mapService;
   @service ('gameboard') gameboard;  // remove this ?
 
@@ -21,8 +29,16 @@ export default class CameraService extends Service {
   // viewport = null;
 
   // camera stage
-  stage = null;
+  @tracked stage = null;
 
+  get stageX() {
+
+    return this.stage ? this.stage.getX() : 0;
+  }
+
+  get stageY() {
+    return this.stage ? this.stage.getY() : 0;
+  }
 
   /**
    * width and height: The size of the camera's viewport.
@@ -128,7 +144,7 @@ export default class CameraService extends Service {
     while (true) {
 
       // TODO fix and put back
-      // this.scroll({x: x, y: y});
+      this.scroll({x: x, y: y});
 
       yield timeout(speed);
       speed = Math.max(25, speed * 0.8);
@@ -188,12 +204,12 @@ export default class CameraService extends Service {
 
       // East
       if (scrollX < 0) {
-        // console.log(this.viewportWidth + (-this.x / 2));
+        console.log(this.viewportWidth + (-this.x / 2));
         if (this.viewportWidth + (-this.x) > this.mapService.bottomRightPoint.x + (this.mapService.currentLayout.hexWidth / 2)) {
-          // console.log('this.mapService.startCol + this.mapService.numCols', this.mapService.startCol + this.mapService.numCols);
+          console.log('this.mapService.startCol + this.mapService.numCols', this.mapService.startCol + this.mapService.numCols);
           if ((this.mapService.startCol + this.mapService.numCols) < this.mapService.worldMap[0].length) {
 
-            // console.log('load new hexes');
+            console.log('load new hexes - East');
             this.gameboard.setHexmapSubset(this.mapService.startRow, this.mapService.startCol + 1, this.mapService.numRows, this.mapService.numCols);
           } else {
             // console.log('hit eastern most limit');
@@ -208,7 +224,7 @@ export default class CameraService extends Service {
           // console.log('this.mapService.startRow + this.mapService.numRows', this.mapService.startRow + this.mapService.numRows);
           if ((this.mapService.startRow + this.mapService.numRows) < this.mapService.worldMap.length) {
 
-            // console.log('load new hexes');
+            console.log('load new hexes - South');
             this.gameboard.setHexmapSubset(this.mapService.startRow + 1, this.mapService.startCol, this.mapService.numRows, this.mapService.numCols);
           } else {
             // console.log('hit southern most limit');
@@ -222,7 +238,7 @@ export default class CameraService extends Service {
         if (-this.y - this.mapService.currentLayout.hexHeight <= this.mapService.topLeftPoint.y) {
           if (this.mapService.startRow > 0) {
 
-            // console.log('load new hexes');
+            console.log('load new hexes - North');
             this.gameboard.setHexmapSubset(this.mapService.startRow - 1, this.mapService.startCol, this.mapService.numRows, this.mapService.numCols);
           } else {
             // console.log('hit northern most limit');
@@ -236,8 +252,12 @@ export default class CameraService extends Service {
         if (-this.x - this.mapService.currentLayout.hexWidth <= this.mapService.topLeftPoint.x - (this.mapService.currentLayout.hexWidth/2)) {
           if (this.mapService.startCol > 0) {
 
-            // console.log('load new hexes');
+            console.log('load new hexes - West');
             this.gameboard.setHexmapSubset(this.mapService.startRow, this.mapService.startCol-1, this.mapService.numRows, this.mapService.numCols);
+
+            // this.stage.position({x:-72,y:0})
+            // this.stage.draw();
+
           } else {
             // console.log('hit western most limit');
           }
@@ -266,17 +286,30 @@ export default class CameraService extends Service {
       // debuglayer.scene.context.translate(scrollX, scrollY);
       // fovlayer.scene.context.translate(scrollX, scrollY);
 
+
       // move drawGrid into camera service?
+      // this.gameboard.drawGrid(
+      //   "gamecanvas",
+      //   true,
+      //   this.mapService.hexMap,
+      //   true
+      // );
       this.gameboard.drawGrid(
-        "gamecanvas",
-        true,
-        this.mapService.hexMap,
-        true
-      );
+      {
+        hexes: this.mapService.hexMap,
+        withLabels: true,
+        withTiles: true
+      });
+        // withLabels: this.showTileHexInfo,
+        // withTiles: this.showTileGraphics
+// debugger;
 
+      // TODO here
+      this.stage.move({x:scrollX,y:scrollY})
 
+      this.stage.draw();
 
-
+// debugger;
 
       this.redraw = false;
     }

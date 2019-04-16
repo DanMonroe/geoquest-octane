@@ -86,15 +86,17 @@ export default class FieldOfViewService extends Service {
       return h.id;
     })
 
-    let gameLayer = this.camera.stage.getLayers()[0];
+    let gameLayer = this.camera.stage.getLayers()[this.camera.LAYERS.GAME];
     let visibleHexeImages = gameLayer.getChildren((node) => {
       return visibleIds.includes(node.id());
     });
 
     visibleHexeImages.forEach(tile => {
-      tile.opacity(1);
+      tile.to({opacity: 1});
     });
+      // tile.opacity(1);
 
-    this.camera.stage.draw();
+    gameLayer.draw();
+    // this.camera.stage.draw();
   }
 }

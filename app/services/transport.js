@@ -4,7 +4,7 @@ import { A as emberArray } from '@ember/array';
 import { isPresent } from '@ember/utils';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
-
+import Konva from 'konva';
 import { Player } from '../objects/agents/player'
 import { Enemy } from '../objects/agents/enemy'
 // import { alias } from '@ember-decorators/object/computed';
@@ -33,80 +33,24 @@ export default class TransportService extends Service {
     this.players = emberArray();
     this.agents = emberArray();
 
-    let playerStartHex = this.mapService.hexMap.find((hex) => {
-      if (!hex) {
-        return false;
-      }
-      return (agents.player.start.Q === hex.q) &&
-        (agents.player.start.R === hex.r) &&
-        (agents.player.start.S === hex.s)
-    });
-
-    if (!playerStartHex) {
-      console.warn("Could not find player start hex.  Setting to first one in map");
-      // TODO this probably should never happen
-      playerStartHex = this.mapService.hexMap[0];
-    }
-    let playerStartPoint = this.mapService.currentLayout.hexToPixel(playerStartHex);
-
-    // console.log('playerStartPoint', playerStartPoint);
-    this.transportHexes.push(playerStartHex);
-    this.transportPoints.push(playerStartPoint);
-
-    let player = new Player();
-    player.id = agents.player.index;
-    player.name = agents.player.name;
-    player.hex = playerStartHex;
-    player.point = playerStartPoint;
-    player.agentImage = `/images/transports/${agents.player.img}`;
-    player.sightRange = agents.player.sightRange;
-    player.speed = agents.player.speed;
-    player.patrol = agents.player.patrol;
-    player.currentWaypoint = -1;
-    player.state = agents.player.state
-    player.hexLayout = this.mapService.currentLayout;
-    player.mapService = this.mapService;
-    player.camera = this.camera;
-    // player.mapCenterX = this.gameboard.centerX;
-    // player.mapCenterY = this.gameboard.centerY;
+    let player = new Player(
+      {
+        player:agents.player,
+        mapService:this.mapService,
+        camera:this.camera,
+        transportService:this
+      });
 
     this.players.push(player);
 
     agents.game.forEach((gameAgent) => {
-      let startHex = this.mapService.hexMap.find((hex) => {
-        if (!hex) {
-          return false;
-        }
-        return (gameAgent.start.Q === hex.q) &&
-          (gameAgent.start.R === hex.r) &&
-          (gameAgent.start.S === hex.s)
+      let enemy = new Enemy({
+        agent:gameAgent,
+        mapService:this.mapService,
+        camera:this.camera,
+        transportService:this
       });
-      // console.log('startHex', startHex);
-
-      let startPoint = this.mapService.currentLayout.hexToPixel(startHex);
-
-      this.transportHexes.push(startHex);
-      this.transportPoints.push(startPoint);
-
-
-      let enemy = new Enemy();
-      enemy.id = gameAgent.index;
-      enemy.name = gameAgent.name;
-      enemy.hex = startHex;
-      enemy.point = startPoint;
-      enemy.agentImage = `/images/transports/${gameAgent.img}`;
-      enemy.sightRange = gameAgent.sightRange;
-      enemy.speed = gameAgent.speed;
-      enemy.patrol = gameAgent.patrol;
-      enemy.currentWaypoint = -1;
-      enemy.state = gameAgent.state;
-      enemy.hexLayout = this.mapService.currentLayout;
-      enemy.mapCenterX = this.gameboard.centerX;
-      enemy.mapCenterY = this.gameboard.centerY;
-
       this.agents.push(enemy);
-
-      // console.log(gameAgent.name, ship);
     });
 
     return {
@@ -128,12 +72,18 @@ export default class TransportService extends Service {
   }
 
   pushTransportWaypointToMoveQueue(agent) {
-    console.log('pushTransportWaypointToMoveQueue', transport);
-    agent.currentWaypoint++;
-    if (agent.currentWaypoint >= agent.patrol.length) {
-      agent.currentWaypoint = 0;
-    }
-    let currentWaypointHex = agent.patrol[agent.currentWaypoint];
+    // console.log('pushTransportWaypointToMoveQueue', agent);
+
+    //random patrol:
+    let currentWaypointHex = agent.patrol[Math.floor(Math.random()*agent.patrol.length)];
+
+    // rolling patrol:
+    // agent.currentWaypoint++;
+    // if (agent.currentWaypoint >= agent.patrol.length) {
+    //   agent.currentWaypoint = 0;
+    // }
+    // let currentWaypointHex = agent.patrol[agent.currentWaypoint];
+
     let targetHex = this.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
     let agentHex = this.transportHexes[agent.id];
     let path = this.mapService.findPath(this.mapService.worldMap, agentHex, targetHex);
@@ -211,7 +161,17 @@ export default class TransportService extends Service {
     this.transportHexes[transport.id] = targetHex;
 
     transport.hex = targetHex;
-    // transport.set('hex', targetHex);
+    let point = this.mapService.currentLayout.hexToPixel(targetHex);
+
+    let tween = new Konva.Tween({
+      node: transport.imageObj,
+      duration: 0.5,
+      easing: Konva.Easings.EaseInOut,
+      x: point.x - 18,
+      y: point.y - 18
+    });
+
+    tween.play();
 
     this.game.onTransportMoved(transport, targetHex);
 
@@ -225,14 +185,71 @@ export default class TransportService extends Service {
     this.transportHexes[ship.id] = targetHex;
 
     ship.hex = targetHex;
-    // ship.set('hex', targetHex);
+    let point = this.mapService.currentLayout.hexToPixel(targetHex);
 
-    // TODO update field ov vision hexes here ?
+    let tween = new Konva.Tween({
+      node: ship.imageObj,
+      duration: 0.5,
+      easing: Konva.Easings.EaseInOut,
+      x: point.x - 18,
+      y: point.y - 18
+    });
+
+    tween.play();
+
+    // this.moveMapIfNecessary(ship.hex);
+
     this.fov.updatePlayerFieldOfView(ship.hex);
-    // this.mapService.reportGetNeighborHexesInRange();
+
+    this.camera.stage.draw();
 
     yield timeout(ship.speed);
   }).enqueue() moveShipToHexTask;
+
+  // todo move this to camera
+  moveMapIfNecessary(shipHex) {
+    let distanceFromCameraEdge = this.distanceFromCameraEdge(shipHex);
+    let shouldScrollMap = this.shouldScrollMap(distanceFromCameraEdge);
+    if (shouldScrollMap.right) {
+      this.camera.scroll({x: -this.mapService.currentLayout.hexHorizontalSpacing, y: 0});
+    }
+    if (shouldScrollMap.left) {
+      this.camera.scroll({x: this.mapService.currentLayout.hexHorizontalSpacing, y: 0});
+    }
+    if (shouldScrollMap.top) {
+      this.camera.scroll({x: 0, y: -this.mapService.currentLayout.hexVerticalSpacing});
+    }
+    if (shouldScrollMap.bottom) {
+      this.camera.scroll({x: 0, y: this.mapService.currentLayout.hexVerticalSpacing});
+    }
+  }
+
+  // todo move this to camera
+  distanceFromCameraEdge(shipHex) {
+    let shipPoint = this.mapService.currentLayout.hexToPixel(shipHex);
+    let distanceFromCameraEdge = {
+      top: shipPoint.y - this.mapService.topLeftPoint.y,
+      left: shipPoint.x - this.mapService.topLeftPoint.x,
+      bottom: this.mapService.bottomRightPoint.y - shipPoint.y,
+      right: this.mapService.bottomRightPoint.x - shipPoint.x
+    };
+    console.log('distanceFromCameraEdge', distanceFromCameraEdge);
+    return distanceFromCameraEdge;
+  }
+
+  shouldScrollMap(distanceFromCameraEdge) {
+    let player = this.players.objectAt(0);
+    let sightRange = player.sightRange + 1;
+    let scrollMap = {
+      right: (sightRange * this.mapService.currentLayout.hexHorizontalSpacing > distanceFromCameraEdge.right),
+      left: (distanceFromCameraEdge.left < sightRange * this.mapService.currentLayout.hexHorizontalSpacing),
+      bottom: (sightRange * this.mapService.currentLayout.hexVerticalSpacing > distanceFromCameraEdge.bottom),
+      top: (distanceFromCameraEdge.top < sightRange * this.mapService.currentLayout.hexVerticalSpacing)
+    }
+    console.log('shouldScrollMap', scrollMap);
+    return scrollMap;
+  }
+
 
   moveShipAlongPath(path) {
     if (path && path.length) {

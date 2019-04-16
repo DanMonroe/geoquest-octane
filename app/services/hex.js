@@ -16,6 +16,14 @@ export default class HexService extends Service {
       aHex.s === bHex.s);
   }
 
+  // returns true if the array of given hexes includes the target hex by QRS
+  arrayOfHexesIncludesHex (sourceHexes, targetHex) {
+    let filteredHexes = sourceHexes.filter((hex) => {
+      return this.hasSameCoordinates(hex, targetHex);
+    });
+    return filteredHexes.length > 0;
+  }
+
   createHexesFromMap (map) {
     let hexes = [];
     let rows = map.length;

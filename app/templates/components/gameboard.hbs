@@ -14,20 +14,17 @@
         {{!map.name}}
       {{!/power-select}}
     <div class="hexwrapper">
-      {{#if this.mapService.tilesLoaded}}
-        <figure id="konvaContainer"
-          {{did-insert (action this.setupGame)}}
-          {{will-destroy (action this.teardownGameboardCanvases)}}
-        >
-        </figure>
-      {{/if}}
-
-      {{#if this.players}}
-        <Agents @agents={{this.players}}/>
-      {{/if}}
-      {{#if this.agents}}
-        <Agents @agents={{this.agents}}/>
-      {{/if}}
+      <div id="scroll-container">
+        <div id="large-container">
+          {{#if this.mapService.tilesLoaded}}
+            <figure id="konvaContainer"
+              {{did-insert (action this.setupGame)}}
+              {{will-destroy (action this.teardownGameboardCanvases)}}
+            >
+            </figure>
+          {{/if}}
+        </div>
+      </div>
     </div>
   </section>
 </AnimatedContainer>
@@ -84,7 +81,7 @@
         {{this.gameboard.mousePoint}}
       </div>
       <div>
-        X:{{this.camera.x}} Y:{{this.camera.y}}
+        X:{{this.camera.stageX}} Y:{{this.camera.stageY}}
       </div>
       <div>
         world width:{{this.camera.worldX}} height:{{this.camera.worldY}}

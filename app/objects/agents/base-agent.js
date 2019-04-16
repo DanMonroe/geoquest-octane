@@ -20,5 +20,6 @@ export class BaseAgent {
   currentWaypoint = -1;
   @tracked mapService = null;
   @tracked camera = null;
+  @tracked transportService;
 
 }

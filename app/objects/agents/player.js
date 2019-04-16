@@ -1,28 +1,68 @@
 import { BaseAgent } from './base-agent';
-import { htmlSafe } from '@ember/string';
+import Konva from 'konva';
+
 
 export class Player extends BaseAgent {
 
   static transportHexIndex = 0;
 
-  constructor() {
+  constructor(args) {
     super(...arguments);
     this.type = BaseAgent.AGENTTYPES.PLAYER;
-  }
 
-  get style() {
-    if (this.hexLayout && this.hex) {
+    let player = args.player;
+    this.mapService = args.mapService;
+    this.camera = args.camera;
+    this.transportService = args.transportService;
 
-      let agentsHexOnMap = this.mapService.findHexByQRS(this.hex.q, this.hex.r, this.hex.s);
-      let point = this.hexLayout.hexToPixel(agentsHexOnMap);
-      let newx = parseFloat(point.x + this.camera.x + 4);   // - 30
-      let newy = parseFloat(point.y + this.camera.y + 4);  // - 30
-      // let newx = parseFloat(point.x + this.mapService.currentLayout.halfHexWidth + this.camera.x);   // - 30
-      // let newy = parseFloat(point.y + this.mapService.currentLayout.halfHexWidth + this.camera.y);  // - 30
+    let playerStartHex = this.mapService.hexMap.find((hex) => {
+      if (!hex) {
+        return false;
+      }
+      return (player.start.Q === hex.q) &&
+        (player.start.R === hex.r) &&
+        (player.start.S === hex.s)
+    });
 
-      return htmlSafe(`top: ${newy}px; left: ${newx}px;`);
+    if (!playerStartHex) {
+      console.warn("Could not find player start hex.  Setting to first one in map");
+      // TODO this probably should never happen
+      playerStartHex = this.mapService.hexMap[0];
     }
-    return htmlSafe('display: none;');
+    let playerStartPoint = this.mapService.currentLayout.hexToPixel(playerStartHex);
+
+    this.id = player.index;
+    this.name = player.name;
+    this.hex = playerStartHex;
+    this.point = playerStartPoint;
+    this.agentImage = `/images/transports/${player.img}`;
+    this.agentImageSize = player.imgSize;
+    this.sightRange = player.sightRange;
+    this.speed = player.speed;
+    this.patrol = player.patrol;
+    this.currentWaypoint = -1;
+    this.state = player.state
+    this.hexLayout = this.mapService.currentLayout;
+
+    this.transportService.transportHexes.push(playerStartHex);
+    this.transportService.transportPoints.push(playerStartPoint);
+
+    let image = new Image();
+    image.onload = () => {
+      this.imageObj = new Konva.Image({
+        id: "player",
+        x: this.point.x - (this.agentImageSize / 2),
+        y: this.point.y - (this.agentImageSize / 2),
+        image: image,
+        width: this.agentImageSize,
+        height: this.agentImageSize
+      });
+
+      let agentsLayer = this.camera.stage.getLayers()[this.camera.LAYERS.AGENTS];
+      agentsLayer.add(this.imageObj);
+      this.camera.stage.draw();
+    };
+    image.src = this.agentImage;
   }
 
 }

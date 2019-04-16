@@ -1,25 +1,68 @@
 import { BaseAgent } from './base-agent';
-import { htmlSafe } from '@ember/string';
+import Konva from 'konva';
 
 export class Enemy extends BaseAgent {
 
-  constructor() {
+  constructor(args) {
     super(...arguments);
     this.type = BaseAgent.AGENTTYPES.ENEMY;
-  }
 
-  get style() {
-    if (this.hexLayout && this.hex) {
-      let agentsHexOnMap = this.mapService.findHexByQRS(this.hex.q, this.hex.r, this.hex.s);
-      let point = this.hexLayout.hexToPixel(agentsHexOnMap);
-      let newx = parseFloat(point.x + this.camera.x);   // - 30
-      let newy = parseFloat(point.y + this.camera.y);  // - 30
-      // let newx = parseFloat(point.x + 36);   // - 30
-      // let newy = parseFloat(point.y + 36);  // - 30
+    let agent = args.agent;
+    this.mapService = args.mapService;
+    this.camera = args.camera;
+    this.transportService = args.transportService;
 
-      return htmlSafe(`top: ${newy}px; left: ${newx}px;`);
+    let startHex = this.mapService.hexMap.find((hex) => {
+      if (!hex) {
+        return false;
+      }
+      return (agent.start.Q === hex.q) &&
+        (agent.start.R === hex.r) &&
+        (agent.start.S === hex.s)
+    });
+
+    if (!startHex) {
+      console.error("Could not find agent start hex.  Setting to first one in map");
+      // TODO this probably should never happen
+      startHex = this.mapService.hexMap[0];
     }
-    return htmlSafe('display: none;');
+
+    let startPoint = this.mapService.currentLayout.hexToPixel(startHex);
+
+    this.id = agent.index;
+    this.name = agent.name;
+    this.hex = startHex;
+    this.point = startPoint;
+    this.agentImage = `/images/transports/${agent.img}`;
+    this.agentImageSize = agent.imgSize;
+    this.sightRange = agent.sightRange;
+    this.speed = agent.speed;
+    this.patrol = agent.patrol;
+    this.currentWaypoint = -1;
+    this.state = agent.state
+    this.hexLayout = this.mapService.currentLayout;
+
+    this.transportService.transportHexes.push(startHex);
+    this.transportService.transportPoints.push(startPoint);
+
+    let image = new Image();
+    image.onload = () => {
+      this.imageObj = new Konva.Image({
+        id: "agent" + agent.index,
+        x: this.point.x - (this.agentImageSize / 2),
+        y: this.point.y - (this.agentImageSize / 2),
+        image: image,
+        opacity: 0,
+        width: this.agentImageSize,
+        height: this.agentImageSize
+      });
+
+      let agentsLayer = this.camera.stage.getLayers()[this.camera.LAYERS.AGENTS];
+      agentsLayer.add(this.imageObj);
+      this.camera.stage.draw();
+    };
+    image.src = this.agentImage;
   }
+
 }
 

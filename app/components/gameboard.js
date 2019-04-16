@@ -56,7 +56,7 @@ export default class GameboardComponent extends Component {
 
     this.mapService.loadTiles(this.map);
 
-    this.transport.setupPatrols();
+    // this.transport.setupPatrols();
 
     // let canvasContainer = document.getElementById('konvaContainer');
     // if (canvasContainer) {
@@ -84,7 +84,6 @@ export default class GameboardComponent extends Component {
     this.players = agentsObj.players;
     this.agents = agentsObj.agents;
 
-    // TODO re-add - fix bug when hex not found (not on map)
     this.transport.setupPatrols();
 
     this.gameboard.drawGrid({
@@ -95,15 +94,15 @@ export default class GameboardComponent extends Component {
 
     this.fov.updatePlayerFieldOfView(this.transport.players.objectAt(0).hex)
 
+    this.transport.moveQueueTask.perform();
+
     // TODO put these back in:
-    // this.transport.moveQueueTask.perform();
     // this.game.gameClock.perform();
   }
 
   @action
   teardownGameboardCanvases(konvaContainer) {
     konvaContainer.removeEventListener('click', this.handleContainerClick);
-    // konvaContainer.removeEventListener('click', this.handleContainerClick);
   }
 
   @action
@@ -116,7 +115,7 @@ export default class GameboardComponent extends Component {
   toggleDebugLayer() {
     this.showDebugLayer = !this.showDebugLayer;
     this.gameboard.showDebugLayer = this.showDebugLayer;
-    let layer = this.camera.stage.getLayers()[2];
+    let layer = this.camera.stage.getLayers()[this.camera.LAYERS.DEBUG];
     layer.visible(this.showDebugLayer);
 
   }
@@ -124,17 +123,19 @@ export default class GameboardComponent extends Component {
   @action
   toggleTiles() {
     this.showTileGraphics = !this.showTileGraphics;
-    let layer = this.camera.stage.getLayers()[0];
+    let layer = this.camera.stage.getLayers()[this.camera.LAYERS.GAME];
     layer.visible(this.showTileGraphics);
-    this.camera.stage.draw();
+    // this.camera.stage.draw();
+    layer.draw();
   }
 
   @action
   toggleHexInfo() {
     this.showTileHexInfo = !this.showTileHexInfo;
-    let layer = this.camera.stage.getLayers()[1];
+    let layer = this.camera.stage.getLayers()[this.camera.LAYERS.HEX];
     layer.visible(this.showTileHexInfo);
-    this.camera.stage.draw();
+    layer.draw();
+    // this.camera.stage.draw();
   }
 
   @action

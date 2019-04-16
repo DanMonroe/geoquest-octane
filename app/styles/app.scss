@@ -2,12 +2,19 @@ body {
   margin:0;
   padding:0;
   font-family: sans-serif;
+  height: 100%;
   background-color: antiquewhite;
   background-image: url("/images/paper_texture1.jpg");
 }
 
 .konva-scene-canvas {
   background-color: lightgray;
+}
+
+#large-container {
+  width: 3000px;
+  height: 3000px;
+  overflow: hidden;
 }
 
 #konvaContainer {
@@ -17,12 +24,18 @@ body {
   //background-color: #000;
 }
 
+#scroll-container {
+  width: calc(100% - 22px);
+  height: calc(60vh - 22px);
+  overflow: auto;
+  margin: 10px;
+  border: 1px solid grey;
+}
+
 #konvaContainer > canvas, #gamecanvas, #hexcanvas, #mousecanvas {
-  height: 500px;
-  width: 500px;
-  position: absolute;
-  //top: 0;
-  //left: 0;
+  //height: 500px;
+  //width: 500px;
+  //position: absolute;
 }
 
 #gamecanvas {

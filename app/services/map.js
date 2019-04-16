@@ -310,7 +310,7 @@ export default class MapService extends Service {
           neighbor.visual.checked = true;
 
           let hex = this.findHexByQRS(neighbor.q, neighbor.r, neighbor.s);
-          if (!neighborsInRangeArray.includes(hex)) {
+          if (hex && !neighborsInRangeArray.includes(hex)) {
             neighborsInRangeArray.push(hex);
           }
         }
@@ -325,7 +325,7 @@ export default class MapService extends Service {
 
   // shows yellow boxes 'visited' during the findPath method
   drawVisitedRect(neighbor, visitedCounter) {
-      let debugLayer = this.camera.stage.getLayers()[2];
+      let debugLayer = this.camera.stage.getLayers()[this.camera.LAYERS.DEBUG];
       // debugLayer.removeChildren();
       // debugLayer.clear();
     let center = this.currentLayout.hexToPixel(neighbor);
@@ -351,7 +351,8 @@ export default class MapService extends Service {
     // counterText.offsetX(counterText.width() / 2);
     debugLayer.add(counterText);
 
-    this.camera.stage.draw();
+    debugLayer.draw();
+    // this.camera.stage.draw();
 
 
     // let ctx = this.camera.viewport.layers[2].scene.context;

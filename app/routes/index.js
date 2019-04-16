@@ -77,16 +77,31 @@ export default class IndexRoute extends Route {
             name: 'ship',
             index: 0,
             start: {
-              Q: 1,
-              R: 0,
-              S: -1
+              Q: 7,
+              R: 1,
+              S: -8
             },
             img: "ship.svg",
+            imgSize: 32,
             sightRange: 3,
             speed: 500,
             patrol: []
           },
           game: [
+            {
+              name: 'galleon',
+              index: 1,
+              start: {
+                Q: 20,
+                R: -7,
+                S: -13
+              },
+              img: "galleon.svg",
+              imgSize: 32,
+              sightRange: 3,
+              speed: 700,
+              patrol: [{Q: 16, R: -6, S: -10}, {Q: 19, R: -4, S: -15}, {Q: 20, R: -7, S: -13}, {Q: 15, R: -3, S: -12}]
+            }
           ]
         }
       },

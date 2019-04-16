@@ -64,10 +64,14 @@ export default class GameboardService extends Service {
 
     // create viewport
     let stage = new Konva.Stage({
-      width: 1600,
-      height: 450,
+      width: window.innerWidth,
+      height: window.innerHeight,
       container: '#konvaContainer' // or "#containerId" or ".containerClass"
     });
+      // width: 400,
+      // height: 450,
+      // width: 1600,
+      // height: 450,
 
 
     // create layers
@@ -79,16 +83,19 @@ export default class GameboardService extends Service {
     let hexLayer = new Konva.Layer();
     let debugLayer = new Konva.Layer();
     let fieldOfViewLayer = new Konva.Layer();
+    let agentsLayer = new Konva.Layer();
 
     gameLayer.disableHitGraph();
     hexLayer.disableHitGraph();
     debugLayer.disableHitGraph();
     fieldOfViewLayer.disableHitGraph();
+    agentsLayer.disableHitGraph();
 
     stage.add(gameLayer);
     stage.add(hexLayer);
     stage.add(debugLayer);
     stage.add(fieldOfViewLayer);
+    stage.add(agentsLayer);
 
     this.camera.stage = stage;
     this.camera.viewportWidth = stage.width();
@@ -100,8 +107,10 @@ export default class GameboardService extends Service {
     this.camera.offsetX = boundingRect.x; // TODO need this offsetX and Y?
     this.camera.offsetY = boundingRect.y;
 
-    let colsToGrab = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
-    let rowsToGrab = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
+    let colsToGrab = map.MAP[0].length;
+    let rowsToGrab = map.MAP.length;
+    // let colsToGrab = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
+    // let rowsToGrab = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
 
     let startRow = 0;
     let startCol = 0
@@ -126,11 +135,28 @@ export default class GameboardService extends Service {
 
 
     this.camera.stage.on('click', () => {
-      this.hexClick(this.camera.stage.getPointerPosition());
+      let pointerPos = this.camera.stage.getPointerPosition();
+      pointerPos.x -= this.camera.stage.getX();
+      pointerPos.y -= this.camera.stage.getY();
+      this.hexClick(pointerPos);
     });
 
     this.camera.stage.on('mousemove', () => {
-      this.hexMouseMove(this.camera.stage.getPointerPosition());
+      let pointerPos = this.camera.stage.getPointerPosition();
+      pointerPos.x -= this.camera.stage.getX();
+      pointerPos.y -= this.camera.stage.getY();
+      this.hexMouseMove(pointerPos);
+    });
+
+    var scrollContainer = document.getElementById('scroll-container');
+    scrollContainer.addEventListener('scroll', () => {
+      var dx = scrollContainer.scrollLeft;
+      var dy = scrollContainer.scrollTop;
+      this.camera.stage.container().style.transform =
+        'translate(' + dx + 'px, ' + dy + 'px)';
+      this.camera.stage.x(-dx);
+      this.camera.stage.y(-dy);
+      this.camera.stage.batchDraw();
     });
 
     //fixes a problem where double clicking causes text to get selected on the canvas
@@ -180,7 +206,8 @@ export default class GameboardService extends Service {
     this.mapService.set('numCols', numCols);
 
     let mapLength = this.mapService.hexMap.length;
-    let topLeftPoint = this.mapService.currentLayout.hexToPixel(this.mapService.hexMap[0]);
+    let topLeftPoint = this.mapService.currentLayout.hexToPixel(this.mapService.hexMap[startCol*numRows]);
+    // let topLeftPoint = this.mapService.currentLayout.hexToPixel(this.mapService.hexMap[0]);
     let bottomRightPoint = this.mapService.currentLayout.hexToPixel(this.mapService.hexMap[mapLength-1]);
     this.mapService.set('topLeftPoint', topLeftPoint);
     this.mapService.set('bottomRightPoint', bottomRightPoint);
@@ -260,8 +287,8 @@ console.log('setVisualsForNeighborHexes', currentIteration);
     let { hexes, withLabels, withTiles } = args;
 
     let layers = this.camera.stage.getLayers();
-    let gameLayer = layers[0];
-    let hexLayer = layers[1];
+    let gameLayer = layers[this.camera.LAYERS.GAME];
+    let hexLayer = layers[this.camera.LAYERS.HEX];
 
     // what hexes can player see?
     // loop hexes
@@ -281,7 +308,8 @@ console.log('setVisualsForNeighborHexes', currentIteration);
 
     hexLayer.visible(withLabels);
     gameLayer.visible(withTiles);
-    this.camera.stage.draw();
+    this.camera.stage.batchDraw();
+    // this.camera.stage.draw();
   }
 
   drawHex(layer, hex) {
@@ -393,13 +421,13 @@ console.log('setVisualsForNeighborHexes', currentIteration);
   }
 
   clearDebugLayer() {
-    let debugLayer = this.camera.stage.getLayers()[2];
+    let debugLayer = this.camera.stage.getLayers()[this.camera.LAYERS.DEBUG];
     debugLayer.removeChildren();
     debugLayer.clear();
   }
 
   clearFOVLayer() {
-    let layer = this.camera.stage.getLayers()[3];
+    let layer = this.camera.stage.getLayers()[this.camera.LAYERS.FOV];
     layer.removeChildren();
     layer.clear();
   }
@@ -492,7 +520,7 @@ console.log('setVisualsForNeighborHexes', currentIteration);
       let numVisibleHexes = returnFieldOfViewHexes.visible.length;
       let numBlockedHexes = returnFieldOfViewHexes.blocked.length;
 
-      let layer = this.camera.stage.getLayers()[3];
+      let layer = this.camera.stage.getLayers()[this.camera.LAYERS.FOV];
 // console.group('fov')
       for (let i = 0; i < numVisibleHexes; i++) {
         // console.log('visible', returnFieldOfViewHexes.visible[i].fovX, returnFieldOfViewHexes.visible[i].fovY);
@@ -515,7 +543,8 @@ console.log('setVisualsForNeighborHexes', currentIteration);
         layer.add(circle);
       }
 // console.groupEnd();
-      this.camera.stage.draw();
+      layer.draw();
+      // this.camera.stage.draw();
     }
   }
 
@@ -541,9 +570,10 @@ console.log('setVisualsForNeighborHexes', currentIteration);
         lineJoin: 'round'
       });
 
-      let debugLayer = this.camera.stage.getLayers()[2]
+      let debugLayer = this.camera.stage.getLayers()[this.camera.LAYERS.DEBUG]
       debugLayer.add(purpleline);
-      this.camera.stage.draw();
+      debugLayer.draw();
+      // this.camera.stage.draw();
     }
   }
 
@@ -569,6 +599,10 @@ console.log('setVisualsForNeighborHexes', currentIteration);
     let x = mouseCoords.x;
     let y = mouseCoords.y;
 
+    // adjust for camera position
+    x += -this.camera.x;
+    y += -this.camera.y;
+
     let point = new Point({x:x, y:y});
     let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
     let targetHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
@@ -584,10 +618,9 @@ console.log('setVisualsForNeighborHexes', currentIteration);
   }
 
   hexMouseMove(mouseCoords) {
-  // hexMouseMove(event) {
 
+// console.log('hexMouseMove', mouseCoords);
     let targetHex = this.getHexAtMousePoint(mouseCoords, true);
-    // let targetHex = this.getHexAtMousePoint(event, true);
 
     if(targetHex && targetHex.id != this.lastMouseMoveTargetId) {
       this.clearDebugLayer();
@@ -611,8 +644,8 @@ console.log('setVisualsForNeighborHexes', currentIteration);
   }
 
   hexClick(mouseCoords) {
-  //   console.log(mouseCoords);
     let targetHex = this.getHexAtMousePoint(mouseCoords, false);
+    console.log('hexClick', targetHex);
 
     if (targetHex && targetHex.id) {
       // if (this.showDebugLayer) {

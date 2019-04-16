@@ -52,6 +52,8 @@ export class Layout {
 
     this.hexPairWidth = Math.round(this.hexWidth * 1.5);
     this.halfHexWidth = Math.round(this.hexWidth * .5);
+    this.hexHorizontalSpacing = Math.round(this.hexWidth * .75);
+    this.hexVerticalSpacing = this.hexHeight;
 
   }
 
