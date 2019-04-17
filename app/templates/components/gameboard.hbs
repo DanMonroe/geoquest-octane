@@ -1,4 +1,5 @@
 <!--https://www.redblobgames.com/grids/hexagons/implementation.html-->
+<h2>GeoQuest - Octane</h2>
 <AnimatedContainer class="gameboard">
   <section>
       {{!#power-select
@@ -29,31 +30,6 @@
   </section>
 </AnimatedContainer>
 
-<div class="cameraNav">
-  <span>Scroll Map:</span>
-  <PressAndHoldButton
-    @press={{perform this.camera.scrollMap 0 6}}
-    @release={{cancel-all this.camera.scrollMap}}>
-    North
-  </PressAndHoldButton>
-  <PressAndHoldButton
-    @press={{perform this.camera.scrollMap -6 0}}
-    @release={{cancel-all this.camera.scrollMap}}>
-    East
-  </PressAndHoldButton>
-  <PressAndHoldButton
-    @press={{perform this.camera.scrollMap 6 0}}
-    @release={{cancel-all this.camera.scrollMap}}>
-    West
-  </PressAndHoldButton>
-  <PressAndHoldButton
-    @press={{perform this.camera.scrollMap 0 -6 }}
-    @release={{cancel-all this.camera.scrollMap}}>
-    South
-  </PressAndHoldButton>
-  <button {{action "doSomething"}}>Do it</button>
-</div>
-
 <div class="debugWrapper">
   <div class="row">
     <div class="col label">
@@ -79,9 +55,6 @@
       </div>
       <div>
         {{this.gameboard.mousePoint}}
-      </div>
-      <div>
-        X:{{this.camera.stageX}} Y:{{this.camera.stageY}}
       </div>
       <div>
         world width:{{this.camera.worldX}} height:{{this.camera.worldY}}
