@@ -12,11 +12,10 @@ export default class GameboardService extends Service {
   @service ('camera') camera;
   @service ('transport') transport;
   @service ('path') pathService;
+  @service ('game') game;
 
   @tracked rect = null;
 
-  @tracked mapOriginX = null;
-  @tracked mapOriginY = null;
 
   @tracked centerX = null;
   @tracked centerY = null;
@@ -31,6 +30,9 @@ export default class GameboardService extends Service {
   @tracked mouseXY = `X: Y:`;
   @tracked currentHex = `Q:  R:  S: `;
   @tracked lastMouseMoveTargetId = null;
+  @tracked playerHex = `Q:  R:  S: `;
+  @tracked shipHex = `Q:  R:  S: `;
+  @tracked enemyHex = `Q:  R:  S: `;
 
 
   setupQRSFromMap(map) {
@@ -56,28 +58,13 @@ export default class GameboardService extends Service {
 
   setupGameboardCanvases(konvaContainer, map, showDebugLayer, showFieldOfViewLayer) {
 
-    // // Map setup
-    // this.mapService.set('worldMap', map.MAP);
-    // this.mapService.set('worldMapHexes', this.hexService.createHexesFromMap(map.MAP));
-
-    // this.camera.setUpWorldMap();  // now camera.init
-
-    // create viewport
     let stage = new Konva.Stage({
       width: window.innerWidth,
       height: window.innerHeight,
-      container: '#konvaContainer' // or "#containerId" or ".containerClass"
+      container: '#konvaContainer'
     });
-      // width: 400,
-      // height: 450,
-      // width: 1600,
-      // height: 450,
-
 
     // create layers
-    // add canvas element
-    let layer = new Konva.Layer();
-    stage.add(layer);
 
     let gameLayer = new Konva.Layer();
     let hexLayer = new Konva.Layer();
@@ -101,12 +88,6 @@ export default class GameboardService extends Service {
     this.camera.viewportWidth = stage.width();
     this.camera.viewportHeight = stage.height();
 
-    let boundingRect = this.camera.stage.getClientRect();
-
-    // let boundingRect = this.camera.viewport.container.getBoundingClientRect();
-    this.camera.offsetX = boundingRect.x; // TODO need this offsetX and Y?
-    this.camera.offsetY = boundingRect.y;
-
     let colsToGrab = map.MAP[0].length;
     let rowsToGrab = map.MAP.length;
     // let colsToGrab = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
@@ -115,24 +96,10 @@ export default class GameboardService extends Service {
     let startRow = 0;
     let startCol = 0
 
-    this.setHexmapSubset(startRow, startCol, rowsToGrab, colsToGrab);
+    this.mapService.setHexmapSubset(startRow, startCol, rowsToGrab, colsToGrab);
 
-    // let centerX = 100;
-    // let centerY = 100;
-    // this.set('centerX', centerX);  // remove
-    // this.set('centerY', centerY);  // remove
-
-    // console.log('FOVBlockedContext',FOVBlockedContext);
     this.showDebugLayer = showDebugLayer;
     this.showFieldOfViewLayer = showFieldOfViewLayer;
-
-    // this.drawGrid({
-    //   hexes: this.mapService.hexMap,
-    //   player: this.transport.players.objectAt(0),
-    //   withLabels: true,
-    //   withTiles: true
-    // });
-
 
     this.camera.stage.on('click', () => {
       let pointerPos = this.camera.stage.getPointerPosition();
@@ -148,72 +115,16 @@ export default class GameboardService extends Service {
       this.hexMouseMove(pointerPos);
     });
 
-    var scrollContainer = document.getElementById('scroll-container');
+    let scrollContainer = document.getElementById('scroll-container');
     scrollContainer.addEventListener('scroll', () => {
-      var dx = scrollContainer.scrollLeft;
-      var dy = scrollContainer.scrollTop;
-      this.camera.stage.container().style.transform =
-        'translate(' + dx + 'px, ' + dy + 'px)';
+      let dx = scrollContainer.scrollLeft;
+      let dy = scrollContainer.scrollTop;
+      this.camera.stage.container().style.transform = 'translate(' + dx + 'px, ' + dy + 'px)';
       this.camera.stage.x(-dx);
       this.camera.stage.y(-dy);
       this.camera.stage.batchDraw();
     });
 
-    //fixes a problem where double clicking causes text to get selected on the canvas
-    // konvaContainer.addEventListener('selectstart', (e) => {
-    //   e.preventDefault(); return false;
-    //   },
-    // false);
-
-    // konvaContainer.addEventListener('click', (event) => {
-    //   if (this.camera.viewport) {
-    //     this.hexClick(event)
-    //   }
-    // });
-    //
-    // konvaContainer.addEventListener('mousemove', (event) => {
-    //   if (this.camera.viewport) {
-    //     this.hexMouseMove(event)
-    //   }
-    // });
-  }
-
-  // TODO
-  /**
-   *
->>>>  Find out the most LeftX, LeftY, RightX, RightY during the loading of the hexes
->>>>  Use the first and last Point.  they have the x,y coords we need
-   *
-   */
-
-  setHexmapSubset(startRow, startCol, numRows, numCols) {
-    let subsetMap = [];
-    for (let r = startRow; r < (startRow + numRows); r++) {
-      let subsetMapCols = [];
-      for (let c = startCol; c < (startCol + numCols); c++) {
-        let thisMapObject = this.mapService.worldMap[r][c];
-        // console.log(thisMapObject);
-        subsetMapCols.push(thisMapObject);
-      }
-      subsetMap.push(subsetMapCols);
-    }
-
-    // console.log('subsetMap', subsetMap);
-    this.mapService.set('hexMap', this.hexService.createHexesFromMap(subsetMap));
-    this.mapService.set('startRow', startRow);
-    this.mapService.set('startCol', startCol);
-    this.mapService.set('numRows', numRows);
-    this.mapService.set('numCols', numCols);
-
-    let mapLength = this.mapService.hexMap.length;
-    let topLeftPoint = this.mapService.currentLayout.hexToPixel(this.mapService.hexMap[startCol*numRows]);
-    // let topLeftPoint = this.mapService.currentLayout.hexToPixel(this.mapService.hexMap[0]);
-    let bottomRightPoint = this.mapService.currentLayout.hexToPixel(this.mapService.hexMap[mapLength-1]);
-    this.mapService.set('topLeftPoint', topLeftPoint);
-    this.mapService.set('bottomRightPoint', bottomRightPoint);
-
-    // console.log(this.mapService.hexMap[0], topLeftPoint);
-    // console.log(this.mapService.hexMap[mapLength-1], bottomRightPoint);
   }
 
   isHexInBlockedList(hex, blockedList) {
@@ -227,61 +138,61 @@ export default class GameboardService extends Service {
   }
 
 
-  setVisualsForNeighborHexes(currentIteration, maxRange, graph, player, currentNode) {
-console.log('setVisualsForNeighborHexes', currentIteration);
-    let neighbors = graph.neighbors(currentNode);
-    for (let i = 0, il = neighbors.length; i < il; ++i) {
-      let neighbor = neighbors[i];
-      if (neighbor) {
-        if (neighbor.checked) {
-          // console.log('checked');
-        } else {
-          // let distanceInHexes = this.pathService.heuristics.hex(player.hex, neighbor)
-          // console.log(neighbor, distanceInHexes);
+//   setVisualsForNeighborHexes(currentIteration, maxRange, graph, player, currentNode) {
+// // console.log('setVisualsForNeighborHexes', currentIteration);
+//     let neighbors = graph.neighbors(currentNode);
+//     for (let i = 0, il = neighbors.length; i < il; ++i) {
+//       let neighbor = neighbors[i];
+//       if (neighbor) {
+//         if (neighbor.checked) {
+//           // console.log('checked');
+//         } else {
+//           // let distanceInHexes = this.pathService.heuristics.hex(player.hex, neighbor)
+//           // console.log(neighbor, distanceInHexes);
+//
+//           neighbor.checked = true;
+//
+//           // if (distanceInHexes <= player.sightRange) {
+//
+//           let seenHex = this.mapService.findHexByQRS(neighbor.q, neighbor.r, neighbor.s);
+//           // let seenHex = this.mapService.worldMapHexes[neighbor.id-1];
+//           // console.log(seenHex, newSeenHex);
+//
+//           let returnFieldOfViewHexes = this.isFieldOfViewBlockedForHex(player.hex, seenHex);
+//           // debugger;
+//           let blocked = this.isHexInBlockedList(seenHex, returnFieldOfViewHexes.blocked)
+//
+//           seenHex.visual = {
+//             seen: true,
+//             canSee: !blocked
+//           };
+//         }
+//
+//         if (currentIteration < maxRange) {
+//           this.setVisualsForNeighborHexes(currentIteration+1, maxRange, graph, player, neighbor);
+//         }
+//       }
+//     }
+//   }
 
-          neighbor.checked = true;
-
-          // if (distanceInHexes <= player.sightRange) {
-
-          let seenHex = this.mapService.findHexByQRS(neighbor.q, neighbor.r, neighbor.s);
-          // let seenHex = this.mapService.worldMapHexes[neighbor.id-1];
-          // console.log(seenHex, newSeenHex);
-
-          let returnFieldOfViewHexes = this.isFieldOfViewBlockedForHex(player.hex, seenHex);
-          // debugger;
-          let blocked = this.isHexInBlockedList(seenHex, returnFieldOfViewHexes.blocked)
-
-          seenHex.visual = {
-            seen: true,
-            canSee: !blocked
-          };
-        }
-
-        if (currentIteration < maxRange) {
-          this.setVisualsForNeighborHexes(currentIteration+1, maxRange, graph, player, neighbor);
-        }
-      }
-    }
-  }
-
-  mapPlayerFieldOfVision(args) {
-    let { player } = args;
-
-    this.mapService.graph.cleanNodes();
-
-    let startNode = this.mapService.findNodeFromHex(this.mapService.graph.gridIn, player.hex);
-
-    player.hex.visual = {
-      seen: true,
-      canSee: true
-    };
-
-    let start = performance.now();
-    // this.setVisualsForNeighborHexes(1, 2, graph, player, startNode);
-    this.setVisualsForNeighborHexes(1, player.sightRange, this.mapService.graph, player, startNode);
-    let end = performance.now();
-    console.log('setVisualsForNeighborHexes time', end -  start);
-  }
+  // mapPlayerFieldOfVision(args) {
+  //   let { player } = args;
+  //
+  //   this.mapService.graph.cleanNodes();
+  //
+  //   let startNode = this.mapService.findNodeFromHex(this.mapService.graph.gridIn, player.hex);
+  //
+  //   player.hex.visual = {
+  //     seen: true,
+  //     canSee: true
+  //   };
+  //
+  //   let start = performance.now();
+  //   // this.setVisualsForNeighborHexes(1, 2, graph, player, startNode);
+  //   this.setVisualsForNeighborHexes(1, player.sightRange, this.mapService.graph, player, startNode);
+  //   let end = performance.now();
+  //   console.log('setVisualsForNeighborHexes time', end -  start);
+  // }
 
   drawGrid(args) {
     let { hexes, withLabels, withTiles } = args;
@@ -290,34 +201,19 @@ console.log('setVisualsForNeighborHexes', currentIteration);
     let gameLayer = layers[this.camera.LAYERS.GAME];
     let hexLayer = layers[this.camera.LAYERS.HEX];
 
-    // what hexes can player see?
-    // loop hexes
-
-    // this.mapPlayerFieldOfVision({
-    //   hexes: hexes,
-    //   player: player
-    // });
-
     hexes.forEach((hex) => {
       this.drawHex(hexLayer, hex);
       this.drawHexLabel(hexLayer, hex);
       this.drawHexTile(gameLayer, hex);
     });
-      // if (withLabels) this.drawHexLabel(hexLayer, hex);
-      // if (withTiles) this.drawHexTile(gameLayer, hex);
 
     hexLayer.visible(withLabels);
     gameLayer.visible(withTiles);
     this.camera.stage.batchDraw();
-    // this.camera.stage.draw();
   }
 
   drawHex(layer, hex) {
     let corners = this.mapService.currentLayout.polygonCorners(hex);
-
-// console.log('corners', corners, hex);
-
-    // console.log(hex.visual);
 
     let points = [];
     for (var i = 0; i < 6; i++) {
@@ -627,15 +523,21 @@ console.log('setVisualsForNeighborHexes', currentIteration);
 
       this.lastMouseMoveTargetId = targetHex.id;
 
-      let shipHex = this.transport.transportHexes[Player.transportHexIndex];
+      let sourceHex = this.game.player.hex;
+      // console.log('sourceHex', this.game.player.name ,sourceHex);
+      // let shipHex = this.transport.transportHexes[Player.transportHexIndex];
+      // console.log('shipHex' ,sourceHex);
+      // let shipHex = this.transport.transportHexes[Player.transportHexIndex];
 
-      let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:false});
-      // let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:true});
+      let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, sourceHex, targetHex, {debug:false});
+      // let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:false});
 
       this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
 
-      this.drawPathToTarget(shipHex, pathDistanceToMouseHex);
-      this.drawFieldOfView(shipHex, targetHex);
+      this.drawPathToTarget(sourceHex, pathDistanceToMouseHex);
+      this.drawFieldOfView(sourceHex, targetHex);
+      // this.drawPathToTarget(shipHex, pathDistanceToMouseHex);
+      // this.drawFieldOfView(shipHex, targetHex);
 
     } else {
       // this.pathDistanceToMouseHex = 0;
@@ -645,40 +547,92 @@ console.log('setVisualsForNeighborHexes', currentIteration);
 
   hexClick(mouseCoords) {
     let targetHex = this.getHexAtMousePoint(mouseCoords, false);
-    console.log('hexClick', targetHex);
+    // console.log('hexClick', targetHex);
 
     if (targetHex && targetHex.id) {
-      // if (this.showDebugLayer) {
-        this.clearDebugLayer();
-      // }
 
-      // move ship
-      let shipHex = this.transport.transportHexes[Player.transportHexIndex];
-      this.transport.moveShipToHexTask.cancelAll();
+      this.transport.movePlayerToHexTask.cancelAll();
 
-      let path = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:false});
+      if (this.playerAtSeaTryingToDock(this.game.player.hex, targetHex)) {
+        this.transformToLandOrSea(this.transport.TRANSPORTMODES.LAND, targetHex);
 
-      this.transport.moveShipAlongPath(path);
+      } else if (this.playerOnDockTryingToBoard(this.game.player.hex, targetHex)) {
+        this.transformToLandOrSea(this.transport.TRANSPORTMODES.SEA, targetHex);
+
+      } else {
+        let path = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex, {debug:false});
+        this.transport.movePlayerAlongPath(path);
+      }
+
     }
   }
 
-  // getMouse(e) {
-  //   let boundingRect = this.camera.viewport.container.getBoundingClientRect();
-  //   var element = boundingRect, mx, my;
-  //   let offsetX = boundingRect.x + this.camera.x + this.mapService.currentLayout.halfHexWidth;
-  //   let offsetY = boundingRect.y + this.camera.y + this.mapService.currentLayout.halfHexWidth;
-  //
-  //   // Compute the total offset
-  //   if (element.offsetParent !== undefined) {
-  //     do {
-  //       offsetX += element.offsetLeft;
-  //       offsetY += element.offsetTop;
-  //     } while ((element = element.offsetParent));
-  //   }
-  //
-  //   mx = e.pageX - offsetX;
-  //   my = e.pageY - offsetY;
-  //
-  //   return {x: mx, y: my};
-  // }
+  playerOnDockTryingToBoard(sourceHex, targetHex) {
+    let distance = this.pathService.heuristics.hex(sourceHex, targetHex);
+    if(distance === 1) {
+      let ship = this.transport.findTransportByName('ship');
+      let tryingToBoard = (sourceHex.props && sourceHex.props.dock === true) &&
+        (this.hexService.hasSameCoordinates(targetHex, ship.hex));
+      return tryingToBoard;
+    }
+    return false;
+  }
+
+  playerAtSeaTryingToDock(sourceHex, targetHex) {
+    let distance = this.pathService.heuristics.hex(sourceHex, targetHex);
+    if(distance === 1) {
+      let tryingToDock = ((targetHex.props && targetHex.props.dock) === true) &&
+        this.game.playerHasTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
+      return tryingToDock;
+    }
+    return false;
+  }
+
+  transformToLandOrSea (targetMode, targetHex) {
+
+    switch (targetMode) {
+      case this.transport.TRANSPORTMODES.SEA:
+        this.game.boardTransport('ship');
+        this.movePlayerTowardsTransportThenFade(targetHex);
+        break;
+
+      case this.transport.TRANSPORTMODES.LAND:
+        this.game.disembarkTransportToHex(targetHex);
+        this.movePlayerFromTransportOntoLand(targetHex);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  movePlayerFromTransportOntoLand(targetHex) {
+    let agentsLayer = this.camera.stage.getLayers()[this.camera.LAYERS.AGENTS];
+
+    // show and move land avatar
+    let point = this.mapService.currentLayout.hexToPixel(targetHex);
+    this.game.player.imageObj.x(point.x - 18);
+    this.game.player.imageObj.y(point.y - 18);
+    this.game.player.imageObj.to({opacity: 1});
+
+    agentsLayer.draw();
+  }
+
+  movePlayerTowardsTransportThenFade(targetHex) {
+    let agentsLayer = this.camera.stage.getLayers()[this.camera.LAYERS.AGENTS];
+    let point = this.mapService.currentLayout.hexToPixel(targetHex);
+
+    // move avatar to ship
+    this.game.player.imageObj.to({
+      x: point.x - 18,
+      y: point.y - 18
+    });
+    agentsLayer.draw();
+
+    // fade the avatar
+    this.game.player.imageObj.to({opacity: 0});
+    agentsLayer.draw();
+
+  }
+
 }

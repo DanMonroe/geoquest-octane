@@ -7,9 +7,15 @@ import { task, timeout } from 'ember-concurrency';
 import Konva from 'konva';
 import { Player } from '../objects/agents/player'
 import { Enemy } from '../objects/agents/enemy'
+import { Transport } from '../objects/agents/transport'
 // import { alias } from '@ember-decorators/object/computed';
 
 export default class TransportService extends Service {
+
+  TRANSPORTMODES = {
+    SEA: 0,
+    LAND: 1
+  };
 
   @service ('map') mapService;
   @service ('game') game;
@@ -17,33 +23,62 @@ export default class TransportService extends Service {
   @service ('gameboard') gameboard;
   @service ('fieldOfView') fov;
 
-  @tracked players = emberArray();  // Needs to be an array for animated-each
+  @tracked player = null;
   @tracked agents = emberArray();
+  @tracked transports = emberArray();
 
-  // @alias('players.objectAt(0)') player;
-
-  @tracked transportHexes = [];
-  @tracked transportPoints = [];
 
   @tracked moveQueueEnabled = true;
   @tracked moveQueue = emberArray();
 
+  // put the player on a specific transport
+  boardTransport(transport) {
+    this.game.player.boardTransport = transport;
+  }
+
+  findTransportByName(name) {
+    let transport = this.transports.find((transport => {
+      return transport.name === name;
+    }))
+    // console.log('findTransportByName', transport);
+    return transport;
+  }
+
   setupAgents(agents) {
 
-    this.players = emberArray();
+    this.player = null;
+    this.transports = emberArray();
     this.agents = emberArray();
+
+    agents.transports.forEach((transportAgent) => {
+      let transport = new Transport({
+        agent:transportAgent,
+        mapService:this.mapService,
+        camera:this.camera,
+        transportService:this
+      });
+      // console.log('adding transport', transport);
+      this.transports.push(transport);
+    });
+
+    // find the ship to board initially
+    let startingShip = this.findTransportByName('ship');
 
     let player = new Player(
       {
         player:agents.player,
         mapService:this.mapService,
         camera:this.camera,
-        transportService:this
+        game:this.game,
+        transportService:this,
+        travelAbilityFlags: this.game.FLAGS.TRAVEL.SEA,
+        boardedTransport: startingShip
       });
 
-    this.players.push(player);
+    this.player = player;
+    this.game.player = player;
 
-    agents.game.forEach((gameAgent) => {
+    agents.enemies.forEach((gameAgent) => {
       let enemy = new Enemy({
         agent:gameAgent,
         mapService:this.mapService,
@@ -54,8 +89,9 @@ export default class TransportService extends Service {
     });
 
     return {
-      players: this.players,
-      agents: this.agents
+      player: this.player,
+      agents: this.agents,
+      transports: this.transports
     };
 
   }
@@ -74,24 +110,28 @@ export default class TransportService extends Service {
   pushTransportWaypointToMoveQueue(agent) {
     // console.log('pushTransportWaypointToMoveQueue', agent);
 
-    //random patrol:
-    let currentWaypointHex = agent.patrol[Math.floor(Math.random()*agent.patrol.length)];
+    let currentWaypointHex;
 
-    // rolling patrol:
-    // agent.currentWaypoint++;
-    // if (agent.currentWaypoint >= agent.patrol.length) {
-    //   agent.currentWaypoint = 0;
-    // }
-    // let currentWaypointHex = agent.patrol[agent.currentWaypoint];
+    if(agent.patrolMethod === 'random') {
+      //random patrol:
+      currentWaypointHex = agent.patrol[Math.floor(Math.random() * agent.patrol.length)];
+
+    } else {
+      // rolling patrol:
+      agent.currentWaypoint++;
+      if (agent.currentWaypoint >= agent.patrol.length) {
+        agent.currentWaypoint = 0;
+      }
+      currentWaypointHex = agent.patrol[agent.currentWaypoint];
+    }
 
     let targetHex = this.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
-    let agentHex = this.transportHexes[agent.id];
-    let path = this.mapService.findPath(this.mapService.worldMap, agentHex, targetHex);
+    // let agentHex = this.transportHexes[agent.id];
+    let path = this.mapService.findPath(this.mapService.worldMap, agent.hex, targetHex);
     let moveObject = {
       agent: agent,
       path: path,
       finishedCallback: () => {
-        // console.log('in move finishedCallback for ' + transport.name);
         this.pushTransportWaypointToMoveQueue(agent);
       }
     }
@@ -139,26 +179,23 @@ export default class TransportService extends Service {
         // console.log('waiting....');
       }
 
-// console.log(this.moveQueue);
-      let consoleTableItems = []
-      this.moveQueue.forEach((moveObject) => {
-        let logItem = {
-          name: moveObject.agent.name,
-          'player distance': moveObject.agent.playerDistance,
-          'sight': moveObject.agent.sightRange,
-          'state': moveObject.agent.state,
-        };
-        consoleTableItems.push(logItem);
-      })
-      if (consoleTableItems.length) {
-        // console.table(consoleTableItems);
-      }
+//       let consoleTableItems = []
+//       this.moveQueue.forEach((moveObject) => {
+//         let logItem = {
+//           name: moveObject.agent.name,
+//           'player distance': moveObject.agent.playerDistance,
+//           'sight': moveObject.agent.sightRange,
+//           'state': moveObject.agent.state,
+//         };
+//         consoleTableItems.push(logItem);
+//       })
+//       if (consoleTableItems.length) {
+//         // console.table(consoleTableItems);
+//       }
     }
   }) moveQueueTask;
 
   @task(function*(transport, targetHex) {
-
-    this.transportHexes[transport.id] = targetHex;
 
     transport.hex = targetHex;
     let point = this.mapService.currentLayout.hexToPixel(targetHex);
@@ -173,22 +210,38 @@ export default class TransportService extends Service {
 
     tween.play();
 
+    // debugging:
+    this.gameboard.enemyHex = `Q:${targetHex.q} R:${targetHex.r} S:${targetHex.s}`;
+
     this.game.onTransportMoved(transport, targetHex);
 
     yield timeout(transport.speed);
 
   }).enqueue() moveTransportTask;
 
-  @task(function*(ship, targetHex) {
-    // let ship = this.ships.objectAt(0);
-    // debugger;
-    this.transportHexes[ship.id] = targetHex;
 
-    ship.hex = targetHex;
+  @task(function*(playerObj, targetHex) {
+
+    playerObj.hex = targetHex;
+
+    // for debugging:
+    this.gameboard.playerHex = `Q:${targetHex.q} R:${targetHex.r} S:${targetHex.s}`;
+
     let point = this.mapService.currentLayout.hexToPixel(targetHex);
 
+    let objectToVisuallyMove = playerObj;
+
+    // if the player is on a transport, move the transport
+    if (playerObj.boardedTransport) {
+      playerObj.boardedTransport.hex = targetHex;
+      objectToVisuallyMove = playerObj.boardedTransport;
+
+      // for debugging:
+      this.gameboard.shipHex = `Q:${targetHex.q} R:${targetHex.r} S:${targetHex.s}`;
+    }
+
     let tween = new Konva.Tween({
-      node: ship.imageObj,
+      node: objectToVisuallyMove.imageObj,
       duration: 0.5,
       easing: Konva.Easings.EaseInOut,
       x: point.x - 18,
@@ -197,85 +250,22 @@ export default class TransportService extends Service {
 
     tween.play();
 
-    // this.moveMapIfNecessary(ship.hex);
-
-    this.fov.updatePlayerFieldOfView(ship.hex);
+    this.fov.updatePlayerFieldOfView(playerObj.hex);
 
     this.camera.stage.draw();
 
-    yield timeout(ship.speed);
-  }).enqueue() moveShipToHexTask;
+    yield timeout(playerObj.speed);
+    
+  }).enqueue() movePlayerToHexTask;
 
-  // todo move this to camera
-  moveMapIfNecessary(shipHex) {
-    let distanceFromCameraEdge = this.distanceFromCameraEdge(shipHex);
-    let shouldScrollMap = this.shouldScrollMap(distanceFromCameraEdge);
-    if (shouldScrollMap.right) {
-      this.camera.scroll({x: -this.mapService.currentLayout.hexHorizontalSpacing, y: 0});
-    }
-    if (shouldScrollMap.left) {
-      this.camera.scroll({x: this.mapService.currentLayout.hexHorizontalSpacing, y: 0});
-    }
-    if (shouldScrollMap.top) {
-      this.camera.scroll({x: 0, y: -this.mapService.currentLayout.hexVerticalSpacing});
-    }
-    if (shouldScrollMap.bottom) {
-      this.camera.scroll({x: 0, y: this.mapService.currentLayout.hexVerticalSpacing});
-    }
-  }
-
-  // todo move this to camera
-  distanceFromCameraEdge(shipHex) {
-    let shipPoint = this.mapService.currentLayout.hexToPixel(shipHex);
-    let distanceFromCameraEdge = {
-      top: shipPoint.y - this.mapService.topLeftPoint.y,
-      left: shipPoint.x - this.mapService.topLeftPoint.x,
-      bottom: this.mapService.bottomRightPoint.y - shipPoint.y,
-      right: this.mapService.bottomRightPoint.x - shipPoint.x
-    };
-    console.log('distanceFromCameraEdge', distanceFromCameraEdge);
-    return distanceFromCameraEdge;
-  }
-
-  shouldScrollMap(distanceFromCameraEdge) {
-    let player = this.players.objectAt(0);
-    let sightRange = player.sightRange + 1;
-    let scrollMap = {
-      right: (sightRange * this.mapService.currentLayout.hexHorizontalSpacing > distanceFromCameraEdge.right),
-      left: (distanceFromCameraEdge.left < sightRange * this.mapService.currentLayout.hexHorizontalSpacing),
-      bottom: (sightRange * this.mapService.currentLayout.hexVerticalSpacing > distanceFromCameraEdge.bottom),
-      top: (distanceFromCameraEdge.top < sightRange * this.mapService.currentLayout.hexVerticalSpacing)
-    }
-    console.log('shouldScrollMap', scrollMap);
-    return scrollMap;
-  }
-
-
-  moveShipAlongPath(path) {
+  movePlayerAlongPath(path) {
     if (path && path.length) {
-
-      // console.log('Moving ship along path', path);
       for (let move = 0, pathLen = path.length; move < pathLen; move++) {
         let nextHex = path[move];
-        let player = this.players.objectAt(0);
-        // this.moveTransportTask.perform(ship, nextHex);
-        this.moveShipToHexTask.perform(player, nextHex);
+
+        let player = this.game.player;
+        this.movePlayerToHexTask.perform(player, nextHex);
       }
-
-
-//       let moveObject = {
-//         transport: this.ships.objectAt(0),
-//         path: path,
-//         finishedCallback: () => {
-//           console.log('in move finishedCallback for Ship');
-//           // this.pushTransportWaypointToMoveQueue(transport);
-//         }
-//       }
-//
-//       this.moveQueue.pushObject(moveObject);
-
-
-      // console.log('done');
     }
   }
 

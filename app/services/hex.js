@@ -45,7 +45,8 @@ export default class HexService extends Service {
           q: mapObject.q,
           r: mapObject.r,
           s: mapObject.s,
-          map: mapObject
+          map: mapObject,
+          props: mapObject.props || {}
         });
         // if (mapObject.id === 26) {
         //   debugger

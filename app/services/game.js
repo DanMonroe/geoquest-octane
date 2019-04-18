@@ -5,7 +5,16 @@ import { task, timeout } from 'ember-concurrency';
 
 export default class GameService extends Service {
 
+  FLAGS = {
+    TRAVEL: {
+      SEA: 1,
+      LAND: 2
+    }
+  };
+
+
   @service ('map') mapService;
+  @service ('game') game;
   @service ('transport') transport;
   @service ('gameboard') gameboard;
   @service ('hex') hexService;
@@ -13,7 +22,45 @@ export default class GameService extends Service {
   @tracked enemyToPlayerDistance = 0;
   @tracked enemyStatus = '';
 
+  @tracked player = null;
+
+  // track what attributes the player currently has so that
+  // we can know if the player is allowed to move there
+  @tracked playerTravelAbilityFlags = 0;
+
   @tracked gameClockEnabled = true;
+
+  playerHasTravelAbilityFlag(flag) {
+    if(flag) {
+      return this.playerTravelAbilityFlags & flag
+    }
+    return false;
+  }
+
+  turnOnPlayerTravelAbilityFlag(flag) {
+    if(flag) {
+      this.playerTravelAbilityFlags |= flag;
+    }
+  }
+
+  turnOffPlayerTravelAbilityFlag(flag) {
+    if(flag) {
+      this.playerTravelAbilityFlags &= ~flag;
+    }
+  }
+
+  boardTransport(transportName) {
+    this.turnOffPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.LAND);
+    this.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
+    this.player.boardedTransport = this.transport.findTransportByName(transportName);
+  }
+
+  disembarkTransportToHex(targetHex) {
+    this.turnOffPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
+    this.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.LAND);
+    this.player.boardedTransport = null;
+    this.player.hex = targetHex;
+  }
 
   @task( function*() {
     while (this.gameClockEnabled === true) {
@@ -23,8 +70,7 @@ export default class GameService extends Service {
   }) gameClock;
 
   onTransportMoved(transport, targetHex) {
-    let shipHex = this.transport.transportHexes[0];
-    let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex);
+    let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex);
     transport.playerDistance = pathDistanceToShipHex.length;
 
     this.enemyToPlayerDistance = pathDistanceToShipHex.length;
@@ -35,7 +81,7 @@ export default class GameService extends Service {
 
     // adjust enemy opacity based on range of player and obscured hexes
   updateEnemyOpacityForRangeAndObscurity(transport, targetHex) {
-    let player = this.transport.players.objectAt(0);
+    let player = this.player;
     let playerSightRange = player.sightRange;
     let currentOpacity = transport.imageObj.opacity();
     let returnFieldOfViewHexes = this.gameboard.isFieldOfViewBlockedForHex(player.hex, targetHex/**, sortedByDistanceNeighbors**/);

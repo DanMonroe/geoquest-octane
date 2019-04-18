@@ -1,11 +1,11 @@
 import { BaseAgent } from './base-agent';
 import Konva from 'konva';
 
-export class Enemy extends BaseAgent {
+export class Transport extends BaseAgent {
 
   constructor(args) {
     super(...arguments);
-    this.type = BaseAgent.AGENTTYPES.ENEMY;
+    this.type = BaseAgent.AGENTTYPES.TRANSPORT;
 
     let agent = args.agent;
     this.mapService = args.mapService;
@@ -42,9 +42,6 @@ export class Enemy extends BaseAgent {
     this.state = agent.state
     this.hexLayout = this.mapService.currentLayout;
 
-    // this.transportService.transportHexes.push(startHex);
-    // this.transportService.transportPoints.push(startPoint);
-
     let image = new Image();
     image.onload = () => {
       this.imageObj = new Konva.Image({
@@ -52,7 +49,7 @@ export class Enemy extends BaseAgent {
         x: this.point.x - (this.agentImageSize / 2),
         y: this.point.y - (this.agentImageSize / 2),
         image: image,
-        opacity: 0,
+        opacity: agent.opacity,
         width: this.agentImageSize,
         height: this.agentImageSize
       });

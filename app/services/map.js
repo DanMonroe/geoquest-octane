@@ -14,18 +14,16 @@ export default class MapService extends Service {
   @service ('path') pathService;
   @service ('camera') camera;
   @service ('hex') hexService;
+  @service ('game') game;
 
   @tracked hexSize = 24;  // get from init?  zoom level ?
 
   @tracked hexMap = null;
   worldMap = null;
-  worldMapHexes = null;  //  TODO need both worldMap and worldMapHexes?
+  // worldMapHexes = null;  //  TODO need both worldMap and worldMapHexes?
   tileGraphics = [];
   currentLayout = null;
   @tracked tilesLoaded = false;
-
-  @tracked mapOriginX = 36;
-  @tracked mapOriginY = 36;
 
   // what hexes are currently loaded in the map
   @tracked topLeftPoint;
@@ -100,6 +98,32 @@ export default class MapService extends Service {
     return hex;
   }
 
+  setHexmapSubset(startRow, startCol, numRows, numCols) {
+    let subsetMap = [];
+    for (let r = startRow; r < (startRow + numRows); r++) {
+      let subsetMapCols = [];
+      for (let c = startCol; c < (startCol + numCols); c++) {
+        let thisMapObject = this.worldMap[r][c];
+        // console.log(thisMapObject);
+        subsetMapCols.push(thisMapObject);
+      }
+      subsetMap.push(subsetMapCols);
+    }
+
+    // console.log('subsetMap', subsetMap);
+    this.set('hexMap', this.hexService.createHexesFromMap(subsetMap));
+    this.set('startRow', startRow);
+    this.set('startCol', startCol);
+    this.set('numRows', numRows);
+    this.set('numCols', numCols);
+
+    let mapLength = this.hexMap.length;
+    let topLeftPoint = this.currentLayout.hexToPixel(this.hexMap[startCol*numRows]);
+    let bottomRightPoint = this.currentLayout.hexToPixel(this.hexMap[mapLength-1]);
+    this.set('topLeftPoint', topLeftPoint);
+    this.set('bottomRightPoint', bottomRightPoint);
+  }
+
   createHeap() {
     return new BinaryHeap({
       content: [],
@@ -129,9 +153,12 @@ export default class MapService extends Service {
     return foundNode;
   }
 
+  isBlockedByFlags(neighborPathFlags) {
+    return !this.game.playerHasTravelAbilityFlag(neighborPathFlags);
+  }
+
   // https://briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated/
   findPath(gridIn, startHex, targetHex, options = {}) {
-// console.log('findPath', gridIn, startHex, targetHex);
 
     if (options.debug) {
       console.groupCollapsed(`findPath from ${startHex.id} to ${targetHex.id}`);
@@ -206,16 +233,9 @@ export default class MapService extends Service {
 
         if(neighbor) {
 
-          if (neighbor.path.closed || neighbor.path.w !== 0) {
+          if (neighbor.path.closed || this.isBlockedByFlags(neighbor.path.flags)) {
+// if (neighbor.path.closed || neighbor.path.w !== 0) {   // this line works with pathfinding before FLAGS
 
-            // TODO hexWithinViewport is bust after scrolling....
-          // if (neighbor.path.closed || neighbor.path.w !== 0 || !this.camera.hexWithinViewport(neighbor)) {
-
-
-
-            // TODO cant get theWall to work
-            // if (neighbor.closed || neighbor.isWall) {
-            // if (neighbor.closed || neighbor.isWall()) {
             // Not a valid node to process, skip to next neighbor.
             continue;
           }
@@ -254,7 +274,6 @@ export default class MapService extends Service {
               openHeap.push(neighbor);
             } else {
               // Already seen the node, but since it has been rescored we need to reorder it in the heap
-              console.log('rescoring');
               openHeap.rescoreElement(neighbor);
             }
           } // if
@@ -268,35 +287,30 @@ export default class MapService extends Service {
       if (options.debug) {
         console.groupEnd();
       }
-      // debugger;
       return path;
     }
 
-    console.groupEnd();
+    if (options.debug) {
+      console.groupEnd();
+    }
+
     // No result was found - empty array signifies failure to find path.
     return [];
   }
 
   reportGetNeighborHexesInRange() {
-    let player = this.transport.players.objectAt(0);
-    let start = performance.now();
+    let player = this.game.player;
+    // let start = performance.now();
     let neighborsInRangeArray = [];
     this.getNeighborHexesInRange(1, player.sightRange, player.hex, neighborsInRangeArray)
-    let end = performance.now();
-    console.log('getNeighborHexesInRange time', end -  start);
-    console.log(neighborsInRangeArray);
+    // let end = performance.now();
+    // console.log('getNeighborHexesInRange time', end -  start);
+    // console.log(neighborsInRangeArray);
   }
 
   // get an array of "neighbors" up to n range
   // does not set any properties
   getNeighborHexesInRange(currentIteration, maxRange, currentNode, neighborsInRangeArray) {
-  // getNeighborHexesInRange(currentIteration, maxRange, graph, currentNode, neighborsInRangeArray) {
-    // if(graph === null) {
-    //   graph = new Graph({
-    //     gridIn: this.worldMap
-    //   });
-    //   graph.setup(); // cleans all nodes
-    // }
     this.graph.cleanNodes();
 
     let neighbors = this.graph.neighbors(currentNode);
@@ -317,7 +331,6 @@ export default class MapService extends Service {
 
         if (currentIteration < maxRange) {
           this.getNeighborHexesInRange(currentIteration + 1, maxRange, neighbor, neighborsInRangeArray);
-          // this.getNeighborHexesInRange(currentIteration + 1, maxRange, graph, neighbor, neighborsInRangeArray);
         }
       }
     }
@@ -325,9 +338,7 @@ export default class MapService extends Service {
 
   // shows yellow boxes 'visited' during the findPath method
   drawVisitedRect(neighbor, visitedCounter) {
-      let debugLayer = this.camera.stage.getLayers()[this.camera.LAYERS.DEBUG];
-      // debugLayer.removeChildren();
-      // debugLayer.clear();
+    let debugLayer = this.camera.stage.getLayers()[this.camera.LAYERS.DEBUG];
     let center = this.currentLayout.hexToPixel(neighbor);
 
     var rect = new Konva.Rect({
@@ -348,23 +359,8 @@ export default class MapService extends Service {
       fontFamily: 'sans-serif',
       fill: 'black'
     });
-    // counterText.offsetX(counterText.width() / 2);
     debugLayer.add(counterText);
 
     debugLayer.draw();
-    // this.camera.stage.draw();
-
-
-    // let ctx = this.camera.viewport.layers[2].scene.context;
-    //   let center = this.currentLayout.hexToPixel(neighbor);
-    //   ctx.fillStyle="yellow";
-    //   ctx.fillRect(center.x+15, center.y-18, 16, 12);
-    //   ctx.fillStyle = "black";
-    //   ctx.font = "10px sans-serif";
-    //   ctx.textAlign = "center";
-    //   ctx.textBaseline = "middle";
-    //   ctx.fillText(visitedCounter, center.x+23, center.y-11);
-    //
-    //   this.camera.viewport.render();
   }
 }

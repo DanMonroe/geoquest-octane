@@ -37,10 +37,6 @@ export default class CameraService extends Service {
    */
   @tracked stageWidth = 0;
   @tracked stageHeight = 0;
-  // @tracked viewportWidth = 0;
-  // @tracked viewportHeight = 0;
-  offsetX = 0;
-  offsetY = 0;
 
 
   /**

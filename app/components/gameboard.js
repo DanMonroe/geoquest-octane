@@ -4,8 +4,6 @@ import { action } from '@ember/object';
 import {inject as service} from '@ember/service';
 import { A as emberArray } from '@ember/array';
 
-
-
 export default class GameboardComponent extends Component {
 
   @service ('hex') hexService;
@@ -17,23 +15,19 @@ export default class GameboardComponent extends Component {
   @service ('path') pathService;
   @service ('fieldOfView') fov;
 
-  // @tracked showTileGraphics = false;
   @tracked showTileGraphics = true;
-  @tracked showTileHexInfo = false;
+  @tracked showTileHexInfo = true;
   @tracked showDebugLayer = true;
   @tracked showFieldOfViewLayer = true;
-  // @tracked showTilesWithLabels = true;
 
   @tracked map = null;
   @tracked mapIndex = null;
-  @tracked players = emberArray();
+  @tracked player = null;
   @tracked agents = emberArray();
-  @tracked selectedMap = 0;
-  // @tracked ships = emberArray();
+  @tracked transports = emberArray();
 
-  @tracked dragging = false;
-  @tracked dragoffx = 0; // See mousedown and mousemove events for explanation
-  @tracked dragoffy = 0;
+  @tracked selectedMap = 0;
+
 
   mapOptions = [
     {name: "Small", value: 0},
@@ -51,18 +45,10 @@ export default class GameboardComponent extends Component {
   loadMap(mapIndex) {
     this.mapIndex = mapIndex;
     this.map = this.model.mapdata[mapIndex].map;
-    // this.agents = this.model.mapdata[mapIndex].agents;
-    this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
+    // this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
 
     this.mapService.loadTiles(this.map);
 
-    // this.transport.setupPatrols();
-
-    // let canvasContainer = document.getElementById('konvaContainer');
-    // if (canvasContainer) {
-    //   this.teardownGameboardCanvases(canvasContainer);
-    //   this.setupGame(canvasContainer);
-    // }
   }
 
   @action
@@ -81,8 +67,9 @@ export default class GameboardComponent extends Component {
     this.gameboard.setupGameboardCanvases(konvaContainer, this.map, this.showDebugLayer, this.showFieldOfViewLayer);
     let agentsObj = this.transport.setupAgents(this.model.mapdata[this.mapIndex].agents);
 
-    this.players = agentsObj.players;
+    this.player = agentsObj.player;
     this.agents = agentsObj.agents;
+    this.transports = agentsObj.transports;
 
     this.transport.setupPatrols();
 
@@ -92,7 +79,7 @@ export default class GameboardComponent extends Component {
       withTiles: this.showTileGraphics
     });
 
-    this.fov.updatePlayerFieldOfView(this.transport.players.objectAt(0).hex)
+    this.fov.updatePlayerFieldOfView(this.game.player.hex)
 
     this.transport.moveQueueTask.perform();
 

@@ -74,33 +74,51 @@ export default class IndexRoute extends Route {
         map: Map3,
         agents: {
           player: {
-            name: 'ship',
+            name: 'player',
             index: 0,
+            opacity: 0,
             start: {
               Q: 7,
               R: 1,
               S: -8
             },
-            img: "ship.svg",
+            img: "pirate.png",
             imgSize: 32,
             sightRange: 3,
-            speed: 500,
-            patrol: []
+            speed: 500
           },
-          game: [
+          enemies: [
             {
               name: 'galleon',
-              index: 1,
+              index: 2,
               start: {
                 Q: 20,
                 R: -7,
                 S: -13
               },
               img: "galleon.svg",
+              opacity: 0,
               imgSize: 32,
               sightRange: 3,
               speed: 700,
+              patrolMethod: 'random',
               patrol: [{Q: 16, R: -6, S: -10}, {Q: 19, R: -4, S: -15}, {Q: 20, R: -7, S: -13}, {Q: 15, R: -3, S: -12}]
+            }
+          ],
+          transports: [
+            {
+              name: 'ship',
+              index: 3,
+              start: {
+                Q: 7,
+                R: 1,
+                S: -8
+              },
+              img: "ship.svg",
+              opacity: 1,
+              imgSize: 32,
+              sightRange: 3,
+              speed: 500
             }
           ]
         }
@@ -155,3 +173,19 @@ export default class IndexRoute extends Route {
     return data;
   }
 }
+// {
+//   name: 'galleon2',
+//     index: 3,
+//   start: {
+//   Q: 10,
+//     R: 2,
+//     S: -12
+// },
+//   img: "galleon.svg",
+//     opacity: 0,
+//   imgSize: 32,
+//   sightRange: 3,
+//   speed: 700,
+//   patrolMethod: 'cycle',
+//   patrol: [{Q: 4, R: 7, S: -11}, {Q: 9, R: 3, S: -12}, {Q: 7, R: 2, S: -9}]
+// }

@@ -1,10 +1,10 @@
 import { BaseAgent } from './base-agent';
 import Konva from 'konva';
-
+import { tracked } from '@glimmer/tracking';
 
 export class Player extends BaseAgent {
 
-  static transportHexIndex = 0;
+  @tracked boardedTransport = null;
 
   constructor(args) {
     super(...arguments);
@@ -13,7 +13,12 @@ export class Player extends BaseAgent {
     let player = args.player;
     this.mapService = args.mapService;
     this.camera = args.camera;
+    this.game = args.game;
     this.transportService = args.transportService;
+    this.travelAbilityFlags = args.travelAbilityFlags;
+    this.boardedTransport = args.boardedTransport;
+
+    this.game.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
 
     let playerStartHex = this.mapService.hexMap.find((hex) => {
       if (!hex) {
@@ -44,23 +49,22 @@ export class Player extends BaseAgent {
     this.state = player.state
     this.hexLayout = this.mapService.currentLayout;
 
-    this.transportService.transportHexes.push(playerStartHex);
-    this.transportService.transportPoints.push(playerStartPoint);
-
     let image = new Image();
     image.onload = () => {
       this.imageObj = new Konva.Image({
-        id: "player",
+        id: player.name,
         x: this.point.x - (this.agentImageSize / 2),
         y: this.point.y - (this.agentImageSize / 2),
         image: image,
+        opacity: player.opacity,
         width: this.agentImageSize,
         height: this.agentImageSize
       });
 
       let agentsLayer = this.camera.stage.getLayers()[this.camera.LAYERS.AGENTS];
       agentsLayer.add(this.imageObj);
-      this.camera.stage.draw();
+      agentsLayer.draw();
+      // this.camera.stage.draw();
     };
     image.src = this.agentImage;
   }

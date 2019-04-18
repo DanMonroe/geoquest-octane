@@ -20,6 +20,8 @@ export class Hex {
   row = null;
   map = null;
 
+  props = null;
+
   constructor(args) {
     // let {id, q, r, s, map} = args;
     this.id = args.id;
@@ -29,6 +31,7 @@ export class Hex {
     this.col = args.col;
     this.row = args.row;
     this.map = args.map;
+    this.props = args.props;
 
     assert('q + r + s must be 0', Math.round(this.q + this.r + this.s) === 0);
   }

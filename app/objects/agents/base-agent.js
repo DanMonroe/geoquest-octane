@@ -6,7 +6,8 @@ export class BaseAgent {
 
   static AGENTTYPES = {
     PLAYER: 0,
-    ENEMY: 1
+    ENEMY: 1,
+    TRANSPORT: 2
   };
 
   type = null;
@@ -20,6 +21,8 @@ export class BaseAgent {
   currentWaypoint = -1;
   @tracked mapService = null;
   @tracked camera = null;
+  @tracked game = null;
   @tracked transportService;
 
+  @tracked travelAbilityFlags = 0;
 }

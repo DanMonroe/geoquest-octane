@@ -46,6 +46,12 @@
         Mouse Point:
       </div>
       <div>
+        Player Hex:
+      </div>
+      <div>
+        Ship Hex:
+      </div>
+      <div>
         Camera:
       </div>
     </div>
@@ -58,6 +64,12 @@
       </div>
       <div>
         {{this.gameboard.mousePoint}}
+      </div>
+      <div>
+        {{this.gameboard.playerHex}}
+      </div>
+      <div>
+        {{this.gameboard.shipHex}}
       </div>
       <div>
         world width:{{this.camera.worldX}} height:{{this.camera.worldY}}
@@ -94,17 +106,14 @@
           Path Distance: {{this.gameboard.pathDistanceToMouseHex}}
       </div>
       <div>
-        Enemy Distance: {{this.game.enemyToPlayerDistance}}
+        Enemy Distance: {{this.game.enemyToPlayerDistance}} ({{this.game.enemyStatus}})
       </div>
       <div>
-        Enemy Status: {{this.game.enemyStatus}}
+        Enemy Hex: {{this.gameboard.enemyHex}}
       </div>
     </div>
 
   </div>
-  <!--<div>-->
-    <!--Rect centers: {{!this.gameboard.centerX}} : {{!this.gameboard.centerY}}-->
-  <!--</div>-->
   <div>
   </div>
 </div>

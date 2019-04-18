@@ -4,14 +4,11 @@ body {
   font-family: sans-serif;
   height: 100%;
   background-color: antiquewhite;
-  background-image: url("/images/paper_texture1.jpg");
+  //background-image: url("/images/paper_texture1.jpg");
 }
 
 .header {
   margin: 0 0 0 20px;
-}
-.konva-scene-canvas {
-  background-color: lightgray;
 }
 
 #large-container {
@@ -35,25 +32,6 @@ body {
   border: 1px solid grey;
 }
 
-#konvaContainer > canvas, #gamecanvas, #hexcanvas, #mousecanvas {
-  //height: 500px;
-  //width: 500px;
-  //position: absolute;
-}
-
-#gamecanvas {
-  z-index: 150;
-}
-#hexcanvas {
-  z-index: 200;
-}
-#mousecanvas {
-  z-index: 300;
-}
-
-.gameboard {
-  position: relative;
-}
 
 .pickMap {
   width: 200px;
@@ -81,47 +59,9 @@ body {
     }
   }
 }
-  button {
-    padding: 5px;
-  }
 
-.hideTiles {
-  display: none;
-}
-
-figure {
-  text-align: left;
-  display: block;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-
-}
-section>* {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-figure > canvas {
-  //flex: 1 1 0;
-  margin: 0;
-  //margin: 20px 0 0 20px;
-}
-
-
-// Transports
-.ship, .agent {
-
-  //display:none;
-
-  position: absolute;
-  img {
-    //height: 16px;
-    //height: 21px;
-    height: 32px;
-    //height: 42px;
-  }
+button {
+  padding: 5px;
 }
 
 @import "ember-power-select";

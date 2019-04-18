@@ -7,8 +7,6 @@ export default Component.extend({
   point: null,
   agentImage: null,
   hexLayout: null,
-  mapCenterX: 0,
-  mapCenterY: 0,
   sightRange: 1,
   speed: null,
   patrol: null,
