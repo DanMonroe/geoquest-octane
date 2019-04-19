@@ -100,10 +100,27 @@ export default class IndexRoute extends Route {
               opacity: 0,
               imgSize: 32,
               sightRange: 3,
-              speed: 700,
+              speed: 300,
               patrolMethod: 'random',
               patrol: [{Q: 16, R: -6, S: -10}, {Q: 19, R: -4, S: -15}, {Q: 20, R: -7, S: -13}, {Q: 15, R: -3, S: -12}]
+            },
+            {
+              name: 'galleon2',
+              index: 3,
+              start: {
+                Q: 10,
+                R: 2,
+                S: -12
+              },
+              img: "galleon.svg",
+              opacity: 0,
+              imgSize: 32,
+              sightRange: 3,
+              speed: 400,
+              patrolMethod: 'cycle',
+              patrol: [{Q: 4, R: 7, S: -11}, {Q: 16, R: -4, S: -12}, {Q: 7, R: 2, S: -9}]
             }
+
           ],
           transports: [
             {
@@ -173,19 +190,3 @@ export default class IndexRoute extends Route {
     return data;
   }
 }
-// {
-//   name: 'galleon2',
-//     index: 3,
-//   start: {
-//   Q: 10,
-//     R: 2,
-//     S: -12
-// },
-//   img: "galleon.svg",
-//     opacity: 0,
-//   imgSize: 32,
-//   sightRange: 3,
-//   speed: 700,
-//   patrolMethod: 'cycle',
-//   patrol: [{Q: 4, R: 7, S: -11}, {Q: 9, R: 3, S: -12}, {Q: 7, R: 2, S: -9}]
-// }

@@ -16,7 +16,7 @@ export default class GameboardComponent extends Component {
   @service ('fieldOfView') fov;
 
   @tracked showTileGraphics = true;
-  @tracked showTileHexInfo = true;
+  @tracked showTileHexInfo = false;
   @tracked showDebugLayer = true;
   @tracked showFieldOfViewLayer = true;
 

@@ -217,7 +217,8 @@ export default class TransportService extends Service {
 
     yield timeout(transport.speed);
 
-  }).enqueue() moveTransportTask;
+  }) moveTransportTask;
+  // }).enqueue() moveTransportTask;
 
 
   @task(function*(playerObj, targetHex) {
@@ -255,7 +256,8 @@ export default class TransportService extends Service {
     this.camera.stage.draw();
 
     yield timeout(playerObj.speed);
-    
+
+  // }) movePlayerToHexTask;
   }).enqueue() movePlayerToHexTask;
 
   movePlayerAlongPath(path) {
