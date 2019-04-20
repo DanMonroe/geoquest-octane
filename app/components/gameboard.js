@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import {inject as service} from '@ember/service';
 import { A as emberArray } from '@ember/array';
+import Konva from 'konva';
 
 export default class GameboardComponent extends Component {
 
@@ -16,7 +17,7 @@ export default class GameboardComponent extends Component {
   @service ('fieldOfView') fov;
 
   @tracked showTileGraphics = true;
-  @tracked showTileHexInfo = false;
+  @tracked showTileHexInfo = true;
   @tracked showDebugLayer = true;
   @tracked showFieldOfViewLayer = true;
 
@@ -93,8 +94,11 @@ export default class GameboardComponent extends Component {
   }
 
   @action
-  doSomething() {
+  fireCannon() {
+    this.player.boardedTransport.currentHitPoints *= .9;
+    this.player.boardedTransport.updateHealthBar();
 
+    // this.player.boardedTransport.fire();
   }
 
 
@@ -102,7 +106,7 @@ export default class GameboardComponent extends Component {
   toggleDebugLayer() {
     this.showDebugLayer = !this.showDebugLayer;
     this.gameboard.showDebugLayer = this.showDebugLayer;
-    let layer = this.camera.stage.getLayers()[this.camera.LAYERS.DEBUG];
+    let layer = this.camera.getDebugLayer();
     layer.visible(this.showDebugLayer);
 
   }
@@ -110,7 +114,7 @@ export default class GameboardComponent extends Component {
   @action
   toggleTiles() {
     this.showTileGraphics = !this.showTileGraphics;
-    let layer = this.camera.stage.getLayers()[this.camera.LAYERS.GAME];
+    let layer = this.camera.getGameLayer();
     layer.visible(this.showTileGraphics);
     // this.camera.stage.draw();
     layer.draw();
@@ -119,7 +123,7 @@ export default class GameboardComponent extends Component {
   @action
   toggleHexInfo() {
     this.showTileHexInfo = !this.showTileHexInfo;
-    let layer = this.camera.stage.getLayers()[this.camera.LAYERS.HEX];
+    let layer = this.camera.getHexLayer();
     layer.visible(this.showTileHexInfo);
     layer.draw();
     // this.camera.stage.draw();

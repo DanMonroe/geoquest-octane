@@ -78,6 +78,21 @@ export default class CameraService extends Service {
 
   }
 
+  getGameLayer() {
+    return this.stage.getLayers()[this.LAYERS.GAME];
+  }
+  getHexLayer() {
+    return this.stage.getLayers()[this.LAYERS.HEX];
+  }
+  getDebugLayer() {
+    return this.stage.getLayers()[this.LAYERS.DEBUG];
+  }
+  getFOVLayer() {
+    return this.stage.getLayers()[this.LAYERS.FOV];
+  }
+  getAgentsLayer() {
+    return this.stage.getLayers()[this.LAYERS.AGENTS];
+  }
 
 
 }

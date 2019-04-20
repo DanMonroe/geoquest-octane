@@ -78,14 +78,16 @@ export default class IndexRoute extends Route {
             index: 0,
             opacity: 0,
             start: {
-              Q: 7,
-              R: 1,
-              S: -8
+              Q: 9,
+              R: 0,
+              S: -9
             },
             img: "pirate.png",
             imgSize: 32,
             sightRange: 3,
-            speed: 500
+            speed: 500,
+            maxHitPoints: 25,
+            currentHitPoints: 25
           },
           enemies: [
             {
@@ -102,7 +104,9 @@ export default class IndexRoute extends Route {
               sightRange: 3,
               speed: 300,
               patrolMethod: 'random',
-              patrol: [{Q: 16, R: -6, S: -10}, {Q: 19, R: -4, S: -15}, {Q: 20, R: -7, S: -13}, {Q: 15, R: -3, S: -12}]
+              patrol: [{Q: 16, R: -6, S: -10}, {Q: 19, R: -4, S: -15}, {Q: 20, R: -7, S: -13}, {Q: 15, R: -3, S: -12}],
+              maxHitPoints: 25,
+              currentHitPoints: 25
             },
             {
               name: 'galleon2',
@@ -118,7 +122,9 @@ export default class IndexRoute extends Route {
               sightRange: 3,
               speed: 400,
               patrolMethod: 'cycle',
-              patrol: [{Q: 4, R: 7, S: -11}, {Q: 16, R: -4, S: -12}, {Q: 7, R: 2, S: -9}]
+              patrol: [{Q: 4, R: 7, S: -11}, {Q: 16, R: -4, S: -12}, {Q: 7, R: 2, S: -9}],
+              maxHitPoints: 60,
+              currentHitPoints: 25
             }
 
           ],
@@ -127,15 +133,17 @@ export default class IndexRoute extends Route {
               name: 'ship',
               index: 3,
               start: {
-                Q: 7,
-                R: 1,
-                S: -8
+                Q: 9,
+                R: 0,
+                S: -9
               },
               img: "ship.svg",
               opacity: 1,
               imgSize: 32,
               sightRange: 3,
-              speed: 500
+              speed: 500,
+              maxHitPoints: 25,
+              currentHitPoints: 25
             }
           ]
         }

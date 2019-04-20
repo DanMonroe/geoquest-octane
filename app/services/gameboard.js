@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Konva from 'konva';
 import { Point } from '../objects/point'
-import { Player } from '../objects/agents/player'
+// import { Player } from '../objects/agents/player'
 
 export default class GameboardService extends Service {
 
@@ -66,11 +66,11 @@ export default class GameboardService extends Service {
 
     // create layers
 
-    let gameLayer = new Konva.Layer();
-    let hexLayer = new Konva.Layer();
-    let debugLayer = new Konva.Layer();
-    let fieldOfViewLayer = new Konva.Layer();
-    let agentsLayer = new Konva.Layer();
+    let gameLayer = new Konva.Layer({draggable: false});
+    let hexLayer = new Konva.Layer({draggable: false});
+    let debugLayer = new Konva.Layer({draggable: false});
+    let fieldOfViewLayer = new Konva.Layer({draggable: false});
+    let agentsLayer = new Konva.Layer({draggable: false});
 
     gameLayer.disableHitGraph();
     hexLayer.disableHitGraph();
@@ -101,18 +101,42 @@ export default class GameboardService extends Service {
     this.showDebugLayer = showDebugLayer;
     this.showFieldOfViewLayer = showFieldOfViewLayer;
 
+    let container = stage.container();
+
+    // make it focusable
+    container.tabIndex = 1;
+    // focus it
+    // also stage will be in focus on its click
+    container.focus();
+
+    // TODO can we use ember-keyboard instead?
+    container.addEventListener('keydown', (e) => {
+      // https://keycode.info/
+      switch(e.keyCode) {
+        case 70:  // f[ire]
+          if (this.game.player.boardedTransport) {
+            this.game.player.boardedTransport.fire();
+          }
+          break;
+        default:
+          break;
+      }
+      // if (e.keyCode === 37) {
+      // } else if (e.keyCode === 38) {
+      // } else if (e.keyCode === 39) {
+      // } else if (e.keyCode === 40) {
+      // } else {
+      //   return;
+      // }
+      e.preventDefault();
+    });
+
     this.camera.stage.on('click', () => {
-      let pointerPos = this.camera.stage.getPointerPosition();
-      pointerPos.x -= this.camera.stage.getX();
-      pointerPos.y -= this.camera.stage.getY();
-      this.hexClick(pointerPos);
+      this.hexClick(this.getMousePointerPosition());
     });
 
     this.camera.stage.on('mousemove', () => {
-      let pointerPos = this.camera.stage.getPointerPosition();
-      pointerPos.x -= this.camera.stage.getX();
-      pointerPos.y -= this.camera.stage.getY();
-      this.hexMouseMove(pointerPos);
+      this.hexMouseMove(this.getMousePointerPosition());
     });
 
     let scrollContainer = document.getElementById('scroll-container');
@@ -125,6 +149,13 @@ export default class GameboardService extends Service {
       this.camera.stage.batchDraw();
     });
 
+  }
+
+  getMousePointerPosition() {
+    let pointerPos = this.camera.stage.getPointerPosition();
+    pointerPos.x -= this.camera.stage.getX();
+    pointerPos.y -= this.camera.stage.getY();
+    return pointerPos;
   }
 
   isHexInBlockedList(hex, blockedList) {
@@ -317,13 +348,13 @@ export default class GameboardService extends Service {
   }
 
   clearDebugLayer() {
-    let debugLayer = this.camera.stage.getLayers()[this.camera.LAYERS.DEBUG];
+    let debugLayer = this.camera.getDebugLayer();
     debugLayer.removeChildren();
     debugLayer.clear();
   }
 
   clearFOVLayer() {
-    let layer = this.camera.stage.getLayers()[this.camera.LAYERS.FOV];
+    let layer = this.camera.getFOVLayer();
     layer.removeChildren();
     layer.clear();
   }
@@ -416,7 +447,7 @@ export default class GameboardService extends Service {
       let numVisibleHexes = returnFieldOfViewHexes.visible.length;
       let numBlockedHexes = returnFieldOfViewHexes.blocked.length;
 
-      let layer = this.camera.stage.getLayers()[this.camera.LAYERS.FOV];
+      let layer = this.camera.getFOVLayer();
 // console.group('fov')
       for (let i = 0; i < numVisibleHexes; i++) {
         // console.log('visible', returnFieldOfViewHexes.visible[i].fovX, returnFieldOfViewHexes.visible[i].fovY);
@@ -466,7 +497,7 @@ export default class GameboardService extends Service {
         lineJoin: 'round'
       });
 
-      let debugLayer = this.camera.stage.getLayers()[this.camera.LAYERS.DEBUG]
+      let debugLayer = this.camera.getDebugLayer()
       debugLayer.add(purpleline);
       debugLayer.draw();
       // this.camera.stage.draw();
@@ -607,30 +638,30 @@ export default class GameboardService extends Service {
   }
 
   movePlayerFromTransportOntoLand(targetHex) {
-    let agentsLayer = this.camera.stage.getLayers()[this.camera.LAYERS.AGENTS];
+    let agentsLayer = this.camera.getAgentsLayer();
 
     // show and move land avatar
     let point = this.mapService.currentLayout.hexToPixel(targetHex);
-    this.game.player.imageObj.x(point.x - 18);
-    this.game.player.imageObj.y(point.y - 18);
-    this.game.player.imageObj.to({opacity: 1});
+    this.game.player.imageGroup.x(point.x);
+    this.game.player.imageGroup.y(point.y);
+    this.game.player.imageGroup.to({opacity: 1});
 
     agentsLayer.draw();
   }
 
   movePlayerTowardsTransportThenFade(targetHex) {
-    let agentsLayer = this.camera.stage.getLayers()[this.camera.LAYERS.AGENTS];
+    let agentsLayer = this.camera.getAgentsLayer();
     let point = this.mapService.currentLayout.hexToPixel(targetHex);
 
     // move avatar to ship
-    this.game.player.imageObj.to({
+    this.game.player.imageGroup.to({
       x: point.x - 18,
       y: point.y - 18
     });
     agentsLayer.draw();
 
     // fade the avatar
-    this.game.player.imageObj.to({opacity: 0});
+    this.game.player.imageGroup.to({opacity: 0});
     agentsLayer.draw();
 
   }

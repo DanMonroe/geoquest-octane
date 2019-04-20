@@ -55,7 +55,8 @@ export default class TransportService extends Service {
         agent:transportAgent,
         mapService:this.mapService,
         camera:this.camera,
-        transportService:this
+        transportService:this,
+        gameboard:this.gameboard,
       });
       // console.log('adding transport', transport);
       this.transports.push(transport);
@@ -70,9 +71,10 @@ export default class TransportService extends Service {
         mapService:this.mapService,
         camera:this.camera,
         game:this.game,
+        gameboard:this.gameboard,
         transportService:this,
         travelAbilityFlags: this.game.FLAGS.TRAVEL.SEA,
-        boardedTransport: startingShip
+        boardedTransport: startingShip,
       });
 
     this.player = player;
@@ -83,7 +85,8 @@ export default class TransportService extends Service {
         agent:gameAgent,
         mapService:this.mapService,
         camera:this.camera,
-        transportService:this
+        transportService:this,
+        gameboard:this.gameboard,
       });
       this.agents.push(enemy);
     });
@@ -200,8 +203,9 @@ export default class TransportService extends Service {
     transport.hex = targetHex;
     let point = this.mapService.currentLayout.hexToPixel(targetHex);
 
+      // node: transport.imageObj,
     let tween = new Konva.Tween({
-      node: transport.imageObj,
+      node: transport.imageGroup,
       duration: 0.5,
       easing: Konva.Easings.EaseInOut,
       x: point.x - 18,
@@ -241,13 +245,16 @@ export default class TransportService extends Service {
       this.gameboard.shipHex = `Q:${targetHex.q} R:${targetHex.r} S:${targetHex.s}`;
     }
 
+      // node: objectToVisuallyMove.imageObj,
     let tween = new Konva.Tween({
-      node: objectToVisuallyMove.imageObj,
+      node: objectToVisuallyMove.imageGroup,
       duration: 0.5,
       easing: Konva.Easings.EaseInOut,
-      x: point.x - 18,
-      y: point.y - 18
+      x: point.x,
+      y: point.y
     });
+      // x: point.x - 18,
+      // y: point.y - 18
 
     tween.play();
 

@@ -338,7 +338,7 @@ export default class MapService extends Service {
 
   // shows yellow boxes 'visited' during the findPath method
   drawVisitedRect(neighbor, visitedCounter) {
-    let debugLayer = this.camera.stage.getLayers()[this.camera.LAYERS.DEBUG];
+    let debugLayer = this.camera.getDebugLayer();
     let center = this.currentLayout.hexToPixel(neighbor);
 
     var rect = new Konva.Rect({

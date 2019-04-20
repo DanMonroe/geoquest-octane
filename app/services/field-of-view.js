@@ -78,7 +78,7 @@ export default class FieldOfViewService extends Service {
       return h.id;
     })
 
-    let gameLayer = this.camera.stage.getLayers()[this.camera.LAYERS.GAME];
+    let gameLayer = this.camera.getGameLayer();
     let visibleHexeImages = gameLayer.getChildren((node) => {
       return visibleIds.includes(node.id());
     });

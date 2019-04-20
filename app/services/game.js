@@ -83,18 +83,18 @@ export default class GameService extends Service {
   updateEnemyOpacityForRangeAndObscurity(transport, targetHex) {
     let player = this.player;
     let playerSightRange = player.sightRange;
-    let currentOpacity = transport.imageObj.opacity();
+    let currentOpacity = transport.imageGroup.opacity();
     let returnFieldOfViewHexes = this.gameboard.isFieldOfViewBlockedForHex(player.hex, targetHex/**, sortedByDistanceNeighbors**/);
     let playerSightBlocked = this.hexService.arrayOfHexesIncludesHex(returnFieldOfViewHexes.blocked, targetHex)
     if (currentOpacity > 0) {  // allows for partial obscurity (like fog/eather)
       if (playerSightBlocked) {
-        transport.imageObj.to({opacity: 0});
+        transport.imageGroup.to({opacity: 0});
       } else if (this.enemyToPlayerDistance > playerSightRange) {
-        transport.imageObj.to({opacity: 0});
+        transport.imageGroup.to({opacity: 0});
       }
     } else if (this.enemyToPlayerDistance <= playerSightRange) {
       if (!playerSightBlocked) {
-        transport.imageObj.to({opacity: 1});
+        transport.imageGroup.to({opacity: 1});
       }
     }
   }
