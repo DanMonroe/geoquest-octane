@@ -63,7 +63,6 @@ export default class GameboardService extends Service {
       height: window.innerHeight,
       container: '#konvaContainer'
     });
-
     // create layers
 
     let gameLayer = new Konva.Layer({draggable: false});
@@ -113,7 +112,7 @@ export default class GameboardService extends Service {
     container.addEventListener('keydown', (e) => {
       // https://keycode.info/
       switch(e.keyCode) {
-        case 70:  // f[ire]
+        case 70:  // F [ire]
           if (this.game.player.boardedTransport) {
             this.game.player.boardedTransport.fire();
           }
@@ -520,7 +519,7 @@ export default class GameboardService extends Service {
     }
   }
 
-  getHexAtMousePoint(mouseCoords, shouldUpdateDebugInfo) {
+  getHexAtMousePoint(mouseCoords, shouldUpdateDebugInfo = false) {
   // getHexAtMousePoint(event, shouldUpdateDebugInfo) {
   //   let mouse = this.getMouse(event);
     let x = mouseCoords.x;

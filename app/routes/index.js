@@ -87,45 +87,33 @@ export default class IndexRoute extends Route {
             sightRange: 3,
             speed: 500,
             maxHitPoints: 25,
-            currentHitPoints: 25
+            currentHitPoints: 25,
+            maxPower: 25,
+            currentPower: 25,
+            armor: 2
           },
           enemies: [
             {
               name: 'galleon',
               index: 2,
               start: {
-                Q: 20,
-                R: -7,
-                S: -13
+                Q: 18,
+                R: -3,
+                S: -15
               },
               img: "galleon.svg",
-              opacity: 0,
+              opacity: 1,
               imgSize: 32,
               sightRange: 3,
               speed: 300,
               patrolMethod: 'random',
-              patrol: [{Q: 16, R: -6, S: -10}, {Q: 19, R: -4, S: -15}, {Q: 20, R: -7, S: -13}, {Q: 15, R: -3, S: -12}],
+              patrol: [],
               maxHitPoints: 25,
-              currentHitPoints: 25
+              currentHitPoints: 25,
+              maxPower: 25,
+              currentPower: 25,
+              armor: 2
             },
-            {
-              name: 'galleon2',
-              index: 3,
-              start: {
-                Q: 10,
-                R: 2,
-                S: -12
-              },
-              img: "galleon.svg",
-              opacity: 0,
-              imgSize: 32,
-              sightRange: 3,
-              speed: 400,
-              patrolMethod: 'cycle',
-              patrol: [{Q: 4, R: 7, S: -11}, {Q: 16, R: -4, S: -12}, {Q: 7, R: 2, S: -9}],
-              maxHitPoints: 60,
-              currentHitPoints: 25
-            }
 
           ],
           transports: [
@@ -143,7 +131,20 @@ export default class IndexRoute extends Route {
               sightRange: 3,
               speed: 500,
               maxHitPoints: 25,
-              currentHitPoints: 25
+              currentHitPoints: 25,
+              maxPower: 25,
+              currentPower: 25,
+              armor: 2,
+              weapons: [
+                {
+                  type: 'cannon',
+                  damage: 2,
+                  poweruse: 5,
+                  accuracy: 80, // percentage 0 (always miss) - 100 (always hit)
+                  fireDelay: 1000,
+                  reloadDelay: 1500  // lower is faster
+                }
+              ]
             }
           ]
         }
@@ -198,3 +199,25 @@ export default class IndexRoute extends Route {
     return data;
   }
 }
+
+// patrol: [{Q: 16, R: -6, S: -10}, {Q: 19, R: -4, S: -15}, {Q: 20, R: -7, S: -13}, {Q: 15, R: -3, S: -12}],
+
+
+// {
+//   name: 'galleon2',
+//     index: 3,
+//   start: {
+//   Q: 10,
+//     R: 2,
+//     S: -12
+// },
+//   img: "galleon.svg",
+//     opacity: 0,
+//   imgSize: 32,
+//   sightRange: 3,
+//   speed: 400,
+//   patrolMethod: 'cycle',
+//   patrol: [{Q: 4, R: 7, S: -11}, {Q: 16, R: -4, S: -12}, {Q: 7, R: 2, S: -9}],
+//   maxHitPoints: 60,
+//   currentHitPoints: 25
+// }

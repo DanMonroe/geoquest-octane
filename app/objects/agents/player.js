@@ -44,12 +44,11 @@ export class Player extends BaseAgent {
         playerStartHex = this.mapService.hexMap[0];
       }
     }
-    // let playerStartPoint = this.mapService.currentLayout.hexToPixel(playerStartHex);
 
     this.id = player.index;
     this.name = player.name;
     this.hex = playerStartHex;
-    // this.point = playerStartPoint;
+
     this.agentImage = `/images/transports/${player.img}`;
     this.agentImageSize = player.imgSize;
     this.sightRange = player.sightRange;
@@ -59,6 +58,9 @@ export class Player extends BaseAgent {
     this.state = player.state;  // state machine - see notes.md
     this.maxHitPoints = player.maxHitPoints;
     this.currentHitPoints = player.currentHitPoints;
+    this.maxPower = player.maxPower;
+    this.currentPower = player.currentPower;
+    this.armor = player.armor | 2;
 
     this.buildDisplayGroup(player);
   }
@@ -82,6 +84,17 @@ export class Player extends BaseAgent {
       strokeWidth: 1
     });
 
+    let powerBar = new Konva.Rect({
+      id: 'power',
+      x: -15,
+      y: 17,
+      width: 30 * (this.powerPercentage/100),
+      height: 4,
+      fill: 'blue',
+      stroke: 'black',
+      strokeWidth: 1
+    });
+
     let image = new Image();
     image.src = this.agentImage;
 
@@ -96,7 +109,7 @@ export class Player extends BaseAgent {
       });
 
       let agentsLayer = this.camera.getAgentsLayer();
-      this.imageGroup.add(healthBar, this.imageObj);
+      this.imageGroup.add(healthBar, powerBar, this.imageObj);
       agentsLayer.add(this.imageGroup);
       agentsLayer.draw();
     };

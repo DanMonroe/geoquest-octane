@@ -47,6 +47,10 @@ export class Enemy extends BaseAgent {
     this.hexLayout = this.mapService.currentLayout;
     this.maxHitPoints = agent.maxHitPoints || 20;
     this.currentHitPoints = agent.currentHitPoints || 20;
+    this.maxPower = args.maxPower || 25;
+    this.currentPower = args.currentPower | 25;
+    this.armor = args.armor | 2;
+
 
     this.buildDisplayGroup(agent);
   }
