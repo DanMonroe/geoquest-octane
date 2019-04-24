@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import {inject as service} from '@ember/service';
 import { A as emberArray } from '@ember/array';
-import Konva from 'konva';
+import config from 'geoquest-octane/config/environment';
 
 export default class GameboardComponent extends Component {
 
@@ -17,9 +17,9 @@ export default class GameboardComponent extends Component {
   @service ('fieldOfView') fov;
 
   @tracked showTileGraphics = true;
-  @tracked showTileHexInfo = false;
-  @tracked showDebugLayer = false;
-  @tracked showFieldOfViewLayer = false;
+  @tracked showTileHexInfo = true;
+  @tracked showDebugLayer = true;
+  @tracked showFieldOfViewLayer = true;
 
   @tracked map = null;
   @tracked mapIndex = null;
@@ -38,6 +38,12 @@ export default class GameboardComponent extends Component {
 
   constructor() {
     super(...arguments);
+
+    this.showTileGraphics = config.game.board.showTileGraphics;
+    this.showTileHexInfo = config.game.board.showTileHexInfo;
+    this.showDebugLayer = config.game.board.showDebugLayer;
+    this.showFieldOfViewLayer = config.game.board.showFieldOfViewLayer;
+
     this.model = arguments[1];
     this.mapService.loadLayout();
     this.loadMap(2);

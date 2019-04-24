@@ -153,8 +153,9 @@ export default class TransportService extends Service {
   @task( function*() {
     // console.log('in moveQueue', this.moveQueueEnabled);
     while (this.moveQueueEnabled === true) {
-      yield timeout(600);
+      yield timeout(2000);
       // yield timeout(1000);
+      // debugger;
 
       // if there are things to move
       if (this.moveQueue.length > 0) {

@@ -167,6 +167,8 @@ export class BaseAgent {
     let layer = this.camera.getAgentsLayer();
     layer.add(cannonball);
 
+    cannonball.moveToTop();
+
     let newX = cannonball.getX();
     let newY = cannonball.getY();
 

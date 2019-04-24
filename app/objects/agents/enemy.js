@@ -97,6 +97,7 @@ export class Enemy extends BaseAgent {
 
       let agentsLayer = this.camera.getAgentsLayer();
       this.imageGroup.add(healthBar, this.imageObj);
+      healthBar.moveToBottom();
       agentsLayer.add(this.imageGroup);
       agentsLayer.draw();
     };
@@ -146,10 +147,14 @@ export class Enemy extends BaseAgent {
     while(this.state === BaseAgent.STATE.MISSILE) {
       let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, this.hex, this.game.player.hex);
 
-      if (isPresent(pathDistanceToShipHex) && pathDistanceToShipHex.length <= this.sightRange) {
-        this.transportService.moveTransportToHex(this, pathDistanceToShipHex[0]);
-      } else {
+      if (isPresent(pathDistanceToShipHex)) {
         // TODO if pathDistanceToShipHex === 0, switch to MELEE ?
+        if  (pathDistanceToShipHex.length > this.sightRange) {
+          this.playerOutOfRange();
+        } else if (pathDistanceToShipHex.length > 1) {  // don't move the enemy on top of ship
+          this.transportService.moveTransportToHex(this, pathDistanceToShipHex[0]);
+        }
+      } else {
         this.playerOutOfRange();
       }
       yield timeout(this.pursuitSpeed);

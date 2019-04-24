@@ -73,11 +73,10 @@ export default class GameService extends Service {
     let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex);
     transport.playerDistance = pathDistanceToShipHex.length;
 
+    // this.enemyToPlayerDistance = pathDistanceToShipHex.length;
+
     this.updateEnemyOpacityForRangeAndObscurity(transport, targetHex);
 
-    // debug info:
-    // this.enemyToPlayerDistance = pathDistanceToShipHex.length;
-    // this.enemyStatus = pathDistanceToShipHex.length <= transport.sightRange ? 'Fight' : 'Patrol';
     if (pathDistanceToShipHex.length <= transport.sightRange) {
       transport.playerInRange();
     }
@@ -89,14 +88,17 @@ export default class GameService extends Service {
     let playerSightRange = player.sightRange;
     let currentOpacity = transport.imageGroup.opacity();
     let returnFieldOfViewHexes = this.gameboard.isFieldOfViewBlockedForHex(player.hex, targetHex/**, sortedByDistanceNeighbors**/);
+    // console.log('returnFieldOfViewHexes', returnFieldOfViewHexes, player, player.sightRange, this.enemyToPlayerDistance);
     let playerSightBlocked = this.hexService.arrayOfHexesIncludesHex(returnFieldOfViewHexes.blocked, targetHex)
     if (currentOpacity > 0) {  // allows for partial obscurity (like fog/eather)
       if (playerSightBlocked) {
         transport.imageGroup.to({opacity: 0});
-      } else if (this.enemyToPlayerDistance > playerSightRange) {
+      } else if (transport.playerDistance > playerSightRange) {
+      // } else if (this.enemyToPlayerDistance > playerSightRange) {
         transport.imageGroup.to({opacity: 0});
       }
-    } else if (this.enemyToPlayerDistance <= playerSightRange) {
+    } else if (transport.playerDistance <= playerSightRange) {
+    // } else if (this.enemyToPlayerDistance <= playerSightRange) {
       if (!playerSightBlocked) {
         transport.imageGroup.to({opacity: 1});
       }

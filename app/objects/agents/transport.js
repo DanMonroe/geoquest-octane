@@ -1,5 +1,6 @@
 import { BaseAgent } from './base-agent';
 import Konva from 'konva';
+import { Point } from '../point'
 
 export class Transport extends BaseAgent {
 
@@ -100,6 +101,8 @@ export class Transport extends BaseAgent {
 
       let agentsLayer = this.camera.getAgentsLayer();
       this.imageGroup.add(healthBar, powerBar, this.imageObj);
+      healthBar.moveToBottom();
+      powerBar.moveToBottom();
       agentsLayer.add(this.imageGroup);
       // agentsLayer.add(this.imageObj);
       agentsLayer.draw();
@@ -128,8 +131,9 @@ export class Transport extends BaseAgent {
 
     let startPoint = this.point;
     let mousecoords = this.gameboard.getMousePointerPosition()
-    let targetHex = this.gameboard.getHexAtMousePoint(mousecoords);
-    let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);
+    let targetPoint = new Point({x:mousecoords.x, y:mousecoords.y}); // harder to aim
+    // let targetHex = this.gameboard.getHexAtMousePoint(mousecoords);   // center of hex
+    // let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);  // center of hex
 
     this.fireWeapon.perform(weapon, startPoint, targetPoint);
   }

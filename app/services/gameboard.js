@@ -265,6 +265,8 @@ export default class GameboardService extends Service {
     poly.id(hex.id);
     layer.add(poly);
 
+    // console.log(corners);
+    // layer.draw();
   }
 
   drawHexLabel(layer, hex) {

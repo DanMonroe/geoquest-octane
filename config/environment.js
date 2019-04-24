@@ -28,12 +28,11 @@ module.exports = function(environment) {
 
     game: {
       board: {
-        showCenterRect: true,
-        showTilesWithLabels: true,
-        showTileGraphics: true
+        showTileGraphics: true,
+        showTileHexInfo: false,
+        showDebugLayer: false,
+        showFieldOfViewLayer: false
       }
-
-
     }
   // {Q:-1, R:-1, S:0}, {Q:-2, R:-2, S:0}, {Q:2, R:-1, S:-1}, {Q:4, R:-4, S:0}, {Q:2, R:-5, S:3}
 
@@ -48,6 +47,12 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+
+    ENV.game.board.showTileGraphics = true;
+    ENV.game.board.showTileHexInfo = true;
+    ENV.game.board.showDebugLayer = true;
+    ENV.game.board.showFieldOfViewLayer = true;
+
   }
 
   if (environment === 'test') {
