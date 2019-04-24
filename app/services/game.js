@@ -73,10 +73,14 @@ export default class GameService extends Service {
     let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex);
     transport.playerDistance = pathDistanceToShipHex.length;
 
-    this.enemyToPlayerDistance = pathDistanceToShipHex.length;
-    this.enemyStatus = pathDistanceToShipHex.length <= transport.sightRange ? 'Fight' : 'Patrol';
-
     this.updateEnemyOpacityForRangeAndObscurity(transport, targetHex);
+
+    // debug info:
+    // this.enemyToPlayerDistance = pathDistanceToShipHex.length;
+    // this.enemyStatus = pathDistanceToShipHex.length <= transport.sightRange ? 'Fight' : 'Patrol';
+    if (pathDistanceToShipHex.length <= transport.sightRange) {
+      transport.playerInRange();
+    }
   }
 
     // adjust enemy opacity based on range of player and obscured hexes

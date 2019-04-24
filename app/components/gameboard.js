@@ -17,9 +17,9 @@ export default class GameboardComponent extends Component {
   @service ('fieldOfView') fov;
 
   @tracked showTileGraphics = true;
-  @tracked showTileHexInfo = true;
-  @tracked showDebugLayer = true;
-  @tracked showFieldOfViewLayer = true;
+  @tracked showTileHexInfo = false;
+  @tracked showDebugLayer = false;
+  @tracked showFieldOfViewLayer = false;
 
   @tracked map = null;
   @tracked mapIndex = null;
@@ -95,8 +95,8 @@ export default class GameboardComponent extends Component {
 
   @action
   fireCannon() {
-    this.player.boardedTransport.currentHitPoints *= .9;
-    this.player.boardedTransport.updateHealthBar();
+    // this.player.boardedTransport.currentHitPoints *= .9;
+    // this.player.boardedTransport.updateHealthBar();
 
     // this.player.boardedTransport.fire();
   }

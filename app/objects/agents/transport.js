@@ -1,6 +1,5 @@
 import { BaseAgent } from './base-agent';
 import Konva from 'konva';
-import { task, timeout } from 'ember-concurrency';
 
 export class Transport extends BaseAgent {
 
@@ -62,7 +61,7 @@ export class Transport extends BaseAgent {
     });
 
     let healthBar = new Konva.Rect({
-      id: 'hp',
+      id: 'hp' + this.id,
       x: -15,
       y: 13,
       width: 30 * (this.healthPercentage/100),
@@ -127,93 +126,93 @@ export class Transport extends BaseAgent {
       return;
     }
 
-    this.fireWeapon.perform(weapon);
-  }
-
-  @task( function*(weapon) {
-    let cannonballSpeed = 3;
     let startPoint = this.point;
     let mousecoords = this.gameboard.getMousePointerPosition()
     let targetHex = this.gameboard.getHexAtMousePoint(mousecoords);
     let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);
 
-    // let lineDistance = Math.sqrt( Math.pow((targetPoint.x - startPoint.x),2) + Math.pow((targetPoint.y - startPoint.y),2));
-    // let lineDistance = Math.sqrt( Math.pow((targetPoint.x - startPoint.x),2) + Math.pow((targetPoint.y - startPoint.y),2));
-    // let segmentDistance = lineDistance / cannonballSpeed;  // speed of cannonball
-    let angle = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
-    let sin = Math.sin(angle) * cannonballSpeed; // Y change
-    let cos = Math.cos(angle) * cannonballSpeed; // X change
-    // let sin = Math.sin(angle) * segmentDistance; // Y change
-    // let cos = Math.cos(angle) * segmentDistance; // X change
-    let maxX = Math.abs(targetPoint.x - startPoint.x)
-    let maxY = Math.abs(targetPoint.y - startPoint.y)
+    this.fireWeapon.perform(weapon, startPoint, targetPoint);
+  }
 
-    // console.log('target', targetPoint);
-    // console.log('lineDistance', lineDistance);
-    // console.log('segmentDistance', segmentDistance);
-    // console.log('angle', angle);
-    // console.log('sin', sin);
-    // console.log('cos', cos);
-    // console.log('maxX', maxX);
-    // console.log('maxY', maxY);
-
-    let cannonball = new Konva.Circle({
-      x: startPoint.x,
-      y: startPoint.y,
-      radius: 4,
-      fill: 'black',
-      draggable: true,
-      opacity: 1
-    });
-    // custom property
-    cannonball.velocity = {
-      x: 0,
-      y: 0
-    };
-    cannonball.damage = weapon.damage;
-
-    let layer = this.camera.getAgentsLayer();
-    layer.add(cannonball);
-
-    let newX = cannonball.getX();
-    let newY = cannonball.getY();
-
-    let sumX = 0;
-    let sumY = 0;
-    let deltaX = Math.abs(cos);
-    let deltaY = Math.abs(sin);
-
-    let anim = new Konva.Animation(() => {
-      newX += cos;
-      newY += sin;
-
-      cannonball.position({x:newX, y:newY});
-
-      sumX += deltaX;
-      sumY += deltaY;
-
-      // change/implement max firing distance of current cannon in use
-      if((sumX >= maxX) || (sumY >= maxY)) {
-        anim.stop();
-        cannonball.remove();
-      }
-
-      // did we hit something?
-      this.checkForEnemiesHitByProjectile(anim, cannonball);
-
-    }, layer);
-
-    anim.start();
-
-    this.currentPower -= weapon.poweruse;
-    this.updatePowerBar();
-    if(this.currentPower < 100 && this.reloadPower.isIdle) {
-      this.reloadPower.perform(weapon);
-    }
-
-    yield timeout(weapon.fireDelay);
-
-  }) fireWeapon;
+  // @task( function*(weapon) {
+  //   let cannonballSpeed = 3;
+  //   let startPoint = this.point;
+  //   let mousecoords = this.gameboard.getMousePointerPosition()
+  //   let targetHex = this.gameboard.getHexAtMousePoint(mousecoords);
+  //   let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);
+  //
+  //   let angle = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
+  //   let sin = Math.sin(angle) * cannonballSpeed; // Y change
+  //   let cos = Math.cos(angle) * cannonballSpeed; // X change
+  //   let maxX = Math.abs(targetPoint.x - startPoint.x)
+  //   let maxY = Math.abs(targetPoint.y - startPoint.y)
+  //
+  //   // console.log('target', targetPoint);
+  //   // console.log('lineDistance', lineDistance);
+  //   // console.log('segmentDistance', segmentDistance);
+  //   // console.log('angle', angle);
+  //   // console.log('sin', sin);
+  //   // console.log('cos', cos);
+  //   // console.log('maxX', maxX);
+  //   // console.log('maxY', maxY);
+  //
+  //   let cannonball = new Konva.Circle({
+  //     x: startPoint.x,
+  //     y: startPoint.y,
+  //     radius: 4,
+  //     fill: 'black',
+  //     draggable: true,
+  //     opacity: 1
+  //   });
+  //   // custom property
+  //   cannonball.velocity = {
+  //     x: 0,
+  //     y: 0
+  //   };
+  //   cannonball.damage = weapon.damage;
+  //
+  //   let layer = this.camera.getAgentsLayer();
+  //   layer.add(cannonball);
+  //
+  //   let newX = cannonball.getX();
+  //   let newY = cannonball.getY();
+  //
+  //   let sumX = 0;
+  //   let sumY = 0;
+  //   let deltaX = Math.abs(cos);
+  //   let deltaY = Math.abs(sin);
+  //
+  //   let anim = new Konva.Animation(() => {
+  //     newX += cos;
+  //     newY += sin;
+  //
+  //     cannonball.position({x:newX, y:newY});
+  //
+  //     sumX += deltaX;
+  //     sumY += deltaY;
+  //
+  //     // change/implement max firing distance of current cannon in use
+  //     if((sumX >= maxX) || (sumY >= maxY)) {
+  //       anim.stop();
+  //       cannonball.remove();
+  //     }
+  //
+  //     // did we hit something?
+  //     this.checkForEnemiesHitByProjectile(anim, cannonball);
+  //
+  //   }, layer);
+  //
+  //   anim.start();
+  //
+  //   this.currentPower -= weapon.poweruse;
+  //   this.updatePowerBar();
+  //   if(this.currentPower < 100 && this.reloadPower.isIdle) {
+  //     this.reloadPower.perform(weapon);
+  //   }
+  //
+  //   yield timeout(weapon.fireDelay);
+  //
+  // }) fireWeapon;
 
 
   checkForEnemiesHitByProjectile(anim, projectile) {
@@ -231,6 +230,26 @@ export class Transport extends BaseAgent {
         projectile.remove();
       }
     })
+  }
+
+  updateHealthBar() {
+    let bar = this.imageGroup.getChildren((node) =>{
+      return node.attrs && node.attrs.id === 'hp' + this.id
+    });
+    if (bar) {
+      bar.width( 30 * (this.healthPercentage/100) );
+      bar.fill(this.healthPercentage < 25 ? 'red' : 'green')
+      this.camera.getAgentsLayer().draw();
+
+      if (this.healthPercentage <= 0) {
+        console.log(`${this.name} dead!`);
+        // debugger;
+        // TODO do death functions:
+        // remove from map
+        // award experience
+        // drop treasure?  Treasure disappears after a while ?
+      }
+    }
   }
 }
 

@@ -102,17 +102,29 @@ export default class IndexRoute extends Route {
                 S: -15
               },
               img: "galleon.svg",
-              opacity: 1,
+              opacity: 0,
               imgSize: 32,
               sightRange: 3,
               speed: 300,
+              pursuitSpeed: 750,
+              aggressionSpeed: 750,  // delay time in between aggression turns
               patrolMethod: 'random',
-              patrol: [],
+              patrol: [{Q: 16, R: -6, S: -10}, {Q: 19, R: -4, S: -15}, {Q: 20, R: -7, S: -13}, {Q: 15, R: -3, S: -12}],
               maxHitPoints: 25,
               currentHitPoints: 25,
               maxPower: 25,
               currentPower: 25,
-              armor: 2
+              armor: 2,
+              weapons: [
+                {
+                  type: 'cannon',
+                  damage: 2,
+                  poweruse: 5,
+                  accuracy: 80, // percentage 0 (always miss) - 100 (always hit)
+                  fireDelay: 1000,
+                  reloadDelay: 1500  // lower is faster
+                }
+              ]
             },
 
           ],
@@ -200,6 +212,7 @@ export default class IndexRoute extends Route {
   }
 }
 
+// patrol: [{Q: 16, R: -6, S: -10}, {Q: 19, R: -4, S: -15}, {Q: 20, R: -7, S: -13}, {Q: 15, R: -3, S: -12}],
 // patrol: [{Q: 16, R: -6, S: -10}, {Q: 19, R: -4, S: -15}, {Q: 20, R: -7, S: -13}, {Q: 15, R: -3, S: -12}],
 
 

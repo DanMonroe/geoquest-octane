@@ -51,6 +51,7 @@ export default class MapService extends Service {
       size: new Point({x:this.hexSize, y:this.hexSize}),
       origin: new Point({x:0, y:0})
     });
+      // orientation: Layout.POINTY,
 
     let hexPairWidth = this.currentLayout.hexWidth * 1.5;
     return hexPairWidth;

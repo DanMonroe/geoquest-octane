@@ -115,5 +115,26 @@ export class Player extends BaseAgent {
     };
   }
 
+  // updateHealthBar() {
+  //   console.log('player updateHealthBar');
+    // let bar = this.imageGroup.getChildren((node) =>{
+    //   return node.attrs && node.attrs.id === 'hp';
+    // });
+    // if (bar) {
+    //   console.log('transport updateHealthBar this.healthPercentage', this.healthPercentage);
+    //   bar.width( 30 * (this.healthPercentage/100) );
+    //   bar.fill(this.healthPercentage < 25 ? 'red' : 'green')
+    //   this.camera.getAgentsLayer().draw();
+    //
+    //   if (this.healthPercentage <= 0) {
+    //     console.log(`${this.name} dead!`);
+    //     debugger;
+    //     // TODO do death functions:
+    //     // remove from map
+    //     // award experience
+    //     // drop treasure?  Treasure disappears after a while ?
+    //   }
+    // }
+  // }
 }
 

@@ -85,6 +85,7 @@ export default class TransportService extends Service {
         agent:gameAgent,
         mapService:this.mapService,
         camera:this.camera,
+        game:this.game,
         transportService:this,
         gameboard:this.gameboard,
       });
@@ -129,7 +130,7 @@ export default class TransportService extends Service {
     }
 
     let targetHex = this.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
-    // let agentHex = this.transportHexes[agent.id];
+
     let path = this.mapService.findPath(this.mapService.worldMap, agent.hex, targetHex);
     let moveObject = {
       agent: agent,
@@ -140,6 +141,13 @@ export default class TransportService extends Service {
     }
     this.moveQueue.pushObject(moveObject);
 
+  }
+
+  removeAgentFromMoveQueue(agent) {
+    // console.log('removeAgentFromMoveQueue');
+    this.moveQueue = this.moveQueue.reject((thisAgent) => {
+      return thisAgent.name = agent.name;
+    });
   }
 
   @task( function*() {
@@ -198,24 +206,25 @@ export default class TransportService extends Service {
     }
   }) moveQueueTask;
 
-  @task(function*(transport, targetHex) {
-
+  moveTransportToHex(transport, targetHex) {
     transport.hex = targetHex;
     let point = this.mapService.currentLayout.hexToPixel(targetHex);
 
-      // node: transport.imageObj,
+    // node: transport.imageObj,
     let tween = new Konva.Tween({
       node: transport.imageGroup,
       duration: 0.5,
       easing: Konva.Easings.EaseInOut,
-      x: point.x - 18,
-      y: point.y - 18
+      x: point.x,
+      y: point.y
     });
 
     tween.play();
+  }
 
-    // debugging:
-    this.gameboard.enemyHex = `Q:${targetHex.q} R:${targetHex.r} S:${targetHex.s}`;
+  @task(function*(transport, targetHex) {
+
+    this.moveTransportToHex(transport, targetHex);
 
     this.game.onTransportMoved(transport, targetHex);
 
