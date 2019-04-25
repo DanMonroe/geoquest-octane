@@ -95,16 +95,16 @@ export class Player extends BaseAgent {
       strokeWidth: 1
     });
 
-    let image = new Image();
-    image.src = this.agentImage;
+    console.log('Creating player image');
+    let imageObj = new Image();
+    imageObj.onload = () => {
 
-    image.onload = () => {
       console.log('loaded player image');
       this.imageObj = new Konva.Image({
         id: player.name,
         x: -(this.agentImageSize / 2),
         y: -(this.agentImageSize / 2) - 5,
-        image: image,
+        image: imageObj,
         width: this.agentImageSize,
         height: this.agentImageSize
       });
@@ -116,6 +116,8 @@ export class Player extends BaseAgent {
       agentsLayer.add(this.imageGroup);
       agentsLayer.draw();
     };
+    imageObj.src = this.agentImage;
+    console.log('player img src:', imageObj.src);
   }
 
   // updateHealthBar() {
