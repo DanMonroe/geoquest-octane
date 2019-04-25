@@ -27,27 +27,13 @@ export class Player extends BaseAgent {
 
     let playerStartHex;
     if (this.mapService) {
-      this.hexLayout = this.mapService.currentLayout;
-
-      playerStartHex = this.mapService.hexMap.find((hex) => {
-        if (!hex) {
-          return false;
-        }
-        return (player.start.Q === hex.q) &&
-          (player.start.R === hex.r) &&
-          (player.start.S === hex.s)
-      });
-
-      if (!playerStartHex) {
-        console.warn("Could not find player start hex.  Setting to first one in map");
-        // TODO this probably should never happen
-        playerStartHex = this.mapService.hexMap[0];
-      }
+      playerStartHex = this.setStartHex(player.start);
     }
 
     this.id = player.index;
     this.name = player.name;
     this.hex = playerStartHex;
+    this.startHex = playerStartHex;
 
     this.agentImage = `/images/transports/${player.img}`;
     this.agentImageSize = player.imgSize;
@@ -61,6 +47,7 @@ export class Player extends BaseAgent {
     this.maxPower = player.maxPower;
     this.currentPower = player.currentPower;
     this.armor = player.armor | 2;
+    this.respawnTime = player.respawnTime | 5000;
 
     this.buildDisplayGroup(player);
   }

@@ -40,6 +40,9 @@ export class BaseAgent {
   aggressionSpeed = null;
   patrol = null;
   currentWaypoint = -1;
+  startHex = null;
+  initialAgent = null;
+  respawnTime = null;
 
   @tracked maxHitPoints;
   @tracked currentHitPoints;
@@ -55,7 +58,25 @@ export class BaseAgent {
   @tracked travelAbilityFlags = 0;
   @tracked state = BaseAgent.STATE.IDLE;
 
-  canFireWeapon(powerRequirement) {
+  setStartHex(agentStart){
+    let startHex = this.mapService.hexMap.find((hex) => {
+      if (!hex) {
+        return false;
+      }
+      return (agentStart.Q === hex.q) &&
+        (agentStart.R === hex.r) &&
+        (agentStart.S === hex.s)
+    });
+
+    if (!startHex) {
+      console.error("Could not find agent start hex.  Setting to first one in map");
+      // TODO this probably should never happen
+      startHex = this.mapService.hexMap[0];
+    }
+    return startHex;
+  }
+
+canFireWeapon(powerRequirement) {
     // console.log('canFire', this.currentPower, powerRequirement);
     return this.currentPower >= powerRequirement;
   }
@@ -154,7 +175,7 @@ export class BaseAgent {
       y: startPoint.y,
       radius: 4,
       fill: 'black',
-      draggable: true,
+      draggable: false,
       opacity: 1
     });
     // custom property

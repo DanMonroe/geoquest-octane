@@ -55,6 +55,7 @@ export default class TransportService extends Service {
         agent:transportAgent,
         mapService:this.mapService,
         camera:this.camera,
+        game:this.game,
         transportService:this,
         gameboard:this.gameboard,
       });
@@ -161,7 +162,6 @@ export default class TransportService extends Service {
       if (this.moveQueue.length > 0) {
 
         this.moveQueue.forEach((moveObject) => {
-
           // is there anywhere for this object to go?
           if (moveObject.path.length > 0) {
 

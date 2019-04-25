@@ -1,6 +1,7 @@
 import { BaseAgent } from './base-agent';
 import Konva from 'konva';
-import { Point } from '../point'
+import { Point } from '../point';
+import { task, timeout } from 'ember-concurrency';
 
 export class Transport extends BaseAgent {
 
@@ -9,32 +10,30 @@ export class Transport extends BaseAgent {
     this.type = BaseAgent.AGENTTYPES.TRANSPORT;
 
     let agent = args.agent;
+    this.initialAgent = args.agent;
     this.mapService = args.mapService;
     this.camera = args.camera;
+    this.game = args.game;
     this.transportService = args.transportService;
     this.gameboard = args.gameboard;
 
-    let startHex = this.mapService.hexMap.find((hex) => {
-      if (!hex) {
-        return false;
-      }
-      return (agent.start.Q === hex.q) &&
-        (agent.start.R === hex.r) &&
-        (agent.start.S === hex.s)
-    });
-
-    if (!startHex) {
-      console.error("Could not find agent start hex.  Setting to first one in map");
-      // TODO this probably should never happen
-      startHex = this.mapService.hexMap[0];
-    }
-
-    // let startPoint = this.mapService.currentLayout.hexToPixel(startHex);
+    let startHex = this.setStartHex(agent.start);
+    this.hexLayout = this.mapService.currentLayout;
 
     this.id = agent.index;
     this.name = agent.name;
     this.hex = startHex;
+    this.startHex = startHex;
     // this.point = startPoint;
+    this.armor = args.armor | 2;
+    this.maxPower = args.maxPower || 25;
+
+    this.reset(agent);
+
+    this.buildDisplayGroup(agent);
+  }
+
+  reset(agent) {
     this.agentImage = `/images/transports/${agent.img}`;
     this.agentImageSize = agent.imgSize;
     this.sightRange = agent.sightRange;
@@ -42,16 +41,12 @@ export class Transport extends BaseAgent {
     this.patrol = agent.patrol;
     this.currentWaypoint = -1;
     this.state = agent.state
-    this.hexLayout = this.mapService.currentLayout;
     this.maxHitPoints = agent.maxHitPoints || 20;
-    this.currentHitPoints = agent.currentHitPoints || 20;
-    this.maxPower = args.maxPower || 25;
-    this.currentPower = args.currentPower | 25;
+    // this.currentHitPoints = 3;
+    this.currentHitPoints = agent.maxHitPoints || 20;
+    this.currentPower = this.maxPower | 25;
 
     this.weapons = agent.weapons;
-    this.armor = args.armor | 2;
-
-    this.buildDisplayGroup(agent);
   }
 
   buildDisplayGroup(agent) {
@@ -252,8 +247,39 @@ export class Transport extends BaseAgent {
         // remove from map
         // award experience
         // drop treasure?  Treasure disappears after a while ?
+        this.death.perform();
       }
     }
   }
+
+  @task( function*() {
+    console.log('player dead and gone.');
+    if (this.fireWeapon.isRunning) {
+      this.fireWeapon.cancelAll();
+    }
+
+    this.imageGroup.to({opacity: 0});
+    this.camera.getAgentsLayer().draw();
+
+    this.hex = this.startHex;
+
+    console.log('respawn start');
+
+    yield timeout(this.respawnTime);   // TODO get this time from somewhere
+
+
+    console.log('respawning');
+
+    this.reset(this.initialAgent);
+
+    this.updateHealthBar();
+
+    this.transportService.movePlayerToHexTask.perform(this.game.player, this.startHex);
+
+    this.imageGroup.to({opacity: 1});
+    this.camera.getAgentsLayer().draw();
+
+  }) death;
+
 }
 
