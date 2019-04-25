@@ -115,6 +115,10 @@ export default class GameboardComponent extends Component {
     let layer = this.camera.getDebugLayer();
     layer.visible(this.showDebugLayer);
 
+    this.showFieldOfViewLayer = !this.showFieldOfViewLayer;
+    this.gameboard.showFieldOfViewLayer = this.showFieldOfViewLayer;
+    let fovlayer = this.camera.getFOVLayer();
+    fovlayer.visible(this.showFieldOfViewLayer);
   }
 
   @action

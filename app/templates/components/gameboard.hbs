@@ -111,6 +111,9 @@
       <div>
         Player Health {{this.game.player.healthPercentage}}%
       </div>
+      <div>
+        Ship Health {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}
+      </div>
     </div>
 
   </div>
