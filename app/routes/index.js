@@ -82,7 +82,7 @@ export default class IndexRoute extends Route {
               R: 0,
               S: -9
             },
-            img: "pirate.png",
+            img: "pirate.svg",
             imgSize: 32,
             sightRange: 5,
             speed: 500,
