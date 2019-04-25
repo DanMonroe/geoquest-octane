@@ -163,6 +163,10 @@ export class Enemy extends BaseAgent {
 
   @task( function*() {
     // console.log('Enemy Fire!');
+    if (this.game.player.boardedTransport === null) {
+      // not on ship
+      return;
+    }
 
     if (!this.weapons || this.weapons.length === 0) {
       // console.log('no weapons');
@@ -200,8 +204,13 @@ export class Enemy extends BaseAgent {
 
     if (distance < 10) {
       console.log('Player Hit!');
-      this.game.player.boardedTransport.currentHitPoints -= projectile.damage;
-      this.game.player.boardedTransport.updateHealthBar();
+      if (this.game.player.boardedTransport !== null) {
+        this.game.player.boardedTransport.currentHitPoints -= projectile.damage;
+        this.game.player.boardedTransport.updateHealthBar();
+      } else {
+        this.game.player.currentHitPoints -= projectile.damage;
+        this.game.player.updateHealthBar();
+      }
 
       anim.stop();
       projectile.remove();
