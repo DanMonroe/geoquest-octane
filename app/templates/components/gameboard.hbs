@@ -98,6 +98,9 @@
         <button {{action "toggleDebugLayer"}}>Toggle Debug Layer</button>
       </div>
       <div>
+        <button {{action "toggleGameSounds"}}>Sound enabled: {{this.sound.soundEnabled}}</button>
+      </div>
+      <div>
         <button {{action "toggleMoveQueue"}}>Enable Enemy Patrols: {{this.transport.moveQueueTask.isRunning}}</button>
       </div>
       <div>

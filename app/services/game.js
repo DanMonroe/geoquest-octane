@@ -14,7 +14,8 @@ export default class GameService extends Service {
 
 
   @service ('map') mapService;
-  @service ('game') game;
+  // @service ('game') game;
+  @service ('sound') sound;
   @service ('transport') transport;
   @service ('gameboard') gameboard;
   @service ('hex') hexService;
@@ -50,14 +51,18 @@ export default class GameService extends Service {
   }
 
   boardTransport(transportName) {
-    this.turnOffPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.LAND);
-    this.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
+    // this.turnOffPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.LAND);
+    // this.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
+    this.turnOffPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.LAND);
+    this.turnOnPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.SEA);
     this.player.boardedTransport = this.transport.findTransportByName(transportName);
   }
 
   disembarkTransportToHex(targetHex) {
-    this.turnOffPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
-    this.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.LAND);
+    this.turnOffPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.SEA);
+    this.turnOnPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.LAND);
+    // this.turnOffPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
+    // this.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.LAND);
     this.player.boardedTransport = null;
     this.player.hex = targetHex;
   }
@@ -70,7 +75,8 @@ export default class GameService extends Service {
   }) gameClock;
 
   onTransportMoved(transport, targetHex) {
-    let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex);
+    let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, this.player.hex, targetHex);
+    // let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex);
     transport.playerDistance = pathDistanceToShipHex.length;
 
     // this.enemyToPlayerDistance = pathDistanceToShipHex.length;

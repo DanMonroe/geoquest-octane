@@ -220,6 +220,8 @@ canFireWeapon(powerRequirement) {
 
     anim.start();
 
+    this.game.sound.playSound(weapon.sound);
+
     this.currentPower -= weapon.poweruse;
     if (whoFiredType === BaseAgent.AGENTTYPES.PLAYER) {
       this.updatePowerBar();

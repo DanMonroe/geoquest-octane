@@ -13,6 +13,7 @@ export default class GameboardComponent extends Component {
   @service ('transport') transport;
   @service ('game') game;
   @service ('camera') camera;
+  @service ('sound') sound;
   @service ('path') pathService;
   @service ('fieldOfView') fov;
 
@@ -43,10 +44,11 @@ export default class GameboardComponent extends Component {
     this.showTileHexInfo = config.game.board.showTileHexInfo;
     this.showDebugLayer = config.game.board.showDebugLayer;
     this.showFieldOfViewLayer = config.game.board.showFieldOfViewLayer;
+    this.sound.soundEnabled = config.game.enableGameSounds;
 
     this.model = arguments[1];
     this.mapService.loadLayout();
-    this.loadMap(2);
+    this.loadMap(0);
   }
 
   loadMap(mapIndex) {
@@ -55,6 +57,7 @@ export default class GameboardComponent extends Component {
     // this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
 
     this.mapService.loadTiles(this.map);
+    this.sound.loadSounds(this.model.mapdata[mapIndex].sounds);
 
   }
 
@@ -128,6 +131,14 @@ export default class GameboardComponent extends Component {
     layer.visible(this.showTileGraphics);
     // this.camera.stage.draw();
     layer.draw();
+  }
+
+  @action
+  toggleGameSounds() {
+    this.sound.soundEnabled = !this.sound.soundEnabled;
+    if (!this.sound.soundEnabled) {
+      // this.sound.audio.stopAll('sounds')  // throws because no sounds playing
+    }
   }
 
   @action
