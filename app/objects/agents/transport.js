@@ -1,7 +1,8 @@
 import { BaseAgent } from './base-agent';
 import Konva from 'konva';
 import { Point } from '../point';
-import { task, timeout } from 'ember-concurrency';
+import { task, timeout, waitForProperty } from 'ember-concurrency';
+
 
 export class Transport extends BaseAgent {
 
@@ -95,7 +96,7 @@ export class Transport extends BaseAgent {
       });
 
       let agentsLayer = this.camera.getAgentsLayer();
-      this.imageGroup.add(healthBar, powerBar, this.imageObj);
+      this.imageGroup.add(this.imageObj, healthBar, powerBar);
       healthBar.moveToBottom();
       powerBar.moveToBottom();
       agentsLayer.add(this.imageGroup);
@@ -248,38 +249,36 @@ export class Transport extends BaseAgent {
         // award experience
         // drop treasure?  Treasure disappears after a while ?
         this.death.perform();
+        this.respawn.perform();
       }
     }
   }
 
   @task( function*() {
-    console.log('player dead and gone.');
     if (this.fireWeapon.isRunning) {
       this.fireWeapon.cancelAll();
     }
 
     this.imageGroup.to({opacity: 0});
-    this.camera.getAgentsLayer().draw();
 
     this.hex = this.startHex;
-
-    console.log('respawn start');
+    this.reset(this.initialAgent);
+    this.updateHealthBar();
 
     yield timeout(this.respawnTime);   // TODO get this time from somewhere
 
+  }) death;
+
+  @task( function*() {
+    yield waitForProperty(this, 'imageGroup.attrs.opacity', (opacity) => opacity === 0);
 
     console.log('respawning');
 
-    this.reset(this.initialAgent);
-
-    this.updateHealthBar();
 
     this.transportService.movePlayerToHexTask.perform(this.game.player, this.startHex);
 
     this.imageGroup.to({opacity: 1});
-    this.camera.getAgentsLayer().draw();
 
-  }) death;
-
+  }) respawn;
 }
 

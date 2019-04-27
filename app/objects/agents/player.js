@@ -97,7 +97,7 @@ export class Player extends BaseAgent {
       });
 
       let agentsLayer = this.camera.getAgentsLayer();
-      this.imageGroup.add(healthBar, powerBar, this.imageObj);
+      this.imageGroup.add(this.imageObj, healthBar, powerBar);
       healthBar.moveToBottom();
       powerBar.moveToBottom();
       agentsLayer.add(this.imageGroup);

@@ -88,7 +88,7 @@ export class Enemy extends BaseAgent {
       });
 
       let agentsLayer = this.camera.getAgentsLayer();
-      this.imageGroup.add(healthBar, this.imageObj);
+      this.imageGroup.add(this.imageObj,healthBar);
       healthBar.moveToBottom();
       agentsLayer.add(this.imageGroup);
       agentsLayer.draw();
