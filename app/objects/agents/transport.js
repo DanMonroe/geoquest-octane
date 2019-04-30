@@ -256,7 +256,7 @@ export class Transport extends BaseAgent {
         return;
       }
     }
-    if (this.healthPercentage <= 100) {
+    if (this.reloadHealth.isIdle && this.healthPercentage <= 100) {
       this.reloadHealth.perform();
     }
   }
