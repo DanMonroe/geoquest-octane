@@ -42,13 +42,13 @@ export class Layout {
     this.size = args.size;
     this.origin = args.origin;
 
-    this.hexWidth = this.orientation.type === 'flat' ?
+    this.hexWidth = Math.round(this.orientation.type === 'flat' ?
       2 * this.size.x :
-      Math.sqrt(3) * this.size.x;
+      Math.sqrt(3) * this.size.x);
 
-    this.hexHeight = this.orientation.type === 'flat' ?
+    this.hexHeight = Math.round(this.orientation.type === 'flat' ?
       Math.sqrt(3) * this.size.y :
-      2 * this.size.y;
+      2 * this.size.y);
 
     this.hexPairWidth = Math.round(this.hexWidth * 1.5);
     this.halfHexWidth = Math.round(this.hexWidth * .5);
@@ -89,16 +89,32 @@ export class Layout {
     this._hexPairWidth = width;
   }
 
-  hexToPixel(h) {
-    let M = this.orientation;
-    let size = this.size;
-    let origin = this.origin;
-    let x = (M.f0 * h.q + M.f1 * h.r) * size.x;
-    let y = (M.f2 * h.q + M.f3 * h.r) * size.y;
+  hexToPixel(hex) {
+    if(this.orientation.type === 'flat') {
+      let M = this.orientation;
+      let size = this.size;
+      let origin = this.origin;
+      let x = (M.f0 * hex.q + M.f1 * hex.r) * size.x;
+      let y = (M.f2 * hex.q + M.f3 * hex.r) * size.y;
+      return new Point({x:x + origin.x, y:y + origin.y});
+    } else {
+      // oddr_offset_to_pixel
+      let size = this.size;
+      let x = size.x * Math.sqrt(3) * (hex.col + (0.5 * (hex.row & 1)));
+      let y = size.x * (3 / 2) * hex.row;
+      return new Point({x: x, y: y});
+    }
+
 
     // console.log('hexToPixel', x, y, M.f0, M.f1, M.f2, M.f3, size);
 
-    return new Point({x:x + origin.x, y:y + origin.y});
+  }
+
+  oddr_offset_to_pixel(hex) {
+    let size = this.size;
+    let x = size.x * Math.sqrt(3) * (hex.col + (0.5 * (hex.row & 1)));
+    let y = size.x * (3 / 2) * hex.row;
+    return new Point({x: x, y: y});
   }
 
   evenq_offset_to_pixel(hex) {
@@ -108,21 +124,46 @@ export class Layout {
     return new Point({x: x, y: y});
   }
 
+  pointy_hex_to_pixel(hex) {
+    let size = this.size;
+    var x = size.x * (Math.sqrt(3) * hex.q + (Math.sqrt(3) / 2) * hex.r);
+    var y = size.y * ((3 / 2) * hex.r)
+    return new Point({x: x, y: y});
+  }
   pixelToHex(p) {
-    let M = this.orientation;
     let size = this.size;
     let origin = this.origin;
-    let pt = new Point({x:(p.x - origin.x) / size.x, y:(p.y - origin.y) / size.y});
-    let q = M.b0 * pt.x + M.b1 * pt.y;
-    let r = M.b2 * pt.x + M.b3 * pt.y;
+    let point = new Point({x: (p.x - origin.x) / size.x, y: (p.y - origin.y) / size.y});
 
-    // console.log('pixelToHex', q, r, M.b1, M.b2, M.b3, p);
+    if(this.orientation.type === 'flat') {
+      let M = this.orientation;
+      let q = M.b0 * point.x + M.b1 * point.y;
+      let r = M.b2 * point.x + M.b3 * point.y;
 
-    // var q2 = ( 2./3 * pt.x                        ) / size.x
-    // var r2 = (-1./3 * pt.x  + Math.sqrt(3)/3 * pt.y) / size.y
-    // console.log('pixelToHex', q, q2, r, r2);
+      // console.log('pixelToHex', q, r, M.b1, M.b2, M.b3, p);
 
-    return new Hex({q:q, r:r, s:-q - r});
+      // var q2 = ( 2./3 * pt.x                        ) / size.x
+      // var r2 = (-1./3 * pt.x  + Math.sqrt(3)/3 * pt.y) / size.y
+      // console.log('pixelToHex', q, q2, r, r2);
+
+      return new Hex({q: q, r: r, s: -q - r});
+    } else {
+      // var q = h.col - (h.row + offset * (h.row & 1)) / 2;
+      // var r = h.row;
+      // var s = -q - r;
+      // return new Hex(q, r, s);
+
+      // var col = cube.x + (cube.z - (cube.z&1)) / 2
+      // var row = cube.z
+      // return OffsetCoord(col, row)
+
+      // let pt = new Point({x: (p.x - origin.x) / size.x, y: (p.y - origin.y) / size.y});
+
+      var q = (Math.sqrt(3)/3 * point.x  -  1/3 * point.y) / size.x
+      var r = (                        2/3 * point.y) / size.y
+      // return hex_round(Hex(q, r))
+      return new Hex({q: q, r: r, s: -q - r});
+    }
   }
 
   hexCornerOffset(corner) {
@@ -135,7 +176,12 @@ export class Layout {
 
   polygonCorners(hex) {
     let corners = [];
+    // let center = this.oddr_offset_to_pixel(hex);
     let center = this.hexToPixel(hex);
+
+    // console.log('hex', hex);
+    // console.log('center', center);
+
     for (let i = 0; i < 6; i++) {
       let offset = this.hexCornerOffset(i);
 // console.log(offset);

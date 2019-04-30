@@ -10,7 +10,7 @@ export default class IndexRoute extends Route {
   model() {
     let data = [
       {
-        mapid: 0,
+        mapid: 1,
         map: Map3,
         agents: {
           player: {
@@ -59,7 +59,6 @@ export default class IndexRoute extends Route {
               weapons: [
                 {
                   type: 'cannon',
-                  sound: 'cannon1',
                   damage: 2,
                   poweruse: 5,
                   accuracy: 80, // percentage 0 (always miss) - 100 (always hit)
@@ -78,6 +77,77 @@ export default class IndexRoute extends Route {
                 Q: 9,
                 R: 0,
                 S: -9
+              },
+              img: "ship.svg",
+              opacity: 1,
+              imgSize: 32,
+              sightRange: 3,
+              speed: 500,
+              respawnTime: 5000,
+              maxHitPoints: 25,
+              currentHitPoints: 25,
+              maxPower: 50,
+              currentPower: 50,
+              armor: 2,
+              weapons: [
+                {
+                  type: 'cannon',
+                  sound: 'cannon1',
+                  damage: 2,
+                  poweruse: 4,
+                  accuracy: 80, // percentage 0 (always miss) - 100 (always hit)
+                  fireDelay: 1000,
+                  reloadDelay: 1500  // lower is faster
+                }
+              ]
+            }
+          ]
+        },
+        sounds: [
+          {
+            name: 'cannon1',
+            file: 'cannon1.mp3'
+          },
+          {
+            name: 'cannon2',
+            file: 'cannon2.mp3'
+          }
+        ]
+      },
+      {
+        mapid: 0,
+        map: Map1,
+        agents: {
+          player: {
+            name: 'player',
+            index: 0,
+            opacity: 0,
+            start: {
+              Q: 0,
+              R: 0,
+              S: 0
+            },
+            img: "pirate.svg",
+            imgSize: 32,
+            sightRange: 5,
+            speed: 500,
+            maxHitPoints: 25,
+            currentHitPoints: 25,
+            maxPower: 50,
+            currentPower: 50,
+            armor: 2
+          },
+          enemies: [
+
+          ],
+          transports: [
+            {
+              name: 'ship',
+              index: 3,
+              start: {
+                Q: 0,
+                R: 0,
+                S: 0
               },
               img: "ship.svg",
               opacity: 1,

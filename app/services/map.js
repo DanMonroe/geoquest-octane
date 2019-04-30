@@ -45,12 +45,22 @@ export default class MapService extends Service {
     this.set('graph', graph);
   }
 
-  loadLayout() {
-    this.currentLayout = new Layout({
-      orientation: Layout.FLAT,
-      size: new Point({x:this.hexSize, y:this.hexSize}),
-      origin: new Point({x:0, y:0})
-    });
+  loadLayout(layout) {
+
+    this.hexSize = layout.hexSize;
+    if(layout.type === "flat") {
+      this.currentLayout = new Layout({
+        orientation: Layout.FLAT,
+        size: new Point({x:this.hexSize, y:this.hexSize}),
+        origin: new Point({x:0, y:0})
+      });
+    } else {
+      this.currentLayout = new Layout({
+        orientation: Layout.POINTY,
+        size: new Point({x:this.hexSize, y:this.hexSize}),
+        origin: new Point({x:0, y:0})
+      });
+    }
       // orientation: Layout.FLAT,
       // orientation: Layout.POINTY,
 

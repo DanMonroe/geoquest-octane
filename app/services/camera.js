@@ -55,6 +55,7 @@ export default class CameraService extends Service {
     return maxY;
   }
 
+  // TODO do we need worldX / worldY set?  if not, delete this method
   initCamera() {
     assert("Must set currentLayout and worldMap", this.mapService.currentLayout && this.mapService.worldMap);
 

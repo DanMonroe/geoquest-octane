@@ -18,7 +18,7 @@ export class DoubledCoordinates {
   constructor(args) {
     this.col = args.col;
     this.row = args.row;
-
+console.log('doubled coords constructor');
   }
   static qdoubledFromCube(h) {
     var col = h.q;

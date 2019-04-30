@@ -28,6 +28,7 @@ module.exports = function(environment) {
 
     game: {
       enableGameSounds: true,
+      gameClockEnabled: false,
       board: {
         showTileGraphics: true,
         showTileHexInfo: false,
@@ -49,7 +50,8 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV.game.enableGameSounds = true;
+    ENV.game.gameClockEnabled = false;
+    ENV.game.enableGameSounds = false;
     ENV.game.board.showTileGraphics = true;
     ENV.game.board.showTileHexInfo = true;
     ENV.game.board.showDebugLayer = true;

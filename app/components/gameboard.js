@@ -45,9 +45,11 @@ export default class GameboardComponent extends Component {
     this.showDebugLayer = config.game.board.showDebugLayer;
     this.showFieldOfViewLayer = config.game.board.showFieldOfViewLayer;
     this.sound.soundEnabled = config.game.enableGameSounds;
+    this.game.gameClockEnabled = config.game.gameClockEnabled;
 
     this.model = arguments[1];
-    this.mapService.loadLayout();
+    // this.mapService.loadLayout();
+    // this.loadMap(1);
     this.loadMap(0);
   }
 
@@ -56,6 +58,7 @@ export default class GameboardComponent extends Component {
     this.map = this.model.mapdata[mapIndex].map;
     // this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
 
+    this.mapService.loadLayout(this.map.LAYOUT);
     this.mapService.loadTiles(this.map);
     this.sound.loadSounds(this.model.mapdata[mapIndex].sounds);
 
@@ -94,7 +97,7 @@ export default class GameboardComponent extends Component {
     this.transport.moveQueueTask.perform();
 
     // TODO put these back in:
-    // this.game.gameClock.perform();
+    this.game.gameClock.perform();
   }
 
   @action

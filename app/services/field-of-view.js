@@ -15,10 +15,10 @@ export default class FieldOfViewService extends Service {
     // recursive
     let neighborsInRangeArray = [];
     this.mapService.getNeighborHexesInRange(1, player.sightRange, player.hex, neighborsInRangeArray);
-
     this.clean(player.hex, neighborsInRangeArray);
 
     let finalFovHexes = this.buildFieldOfVisionVisibleAndBlockedHexes(neighborsInRangeArray, player.hex);
+// console.log('finalFovHexes', finalFovHexes);
 
     this.updateGameboardTilesOpacity(finalFovHexes);
   }

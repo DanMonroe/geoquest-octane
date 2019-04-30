@@ -2,6 +2,11 @@ import { Basemap } from './basemap';
 
 export class Map3 extends Basemap {
 
+  static LAYOUT = {
+    "type": "flat",
+    "hexSize": 24
+  };
+
   static TILEIMAGES = [
     "ZeshioHexKitDemo_096.png", // water
     "ZeshioHexKitDemo_104.png",  // sand

@@ -324,7 +324,7 @@ export default class GameboardService extends Service {
     let point = this.mapService.currentLayout.hexToPixel(hex);
     let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
     let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
-
+// console.log('drawHexTile point', point);
     let tileGraphics = [];
     if (typeof hex.map.t === 'number') {
       tileGraphics.push(this.mapService.getTileGraphic(hex.map.t));
