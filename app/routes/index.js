@@ -24,12 +24,14 @@ export default class IndexRoute extends Route {
             },
             img: "pirate.svg",
             imgSize: 32,
-            sightRange: 5,
+            sightRange: 4,
             speed: 500,
             maxHitPoints: 25,
             currentHitPoints: 25,
             maxPower: 50,
             currentPower: 50,
+            healingSpeed: 10000,
+            healingPower: 1,
             armor: 2
           },
           enemies: [
@@ -44,7 +46,7 @@ export default class IndexRoute extends Route {
               img: "galleon.svg",
               opacity: 0,
               imgSize: 32,
-              sightRange: 3,
+              sightRange: 2,
               speed: 1600,
               pursuitSpeed: 1000,
               aggressionSpeed: 1000,  // delay time in between aggression turns
@@ -55,14 +57,16 @@ export default class IndexRoute extends Route {
               currentHitPoints: 5,
               maxPower: 25,
               currentPower: 25,
+              healingSpeed: 16000,
+              healingPower: 1,
               armor: 2,
               weapons: [
                 {
                   type: 'cannon',
-                  damage: 2,
+                  damage: 2.5,
                   poweruse: 5,
                   accuracy: 80, // percentage 0 (always miss) - 100 (always hit)
-                  fireDelay: 1000,
+                  fireDelay: 1500,
                   reloadDelay: 1500  // lower is faster
                 }
               ]
@@ -88,12 +92,14 @@ export default class IndexRoute extends Route {
               currentHitPoints: 25,
               maxPower: 50,
               currentPower: 50,
+              healingSpeed: 12000,
+              healingPower: 1,
               armor: 2,
               weapons: [
                 {
                   type: 'cannon',
                   sound: 'cannon1',
-                  damage: 2,
+                  damage: 3,
                   poweruse: 4,
                   accuracy: 80, // percentage 0 (always miss) - 100 (always hit)
                   fireDelay: 1000,

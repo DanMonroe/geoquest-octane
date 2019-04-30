@@ -46,6 +46,9 @@ export class Player extends BaseAgent {
     this.currentHitPoints = player.currentHitPoints;
     this.maxPower = player.maxPower;
     this.currentPower = player.currentPower;
+    this.healingSpeed = player.healingSpeed || 5000;
+    this.healingPower = player.healingPower || 1;
+
     this.armor = player.armor | 2;
     this.respawnTime = player.respawnTime | 5000;
 

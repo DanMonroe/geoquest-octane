@@ -51,8 +51,6 @@ export default class GameService extends Service {
   }
 
   boardTransport(transportName) {
-    // this.turnOffPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.LAND);
-    // this.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
     this.turnOffPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.LAND);
     this.turnOnPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.SEA);
     this.player.boardedTransport = this.transport.findTransportByName(transportName);
@@ -61,8 +59,6 @@ export default class GameService extends Service {
   disembarkTransportToHex(targetHex) {
     this.turnOffPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.SEA);
     this.turnOnPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.LAND);
-    // this.turnOffPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
-    // this.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.LAND);
     this.player.boardedTransport = null;
     this.player.hex = targetHex;
   }

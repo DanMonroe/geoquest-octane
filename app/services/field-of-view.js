@@ -1,5 +1,6 @@
 import Service from '@ember/service';
 import {inject as service} from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class FieldOfViewService extends Service {
   @service ('map') mapService;
@@ -8,6 +9,8 @@ export default class FieldOfViewService extends Service {
   @service ('camera') camera;
   @service ('path') pathService;
   @service ('game') game;
+
+  @tracked lastNeighborsInRangeArray = null;
 
   updatePlayerFieldOfView() {
     let player = this.game.player;
@@ -39,7 +42,8 @@ export default class FieldOfViewService extends Service {
 
     let finalFovHexes = {
       visible: [playerHex],
-      blocked: []
+      blocked: [],
+      noLongerVisible: [] // hexes that used to be visible, now out of range
     }
 
     // set fov properties, build visible, blocked arrays
@@ -70,6 +74,18 @@ export default class FieldOfViewService extends Service {
       }
     }
 
+    // create a list of hexes to set opacity to .5
+    // these are hexes that were visible last time player moved but now are out of range;
+    if (this.lastNeighborsInRangeArray) {
+      finalFovHexes.noLongerVisible = this.lastNeighborsInRangeArray.filter((hex) => {
+        // debugger;
+        return !finalFovHexes.visible.includes(hex);
+      });
+    }
+
+    this.lastNeighborsInRangeArray = finalFovHexes.visible;
+
+
     return finalFovHexes;
   }
 
@@ -79,12 +95,29 @@ export default class FieldOfViewService extends Service {
     })
 
     let gameLayer = this.camera.getGameLayer();
-    let visibleHexeImages = gameLayer.getChildren((node) => {
+
+    let visibleHexImages = gameLayer.getChildren((node) => {
       return visibleIds.includes(node.id());
     });
 
-    visibleHexeImages.forEach(tile => {
+    visibleHexImages.forEach(tile => {
       tile.to({opacity: 1});
+    });
+
+    // No longer visible
+    let noLongerVisibleIds = finalFovHexes.noLongerVisible.map(function(h){
+      return h.id;
+    })
+    let noLongerVisibleHexImages = gameLayer.getChildren((node) => {
+      return noLongerVisibleIds.includes(node.id());
+    });
+    // remove any hex that is in visible hexes
+    noLongerVisibleHexImages = noLongerVisibleHexImages.filter((node) => {
+      return !visibleHexImages.includes(node);
+    });
+
+    noLongerVisibleHexImages.forEach(tile => {
+      tile.to({opacity: .4});
     });
 
     gameLayer.draw();

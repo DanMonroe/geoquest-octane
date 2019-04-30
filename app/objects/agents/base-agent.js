@@ -48,6 +48,8 @@ export class BaseAgent {
   @tracked currentHitPoints;
   @tracked maxPower;
   @tracked currentPower;
+  @tracked healingSpeed;
+  @tracked healingPower;
 
   @tracked mapService = null;
   @tracked camera = null;
@@ -76,7 +78,7 @@ export class BaseAgent {
     return startHex;
   }
 
-canFireWeapon(powerRequirement) {
+  canFireWeapon(powerRequirement) {
     // console.log('canFire', this.currentPower, powerRequirement);
     return this.currentPower >= powerRequirement;
   }
@@ -147,6 +149,15 @@ canFireWeapon(powerRequirement) {
       this.updatePowerBar();
     }
   }) reloadPower;
+
+  @task( function*() {
+    while (this.currentHitPoints < this.maxHitPoints) {
+// console.log('this.healingPower', this.healingPower);
+      yield timeout(this.healingSpeed);
+      this.currentHitPoints += Math.max(1, this.healingPower);
+      this.updateHealthBar();
+    }
+  }) reloadHealth;
 
   @task( function*(weapon, startPoint, targetPoint, whoFiredType) {
     let cannonballSpeed = 3;

@@ -28,6 +28,8 @@ export class Transport extends BaseAgent {
     // this.point = startPoint;
     this.armor = args.armor | 2;
     this.maxPower = args.maxPower || 25;
+    this.healingSpeed = agent.healingSpeed || 5000;
+    this.healingPower = agent.healingPower || 1;
 
     this.reset(agent);
 
@@ -226,6 +228,7 @@ export class Transport extends BaseAgent {
         agent.currentHitPoints -= projectile.damage;
         agent.updateHealthBar();
 
+
         anim.stop();
         projectile.remove();
       }
@@ -250,7 +253,11 @@ export class Transport extends BaseAgent {
         // drop treasure?  Treasure disappears after a while ?
         this.death.perform();
         this.respawn.perform();
+        return;
       }
+    }
+    if (this.healthPercentage <= 100) {
+      this.reloadHealth.perform();
     }
   }
 

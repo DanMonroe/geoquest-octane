@@ -18,6 +18,8 @@ export class Enemy extends BaseAgent {
     this.gameboard = args.gameboard;
     this.maxHitPoints = agent.maxHitPoints || 20;
     this.currentHitPoints = agent.currentHitPoints || 20;
+    this.healingSpeed = agent.healingSpeed || 5000;
+    this.healingPower = agent.healingPower || 1;
 
     this.hexLayout = this.mapService.currentLayout;
 
@@ -219,7 +221,7 @@ export class Enemy extends BaseAgent {
       bar.width( 30 * (this.healthPercentage/100) );
       bar.fill(this.healthPercentage < 25 ? 'red' : 'green')
       this.camera.getAgentsLayer().draw();
-
+console.log('this.healthPercentage', this.healthPercentage);
       if (this.healthPercentage <= 0) {
         console.log(`${this.name} dead!`);
         // debugger;
@@ -228,7 +230,11 @@ export class Enemy extends BaseAgent {
         // award experience
         // drop treasure?  Treasure disappears after a while ?
         this.death.perform();
+        return;
       }
+    }
+    if (this.healthPercentage <= 100) {
+      this.reloadHealth.perform();
     }
   }
 
