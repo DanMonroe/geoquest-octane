@@ -71,6 +71,7 @@ export default class GameService extends Service {
   }) gameClock;
 
   onTransportMoved(transport, targetHex) {
+    // console.log('onTransportMoved', transport.name);
     let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, this.player.hex, targetHex);
     // let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex);
     transport.playerDistance = pathDistanceToShipHex.length;
@@ -107,4 +108,7 @@ export default class GameService extends Service {
     }
   }
 
+  onPlayerMoved(targetHex) {
+    // this.updateEnemyOpacityForRangeAndObscurity(transport, targetHex);
+  }
 }

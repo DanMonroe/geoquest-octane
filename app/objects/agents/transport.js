@@ -58,6 +58,7 @@ export class Transport extends BaseAgent {
       x: this.point.x,
       y: this.point.y
     });
+    this.imageGroup.name(`transport${this.id}`);
 
     let healthBar = new Konva.Rect({
       id: 'hp' + this.id,

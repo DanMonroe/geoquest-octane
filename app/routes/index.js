@@ -71,6 +71,42 @@ export default class IndexRoute extends Route {
                 }
               ]
             },
+            {
+              name: 'tower',
+              index: 3,
+              start: {
+                Q: 12,
+                R: -5,
+                S: -7
+              },
+              img: "roundtower.svg",
+              opacity: 0,
+              imgSize: 32,
+              sightRange: 2,
+              speed: 1600,
+              pursuitSpeed: 1000,
+              aggressionSpeed: 1000,  // delay time in between aggression turns
+              respawnTime: 10000,
+              patrolMethod: 'static',
+              patrol: [],
+              maxHitPoints: 25,
+              currentHitPoints: 5,
+              maxPower: 25,
+              currentPower: 25,
+              healingSpeed: 16000,
+              healingPower: 1,
+              armor: 2,
+              weapons: [
+                {
+                  type: 'arrow',
+                  damage: 1,
+                  poweruse: 5,
+                  accuracy: 80, // percentage 0 (always miss) - 100 (always hit)
+                  fireDelay: 700,
+                  reloadDelay: 1000  // lower is faster
+                }
+              ]
+            }
 
           ],
           transports: [

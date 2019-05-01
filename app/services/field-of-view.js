@@ -24,6 +24,7 @@ export default class FieldOfViewService extends Service {
 // console.log('finalFovHexes', finalFovHexes);
 
     this.updateGameboardTilesOpacity(finalFovHexes);
+    this.updateStaticEnemyOpacity(finalFovHexes);
   }
 
   clean(originHex, neighborsInRangeArray) {
@@ -87,6 +88,63 @@ export default class FieldOfViewService extends Service {
 
 
     return finalFovHexes;
+  }
+
+  updateStaticEnemyOpacity(finalFovHexes) {
+    // get all enemies that are in finalFovHexes.visible
+    // then set opacity to 1
+    // get all enemies that are in finalFovHexes.noLongerVisible
+    // then set opacity to 0
+
+    let agentsLayer = this.camera.getAgentsLayer();
+
+    this.transport.agents.forEach((transportAgent) => {
+      // console.log('transportAgent.name', transportAgent.name, transportAgent.imageGroup.attrs.opacity);
+      if(transportAgent.imageGroup.attrs.opacity === 0){
+
+        // make visible
+        this.setStaticEnemyOpacity(transportAgent, finalFovHexes.visible, 1);
+        // if (transportAgent.hex && finalFovHexes.visible.includes(transportAgent.hex)) {
+        //   // debugger;
+        //   let visibleAgentImages = agentsLayer.getChildren((node) => {
+        //     // console.log('node', node, node.id, transportAgent.id);
+        //     return `agent${transportAgent.id}` === node.name();
+        //   });
+        //   visibleAgentImages.forEach(agentImageGroup => {
+        //     agentImageGroup.to({opacity: 1});
+        //   });
+        // }
+      } else {
+        // make non visible
+        this.setStaticEnemyOpacity(transportAgent, finalFovHexes.noLongerVisible, 0);
+        // if (transportAgent.hex && finalFovHexes.noLongerVisible.includes(transportAgent.hex)) {
+        //   // debugger;
+        //   let visibleAgentImages = agentsLayer.getChildren((node) => {
+        //     // console.log('node', node, node.id, transportAgent.id);
+        //     return `agent${transportAgent.id}` === node.name();
+        //   });
+        //   visibleAgentImages.forEach(agentImageGroup => {
+        //     agentImageGroup.to({opacity: 0});
+        //   });
+        // }
+
+      }
+    });
+
+    agentsLayer.draw();
+  }
+
+  // hexesToCheck visible or noLongerVisible
+  setStaticEnemyOpacity(transportAgent, hexesToCheck, opacityToSet) {
+    let agentsLayer = this.camera.getAgentsLayer()
+    if (transportAgent.hex && hexesToCheck.includes(transportAgent.hex)) {
+      let visibleAgentImages = agentsLayer.getChildren((node) => {
+        return `agent${transportAgent.id}` === node.name();
+      });
+      visibleAgentImages.forEach(agentImageGroup => {
+        agentImageGroup.to({opacity: opacityToSet});
+      });
+    }
   }
 
   updateGameboardTilesOpacity(finalFovHexes) {

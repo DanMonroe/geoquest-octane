@@ -62,6 +62,7 @@ export class Enemy extends BaseAgent {
       y: this.point.y,
       opacity: agent.opacity
     });
+    this.imageGroup.name(`agent${this.id}`);
 
     let healthBar = new Konva.Rect({
       id: 'hp' + this.id,

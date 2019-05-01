@@ -272,6 +272,9 @@ export default class TransportService extends Service {
 
     this.camera.stage.draw();
 
+    // this.game.onPlayerMoved(targetHex);
+
+
     yield timeout(playerObj.speed);
 
   // }) movePlayerToHexTask;
