@@ -105,19 +105,21 @@ export class Enemy extends BaseAgent {
     this.state = BaseAgent.STATE.MISSILE;
 
     if(this.patrolMethod === 'static') {
-      // let distance = this.mapService.distanceInHexes(this.game.player.hex, this.hex);
-      // if (distance <= this.sightRange) {
+      if (this.engagePlayer.isIdle) {
         this.engagePlayer.perform();
-      // }
-
+      }
     } else {
 
       // cancel any patrolling for this enemy
       this.transportService.removeAgentFromMoveQueue(this);
 
       // Fire and pursue
-      this.engagePlayer.perform();
-      this.chasePlayer.perform();
+      if (this.engagePlayer.isIdle) {
+        this.engagePlayer.perform();
+      }
+      if (this.chasePlayer.isIdle) {
+        this.chasePlayer.perform();
+      }
     }
   }
 
