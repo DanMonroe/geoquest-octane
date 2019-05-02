@@ -30,7 +30,7 @@ export class Map3 extends Basemap {
 ,{id: 91,col: 9,row: 0, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
 ,{id: 101,col: 10,row: 0, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
 ,{id: 111,col: 11,row: 0, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
-,{id: 121,col: 12,row: 0, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
+,{id: 121,col: 12,row: 0, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
 ,{id: 131,col: 13,row: 0, t: 2, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
 ,{id: 141,col: 14,row: 0, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
 ,{id: 151,col: 15,row: 0, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
@@ -55,9 +55,9 @@ export class Map3 extends Basemap {
 ,{id: 82,col: 8,row: 1, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
 ,{id: 92,col: 9,row: 1, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
 ,{id: 102,col: 10,row: 1, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
-,{id: 112,col: 11,row: 1, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
+,{id: 112,col: 11,row: 1, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
 ,{id: 122,col: 12,row: 1, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
-,{id: 132,col: 13,row: 1, t: 2, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
+,{id: 132,col: 13,row: 1, t: 2, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
 ,{id: 142,col: 14,row: 1, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
 ,{id: 152,col: 15,row: 1, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
 ,{id: 162,col: 16,row: 1, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
@@ -80,10 +80,10 @@ export class Map3 extends Basemap {
 ,{id: 73,col: 7,row: 2, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
 ,{id: 83,col: 8,row: 2, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
 ,{id: 93,col: 9,row: 2, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
-,{id: 103,col: 10,row: 2, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
-,{id: 113,col: 11,row: 2, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
+,{id: 103,col: 10,row: 2, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
+,{id: 113,col: 11,row: 2, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
 ,{id: 123,col: 12,row: 2, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
-,{id: 133,col: 13,row: 2, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
+,{id: 133,col: 13,row: 2, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
 ,{id: 143,col: 14,row: 2, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
 ,{id: 153,col: 15,row: 2, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
 ,{id: 163,col: 16,row: 2, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
@@ -106,10 +106,10 @@ export class Map3 extends Basemap {
 ,{id: 74,col: 7,row: 3, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
 ,{id: 84,col: 8,row: 3, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
 ,{id: 94,col: 9,row: 3, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
-,{id: 104,col: 10,row: 3, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
-,{id: 114,col: 11,row: 3, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
-,{id: 124,col: 12,row: 3, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
-,{id: 134,col: 13,row: 3, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
+,{id: 104,col: 10,row: 3, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
+,{id: 114,col: 11,row: 3, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
+,{id: 124,col: 12,row: 3, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
+,{id: 134,col: 13,row: 3, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:0, visited:false, closed:false, parent:null}}
 ,{id: 144,col: 14,row: 3, t: 1, path: {f:0, g:0, h:0, flags: 2, w:1, v:1, visited:false, closed:false, parent:null}}
 ,{id: 154,col: 15,row: 3, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}
 ,{id: 164,col: 16,row: 3, t: 0, path: {f:0, g:0, h:0, flags: 1, w:0, visited:false, closed:false, parent:null}}

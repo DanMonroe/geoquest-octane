@@ -169,6 +169,10 @@ export default class MapService extends Service {
     return !this.game.playerHasTravelAbilityFlag(neighborPathFlags);
   }
 
+  distanceInHexes(startHex, targetHex) {
+    return this.pathService.heuristics.hex(startHex, targetHex);
+  }
+
   // https://briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated/
   findPath(gridIn, startHex, targetHex, options = {}) {
 

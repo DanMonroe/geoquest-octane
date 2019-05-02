@@ -101,50 +101,44 @@ export default class FieldOfViewService extends Service {
     this.transport.agents.forEach((transportAgent) => {
       // console.log('transportAgent.name', transportAgent.name, transportAgent.imageGroup.attrs.opacity);
       if(transportAgent.imageGroup.attrs.opacity === 0){
-
         // make visible
-        this.setStaticEnemyOpacity(transportAgent, finalFovHexes.visible, 1);
-        // if (transportAgent.hex && finalFovHexes.visible.includes(transportAgent.hex)) {
-        //   // debugger;
-        //   let visibleAgentImages = agentsLayer.getChildren((node) => {
-        //     // console.log('node', node, node.id, transportAgent.id);
-        //     return `agent${transportAgent.id}` === node.name();
-        //   });
-        //   visibleAgentImages.forEach(agentImageGroup => {
-        //     agentImageGroup.to({opacity: 1});
-        //   });
-        // }
+        this.setStaticEnemyOpacity(transportAgent, finalFovHexes.visible, true);
       } else {
         // make non visible
-        this.setStaticEnemyOpacity(transportAgent, finalFovHexes.noLongerVisible, 0);
-        // if (transportAgent.hex && finalFovHexes.noLongerVisible.includes(transportAgent.hex)) {
-        //   // debugger;
-        //   let visibleAgentImages = agentsLayer.getChildren((node) => {
-        //     // console.log('node', node, node.id, transportAgent.id);
-        //     return `agent${transportAgent.id}` === node.name();
-        //   });
-        //   visibleAgentImages.forEach(agentImageGroup => {
-        //     agentImageGroup.to({opacity: 0});
-        //   });
-        // }
-
+        this.setStaticEnemyOpacity(transportAgent, finalFovHexes.noLongerVisible, false);
       }
+      this.checkPlayerInRangeForAgent(transportAgent);
     });
 
     agentsLayer.draw();
   }
 
   // hexesToCheck visible or noLongerVisible
-  setStaticEnemyOpacity(transportAgent, hexesToCheck, opacityToSet) {
-    let agentsLayer = this.camera.getAgentsLayer()
+  setStaticEnemyOpacity(transportAgent, hexesToCheck, isVisible) {
     if (transportAgent.hex && hexesToCheck.includes(transportAgent.hex)) {
+      let agentsLayer = this.camera.getAgentsLayer()
       let visibleAgentImages = agentsLayer.getChildren((node) => {
         return `agent${transportAgent.id}` === node.name();
       });
       visibleAgentImages.forEach(agentImageGroup => {
-        agentImageGroup.to({opacity: opacityToSet});
+        agentImageGroup.to({opacity: isVisible ? 1 : 0});
       });
     }
+  }
+
+  checkPlayerInRangeForAgent(agent) {
+    // TODO This has to be moved to when the player moves and/or transport moves
+    // TODO enemy sightRange will probably be less than player sight range so
+    // TODO it will never call playerInRange here to engage
+
+    // console.log(this.mapService.distanceInHexes(this.game.player.hex, agent.hex), agent.sightRange);
+
+    if(this.mapService.distanceInHexes(this.game.player.hex, agent.hex) <= agent.sightRange) {
+      agent.playerInRange(); // check range
+    } else {
+      agent.playerOutOfRange();
+    }
+
   }
 
   updateGameboardTilesOpacity(finalFovHexes) {

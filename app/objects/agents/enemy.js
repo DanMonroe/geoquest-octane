@@ -34,6 +34,7 @@ export class Enemy extends BaseAgent {
     this.armor = args.armor | 2;
     this.respawnTime = agent.respawnTime | 5000;
     this.state = agent.state; // state machine - see notes.md
+    this.patrolMethod = agent.patrolMethod;
 
     this.reset(agent);
 
@@ -99,19 +100,29 @@ export class Enemy extends BaseAgent {
   }
 
   playerInRange() {
-    // console.log(`Player in Range for ${this.name}`);
+    console.log(`Player in Range for ${this.name}`);
 
-    // cancel any patrolling for this enemy
-    this.transportService.removeAgentFromMoveQueue(this);
-
-    // Fire and pursue
     this.state = BaseAgent.STATE.MISSILE;
-    this.engagePlayer.perform();
-    this.chasePlayer.perform();
+
+    if(this.patrolMethod === 'static') {
+      // let distance = this.mapService.distanceInHexes(this.game.player.hex, this.hex);
+      // if (distance <= this.sightRange) {
+        this.engagePlayer.perform();
+      // }
+
+    } else {
+
+      // cancel any patrolling for this enemy
+      this.transportService.removeAgentFromMoveQueue(this);
+
+      // Fire and pursue
+      this.engagePlayer.perform();
+      this.chasePlayer.perform();
+    }
   }
 
   playerOutOfRange() {
-    // console.log(`Player out of Range for ${this.name}`);
+    console.log(`Player out of Range for ${this.name}`);
 
     // cancel any patrolling for this enemy
     // this.transportService.removeAgentFromMoveQueue(this);
@@ -157,11 +168,11 @@ export class Enemy extends BaseAgent {
   }) chasePlayer;
 
   @task( function*() {
-    // console.log('Enemy Fire!');
-    if (this.game.player.boardedTransport === null) {
+    console.log('Enemy Fire!');
+    // if (this.game.player.boardedTransport === null) {
       // not on ship
-      return;
-    }
+      // return;
+    // }
 
     if (!this.weapons || this.weapons.length === 0) {
       // console.log('no weapons');

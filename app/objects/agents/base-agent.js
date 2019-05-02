@@ -160,75 +160,36 @@ export class BaseAgent {
   }) reloadHealth;
 
   @task( function*(weapon, startPoint, targetPoint, whoFiredType) {
-    let cannonballSpeed = 3;
-    // let startPoint = this.point;
-    // let mousecoords = this.gameboard.getMousePointerPosition()
-    // let targetHex = this.gameboard.getHexAtMousePoint(mousecoords);
-    // let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);
 
-    let angle = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
-    let sin = Math.sin(angle) * cannonballSpeed; // Y change
-    let cos = Math.cos(angle) * cannonballSpeed; // X change
-    let maxX = Math.abs(targetPoint.x - startPoint.x)
-    let maxY = Math.abs(targetPoint.y - startPoint.y)
-
-    // console.log('target', targetPoint);
-    // console.log('lineDistance', lineDistance);
-    // console.log('segmentDistance', segmentDistance);
-    // console.log('angle', angle);
-    // console.log('sin', sin);
-    // console.log('cos', cos);
-    // console.log('maxX', maxX);
-    // console.log('maxY', maxY);
-
-    let cannonball = new Konva.Circle({
-      x: startPoint.x,
-      y: startPoint.y,
-      radius: 4,
-      fill: 'black',
-      draggable: false,
-      opacity: 1
-    });
-    // custom property
-    cannonball.velocity = {
-      x: 0,
-      y: 0
-    };
-    cannonball.damage = weapon.damage;
+    let projectile = this.game.buildProjectile(weapon, startPoint, targetPoint);
 
     let layer = this.camera.getAgentsLayer();
-    layer.add(cannonball);
+    layer.add(projectile);
 
-    cannonball.moveToTop();
+    projectile.moveToTop();
 
-    let newX = cannonball.getX();
-    let newY = cannonball.getY();
+    let newX = projectile.getX();
+    let newY = projectile.getY();
 
     let sumX = 0;
     let sumY = 0;
-    let deltaX = Math.abs(cos);
-    let deltaY = Math.abs(sin);
+    // let deltaX = Math.abs(cos);
+    // let deltaY = Math.abs(sin);
 
     let anim = new Konva.Animation(() => {
-      newX += cos;
-      newY += sin;
-
-      cannonball.position({x:newX, y:newY});
-
-      sumX += deltaX;
-      sumY += deltaY;
-
+      newX += projectile.cos;
+      newY += projectile.sin;
+      projectile.position({x:newX, y:newY});
+      sumX += projectile.deltaX;
+      sumY += projectile.deltaY;
       // change/implement max firing distance of current cannon in use
-      if((sumX >= maxX) || (sumY >= maxY)) {
+      if((sumX >= projectile.maxX) || (sumY >= projectile.maxY)) {
         anim.stop();
-        cannonball.remove();
+        projectile.remove();
       }
-
       // did we hit something?
-      this.checkForEnemiesHitByProjectile(anim, cannonball);
-
+      this.checkForEnemiesHitByProjectile(anim, projectile);
     }, layer);
-
     anim.start();
 
     this.game.sound.playSound(weapon.sound);
