@@ -36,7 +36,15 @@ body {
   //background-color: black;
 }
 
+.healthWrapper {
+  margin: 0 10px 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
 
+.instructions {
+  margin: 25px 10px;
+}
 .pickMap {
   width: 200px;
   position: absolute;

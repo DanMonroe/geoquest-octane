@@ -1,7 +1,19 @@
 <!--https://www.redblobgames.com/grids/hexagons/implementation.html-->
 <div class="header">
   <h2>GeoQuest - Octane</h2>
-  <div>For build notes, see <a href="https://blog.danmonroe.dev/" target="_new">blog.danmonroe.dev</a></div>
+  <div class="healthWrapper">
+    <div>
+    For build notes, see <a href="https://blog.danmonroe.dev/" target="_new">blog.danmonroe.dev</a>
+    </div>
+    <div>
+      <span>
+        Player Health {{this.game.player.healthPercentage}}%
+      </span>
+      <span>
+        Ship Health {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}
+      </span>
+    </div>
+  </div>
 </div>
 <AnimatedContainer class="gameboard">
   <section>
@@ -33,6 +45,9 @@
   </section>
 </AnimatedContainer>
 
+<div class="instructions">
+  <b>Instructions:</b> Use keys Q, W, E, A, S, D to move.  Click mouse on target to fire.
+</div>
 <div class="debugWrapper">
   <div class="row">
     <div class="col label">
