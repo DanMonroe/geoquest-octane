@@ -109,7 +109,7 @@ export class Transport extends BaseAgent {
     };
   }
 
-  fire() {
+  fire(mousecoords) {
     console.log('Fire!');
 
     if (!this.weapons || this.weapons.length === 0) {
@@ -129,7 +129,7 @@ export class Transport extends BaseAgent {
     }
 
     let startPoint = this.point;
-    let mousecoords = this.gameboard.getMousePointerPosition()
+    // let mousecoords = this.gameboard.getMousePointerPosition()
     let targetPoint = new Point({x:mousecoords.x, y:mousecoords.y}); // harder to aim
     // let targetHex = this.gameboard.getHexAtMousePoint(mousecoords);   // center of hex
     // let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);  // center of hex

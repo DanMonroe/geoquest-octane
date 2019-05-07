@@ -205,12 +205,24 @@ export class Enemy extends BaseAgent {
 
   checkForEnemiesHitByProjectile(anim, projectile) {
     // this.transportService.agents.forEach((agent) => {
+    let distance;
+    switch(projectile.attrs.type) {
+      case 'arrow':
+        distance = Math.sqrt( Math.pow((this.game.player.point.x - (projectile.attrs.points[0] + projectile.attrs.x)),2) + Math.pow((this.game.player.point.y - (projectile.attrs.points[1]+projectile.attrs.y)),2));
+        break;
+      case 'cannon':
+        distance = Math.sqrt( Math.pow((this.game.player.point.x - projectile.attrs.x),2) + Math.pow((this.game.player.point.y - projectile.attrs.y),2));
+        break;
+      default:
+        return;
+    }
 
-    let distance = Math.sqrt( Math.pow((this.game.player.point.x - projectile.attrs.x),2) + Math.pow((this.game.player.point.y - projectile.attrs.y),2));
+    // console.log(`distance:`, distance, projectile);
 
-    // console.log(`agent ${agent.name} to cannonball distance:`, distance, agent);
-
-    if (distance < 10) {
+    // debugger;
+    if (distance < projectile.attrs.minDistanceForHit) {
+    // if (distance < 10) {
+    //   debugger;
       console.log('Player Hit!');
       if (this.game.player.boardedTransport !== null) {
         this.game.player.boardedTransport.currentHitPoints -= projectile.damage;
@@ -222,6 +234,7 @@ export class Enemy extends BaseAgent {
 
       anim.stop();
       projectile.remove();
+      // console.groupEnd()
     }
     // })
   }

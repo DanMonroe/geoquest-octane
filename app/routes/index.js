@@ -62,6 +62,7 @@ export default class IndexRoute extends Route {
               armor: 2,
               weapons: [
                 {
+                  minDistanceForHit: 10,
                   type: 'cannon',
                   damage: 2.5,
                   speed: 3, // projectile speed
@@ -99,8 +100,9 @@ export default class IndexRoute extends Route {
               armor: 2,
               weapons: [
                 {
+                  minDistanceForHit: 20,
                   type: 'arrow',
-                  damage: 2,
+                  damage: 1,
                   speed: 8, // projectile speed
                   poweruse: 1,
                   accuracy: 0.05, // percentage 0 (always accurate) - 1 (shoot any direction)
@@ -135,12 +137,13 @@ export default class IndexRoute extends Route {
               armor: 2,
               weapons: [
                 {
+                  minDistanceForHit: 10,
                   type: 'cannon',
                   sound: 'cannon1',
                   speed: 3, // projectile speed
                   damage: 3,
                   poweruse: 4,
-                  accuracy: 80, // percentage 0 (always miss) - 100 (always hit)
+                  accuracy: 0.05, // percentage 0 (always accurate) - 1 (shoot any direction)
                   fireDelay: 1000,
                   reloadDelay: 1500  // lower is faster
                 }
@@ -207,6 +210,7 @@ export default class IndexRoute extends Route {
               armor: 2,
               weapons: [
                 {
+                  minDistanceForHit: 10,
                   type: 'cannon',
                   sound: 'cannon2',
                   damage: 2,

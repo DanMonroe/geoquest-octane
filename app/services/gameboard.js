@@ -28,11 +28,13 @@ export default class GameboardService extends Service {
   @tracked pathDistanceToMouseHex = 0;
   @tracked mousePoint = `X: Y:`;
   @tracked mouseXY = `X: Y:`;
-  @tracked currentHex = `Q:  R:  S: `;
+  @tracked currentHex = `Q:  R:`;
   @tracked lastMouseMoveTargetId = null;
-  @tracked playerHex = `Q:  R:  S: `;
-  @tracked shipHex = `Q:  R:  S: `;
-  @tracked enemyHex = `Q:  R:  S: `;
+  @tracked playerHex = `Q:  R:`;
+  @tracked playerXY = `X: Y:`;
+  @tracked shipHex = `Q:  R:`;
+  @tracked shipXY = `X: Y:`;
+  @tracked enemyHex = `Q:  R:`;
 
 
   setupQRSFromMap(map) {
@@ -117,6 +119,24 @@ export default class GameboardService extends Service {
             this.game.player.boardedTransport.fire();
           }
           break;
+        case 81:  // Q
+          this.movePlayer('NW');
+          break;
+        case 87:  // W
+          this.movePlayer('N');
+          break;
+        case 69:  // E
+          this.movePlayer('NE');
+          break;
+        case 65:  // A
+          this.movePlayer('SW');
+          break;
+        case 83:  // S
+          this.movePlayer('S');
+          break;
+        case 68:  // D
+          this.movePlayer('SE');
+          break;
         default:
           break;
       }
@@ -167,62 +187,6 @@ export default class GameboardService extends Service {
     return !!blockedHex;
   }
 
-
-//   setVisualsForNeighborHexes(currentIteration, maxRange, graph, player, currentNode) {
-// // console.log('setVisualsForNeighborHexes', currentIteration);
-//     let neighbors = graph.neighbors(currentNode);
-//     for (let i = 0, il = neighbors.length; i < il; ++i) {
-//       let neighbor = neighbors[i];
-//       if (neighbor) {
-//         if (neighbor.checked) {
-//           // console.log('checked');
-//         } else {
-//           // let distanceInHexes = this.pathService.heuristics.hex(player.hex, neighbor)
-//           // console.log(neighbor, distanceInHexes);
-//
-//           neighbor.checked = true;
-//
-//           // if (distanceInHexes <= player.sightRange) {
-//
-//           let seenHex = this.mapService.findHexByQRS(neighbor.q, neighbor.r, neighbor.s);
-//           // let seenHex = this.mapService.worldMapHexes[neighbor.id-1];
-//           // console.log(seenHex, newSeenHex);
-//
-//           let returnFieldOfViewHexes = this.isFieldOfViewBlockedForHex(player.hex, seenHex);
-//           // debugger;
-//           let blocked = this.isHexInBlockedList(seenHex, returnFieldOfViewHexes.blocked)
-//
-//           seenHex.visual = {
-//             seen: true,
-//             canSee: !blocked
-//           };
-//         }
-//
-//         if (currentIteration < maxRange) {
-//           this.setVisualsForNeighborHexes(currentIteration+1, maxRange, graph, player, neighbor);
-//         }
-//       }
-//     }
-//   }
-
-  // mapPlayerFieldOfVision(args) {
-  //   let { player } = args;
-  //
-  //   this.mapService.graph.cleanNodes();
-  //
-  //   let startNode = this.mapService.findNodeFromHex(this.mapService.graph.gridIn, player.hex);
-  //
-  //   player.hex.visual = {
-  //     seen: true,
-  //     canSee: true
-  //   };
-  //
-  //   let start = performance.now();
-  //   // this.setVisualsForNeighborHexes(1, 2, graph, player, startNode);
-  //   this.setVisualsForNeighborHexes(1, player.sightRange, this.mapService.graph, player, startNode);
-  //   let end = performance.now();
-  //   console.log('setVisualsForNeighborHexes time', end -  start);
-  // }
 
   drawGrid(args) {
     let { hexes, withLabels, withTiles } = args;
@@ -538,8 +502,9 @@ export default class GameboardService extends Service {
     if(shouldUpdateDebugInfo) {
       this.mouseXY = `X:${mouseCoords.x} Y:${mouseCoords.y}`;
       // this.mouseXY = `X:${event.clientX} Y:${event.clientY}`;
-      this.mousePoint = `X:${point.x} Y:${point.y}`;
-      this.currentHex = `Q:${thisHex.q} R:${thisHex.r} S:${thisHex.s}`;
+      this.mousePoint = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
+      this.currentHex = `Q:${thisHex.q} R:${thisHex.r}`;
+      // this.currentHex = `Q:${thisHex.q} R:${thisHex.r} S:${thisHex.s}`;
     }
 
     return targetHex;
@@ -577,25 +542,36 @@ export default class GameboardService extends Service {
 
   }
 
-  hexClick(mouseCoords) {
-    let targetHex = this.getHexAtMousePoint(mouseCoords, false);
-    // console.log('hexClick', targetHex);
+  hexClick(mousecoords) {
+    if (this.game.player.boardedTransport) {
+      this.game.player.boardedTransport.fire(mousecoords);
+    }
+  }
 
-    if (targetHex && targetHex.id) {
+  movePlayer(directionStr) {
+    if (this.transport.movePlayerToHexTask.isIdle) {
 
-      this.transport.movePlayerToHexTask.cancelAll();
+      let direction = this.hexService.getDirection(directionStr);
 
-      if (this.playerAtSeaTryingToDock(this.game.player.hex, targetHex)) {
-        this.transformToLandOrSea(this.transport.TRANSPORTMODES.LAND, targetHex);
+      if (direction) {
+        // console.log('movePlayer', direction);
+        let targetHex = this.mapService.findPlayerHexNeighborByDirection(direction);
 
-      } else if (this.playerOnDockTryingToBoard(this.game.player.hex, targetHex)) {
-        this.transformToLandOrSea(this.transport.TRANSPORTMODES.SEA, targetHex);
+        if (targetHex && targetHex.id) {
+          this.transport.movePlayerToHexTask.cancelAll();
 
-      } else {
-        let path = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex, {debug:false});
-        this.transport.movePlayerAlongPath(path);
+          if (this.playerAtSeaTryingToDock(this.game.player.hex, targetHex)) {
+            this.transformToLandOrSea(this.transport.TRANSPORTMODES.LAND, targetHex);
+
+          } else if (this.playerOnDockTryingToBoard(this.game.player.hex, targetHex)) {
+            this.transformToLandOrSea(this.transport.TRANSPORTMODES.SEA, targetHex);
+
+          } else {
+            let path = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex, {debug:false});
+            this.transport.movePlayerAlongPath(path);
+          }
+        }
       }
-
     }
   }
 

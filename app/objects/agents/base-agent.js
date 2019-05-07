@@ -161,6 +161,8 @@ export class BaseAgent {
 
   @task( function*(weapon, startPoint, targetPoint, whoFiredType) {
 
+    this.imageGroup.to({opacity: 1});
+
     let projectile = this.game.buildProjectile(weapon, startPoint, targetPoint);
 
     let layer = this.camera.getAgentsLayer();
@@ -173,8 +175,6 @@ export class BaseAgent {
 
     let sumX = 0;
     let sumY = 0;
-    // let deltaX = Math.abs(cos);
-    // let deltaY = Math.abs(sin);
 
     let anim = new Konva.Animation(() => {
       newX += projectile.cos;
@@ -182,11 +182,13 @@ export class BaseAgent {
       projectile.position({x:newX, y:newY});
       sumX += projectile.deltaX;
       sumY += projectile.deltaY;
+
       // change/implement max firing distance of current cannon in use
       if((sumX >= projectile.maxX) || (sumY >= projectile.maxY)) {
         anim.stop();
         projectile.remove();
       }
+
       // did we hit something?
       this.checkForEnemiesHitByProjectile(anim, projectile);
     }, layer);

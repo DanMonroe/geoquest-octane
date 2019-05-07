@@ -10,6 +10,25 @@ export default class HexService extends Service {
   col = null;
   row = null;
 
+  getDirection(direction) {
+    switch(direction) {
+      case 'SE':
+        return Hex.DIRECTIONS[0];
+      case 'NE':
+        return Hex.DIRECTIONS[1];
+      case 'N':
+        return Hex.DIRECTIONS[2];
+      case 'NW':
+        return Hex.DIRECTIONS[3];
+      case 'SW':
+        return Hex.DIRECTIONS[4];
+      case 'S':
+        return Hex.DIRECTIONS[5];
+      default:
+        return null;
+    }
+  }
+
   hasSameCoordinates (aHex, bHex) {
     return (aHex.q === bHex.q &&
       aHex.r === bHex.r &&

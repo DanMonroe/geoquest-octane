@@ -239,10 +239,12 @@ export default class TransportService extends Service {
 
     playerObj.hex = targetHex;
 
-    // for debugging:
-    this.gameboard.playerHex = `Q:${targetHex.q} R:${targetHex.r} S:${targetHex.s}`;
-
     let point = this.mapService.currentLayout.hexToPixel(targetHex);
+
+    // for debugging:
+    this.gameboard.playerHex = `Q:${targetHex.q} R:${targetHex.r}`;
+    // this.gameboard.playerHex = `Q:${targetHex.q} R:${targetHex.r} S:${targetHex.s}`;
+    this.gameboard.playerXY = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
 
     let objectToVisuallyMove = playerObj;
 
@@ -252,7 +254,10 @@ export default class TransportService extends Service {
       objectToVisuallyMove = playerObj.boardedTransport;
 
       // for debugging:
-      this.gameboard.shipHex = `Q:${targetHex.q} R:${targetHex.r} S:${targetHex.s}`;
+      this.gameboard.shipHex = `Q:${targetHex.q} R:${targetHex.r}`;
+      // this.gameboard.shipHex = `Q:${targetHex.q} R:${targetHex.r} S:${targetHex.s}`;
+      this.gameboard.shipXY = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
+
     }
 
       // node: objectToVisuallyMove.imageObj,
@@ -278,7 +283,8 @@ export default class TransportService extends Service {
     yield timeout(playerObj.speed);
 
   // }) movePlayerToHexTask;
-  }).enqueue() movePlayerToHexTask;
+  }) movePlayerToHexTask;
+  // }).enqueue() movePlayerToHexTask;
 
   movePlayerAlongPath(path) {
     if (path && path.length) {

@@ -37,52 +37,44 @@
   <div class="row">
     <div class="col label">
       <div>
-        Mouse X:Y
+        Mouse:
       </div>
       <div>
-        Mouse Hex:
+        Player:
       </div>
       <div>
-        Mouse Point:
+        Ship:
       </div>
-      <div>
-        Player Hex:
-      </div>
-      <div>
-        Ship Hex:
-      </div>
-      <div>
-        Camera:
-      </div>
+      {{#if showCameraDebug}}
+        <div>
+          Camera:
+        </div>
+      {{/if}}
     </div>
     <div class="col">
       <div>
-        {{this.gameboard.mouseXY}}
+        {{this.gameboard.currentHex}}&nbsp;/&nbsp;{{this.gameboard.mouseXY}}
       </div>
       <div>
-        {{this.gameboard.currentHex}}
+        {{this.gameboard.playerHex}}&nbsp;/&nbsp;{{this.gameboard.playerXY}}
       </div>
       <div>
-        {{this.gameboard.mousePoint}}
+        {{this.gameboard.shipHex}}&nbsp;/&nbsp;{{this.gameboard.shipXY}}
       </div>
-      <div>
-        {{this.gameboard.playerHex}}
-      </div>
-      <div>
-        {{this.gameboard.shipHex}}
-      </div>
-      <div>
-        world width:{{this.camera.worldX}} height:{{this.camera.worldY}}
-      </div>
-      <div>
-        hexes: width:{{this.mapService.currentLayout.hexWidth}} height:{{this.mapService.currentLayout.hexHeight}}
-      </div>
-      <div>
-        top left: x:{{this.mapService.topLeftPoint.x}} y:{{this.mapService.topLeftPoint.y}}
-      </div>
-      <div>
-        bottom right: x:{{this.mapService.bottomRightPoint.x}} y:{{this.mapService.bottomRightPoint.y}}
-      </div>
+      {{#if showCameraDebug}}
+        <div>
+          world width:{{this.camera.worldX}} height:{{this.camera.worldY}}
+        </div>
+        <div>
+          hexes: width:{{this.mapService.currentLayout.hexWidth}} height:{{this.mapService.currentLayout.hexHeight}}
+        </div>
+        <div>
+          top left: x:{{this.mapService.topLeftPoint.x}} y:{{this.mapService.topLeftPoint.y}}
+        </div>
+        <div>
+          bottom right: x:{{this.mapService.bottomRightPoint.x}} y:{{this.mapService.bottomRightPoint.y}}
+        </div>
+      {{/if}}
     </div>
     <div class="col">
       <div>

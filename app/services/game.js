@@ -157,6 +157,8 @@ export default class GameService extends Service {
     switch (weapon.type) {
       case 'cannon':
         projectile = new Konva.Circle({
+          minDistanceForHit:weapon.minDistanceForHit,
+          type: weapon.type,
           x: startPoint.x,
           y: startPoint.y,
           radius: 4,
@@ -172,6 +174,8 @@ export default class GameService extends Service {
         targetAngle.maxY -= arrowLenY;
 
         projectile = new Konva.Arrow({
+          minDistanceForHit:weapon.minDistanceForHit,
+          type: weapon.type,
           points: [
             startPoint.x,
             startPoint.y,
@@ -180,8 +184,9 @@ export default class GameService extends Service {
           ],
           stroke: '#8e551b',  // brown
           pointerLength: 4,
-          pointerWidth: 3,
-          strokeWidth: 2
+          pointerWidth: 4,
+          strokeWidth: 3,
+          draggable: false,
         });
         break;
       default:

@@ -110,6 +110,21 @@ export default class MapService extends Service {
     return hex;
   }
 
+  findPlayerHexNeighborByDirection(direction) {
+    if (!direction) {
+      return undefined;
+    }
+    let currentQ = this.game.player.hex.q;
+    let currentR = this.game.player.hex.r;
+    let currentS = this.game.player.hex.s;
+
+    let targetQ = currentQ + direction.q;
+    let targetR = currentR + direction.r;
+    let targetS = currentS + direction.s;
+
+    return this.findHexByQRS(targetQ, targetR, targetS);
+  }
+
   setHexmapSubset(startRow, startCol, numRows, numCols) {
     let subsetMap = [];
     for (let r = startRow; r < (startRow + numRows); r++) {
