@@ -15,8 +15,14 @@ export default class MapService extends Service {
   @service ('camera') camera;
   @service ('hex') hexService;
   @service ('game') game;
+  @service ('sound') sound;
+  @service ('fieldOfView') fov;
 
   @tracked hexSize = 24;  // get from init?  zoom level ?
+
+  @tracked map = null;
+  @tracked mapIndex = null;
+  @tracked mapData = null; // array from index.js
 
   @tracked hexMap = null;
   worldMap = null;
@@ -36,13 +42,51 @@ export default class MapService extends Service {
   initMap(args) {
     let { map } = args;
     this.set('worldMap', map);
-    this.set('worldMapHexes', this.hexService.createHexesFromMap(map));
+    // this.set('worldMapHexes', this.hexService.createHexesFromMap(map));
 
     let graph = new Graph({
       gridIn: this.worldMap
     });
     graph.setup(); // cleans all nodes
     this.set('graph', graph);
+  }
+
+  // Map setup
+  loadMap(mapIndex) {
+    this.mapIndex = mapIndex;
+    this.map = this.mapData[mapIndex].map;
+
+    this.loadLayout(this.map.LAYOUT);
+    this.loadTiles(this.map);
+    this.sound.loadSounds(this.mapData[mapIndex].sounds);
+
+    this.gameboard.setupQRSFromMap(this.map.MAP);
+    this.initMap({map: this.map.MAP});
+    this.camera.initCamera();
+
+    this.gameboard.setupGameboardCanvases(this.gameboard.showDebugLayer, this.gameboard.showFieldOfViewLayer);
+    // this.gameboard.setupGameboardCanvases(konvaContainer, this.mapService.map, this.showDebugLayer, this.showFieldOfViewLayer);
+    this.setHexmapSubset();
+
+    // Player, Agents, and transports
+    let agentsObj = this.transport.setupAgents(this.mapData[this.mapIndex].map.AGENTS);
+
+    this.game.player = agentsObj.player;
+    this.game.agents = agentsObj.agents;
+    this.game.transports = agentsObj.transports;
+
+    this.transport.setupPatrols();
+
+    this.gameboard.drawGrid({
+      hexes: this.hexMap,
+      withLabels: this.showTileHexInfo,
+      withTiles: this.showTileGraphics
+    });
+
+    this.fov.updatePlayerFieldOfView(this.game.player.hex)
+
+    console.log('1');
+    this.transport.moveQueueTask.perform();
   }
 
   loadLayout(layout) {
@@ -125,7 +169,18 @@ export default class MapService extends Service {
     return this.findHexByQRS(targetQ, targetR, targetS);
   }
 
-  setHexmapSubset(startRow, startCol, numRows, numCols) {
+  setHexmapSubset() {
+  // setHexmapSubset(startRow, startCol, numRows, numCols) {
+
+    let numCols = this.map.MAP[0].length;
+    let numRows = this.map.MAP.length;
+    // let numCols = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
+    // let numRows = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
+
+    let startRow = 0;
+    let startCol = 0
+
+
     let subsetMap = [];
     for (let r = startRow; r < (startRow + numRows); r++) {
       let subsetMapCols = [];

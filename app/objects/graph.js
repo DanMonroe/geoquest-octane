@@ -150,9 +150,10 @@ export class Graph {
   }
 
   cleanNode(node) {
-    node.path.f = 0;
-    node.path.g = 0;
-    node.path.h = 0;
+    node.path = node.path || {}
+    node.path.f = node.path.f || 0;
+    node.path.g = node.path.g || 0;
+    node.path.h = node.path.h || 0;
     node.path.visited = false;
     node.path.closed = false;
     node.path.parent = null;

@@ -61,19 +61,20 @@ export class BaseAgent {
   @tracked state = BaseAgent.STATE.IDLE;
 
   setStartHex(agentStart){
-    let startHex = this.mapService.hexMap.find((hex) => {
+    let startHex = this.game.mapService.hexMap.find((hex) => {
       if (!hex) {
         return false;
       }
-      return (agentStart.Q === hex.q) &&
-        (agentStart.R === hex.r) &&
-        (agentStart.S === hex.s)
+      return (agentStart.Q === hex.q) && (agentStart.R === hex.r)
+      // return (agentStart.Q === hex.q) &&
+      //   (agentStart.R === hex.r) &&
+      //   (agentStart.S === hex.s)
     });
 
     if (!startHex) {
       console.error("Could not find agent start hex.  Setting to first one in map");
       // TODO this probably should never happen
-      startHex = this.mapService.hexMap[0];
+      startHex = this.game.mapService.hexMap[0];
     }
     return startHex;
   }
@@ -137,7 +138,7 @@ export class BaseAgent {
       // console.log('this.healthPercentage', this.healthPercentage);
       bar.width( 30 * (this.powerPercentage/100) );
       bar.fill('blue')
-      this.camera.getAgentsLayer().draw();
+      this.game.camera.getAgentsLayer().draw();
     }
   }
 
@@ -165,7 +166,7 @@ export class BaseAgent {
 
     let projectile = this.game.buildProjectile(weapon, startPoint, targetPoint);
 
-    let layer = this.camera.getAgentsLayer();
+    let layer = this.game.camera.getAgentsLayer();
     layer.add(projectile);
 
     projectile.moveToTop();

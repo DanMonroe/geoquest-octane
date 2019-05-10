@@ -21,15 +21,15 @@ export class Player extends BaseAgent {
     this.maxHitPoints = args.maxHitPoints;
     this.currentHitPoints = args.currentHitPoints;
 
-    if(this.game) {
-      this.game.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
-    }
+    // if(this.game) {
+    //   this.game.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
+    // }
 
     let playerStartHex;
-    if (this.mapService) {
+    if (this.game.mapService) {
       playerStartHex = this.setStartHex(player.start);
     }
-
+// debugger;
     this.id = player.index;
     this.name = player.name;
     this.hex = playerStartHex;
@@ -100,9 +100,11 @@ export class Player extends BaseAgent {
       });
 
       let agentsLayer = this.camera.getAgentsLayer();
+      // let agentsLayer = this.game.camera.getAgentsLayer();
       this.imageGroup.add(this.imageObj, healthBar, powerBar);
       healthBar.moveToBottom();
       powerBar.moveToBottom();
+
       agentsLayer.add(this.imageGroup);
       agentsLayer.draw();
     };
@@ -119,7 +121,7 @@ export class Player extends BaseAgent {
       console.log('player updateHealthBar this.healthPercentage', this.healthPercentage);
       bar.width( 30 * (this.healthPercentage/100) );
       bar.fill(this.healthPercentage < 25 ? 'red' : 'green')
-      this.camera.getAgentsLayer().draw();
+      this.game.camera.getAgentsLayer().draw();
 
       if (this.healthPercentage <= 0) {
         console.log(`${this.name} dead!`);

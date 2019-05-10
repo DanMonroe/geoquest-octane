@@ -10,6 +10,12 @@ export default class IndexRoute extends Route {
   model() {
     let data = [
       {
+        mapid: 0,
+        map: Map2,
+        sounds: []
+      },
+
+      {
         mapid: 1,
         map: Map3,
         agents: {
@@ -163,7 +169,7 @@ export default class IndexRoute extends Route {
         ]
       },
       {
-        mapid: 0,
+        mapid: 2,
         map: Map1,
         agents: {
           player: {

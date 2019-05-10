@@ -19,7 +19,7 @@ export class Transport extends BaseAgent {
     this.gameboard = args.gameboard;
 
     let startHex = this.setStartHex(agent.start);
-    this.hexLayout = this.mapService.currentLayout;
+    this.hexLayout = this.game.mapService.currentLayout;
 
     this.id = agent.index;
     this.name = agent.name;
@@ -98,7 +98,7 @@ export class Transport extends BaseAgent {
         height: this.agentImageSize
       });
 
-      let agentsLayer = this.camera.getAgentsLayer();
+      let agentsLayer = this.game.camera.getAgentsLayer();
       this.imageGroup.add(this.imageObj, healthBar, powerBar);
       healthBar.moveToBottom();
       powerBar.moveToBottom();
@@ -219,21 +219,22 @@ export class Transport extends BaseAgent {
 
 
   checkForEnemiesHitByProjectile(anim, projectile) {
-    this.transportService.agents.forEach((agent) => {
-      let distance = Math.sqrt( Math.pow((agent.point.x - projectile.attrs.x),2) + Math.pow((agent.point.y - projectile.attrs.y),2));
+    if (this.game.transport.agents) {
+      this.game.transport.agents.forEach((agent) => {
+        let distance = Math.sqrt(Math.pow((agent.point.x - projectile.attrs.x), 2) + Math.pow((agent.point.y - projectile.attrs.y), 2));
 
-      // console.log(`agent ${agent.name} to cannonball distance:`, distance, agent);
+        // console.log(`agent ${agent.name} to cannonball distance:`, distance, agent);
 
-      if (distance < 10) {
-        console.log('Hit!');
-        agent.currentHitPoints -= projectile.damage;
-        agent.updateHealthBar();
+        if (distance < 10) {
+          console.log('Hit!');
+          agent.currentHitPoints -= projectile.damage;
+          agent.updateHealthBar();
 
-
-        anim.stop();
-        projectile.remove();
-      }
-    })
+          anim.stop();
+          projectile.remove();
+        }
+      })
+    }
   }
 
   updateHealthBar() {
@@ -243,7 +244,7 @@ export class Transport extends BaseAgent {
     if (bar) {
       bar.width( 30 * (this.healthPercentage/100) );
       bar.fill(this.healthPercentage < 25 ? 'red' : 'green')
-      this.camera.getAgentsLayer().draw();
+      this.game.camera.getAgentsLayer().draw();
 
       if (this.healthPercentage <= 0) {
         console.log(`${this.name} dead!`);
@@ -283,7 +284,7 @@ export class Transport extends BaseAgent {
     console.log('respawning');
 
 
-    this.transportService.movePlayerToHexTask.perform(this.game.player, this.startHex);
+    this.game.transport.movePlayerToHexTask.perform(this.game.player, this.startHex);
 
     this.imageGroup.to({opacity: 1});
 

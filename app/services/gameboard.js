@@ -58,7 +58,8 @@ export default class GameboardService extends Service {
     }
   }
 
-  setupGameboardCanvases(konvaContainer, map, showDebugLayer, showFieldOfViewLayer) {
+  setupGameboardCanvases(showDebugLayer, showFieldOfViewLayer) {
+  // setupGameboardCanvases(konvaContainer, map, showDebugLayer, showFieldOfViewLayer) {
 
     let stage = new Konva.Stage({
       width: window.innerWidth,
@@ -89,15 +90,15 @@ export default class GameboardService extends Service {
     this.camera.viewportWidth = stage.width();
     this.camera.viewportHeight = stage.height();
 
-    let colsToGrab = map.MAP[0].length;
-    let rowsToGrab = map.MAP.length;
-    // let colsToGrab = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
-    // let rowsToGrab = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
+    // let colsToGrab = map.MAP[0].length;
+    // let rowsToGrab = map.MAP.length;
+    // // let colsToGrab = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
+    // // let rowsToGrab = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
+    //
+    // let startRow = 0;
+    // let startCol = 0
 
-    let startRow = 0;
-    let startCol = 0
-
-    this.mapService.setHexmapSubset(startRow, startCol, rowsToGrab, colsToGrab);
+    // this.mapService.setHexmapSubset(startRow, startCol, rowsToGrab, colsToGrab);
 
     this.showDebugLayer = showDebugLayer;
     this.showFieldOfViewLayer = showFieldOfViewLayer;
@@ -114,11 +115,11 @@ export default class GameboardService extends Service {
     container.addEventListener('keydown', (e) => {
       // https://keycode.info/
       switch(e.keyCode) {
-        case 70:  // F [ire]
-          if (this.game.player.boardedTransport) {
-            this.game.player.boardedTransport.fire();
-          }
-          break;
+        // case 70:  // F [ire]
+        //   if (this.game.player.boardedTransport) {
+        //     this.game.player.boardedTransport.fire();
+        //   }
+        //   break;
         case 81:  // Q
           this.movePlayer('NW');
           break;
@@ -246,20 +247,21 @@ export default class GameboardService extends Service {
     });
     idText.offsetX(idText.width() / 2);
 
-    let colRowText = new Konva.Text({
-      x: center.x,
-      y: center.y-4,
-      text: hex.col + "," + hex.row,
-      fontSize: 12,
-      fontFamily: 'sans-serif',
-      fill: this.colorForHex(hex)
-    });
-    colRowText.offsetX(colRowText.width() / 2);
+    // let colRowText = new Konva.Text({
+    //   x: center.x,
+    //   y: center.y-4,
+    //   text: hex.col + "," + hex.row,
+    //   fontSize: 12,
+    //   fontFamily: 'sans-serif',
+    //   fill: this.colorForHex(hex)
+    // });
+    // colRowText.offsetX(colRowText.width() / 2);
 
     let qrsText = new Konva.Text({
       x: center.x,
       y: center.y+9,
-      text: hex.q + "," + hex.r + "," + hex.s,
+      text: hex.q + "," + hex.r,
+      // text: hex.q + "," + hex.r + "," + hex.s,
       fontSize: 11,
       fontFamily: 'sans-serif',
       fill: this.colorForHex(hex)
@@ -267,19 +269,19 @@ export default class GameboardService extends Service {
     qrsText.offsetX(qrsText.width() / 2);
 
     layer.add(idText);
-    layer.add(colRowText);
+    // layer.add(colRowText);
     layer.add(qrsText);
 
-    let rect = new Konva.Rect({
-      x: center.x-2,
-      y: center.y-2,
-      width: 4,
-      height: 4,
-      fill: 'red'
-    });
-
-    // add the shape to the layer
-    layer.add(rect);
+    // let rect = new Konva.Rect({
+    //   x: center.x-2,
+    //   y: center.y-2,
+    //   width: 4,
+    //   height: 4,
+    //   fill: 'red'
+    // });
+    //
+    // // add the shape to the layer
+    // layer.add(rect);
 
     // TODO put map t (tile) back in when we add map to the hex
   }

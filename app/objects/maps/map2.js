@@ -1,6 +1,84 @@
 import { Basemap } from './basemap';
 
+// flags:
+// FLAGS = {
+//   TRAVEL: {
+//     SEA: 1,
+//     LAND: 2
+//   }
+// };
 export class Map2 extends Basemap {
+
+  static LAYOUT = {
+    "type": "flat",
+    "hexSize": 24
+  };
+
+  static AGENTS = {
+    player: {
+      name: 'player',
+      index: 0,
+      opacity: 1,
+      start: {
+        Q: 3,
+        R: 0
+      },
+      img: "pirate.svg",
+      imgSize: 32,
+      sightRange: 4,
+      speed: 200,
+      maxHitPoints: 25,
+      currentHitPoints: 25,
+      maxPower: 50,
+      currentPower: 50,
+      healingSpeed: 10000,
+      healingPower: 1,
+      armor: 2,
+      initialFlags: [
+        2 // LAND
+      ]
+    },
+    transports: [],
+    enemies: [
+      {
+          name: 'pirateskeleton',
+          index: 1,
+          start: {
+            Q: 11,
+            R: -1
+          },
+          img: "pirateskeleton.png",
+          opacity: 0,
+          imgSize: 32,
+          sightRange: 3,
+          speed: 2000,
+          pursuitSpeed: 1500,
+          aggressionSpeed: 1500,  // delay time in between aggression turns
+          respawnTime: 10000,
+          patrolMethod: 'random',
+          patrol: [{Q: 11, R: -1, S: -10}, {Q: 13, R: -2, S: -11}],
+          maxHitPoints: 25,
+          currentHitPoints: 5,
+          maxPower: 25,
+          currentPower: 25,
+          healingSpeed: 16000,
+          healingPower: 1,
+          armor: 2,
+          weapons: [
+            {
+              minDistanceForHit: 10,
+              type: 'arrow',
+              damage: 1,
+              speed: 8, // projectile speed
+              poweruse: 1,
+              accuracy: 0.05, // percentage 0 (always accurate) - 1 (shoot any direction)
+              fireDelay: 500,
+              reloadDelay: 1000  // lower is faster
+            }
+          ]
+        }
+      ]
+  };
 
   static TILEIMAGES = [
     "ZeshioHexKitDemo_000.png",
@@ -126,106 +204,112 @@ export class Map2 extends Basemap {
     "ZeshioHexKitDemo_120.png"
   ];
 
-  static MAP = [
-    [
-      null,
-      null,
-      null,
-      null,
-      {id: 36,col: 4,row: 0, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 45,col: 5,row: 0, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 54,col: 6,row: 0, t: 96, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 63,col: 7,row: 0, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 72,col: 8,row: 0, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-    ],
-    [
-      null,
-      null,
-      null,
-      {id: 28,col: 3,row: 1, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 37,col: 4,row: 1, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 46,col: 5,row: 1, t:103, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 55,col: 6,row: 1, t:108, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 64,col: 7,row: 1, t: [96,89], path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 73,col: 8,row: 1, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-    ],
-    [
-      null,
-      null,
-      {id: 20,col: 2,row: 2, t: 54, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 29,col: 3,row: 2, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 38,col: 4,row: 2, t:106, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 47,col: 5,row: 2, t:[96,71], path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 56,col: 6,row: 2, t:108, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 65,col: 7,row: 2, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 74,col: 8,row: 2, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-    ],
-    [
-      null,
-      {id: 12,col: 1,row: 3, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 21,col: 2,row: 3, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 30,col: 3,row: 3, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 39,col: 4,row: 3, t: 96, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 48,col: 5,row: 3, t:105, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 57,col: 6,row: 3, t: 96, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 66,col: 7,row: 3, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 75,col: 8,row: 3, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-    ],
-    [
-      {id: 4, col: 0,row: 4, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 13,col: 1,row: 4, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 22,col: 2,row: 4, t: 63, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 31,col: 3,row: 4, t: 64, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 40,col: 4,row: 4, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 49,col: 5,row: 4, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 58,col: 6,row: 4, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 67,col: 7,row: 4, t:[97,120], path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 76,col: 8,row: 4, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}}
-    ],
-    [
-      {id: 5, col: 0,row: 5, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 14,col: 1,row: 5, t: 49, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 23,col: 2,row: 5, t:  2, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 32,col: 3,row: 5, t: 50, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 41,col: 4,row: 5, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 50,col: 5,row: 5, t: [97,118], path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 59,col: 6,row: 5, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 68,col: 7,row: 5, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      null
-    ],
-    [
-      {id: 6, col: 0,row: 6, t: 48, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 15,col: 1,row: 6, t:  3, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 24,col: 2,row: 6, t:  1, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 33,col: 3,row: 6, t: 21, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 42,col: 4,row: 6, t:[106,112], path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 51,col: 5,row: 6, t: 96, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 60,col: 6,row: 6, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      null,
-      null
-    ],
-    [
-      {id: 7, col: 0,row: 7, t: 45, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 16,col: 1,row: 7, t: 22, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 25,col: 2,row: 7, t: 25, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 34,col: 3,row: 7, t:105, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null}},
-      {id: 43,col: 4,row: 7, t: 96, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 52,col: 5,row: 7, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      null,
-      null,
-      null
-    ],
-    [
-      {id: 8, col: 0,row: 8, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 17,col: 1,row: 8, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 26,col: 2,row: 8, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 35,col: 3,row: 8, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      {id: 44,col: 4,row: 8, t: 97, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null}},
-      null,
-      null,
-      null,
-      null
-    ]
-  ];
+  //{id: 1,col: 0,row: 0, t: 0, path: {flags: 1, w:0, visited:false, closed:false, parent:null}}
+  static MAP =
+
+[[
+{id: 1,col: 0,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 7,col: 1,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 13,col: 2,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 19,col: 3,row: 0, t: 109, path: {w:0, v:0, flags: 2}, actions: {b:{id:1},a:{id:2}, loadmap:1}}
+,{id: 25,col: 4,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 31,col: 5,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 37,col: 6,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 43,col: 7,row: 0, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 49,col: 8,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 55,col: 9,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 61,col: 10,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 67,col: 11,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 73,col: 12,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 79,col: 13,row: 0, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 85,col: 14,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
+],
+[
+{id: 2,col: 0,row: 1, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 8,col: 1,row: 1, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 14,col: 2,row: 1, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 20,col: 3,row: 1, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 26,col: 4,row: 1, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 32,col: 5,row: 1, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 38,col: 6,row: 1, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 44,col: 7,row: 1, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 50,col: 8,row: 1, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 56,col: 9,row: 1, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 62,col: 10,row: 1, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 68,col: 11,row: 1, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 74,col: 12,row: 1, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 80,col: 13,row: 1, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 86,col: 14,row: 1, t: 5, path: {w:1, v:1, flags: 0}}
+],
+[
+{id: 3,col: 0,row: 2, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 9,col: 1,row: 2, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 15,col: 2,row: 2, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 21,col: 3,row: 2, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 27,col: 4,row: 2, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 33,col: 5,row: 2, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 39,col: 6,row: 2, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 45,col: 7,row: 2, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 51,col: 8,row: 2, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 57,col: 9,row: 2, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 63,col: 10,row: 2, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 69,col: 11,row: 2, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 75,col: 12,row: 2, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 81,col: 13,row: 2, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 87,col: 14,row: 2, t: 5, path: {w:1, v:1, flags: 0}}
+],
+[
+{id: 4,col: 0,row: 3, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 10,col: 1,row: 3, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 16,col: 2,row: 3, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 22,col: 3,row: 3, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 28,col: 4,row: 3, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 34,col: 5,row: 3, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 40,col: 6,row: 3, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 46,col: 7,row: 3, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 52,col: 8,row: 3, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 58,col: 9,row: 3, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 64,col: 10,row: 3, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 70,col: 11,row: 3, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 76,col: 12,row: 3, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 82,col: 13,row: 3, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 88,col: 14,row: 3, t: 5, path: {w:1, v:1, flags: 0}}
+],
+[
+{id: 5,col: 0,row: 4, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 11,col: 1,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 17,col: 2,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 23,col: 3,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 29,col: 4,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 35,col: 5,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 41,col: 6,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 47,col: 7,row: 4, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 53,col: 8,row: 4, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 59,col: 9,row: 4, t: [106,113], path: {w:0, v:0, flags: 2}}
+,{id: 65,col: 10,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 71,col: 11,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 77,col: 12,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 83,col: 13,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
+,{id: 89,col: 14,row: 4, t: 5, path: {w:1, v:1, flags: 0}}
+],
+[
+{id: 6,col: 0,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 12,col: 1,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 18,col: 2,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 24,col: 3,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 30,col: 4,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 36,col: 5,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 42,col: 6,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 48,col: 7,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 54,col: 8,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 60,col: 9,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 66,col: 10,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 72,col: 11,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 78,col: 12,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 84,col: 13,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+,{id: 90,col: 14,row: 5, t: 5, path: {w:1, v:1, flags: 0}}
+],
+
+];
 
   }

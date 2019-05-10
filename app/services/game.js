@@ -3,6 +3,7 @@ import {inject as service} from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import Konva from 'konva';
+import { A as emberArray } from '@ember/array';
 
 export default class GameService extends Service {
 
@@ -15,20 +16,24 @@ export default class GameService extends Service {
 
 
   @service ('map') mapService;
-  // @service ('game') game;
+  @service ('camera') camera;
   @service ('sound') sound;
   @service ('transport') transport;
   @service ('gameboard') gameboard;
   @service ('hex') hexService;
+  @service ('fieldOfView') fov;
 
   @tracked enemyToPlayerDistance = 0;
   @tracked enemyStatus = '';
 
   @tracked player = null;
+  @tracked agents = emberArray();
+  @tracked transports = emberArray();
 
   // track what attributes the player currently has so that
   // we can know if the player is allowed to move there
   @tracked playerTravelAbilityFlags = 0;
+  @tracked playerVisibilityAbilityFlags = 0;  // TODO implement... fog?  darkness?  binoculars?
 
   @tracked gameClockEnabled = true;
 
@@ -204,7 +209,29 @@ export default class GameService extends Service {
 
     return projectile;
   }
-  // onPlayerMoved(targetHex) {
-    // this.updateEnemyOpacityForRangeAndObscurity(transport, targetHex);
-  // }
+
+  onBeforeMovePlayer(targetHex) {
+    if (targetHex.actions && targetHex.actions.b) {
+      this.performHexAction(targetHex, targetHex.actions.b.id)  // before
+    }
+  }
+  onAfterMovePlayer(targetHex) {
+    if (targetHex.actions && targetHex.actions.a) {
+      this.performHexAction(targetHex, targetHex.actions.a.id)  // after
+    }
+  }
+
+  performHexAction(targetHex, actionId) {
+    switch (actionId) {
+      case 1:
+        console.log('action 1');
+        break;
+      case 2:
+        console.log('action 2: loadmap after move', targetHex.actions.loadmap);
+        this.mapService.loadMap(targetHex.actions.loadmap);
+        break;
+      default:
+        break;
+    }
+  }
 }

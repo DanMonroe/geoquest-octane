@@ -21,7 +21,7 @@ export class Enemy extends BaseAgent {
     this.healingSpeed = agent.healingSpeed || 5000;
     this.healingPower = agent.healingPower || 1;
 
-    this.hexLayout = this.mapService.currentLayout;
+    this.hexLayout = this.game.mapService.currentLayout;
 
     let startHex = this.setStartHex(agent.start);
 
@@ -91,7 +91,7 @@ export class Enemy extends BaseAgent {
         height: this.agentImageSize
       });
 
-      let agentsLayer = this.camera.getAgentsLayer();
+      let agentsLayer = this.game.camera.getAgentsLayer();
       this.imageGroup.add(this.imageObj,healthBar);
       healthBar.moveToBottom();
       agentsLayer.add(this.imageGroup);
@@ -111,7 +111,7 @@ export class Enemy extends BaseAgent {
     } else {
 
       // cancel any patrolling for this enemy
-      this.transportService.removeAgentFromMoveQueue(this);
+      this.game.transport.removeAgentFromMoveQueue(this);
 
       // Fire and pursue
       if (this.engagePlayer.isIdle) {
@@ -137,7 +137,7 @@ export class Enemy extends BaseAgent {
 
     if (isPresent(this.patrol) > 0) {
 
-      this.transportService.pushTransportWaypointToMoveQueue(this)
+      this.game.transport.pushTransportWaypointToMoveQueue(this)
     }
 
   }
@@ -153,14 +153,14 @@ export class Enemy extends BaseAgent {
   @task( function*() {
     // and player is still alive
     while(this.state === BaseAgent.STATE.MISSILE) {
-      let pathDistanceToShipHex = this.mapService.findPath(this.mapService.worldMap, this.hex, this.game.player.hex);
+      let pathDistanceToShipHex = this.game.mapService.findPath(this.mapService.worldMap, this.hex, this.game.player.hex);
 
       if (isPresent(pathDistanceToShipHex)) {
         // TODO if pathDistanceToShipHex === 0, switch to MELEE ?
         if  (pathDistanceToShipHex.length > this.sightRange) {
           this.playerOutOfRange();
         } else if (pathDistanceToShipHex.length > 1) {  // don't move the enemy on top of ship
-          this.transportService.moveTransportToHex(this, pathDistanceToShipHex[0]);
+          this.game.transport.moveTransportToHex(this, pathDistanceToShipHex[0]);
         }
       } else {
         this.playerOutOfRange();
@@ -197,7 +197,7 @@ export class Enemy extends BaseAgent {
     if (this.hex) {
       let startPoint = this.point;
       let playerTargetHex = this.game.player.hex;
-      let targetPoint = this.mapService.currentLayout.hexToPixel(playerTargetHex);
+      let targetPoint = this.game.mapService.currentLayout.hexToPixel(playerTargetHex);
 
       this.fireWeapon.perform(weapon, startPoint, targetPoint);
     }
@@ -247,7 +247,7 @@ export class Enemy extends BaseAgent {
     if (bar) {
       bar.width( 30 * (this.healthPercentage/100) );
       bar.fill(this.healthPercentage < 25 ? 'red' : 'green')
-      this.camera.getAgentsLayer().draw();
+      this.game.camera.getAgentsLayer().draw();
 console.log('this.healthPercentage', this.healthPercentage);
       if (this.healthPercentage <= 0) {
         console.log(`${this.name} dead!`);
@@ -273,7 +273,7 @@ console.log('this.healthPercentage', this.healthPercentage);
     if (this.engagePlayer.isRunning) {
       this.engagePlayer.cancelAll();
     }
-    this.transportService.removeAgentFromMoveQueue(this);
+    this.game.transport.removeAgentFromMoveQueue(this);
 
     this.imageGroup.to({opacity: 0});
 
@@ -287,7 +287,7 @@ console.log('this.healthPercentage', this.healthPercentage);
     this.reset(this.initialAgent);
     this.updateHealthBar();
 
-    this.transportService.pushTransportWaypointToMoveQueue(this);
+    this.game.transport.pushTransportWaypointToMoveQueue(this);
   }) death;
 
 }

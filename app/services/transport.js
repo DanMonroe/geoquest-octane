@@ -23,9 +23,9 @@ export default class TransportService extends Service {
   @service ('gameboard') gameboard;
   @service ('fieldOfView') fov;
 
-  @tracked player = null;
-  @tracked agents = emberArray();
-  @tracked transports = emberArray();
+  // @tracked player = null;
+  // @tracked agents = emberArray();
+  // @tracked transports = emberArray();
 
 
   @tracked moveQueueEnabled = true;
@@ -37,20 +37,24 @@ export default class TransportService extends Service {
   }
 
   findTransportByName(name) {
-    let transport = this.transports.find((transport => {
+    let transport = this.game.transports.find((transport => {
       return transport.name === name;
     }))
     // console.log('findTransportByName', transport);
-    return transport;
+    return transport ? transport : null;
   }
 
   setupAgents(agents) {
 
-    this.player = null;
-    this.transports = emberArray();
-    this.agents = emberArray();
+    // let player = null;
+  let transportsArray = emberArray();
+    // this.agents = emberArray();
 
     agents.transports.forEach((transportAgent) => {
+      // let transport = new Transport({
+      //   agent:transportAgent,
+      //   game:this.game,
+      // });
       let transport = new Transport({
         agent:transportAgent,
         mapService:this.mapService,
@@ -60,12 +64,28 @@ export default class TransportService extends Service {
         gameboard:this.gameboard,
       });
       // console.log('adding transport', transport);
-      this.transports.push(transport);
+      if (transportAgent.initialFlags) {
+        transportAgent.initialFlags.forEach((/*flag*/) => {
+          // this.game.turnOnTransportTravelAbilityFlag(transportAgent, flag); // TODO implement
+        });
+      }
+
+      transportsArray.push(transport);
+      // this.game.transports.push(transport);
     });
 
     // find the ship to board initially
-    let startingShip = this.findTransportByName('ship');
+    let startingShip = this.findTransportByName('ship'); // TODO how to handle loading map and get on ship
 
+    // let player = new Player(
+    //   {
+    //     player:agents.player,
+    //     game:this.game,
+    //     travelAbilityFlags: 0,
+    //     boardedTransport: null
+    //   }
+    //     // boardedTransport: startingShip
+    // );
     let player = new Player(
       {
         player:agents.player,
@@ -74,14 +94,31 @@ export default class TransportService extends Service {
         game:this.game,
         gameboard:this.gameboard,
         transportService:this,
-        travelAbilityFlags: this.game.FLAGS.TRAVEL.SEA,
-        boardedTransport: startingShip,
-      });
+        travelAbilityFlags: this.game.FLAGS.TRAVEL.LAND,
+        boardedTransport: null
+      }
+    );
+        // boardedTransport: startingShip,
+    agents.player.initialFlags.forEach(flag => {
+      this.game.turnOnPlayerTravelAbilityFlag(flag);   // TODO set from map file
+    });
+        // travelAbilityFlags: this.game.FLAGS.TRAVEL.SEA,
 
-    this.player = player;
-    this.game.player = player;
+    // this.player = player;
+    // this.game.player = player;
 
+    // mapService:this.mapService,
+    //   camera:this.camera,
+    //   game:this.game,
+    //   transportService:this,
+    //   gameboard:this.gameboard,
+
+    let agentsArray = emberArray();
     agents.enemies.forEach((gameAgent) => {
+      // let enemy = new Enemy({
+      //   agent:gameAgent,
+      //   game:this.game
+      // });
       let enemy = new Enemy({
         agent:gameAgent,
         mapService:this.mapService,
@@ -90,20 +127,26 @@ export default class TransportService extends Service {
         transportService:this,
         gameboard:this.gameboard,
       });
-      this.agents.push(enemy);
+      if (gameAgent.initialFlags) {
+        gameAgent.initialFlags.forEach((/*flag*/) => {
+          // this.game.turnOnAgentTravelAbilityFlag(gameAgent, flag);  // TODO implement
+        });
+      }
+      agentsArray.push(enemy);
+      // this.game.agents.push(enemy);
     });
 
     return {
-      player: this.player,
-      agents: this.agents,
-      transports: this.transports
+      player: player,
+      agents: agentsArray,
+      transports: transportsArray
     };
 
   }
 
   setupPatrols() {
     this.moveQueue = emberArray();
-    this.agents.forEach((agent) => {
+    this.game.agents.forEach((agent) => {
       if (isPresent(agent.patrol) > 0) {
         // console.log(`setting up patrol for ${transport.name}`);
 
@@ -130,9 +173,9 @@ export default class TransportService extends Service {
       currentWaypointHex = agent.patrol[agent.currentWaypoint];
     }
 
-    let targetHex = this.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
+    let targetHex = this.game.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
 
-    let path = this.mapService.findPath(this.mapService.worldMap, agent.hex, targetHex);
+    let path = this.game.mapService.findPath(this.game.mapService.worldMap, agent.hex, targetHex);
     let moveObject = {
       agent: agent,
       path: path,
@@ -209,7 +252,7 @@ export default class TransportService extends Service {
 
   moveTransportToHex(transport, targetHex) {
     transport.hex = targetHex;
-    let point = this.mapService.currentLayout.hexToPixel(targetHex);
+    let point = this.game.mapService.currentLayout.hexToPixel(targetHex);
 
     // node: transport.imageObj,
     let tween = new Konva.Tween({
@@ -237,14 +280,15 @@ export default class TransportService extends Service {
 
   @task(function*(playerObj, targetHex) {
 
+    this.game.onBeforeMovePlayer(targetHex);
+
     playerObj.hex = targetHex;
 
-    let point = this.mapService.currentLayout.hexToPixel(targetHex);
+    let point = this.game.mapService.currentLayout.hexToPixel(targetHex);
 
     // for debugging:
-    this.gameboard.playerHex = `Q:${targetHex.q} R:${targetHex.r}`;
-    // this.gameboard.playerHex = `Q:${targetHex.q} R:${targetHex.r} S:${targetHex.s}`;
-    this.gameboard.playerXY = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
+    this.game.gameboard.playerHex = `Q:${targetHex.q} R:${targetHex.r}`;
+    this.game.gameboard.playerXY = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
 
     let objectToVisuallyMove = playerObj;
 
@@ -254,9 +298,8 @@ export default class TransportService extends Service {
       objectToVisuallyMove = playerObj.boardedTransport;
 
       // for debugging:
-      this.gameboard.shipHex = `Q:${targetHex.q} R:${targetHex.r}`;
-      // this.gameboard.shipHex = `Q:${targetHex.q} R:${targetHex.r} S:${targetHex.s}`;
-      this.gameboard.shipXY = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
+      this.game.gameboard.shipHex = `Q:${targetHex.q} R:${targetHex.r}`;
+      this.game.gameboard.shipXY = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
 
     }
 
@@ -273,11 +316,12 @@ export default class TransportService extends Service {
 
     tween.play();
 
-    this.fov.updatePlayerFieldOfView(playerObj.hex);
+    this.game.fov.updatePlayerFieldOfView(playerObj.hex);
 
-    this.camera.stage.draw();
+    this.game.camera.stage.draw();
 
-    // this.game.onPlayerMoved(targetHex);
+    this.game.onAfterMovePlayer(targetHex);
+    // yield this.game.onAfterMovePlayer(targetHex);
 
 
     yield timeout(playerObj.speed);

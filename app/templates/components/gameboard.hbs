@@ -32,13 +32,13 @@
     <div class="hexwrapper">
       <div id="scroll-container">
         <div id="large-container">
-          {{#if this.mapService.tilesLoaded}}
+          {{!#if this.mapService.tilesLoaded}}
             <figure id="konvaContainer"
               {{did-insert (action this.setupGame)}}
               {{will-destroy (action this.teardownGameboardCanvases)}}
             >
             </figure>
-          {{/if}}
+          {{!/if}}
         </div>
       </div>
     </div>
@@ -71,10 +71,10 @@
         {{this.gameboard.currentHex}}&nbsp;/&nbsp;{{this.gameboard.mouseXY}}
       </div>
       <div>
-        {{this.gameboard.playerHex}}&nbsp;/&nbsp;{{this.gameboard.playerXY}}
+        {{this.game.gameboard.playerHex}}&nbsp;/&nbsp;{{this.game.gameboard.playerXY}}
       </div>
       <div>
-        {{this.gameboard.shipHex}}&nbsp;/&nbsp;{{this.gameboard.shipXY}}
+        {{this.game.gameboard.shipHex}}&nbsp;/&nbsp;{{this.game.gameboard.shipXY}}
       </div>
       {{#if showCameraDebug}}
         <div>
@@ -102,7 +102,7 @@
         <button {{action "toggleHexInfo"}}>Toggle Hex Info</button>
       </div>
       <div>
-        <button {{action "toggleDebugLayer"}}>Toggle Debug Layer</button>
+        <button {{action "toggleDebugLayer"}}>Debug Layer enabled: {{this.showDebugLayer}}</button>
       </div>
       <div>
         <button {{action "toggleGameSounds"}}>Sound enabled: {{this.sound.soundEnabled}}</button>
@@ -120,6 +120,9 @@
       </div>
       <div>
         Player Health {{this.game.player.healthPercentage}}%
+      </div>
+      <div>
+        Player Flags {{this.game.playerTravelAbilityFlags}}
       </div>
       <div>
         Ship Health {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}

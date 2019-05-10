@@ -10,7 +10,7 @@ export default class FieldOfViewService extends Service {
   @service ('path') pathService;
   @service ('game') game;
 
-  @tracked lastNeighborsInRangeArray = null;
+  @tracked lastNeighborsInRangeArray = {};
 
   updatePlayerFieldOfView() {
     let player = this.game.player;
@@ -76,15 +76,18 @@ export default class FieldOfViewService extends Service {
     }
 
     // create a list of hexes to set opacity to .5
-    // these are hexes that were visible last time player moved but now are out of range;
-    if (this.lastNeighborsInRangeArray) {
-      finalFovHexes.noLongerVisible = this.lastNeighborsInRangeArray.filter((hex) => {
-        // debugger;
+    // these are hexes for this mapId that were visible last time player moved but now are out of range;
+    if (this.lastNeighborsInRangeArray && this.lastNeighborsInRangeArray[`${this.mapService.mapIndex}`]) {
+      finalFovHexes.noLongerVisible = this.lastNeighborsInRangeArray[`${this.mapService.mapIndex}`].filter((hex) => {
         return !finalFovHexes.visible.includes(hex);
       });
     }
 
-    this.lastNeighborsInRangeArray = finalFovHexes.visible;
+    // if (!this.lastNeighborsInRangeArray) {
+    //   this.lastNeighborsInRangeArray = [];
+    // }
+    this.lastNeighborsInRangeArray[`${this.mapService.mapIndex}`] = finalFovHexes.visible;
+    // this.lastNeighborsInRangeArray = finalFovHexes.visible;
 
 
     return finalFovHexes;
@@ -98,7 +101,7 @@ export default class FieldOfViewService extends Service {
 
     let agentsLayer = this.camera.getAgentsLayer();
 
-    this.transport.agents.forEach((transportAgent) => {
+    this.game.agents.forEach((transportAgent) => {
       // console.log('transportAgent.name', transportAgent.name, transportAgent.imageGroup.attrs.opacity);
       if(transportAgent.imageGroup.attrs.opacity === 0){
         // make visible

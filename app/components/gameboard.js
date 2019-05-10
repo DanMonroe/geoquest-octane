@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import {inject as service} from '@ember/service';
-import { A as emberArray } from '@ember/array';
+// import { A as emberArray } from '@ember/array';
 import config from 'geoquest-octane/config/environment';
 
 export default class GameboardComponent extends Component {
@@ -24,9 +24,9 @@ export default class GameboardComponent extends Component {
 
   @tracked map = null;
   @tracked mapIndex = null;
-  @tracked player = null;
-  @tracked agents = emberArray();
-  @tracked transports = emberArray();
+  // @tracked player = null;
+  // @tracked agents = emberArray();
+  // @tracked transports = emberArray();
 
   @tracked selectedMap = 0;
 
@@ -46,23 +46,25 @@ export default class GameboardComponent extends Component {
     this.showFieldOfViewLayer = config.game.board.showFieldOfViewLayer;
     this.sound.soundEnabled = config.game.enableGameSounds;
     this.game.gameClockEnabled = config.game.gameClockEnabled;
+    this.transport.moveQueueEnabled = config.game.transport.moveQueueEnabled;
 
     this.model = arguments[1];
-    // this.mapService.loadLayout();
     // this.loadMap(1);
-    this.loadMap(0);
+
+    this.mapService.mapData = this.model.mapdata;
+    // this.mapService.loadMap(config.game.startingMapIndex);
+    // this.mapService.loadMap(0);  //  put this in environment.vars
   }
 
-  loadMap(mapIndex) {
-    this.mapIndex = mapIndex;
-    this.map = this.model.mapdata[mapIndex].map;
-    // this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
-
-    this.mapService.loadLayout(this.map.LAYOUT);
-    this.mapService.loadTiles(this.map);
-    this.sound.loadSounds(this.model.mapdata[mapIndex].sounds);
-
-  }
+  // loadMap(mapIndex) {
+  //   this.mapIndex = mapIndex;
+  //   this.map = this.model.mapdata[mapIndex].map;
+  //   // this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
+  //
+  //   this.game.mapService.loadLayout(this.map.LAYOUT);
+  //   this.game.mapService.loadTiles(this.map);
+  //   this.game.sound.loadSounds(this.model.mapdata[mapIndex].sounds);
+  // }
 
   @action
   changeMap (map) {
@@ -72,37 +74,42 @@ export default class GameboardComponent extends Component {
   @action
   setupGame(konvaContainer) {
 
-    // Map setup
-    this.gameboard.setupQRSFromMap(this.map.MAP);
-    this.mapService.initMap({map: this.map.MAP});
-    this.camera.initCamera();
+    this.mapService.loadMap(config.game.startingMapIndex);
 
-    this.gameboard.setupGameboardCanvases(konvaContainer, this.map, this.showDebugLayer, this.showFieldOfViewLayer);
-    let agentsObj = this.transport.setupAgents(this.model.mapdata[this.mapIndex].agents);
+    // // Map setup
+    // this.gameboard.setupQRSFromMap(this.mapService.map.MAP);
+    // this.mapService.initMap({map: this.mapService.map.MAP});
+    // this.camera.initCamera();
+    //
+    // this.gameboard.setupGameboardCanvases(this.showDebugLayer, this.showFieldOfViewLayer);
+    // // this.gameboard.setupGameboardCanvases(konvaContainer, this.mapService.map, this.showDebugLayer, this.showFieldOfViewLayer);
+    // this.mapService.setHexmapSubset();
 
-    this.player = agentsObj.player;
-    this.agents = agentsObj.agents;
-    this.transports = agentsObj.transports;
-
-    this.transport.setupPatrols();
-
-    this.gameboard.drawGrid({
-      hexes: this.mapService.hexMap,
-      withLabels: this.showTileHexInfo,
-      withTiles: this.showTileGraphics
-    });
-
-    this.fov.updatePlayerFieldOfView(this.game.player.hex)
-
-    this.transport.moveQueueTask.perform();
+    // let agentsObj = this.transport.setupAgents(this.mapService.mapData[this.mapService.mapIndex].map.AGENTS);
+    //
+    // this.player = agentsObj.player;
+    // this.agents = agentsObj.agents;
+    // this.transports = agentsObj.transports;
+    //
+    // this.transport.setupPatrols();
+    //
+    // this.gameboard.drawGrid({
+    //   hexes: this.mapService.hexMap,
+    //   withLabels: this.showTileHexInfo,
+    //   withTiles: this.showTileGraphics
+    // });
+    //
+    // this.fov.updatePlayerFieldOfView(this.game.player.hex)
+    //
+    // this.transport.moveQueueTask.perform();
 
     // TODO put these back in:
     this.game.gameClock.perform();
   }
 
   @action
-  teardownGameboardCanvases(konvaContainer) {
-    konvaContainer.removeEventListener('click', this.handleContainerClick);
+  teardownGameboardCanvases(/*konvaContainer*/) {
+    // konvaContainer.removeEventListener('click', this.handleContainerClick);
   }
 
   @action

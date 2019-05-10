@@ -27,8 +27,12 @@ module.exports = function(environment) {
     },
 
     game: {
+      startingMapIndex: 1,
       enableGameSounds: true,
       gameClockEnabled: false,
+      transport: {
+        moveQueueEnabled: true,
+      },
       board: {
         showTileGraphics: true,
         showTileHexInfo: false,
@@ -50,12 +54,14 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
 
+    ENV.game.startingMapIndex = 1;
     ENV.game.gameClockEnabled = false;
     ENV.game.enableGameSounds = false;
+    ENV.game.transport.moveQueueEnabled = false;
     ENV.game.board.showTileGraphics = true;
     ENV.game.board.showTileHexInfo = true;
-    ENV.game.board.showDebugLayer = true;
-    ENV.game.board.showFieldOfViewLayer = true;
+    ENV.game.board.showDebugLayer = false;
+    ENV.game.board.showFieldOfViewLayer = false;
 
   }
 
