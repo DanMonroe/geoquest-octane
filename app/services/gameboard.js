@@ -22,8 +22,8 @@ export default class GameboardService extends Service {
 
   @tracked viewport;
   @tracked redraw = false;
-  @tracked showDebugLayer = false;
-  @tracked showFieldOfViewLayer = false;
+  // @tracked showDebugLayer = false;
+  // @tracked showFieldOfViewLayer = false;
 
   @tracked pathDistanceToMouseHex = 0;
   @tracked mousePoint = `X: Y:`;
@@ -58,7 +58,8 @@ export default class GameboardService extends Service {
     }
   }
 
-  setupGameboardCanvases(showDebugLayer, showFieldOfViewLayer) {
+  setupGameboardCanvases() {
+  // setupGameboardCanvases(showDebugLayer, showFieldOfViewLayer) {
   // setupGameboardCanvases(konvaContainer, map, showDebugLayer, showFieldOfViewLayer) {
 
     let stage = new Konva.Stage({
@@ -100,8 +101,8 @@ export default class GameboardService extends Service {
 
     // this.mapService.setHexmapSubset(startRow, startCol, rowsToGrab, colsToGrab);
 
-    this.showDebugLayer = showDebugLayer;
-    this.showFieldOfViewLayer = showFieldOfViewLayer;
+    this.showDebugLayer = this.game.showDebugLayer;
+    this.showFieldOfViewLayer = this.game.showFieldOfViewLayer;
 
     let container = stage.container();
 
@@ -365,7 +366,7 @@ export default class GameboardService extends Service {
         let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
         let segmentHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s, sourceHexMap);
 
-        if (this.showFieldOfViewLayer) {
+        if (this.game.showFieldOfViewLayer) {
           segmentHex.fovX = newX;
           segmentHex.fovY = newY;
         }
@@ -393,7 +394,7 @@ export default class GameboardService extends Service {
         let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
         let segmentHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
 
-        if (this.showFieldOfViewLayer) {
+        if (this.game.showFieldOfViewLayer) {
           segmentHex.fovX = newX;
           segmentHex.fovY = newY;
         }
@@ -407,7 +408,7 @@ export default class GameboardService extends Service {
 
   drawFieldOfView(startHex, targetHex) {
 
-    if (this.showFieldOfViewLayer) {
+    if (this.game.showFieldOfViewLayer) {
       this.clearFOVLayer();
 
       let returnFieldOfViewHexes = this.isFieldOfViewBlockedForHex(startHex, targetHex);
@@ -443,7 +444,7 @@ export default class GameboardService extends Service {
   }
 
   drawPathToTarget(startHex, pathDistanceToMouseHex) {
-    if (this.showDebugLayer) {
+    if (this.game.showDebugLayer) {
       // this.clearDebugLayer();
 
       let startPoint = this.mapService.currentLayout.hexToPixel(startHex);

@@ -42,7 +42,7 @@ export class Enemy extends BaseAgent {
   }
 
   reset(agent) {
-    this.agentImage = `/images/transports/${agent.img}`;
+    this.agentImage = `/images/${agent.img}`;
     this.agentImageSize = agent.imgSize;
     this.sightRange = agent.sightRange;
     this.speed = agent.speed;

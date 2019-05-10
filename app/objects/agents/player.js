@@ -35,7 +35,7 @@ export class Player extends BaseAgent {
     this.hex = playerStartHex;
     this.startHex = playerStartHex;
 
-    this.agentImage = `/images/transports/${player.img}`;
+    this.agentImage = `/images/${player.img}`;
     this.agentImageSize = player.imgSize;
     this.sightRange = player.sightRange;
     this.speed = player.speed;

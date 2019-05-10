@@ -64,7 +64,8 @@ export default class MapService extends Service {
     this.initMap({map: this.map.MAP});
     this.camera.initCamera();
 
-    this.gameboard.setupGameboardCanvases(this.gameboard.showDebugLayer, this.gameboard.showFieldOfViewLayer);
+    this.gameboard.setupGameboardCanvases();
+    // this.gameboard.setupGameboardCanvases(this.gameboard.showDebugLayer, this.gameboard.showFieldOfViewLayer);
     // this.gameboard.setupGameboardCanvases(konvaContainer, this.mapService.map, this.showDebugLayer, this.showFieldOfViewLayer);
     this.setHexmapSubset();
 
@@ -79,8 +80,8 @@ export default class MapService extends Service {
 
     this.gameboard.drawGrid({
       hexes: this.hexMap,
-      withLabels: this.showTileHexInfo,
-      withTiles: this.showTileGraphics
+      withLabels: this.game.showTileHexInfo,
+      withTiles: this.game.showTileGraphics
     });
 
     this.fov.updatePlayerFieldOfView(this.game.player.hex)

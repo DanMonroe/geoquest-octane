@@ -96,13 +96,13 @@
         <button {{action "toggleGameClock"}}>Game clock running: {{this.game.gameClock.isRunning}}</button>
       </div>
       <div>
-        <button {{action "toggleTiles"}}>Toggle Tiles</button>
+        <button {{action "toggleTiles"}}>Show Tiles: {{this.game.showTileGraphics}}</button>
       </div>
       <div>
-        <button {{action "toggleHexInfo"}}>Toggle Hex Info</button>
+        <button {{action "toggleHexInfo"}}>Show Hex Info: {{this.game.showTileHexInfo}}</button>
       </div>
       <div>
-        <button {{action "toggleDebugLayer"}}>Debug Layer enabled: {{this.showDebugLayer}}</button>
+        <button {{action "toggleDebugLayer"}}>Debug Layer enabled: {{this.game.showDebugLayer}}</button>
       </div>
       <div>
         <button {{action "toggleGameSounds"}}>Sound enabled: {{this.sound.soundEnabled}}</button>

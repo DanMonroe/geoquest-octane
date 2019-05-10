@@ -32,7 +32,7 @@ export class Map3 extends Basemap {
         Q: 6,
         R: 0
       },
-      img: "pirate.svg",
+      img: "agents/pirate.svg",
       imgSize: 32,
       sightRange: 4,
       speed: 200,
@@ -56,7 +56,7 @@ export class Map3 extends Basemap {
           Q: 7,
           R: 1
         },
-        img: "ship.svg",
+        img: "transports/ship.svg",
         opacity: 1,
         imgSize: 32,
         sightRange: 3,
@@ -93,7 +93,7 @@ export class Map3 extends Basemap {
           R: -3,
           S: -15
         },
-        img: "galleon.svg",
+        img: "transports/galleon.svg",
         opacity: 0,
         imgSize: 32,
         sightRange: 3,
@@ -131,7 +131,7 @@ export class Map3 extends Basemap {
           R: -5,
           S: -6
         },
-        img: "roundtower.svg",
+        img: "agents/roundtower.svg",
         opacity: 0,
         imgSize: 32,
         sightRange: 3,

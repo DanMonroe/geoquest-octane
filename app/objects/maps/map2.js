@@ -23,7 +23,7 @@ export class Map2 extends Basemap {
         Q: 3,
         R: 0
       },
-      img: "pirate.svg",
+      img: "agents/pirate.svg",
       imgSize: 32,
       sightRange: 4,
       speed: 200,
@@ -41,13 +41,13 @@ export class Map2 extends Basemap {
     transports: [],
     enemies: [
       {
-          name: 'pirateskeleton',
+          name: 'orc',
           index: 1,
           start: {
             Q: 11,
             R: -1
           },
-          img: "pirateskeleton.png",
+          img: "agents/orc.svg",
           opacity: 0,
           imgSize: 32,
           sightRange: 3,

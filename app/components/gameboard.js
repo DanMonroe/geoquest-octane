@@ -40,10 +40,10 @@ export default class GameboardComponent extends Component {
   constructor() {
     super(...arguments);
 
-    this.showTileGraphics = config.game.board.showTileGraphics;
-    this.showTileHexInfo = config.game.board.showTileHexInfo;
-    this.showDebugLayer = config.game.board.showDebugLayer;
-    this.showFieldOfViewLayer = config.game.board.showFieldOfViewLayer;
+    this.game.showTileGraphics = config.game.board.showTileGraphics;
+    this.game.showTileHexInfo = config.game.board.showTileHexInfo;
+    this.game.showDebugLayer = config.game.board.showDebugLayer;
+    this.game.showFieldOfViewLayer = config.game.board.showFieldOfViewLayer;
     this.sound.soundEnabled = config.game.enableGameSounds;
     this.game.gameClockEnabled = config.game.gameClockEnabled;
     this.transport.moveQueueEnabled = config.game.transport.moveQueueEnabled;
@@ -123,22 +123,22 @@ export default class GameboardComponent extends Component {
 
   @action
   toggleDebugLayer() {
-    this.showDebugLayer = !this.showDebugLayer;
-    this.gameboard.showDebugLayer = this.showDebugLayer;
+    this.game.showDebugLayer = !this.game.showDebugLayer;
+    this.gameboard.showDebugLayer = this.game.showDebugLayer;
     let layer = this.camera.getDebugLayer();
-    layer.visible(this.showDebugLayer);
+    layer.visible(this.game.showDebugLayer);
 
-    this.showFieldOfViewLayer = !this.showFieldOfViewLayer;
-    this.gameboard.showFieldOfViewLayer = this.showFieldOfViewLayer;
+    this.game.showFieldOfViewLayer = !this.game.showFieldOfViewLayer;
+    this.gameboard.showFieldOfViewLayer = this.game.showFieldOfViewLayer;
     let fovlayer = this.camera.getFOVLayer();
-    fovlayer.visible(this.showFieldOfViewLayer);
+    fovlayer.visible(this.game.showFieldOfViewLayer);
   }
 
   @action
   toggleTiles() {
-    this.showTileGraphics = !this.showTileGraphics;
+    this.game.showTileGraphics = !this.game.showTileGraphics;
     let layer = this.camera.getGameLayer();
-    layer.visible(this.showTileGraphics);
+    layer.visible(this.game.showTileGraphics);
     // this.camera.stage.draw();
     layer.draw();
   }
@@ -153,9 +153,9 @@ export default class GameboardComponent extends Component {
 
   @action
   toggleHexInfo() {
-    this.showTileHexInfo = !this.showTileHexInfo;
+    this.game.showTileHexInfo = !this.game.showTileHexInfo;
     let layer = this.camera.getHexLayer();
-    layer.visible(this.showTileHexInfo);
+    layer.visible(this.game.showTileHexInfo);
     layer.draw();
     // this.camera.stage.draw();
   }

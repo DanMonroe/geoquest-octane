@@ -36,6 +36,11 @@ export default class GameService extends Service {
   @tracked playerVisibilityAbilityFlags = 0;  // TODO implement... fog?  darkness?  binoculars?
 
   @tracked gameClockEnabled = true;
+  @tracked showTileGraphics = true;
+  @tracked showTileHexInfo = true;
+  @tracked showDebugLayer = true;
+  @tracked showFieldOfViewLayer = true;
+
 
   playerHasTravelAbilityFlag(flag) {
     if(flag) {
