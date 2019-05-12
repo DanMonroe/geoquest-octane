@@ -235,6 +235,10 @@ export default class GameService extends Service {
         console.log('action 2: loadmap after move', targetHex.actions.loadmap);
         this.mapService.loadMap(targetHex.actions.loadmap);
         break;
+      case 10:
+        console.log('action 10:', targetHex.actions.cache);
+        alert(`You found cache ${targetHex.actions.cache}`);
+        break;
       default:
         break;
     }

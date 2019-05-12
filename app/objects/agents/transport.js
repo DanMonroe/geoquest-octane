@@ -137,105 +137,25 @@ export class Transport extends BaseAgent {
     this.fireWeapon.perform(weapon, startPoint, targetPoint);
   }
 
-  // @task( function*(weapon) {
-  //   let cannonballSpeed = 3;
-  //   let startPoint = this.point;
-  //   let mousecoords = this.gameboard.getMousePointerPosition()
-  //   let targetHex = this.gameboard.getHexAtMousePoint(mousecoords);
-  //   let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);
+
+  // checkForEnemiesHitByProjectile(anim, projectile) {
+  //   if (this.game.agents) {
+  //     this.game.agents.forEach((agent) => {
+  //       let distance = Math.sqrt(Math.pow((agent.point.x - projectile.attrs.x), 2) + Math.pow((agent.point.y - projectile.attrs.y), 2));
   //
-  //   let angle = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
-  //   let sin = Math.sin(angle) * cannonballSpeed; // Y change
-  //   let cos = Math.cos(angle) * cannonballSpeed; // X change
-  //   let maxX = Math.abs(targetPoint.x - startPoint.x)
-  //   let maxY = Math.abs(targetPoint.y - startPoint.y)
+  //       // console.log(`agent ${agent.name} to cannonball distance:`, distance, agent);
   //
-  //   // console.log('target', targetPoint);
-  //   // console.log('lineDistance', lineDistance);
-  //   // console.log('segmentDistance', segmentDistance);
-  //   // console.log('angle', angle);
-  //   // console.log('sin', sin);
-  //   // console.log('cos', cos);
-  //   // console.log('maxX', maxX);
-  //   // console.log('maxY', maxY);
+  //       if (distance < 10) {
+  //         console.log('Hit!');
+  //         agent.currentHitPoints -= projectile.damage;
+  //         agent.updateHealthBar();
   //
-  //   let cannonball = new Konva.Circle({
-  //     x: startPoint.x,
-  //     y: startPoint.y,
-  //     radius: 4,
-  //     fill: 'black',
-  //     draggable: true,
-  //     opacity: 1
-  //   });
-  //   // custom property
-  //   cannonball.velocity = {
-  //     x: 0,
-  //     y: 0
-  //   };
-  //   cannonball.damage = weapon.damage;
-  //
-  //   let layer = this.camera.getAgentsLayer();
-  //   layer.add(cannonball);
-  //
-  //   let newX = cannonball.getX();
-  //   let newY = cannonball.getY();
-  //
-  //   let sumX = 0;
-  //   let sumY = 0;
-  //   let deltaX = Math.abs(cos);
-  //   let deltaY = Math.abs(sin);
-  //
-  //   let anim = new Konva.Animation(() => {
-  //     newX += cos;
-  //     newY += sin;
-  //
-  //     cannonball.position({x:newX, y:newY});
-  //
-  //     sumX += deltaX;
-  //     sumY += deltaY;
-  //
-  //     // change/implement max firing distance of current cannon in use
-  //     if((sumX >= maxX) || (sumY >= maxY)) {
-  //       anim.stop();
-  //       cannonball.remove();
-  //     }
-  //
-  //     // did we hit something?
-  //     this.checkForEnemiesHitByProjectile(anim, cannonball);
-  //
-  //   }, layer);
-  //
-  //   anim.start();
-  //
-  //   this.currentPower -= weapon.poweruse;
-  //   this.updatePowerBar();
-  //   if(this.currentPower < 100 && this.reloadPower.isIdle) {
-  //     this.reloadPower.perform(weapon);
+  //         anim.stop();
+  //         projectile.remove();
+  //       }
+  //     })
   //   }
-  //
-  //   yield timeout(weapon.fireDelay);
-  //
-  // }) fireWeapon;
-
-
-  checkForEnemiesHitByProjectile(anim, projectile) {
-    if (this.game.transport.agents) {
-      this.game.transport.agents.forEach((agent) => {
-        let distance = Math.sqrt(Math.pow((agent.point.x - projectile.attrs.x), 2) + Math.pow((agent.point.y - projectile.attrs.y), 2));
-
-        // console.log(`agent ${agent.name} to cannonball distance:`, distance, agent);
-
-        if (distance < 10) {
-          console.log('Hit!');
-          agent.currentHitPoints -= projectile.damage;
-          agent.updateHealthBar();
-
-          anim.stop();
-          projectile.remove();
-        }
-      })
-    }
-  }
+  // }
 
   updateHealthBar() {
     let bar = this.imageGroup.getChildren((node) =>{

@@ -36,6 +36,18 @@ export class Map2 extends Basemap {
       armor: 2,
       initialFlags: [
         2 // LAND
+      ],
+      weapons: [
+        {
+          minDistanceForHit: 20,
+          type: 'arrow',
+          damage: 1,
+          speed: 8, // projectile speed
+          poweruse: 1,
+          accuracy: 0.04, // percentage 0 (always accurate) - 1 (shoot any direction)
+          fireDelay: 300,
+          reloadDelay: 1000  // lower is faster
+        }
       ]
     },
     transports: [],
@@ -285,7 +297,7 @@ export class Map2 extends Basemap {
 ,{id: 41,col: 6,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
 ,{id: 47,col: 7,row: 4, t: 5, path: {w:1, v:1, flags: 0}}
 ,{id: 53,col: 8,row: 4, t: 5, path: {w:1, v:1, flags: 0}}
-,{id: 59,col: 9,row: 4, t: [106,113], path: {w:0, v:0, flags: 2}}
+,{id: 59,col: 9,row: 4, t: [106,113], path: {w:0, v:0, flags: 2}, actions: {a:{id:10}, cache:1}}
 ,{id: 65,col: 10,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
 ,{id: 71,col: 11,row: 4, t: 106, path: {w:0, v:0, flags: 2}}
 ,{id: 77,col: 12,row: 4, t: 106, path: {w:0, v:0, flags: 2}}

@@ -208,4 +208,37 @@ export class BaseAgent {
     return yield timeout(weapon.fireDelay);
 
   }) fireWeapon;
+
+  checkForEnemiesHitByProjectile(anim, projectile) {
+    if (this.game.agents) {
+      this.game.agents.forEach((agent) => {
+        let distance;
+        switch(projectile.attrs.type) {
+          case 'arrow':
+            distance = Math.sqrt( Math.pow((agent.point.x - (projectile.attrs.points[0] + projectile.attrs.x)),2) + Math.pow((agent.point.y - (projectile.attrs.points[1]+projectile.attrs.y)),2));
+            break;
+          case 'cannon':
+            distance = Math.sqrt( Math.pow((agent.point.x - projectile.attrs.x),2) + Math.pow((agent.point.y - projectile.attrs.y),2));
+            break;
+          default:
+            return;
+        }
+
+        // let distance = Math.sqrt(Math.pow((agent.point.x - projectile.attrs.x), 2) + Math.pow((agent.point.y - projectile.attrs.y), 2));
+
+        console.log(`agent ${agent.name} to projectile distance:`, distance, agent);
+
+        // if (distance < 10) {
+        if (distance < projectile.attrs.minDistanceForHit) {
+          console.log('Hit!');
+          agent.currentHitPoints -= projectile.damage;
+          agent.updateHealthBar();
+
+          anim.stop();
+          projectile.remove();
+        }
+      })
+    }
+  }
+
 }

@@ -46,7 +46,20 @@ export class Map3 extends Basemap {
       initialFlags: [
         2 // LAND
         // 1 // SEA
+      ],
+      weapons: [
+        {
+          minDistanceForHit: 20,
+          type: 'arrow',
+          damage: 1,
+          speed: 8, // projectile speed
+          poweruse: 1,
+          accuracy: 0.04, // percentage 0 (always accurate) - 1 (shoot any direction)
+          fireDelay: 300,
+          reloadDelay: 1000  // lower is faster
+        }
       ]
+
     },
     transports: [
       {
@@ -114,6 +127,7 @@ export class Map3 extends Basemap {
           {
             minDistanceForHit: 10,
             type: 'cannon',
+            sound: 'cannon2',
             damage: 2.5,
             speed: 3, // projectile speed
             poweruse: 5,

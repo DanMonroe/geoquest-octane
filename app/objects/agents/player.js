@@ -1,6 +1,7 @@
 import { BaseAgent } from './base-agent';
 import Konva from 'konva';
 import { tracked } from '@glimmer/tracking';
+import { Point } from '../point'
 
 export class Player extends BaseAgent {
 
@@ -51,6 +52,8 @@ export class Player extends BaseAgent {
 
     this.armor = player.armor | 2;
     this.respawnTime = player.respawnTime | 5000;
+
+    this.weapons = player.weapons;
 
     this.buildDisplayGroup(player);
   }
@@ -132,6 +135,34 @@ export class Player extends BaseAgent {
     //     // drop treasure?  Treasure disappears after a while ?
       }
     }
+  }
+
+  fire(mousecoords) {
+    console.log('Player Fire!');
+
+    if (!this.weapons || this.weapons.length === 0) {
+      console.log('no weapons');
+      return;
+    }
+
+    let weapon = this.weapons[0];
+    if (!this.canFireWeapon(weapon.poweruse)) {
+      console.log('no power!');
+      return
+    }
+
+    if (this.fireWeapon.isRunning) {
+      console.log('waiting to reload');
+      return;
+    }
+
+    let startPoint = this.point;
+    // let mousecoords = this.gameboard.getMousePointerPosition()
+    let targetPoint = new Point({x:mousecoords.x, y:mousecoords.y}); // harder to aim
+    // let targetHex = this.gameboard.getHexAtMousePoint(mousecoords);   // center of hex
+    // let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);  // center of hex
+
+    this.fireWeapon.perform(weapon, startPoint, targetPoint);
   }
 }
 

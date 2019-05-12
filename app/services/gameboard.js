@@ -548,6 +548,8 @@ export default class GameboardService extends Service {
   hexClick(mousecoords) {
     if (this.game.player.boardedTransport) {
       this.game.player.boardedTransport.fire(mousecoords);
+    } else {
+      this.game.player.fire(mousecoords);
     }
   }
 
