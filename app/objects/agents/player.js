@@ -88,11 +88,11 @@ export class Player extends BaseAgent {
       strokeWidth: 1
     });
 
-    console.log('Creating player image');
+    // console.log('Creating player image');
     let imageObj = new Image();
     imageObj.onload = () => {
 
-      console.log('loaded player image');
+      // console.log('loaded player image');
       this.imageObj = new Konva.Image({
         id: player.name,
         x: -(this.agentImageSize / 2),

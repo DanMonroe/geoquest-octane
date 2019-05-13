@@ -52,6 +52,8 @@ export default class GameboardComponent extends Component {
     // this.loadMap(1);
 
     this.mapService.mapData = this.model.mapdata;
+
+    this.mapService.loadSeenHexesFromStorage();
     // this.mapService.loadMap(config.game.startingMapIndex);
     // this.mapService.loadMap(0);  //  put this in environment.vars
   }
@@ -177,4 +179,11 @@ export default class GameboardComponent extends Component {
       this.game.gameClock.perform();
     }
   }
+
+  @action
+  saveGame() {
+    console.log('Component Save Game');
+    this.game.saveGame();
+  }
+
 }

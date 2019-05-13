@@ -22,7 +22,7 @@ export default class FieldOfViewService extends Service {
 
     let finalFovHexes = this.buildFieldOfVisionVisibleAndBlockedHexes(neighborsInRangeArray, player.hex);
 // console.log('finalFovHexes', finalFovHexes);
-
+    this.mapService.updateSeenHexes(finalFovHexes);
     this.updateGameboardTilesOpacity(finalFovHexes);
     this.updateStaticEnemyOpacity(finalFovHexes);
   }
@@ -156,7 +156,7 @@ export default class FieldOfViewService extends Service {
     });
 
     visibleHexImages.forEach(tile => {
-      tile.to({opacity: 1});
+      tile.to({opacity: this.mapService.MAPOPACITY.VISIBLE});
     });
 
     // No longer visible
@@ -172,7 +172,7 @@ export default class FieldOfViewService extends Service {
     });
 
     noLongerVisibleHexImages.forEach(tile => {
-      tile.to({opacity: .4});
+      tile.to({opacity: this.mapService.MAPOPACITY.PREVIOUSLYSEEN});
     });
 
     gameLayer.draw();

@@ -11,7 +11,7 @@ export default class SoundService extends Service {
 
   loadSounds(sounds) {
     sounds.forEach((sound) => {
-      console.log(sound);
+      // console.log(sound);
       this.audio.load(`/sounds/${sound.file}`).asSound(sound.name).then((sound) => {
           this.addLoadedSound(sound);
         }

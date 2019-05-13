@@ -9,6 +9,11 @@ import Konva from 'konva';
 
 export default class MapService extends Service {
 
+  MAPOPACITY = {
+    HIDDEN: 0,
+    PREVIOUSLYSEEN: .4,
+    VISIBLE: 1
+  }
   @service ('gameboard') gameboard;
   @service ('transport') transport;
   @service ('path') pathService;
@@ -23,6 +28,7 @@ export default class MapService extends Service {
   @tracked map = null;
   @tracked mapIndex = null;
   @tracked mapData = null; // array from index.js
+  @tracked mapSeenHexes = null; // array from index.js
 
   @tracked hexMap = null;
   worldMap = null;
@@ -53,6 +59,8 @@ export default class MapService extends Service {
 
   // Map setup
   loadMap(mapIndex) {
+    this.game.saveGame();
+
     this.mapIndex = mapIndex;
     this.map = this.mapData[mapIndex].map;
 
@@ -86,8 +94,51 @@ export default class MapService extends Service {
 
     this.fov.updatePlayerFieldOfView(this.game.player.hex)
 
-    console.log('1');
     this.transport.moveQueueTask.perform();
+  }
+
+  updateSeenHexes(finalFovHexes) {
+    if (typeof this.mapIndex === undefined || !finalFovHexes.visible) {
+      return;
+    }
+    if (!this.mapSeenHexes) {
+      this.mapSeenHexes = new Map();
+    }
+
+    let thisMapsSeenHexes = this.mapSeenHexes.get(this.mapIndex);
+
+    if (!thisMapsSeenHexes) {
+      thisMapsSeenHexes = new Set();
+    }
+
+    finalFovHexes.visible.forEach(hex => {
+      thisMapsSeenHexes.add(hex.id);
+    });
+
+    this.mapSeenHexes.set(this.mapIndex, thisMapsSeenHexes);
+
+    // console.log(this.mapSeenHexes);
+  }
+
+  loadSeenHexesFromStorage() {
+    let seenHexesRaw = window.localStorage.getItem('GQseenHexes');
+    if (seenHexesRaw) {
+      let seenHexesJSON = Object.entries(JSON.parse(seenHexesRaw));
+      this.mapSeenHexes = new Map();
+      seenHexesJSON.forEach(seenHexObj => {
+        let mapIndex = seenHexObj[0];
+        let seenHexes = new Set(seenHexObj[1]);
+        this.mapSeenHexes.set(mapIndex, seenHexes);
+      })
+    }
+    // console.log(this.mapSeenHexes);
+  }
+
+  getSeenHexesForLoadedMap() {
+    if (!this.mapSeenHexes) {
+      return undefined;
+    }
+    return this.mapSeenHexes.get(`${this.mapIndex}`);
   }
 
   loadLayout(layout) {

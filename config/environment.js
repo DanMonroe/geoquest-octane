@@ -26,6 +26,12 @@ module.exports = function(environment) {
       // when it is created
     },
 
+    'ember-local-storage': {
+      namespace: true, // will use the modulePrefix e.g. 'my-app'
+      // namespace: 'customNamespace', // will use 'customNamespace'
+      keyDelimiter: '/' // will use / as a delimiter - the default is :
+    },
+
     game: {
       startingMapIndex: 1,
       enableGameSounds: true,

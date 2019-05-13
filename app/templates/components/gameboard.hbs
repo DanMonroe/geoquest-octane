@@ -93,6 +93,9 @@
     </div>
     <div class="col">
       <div>
+        <button {{action "saveGame"}}>Save</button>
+      </div>
+      <div>
         <button {{action "toggleGameClock"}}>Game clock running: {{this.game.gameClock.isRunning}}</button>
       </div>
       <div>

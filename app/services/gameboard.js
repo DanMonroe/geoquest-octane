@@ -197,10 +197,12 @@ export default class GameboardService extends Service {
     let gameLayer = layers[this.camera.LAYERS.GAME];
     let hexLayer = layers[this.camera.LAYERS.HEX];
 
+    let thisMapsSeenHexes = this.mapService.getSeenHexesForLoadedMap();
+
     hexes.forEach((hex) => {
       this.drawHex(hexLayer, hex);
       this.drawHexLabel(hexLayer, hex);
-      this.drawHexTile(gameLayer, hex);
+      this.drawHexTile(gameLayer, hex, thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id));
     });
 
     hexLayer.visible(withLabels);
@@ -287,7 +289,7 @@ export default class GameboardService extends Service {
     // TODO put map t (tile) back in when we add map to the hex
   }
 
-  drawHexTile(layer, hex) {
+  drawHexTile(layer, hex, previouslySeenThisHex) {
     let point = this.mapService.currentLayout.hexToPixel(hex);
     let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
     let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
@@ -305,7 +307,7 @@ export default class GameboardService extends Service {
         x: x,
         y: y,
         image: tile,
-        opacity: 0,
+        opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
         width: (this.mapService.currentLayout.size.x*2)+1,
         height: (this.mapService.currentLayout.size.y*2)+1
       });

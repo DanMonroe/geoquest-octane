@@ -160,6 +160,7 @@ export class Graph {
 
     // node.fovX = null;
     // node.fovY = null;
+    // node.visual = node.visual || {}
     node.visual = {}
   }
 }

@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import Konva from 'konva';
 import { A as emberArray } from '@ember/array';
+import { storageFor } from 'ember-local-storage';
 
 export default class GameService extends Service {
 
@@ -41,6 +42,32 @@ export default class GameService extends Service {
   @tracked showDebugLayer = true;
   @tracked showFieldOfViewLayer = true;
 
+  gameStorage = storageFor('game')
+
+  saveGame() {
+    console.log('Saving game');
+    // this.gameStorage.set(
+    //   'foo', 'bar2'
+    // );
+    // let obj = {map: [1,2]}
+    // let stringified = JSON.stringify(obj);
+    // let encoded = window.btoa(stringified);
+    // window.localStorage.setItem('gqmap', encoded);
+
+    // let seenHexesJSON = JSON.stringify(this.mapService.mapSeenHexes);
+    if (this.mapService.mapSeenHexes) {
+      let seenHexesObj = {}
+      this.mapService.mapSeenHexes.forEach((seenHexes, mapIndex) => {
+        // console.log(mapIndex);
+        // console.log(seenHexes);
+        seenHexesObj[`${mapIndex}`] = [...seenHexes]
+        // seenHexesObj.mapIndex = [...this.mapService.mapSeenHexes.get(mapIndex)]
+      });
+      let seenHexesJSON = JSON.stringify(seenHexesObj);
+      window.localStorage.setItem('GQseenHexes', seenHexesJSON);
+    }
+
+  }
 
   playerHasTravelAbilityFlag(flag) {
     if(flag) {
