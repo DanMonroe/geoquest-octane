@@ -28,16 +28,18 @@ export class Player extends BaseAgent {
 
     let playerStartHex;
     if (this.game.mapService) {
-      playerStartHex = this.setStartHex(player.start);
+      playerStartHex = this.setStartHex(player.startHex);
+      // playerStartHex = this.setStartHex(player.start);
     }
 // debugger;
-    this.id = player.index;
+//     this.id = player.index;
+    this.id = player.id;
     this.name = player.name;
     this.hex = playerStartHex;
     this.startHex = playerStartHex;
 
-    this.agentImage = `/images/${player.img}`;
-    this.agentImageSize = player.imgSize;
+    this.agentImage = `/images/${player.agentImage}`;
+    this.agentImageSize = player.agentImageSize;
     this.sightRange = player.sightRange;
     this.speed = player.speed;
     this.patrol = player.patrol;

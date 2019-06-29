@@ -50,8 +50,9 @@ export default class GameboardComponent extends Component {
 
     this.model = arguments[1];
     // this.loadMap(1);
-
-    this.mapService.mapData = this.model.mapdata;
+// debugger;
+    this.mapService.mapData = this.model.model.data;
+    // this.mapService.mapData = this.model.mapdata;
 
     this.mapService.loadSeenHexesFromStorage();
     // this.mapService.loadMap(config.game.startingMapIndex);

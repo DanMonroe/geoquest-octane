@@ -1,5 +1,11 @@
 'use strict';
 
+// How do you upgrade from on old(er) canary version of Octane to the latest?
+//     currently at "ember-source": "https://s3.amazonaws.com/builds.emberjs.com/canary/shas/60d9e8aeea8f3fa6d00bdd3480d69efc74fca1e1.tgz",
+// rwjblueToday at 1:02 AM
+// @DanMonroe npx ember-source-channel-url canary -w
+
+
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'geoquest-octane',
@@ -34,7 +40,7 @@ module.exports = function(environment) {
 
     game: {
       startingMapIndex: 1,
-      enableGameSounds: true,
+      enableGameSounds: false,
       gameClockEnabled: false,
       transport: {
         moveQueueEnabled: true,
@@ -84,7 +90,9 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV['ember-cli-mirage'] = {
+      enabled: true
+    };
   }
 
   return ENV;

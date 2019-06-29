@@ -19,7 +19,7 @@ export default class IndexRoute extends Route {
         mapid: 1,
         map: Map3,
         agents: {
-          player: {
+          playerPreMirage: {
             name: 'player',
             index: 0,
             opacity: 0,
@@ -243,7 +243,18 @@ export default class IndexRoute extends Route {
 
     ]
 
-    return data;
+
+    const player = this.store.findRecord('player', 1);
+    const weapons = this.store.findAll('weapon');
+    const transports = this.store.findAll('transport');
+    const enemies = this.store.findAll('enemy');
+    return {
+      data: data,
+      player: player,
+      weapons: weapons,
+      transports: transports,
+      enemies: enemies
+    };
   }
 }
 

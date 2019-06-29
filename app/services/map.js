@@ -58,7 +58,7 @@ export default class MapService extends Service {
   }
 
   // Map setup
-  loadMap(mapIndex) {
+  async loadMap(mapIndex) {
     this.game.saveGame();
 
     this.mapIndex = mapIndex;
@@ -78,7 +78,7 @@ export default class MapService extends Service {
     this.setHexmapSubset();
 
     // Player, Agents, and transports
-    let agentsObj = this.transport.setupAgents(this.mapData[this.mapIndex].map.AGENTS);
+    let agentsObj = await this.transport.setupAgents(this.mapData[this.mapIndex].map.AGENTS);
 
     this.game.player = agentsObj.player;
     this.game.agents = agentsObj.agents;

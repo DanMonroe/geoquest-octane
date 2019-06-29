@@ -23,7 +23,7 @@ export class Enemy extends BaseAgent {
 
     this.hexLayout = this.game.mapService.currentLayout;
 
-    let startHex = this.setStartHex(agent.start);
+    let startHex = this.setStartHex(agent.startHex);
 
     // let startPoint = this.mapService.currentLayout.hexToPixel(startHex);
     this.id = agent.index;
@@ -42,8 +42,8 @@ export class Enemy extends BaseAgent {
   }
 
   reset(agent) {
-    this.agentImage = `/images/${agent.img}`;
-    this.agentImageSize = agent.imgSize;
+    this.agentImage = `/images/${agent.agentImage}`;
+    this.agentImageSize = agent.agentImageSize;
     this.sightRange = agent.sightRange;
     this.speed = agent.speed;
     this.pursuitSpeed = agent.pursuitSpeed;

@@ -18,10 +18,11 @@ export class Transport extends BaseAgent {
     this.transportService = args.transportService;
     this.gameboard = args.gameboard;
 
-    let startHex = this.setStartHex(agent.start);
+    let startHex = this.setStartHex(agent.startHex);
     this.hexLayout = this.game.mapService.currentLayout;
 
-    this.id = agent.index;
+    // this.id = agent.index;
+    this.id = agent.id;
     this.name = agent.name;
     this.hex = startHex;
     this.startHex = startHex;
@@ -37,8 +38,8 @@ export class Transport extends BaseAgent {
   }
 
   reset(agent) {
-    this.agentImage = `/images/${agent.img}`;
-    this.agentImageSize = agent.imgSize;
+    this.agentImage = `/images/${agent.agentImage}`;
+    this.agentImageSize = agent.agentImageSize;
     this.sightRange = agent.sightRange;
     this.speed = agent.speed;
     this.patrol = agent.patrol;

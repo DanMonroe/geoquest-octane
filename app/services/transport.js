@@ -17,6 +17,8 @@ export default class TransportService extends Service {
     LAND: 1
   };
 
+  @service ('api') api;
+  @service ('store') store;
   @service ('map') mapService;
   @service ('game') game;
   @service ('camera') camera;
@@ -44,35 +46,42 @@ export default class TransportService extends Service {
     return transport ? transport : null;
   }
 
-  setupAgents(agents) {
+  async setupAgents(agents) {
 
     // let player = null;
   let transportsArray = emberArray();
     // this.agents = emberArray();
 
-    agents.transports.forEach((transportAgent) => {
-      // let transport = new Transport({
-      //   agent:transportAgent,
-      //   game:this.game,
-      // });
+  if(agents.transports) {
+    for (let i = 0; i < agents.transports.length; i++) {
+
+      // agents.transports.forEach((transportAgentId) => {
+
+      // agents.transports.forEach((transportAgent) => {
+      let mirageTransportAgent = await this.get('api.loadTransport').perform(agents.transports[i]);
+
+      // this.store.find('transport', transportAgentId).then(mirageTransportAgent => {
       let transport = new Transport({
-        agent:transportAgent,
-        mapService:this.mapService,
-        camera:this.camera,
-        game:this.game,
-        transportService:this,
-        gameboard:this.gameboard,
+        agent: mirageTransportAgent,
+        // agent:transportAgent,
+        mapService: this.mapService,
+        camera: this.camera,
+        game: this.game,
+        transportService: this,
+        gameboard: this.gameboard,
       });
       // console.log('adding transport', transport);
-      if (transportAgent.initialFlags) {
-        transportAgent.initialFlags.forEach((/*flag*/) => {
+      if (mirageTransportAgent.initialFlags) {
+        mirageTransportAgent.initialFlags.forEach((/*flag*/) => {
           // this.game.turnOnTransportTravelAbilityFlag(transportAgent, flag); // TODO implement
         });
       }
 
       transportsArray.push(transport);
-      // this.game.transports.push(transport);
-    });
+      // });
+
+    }
+  }
 
     // find the ship to board initially
     let startingShip = this.findTransportByName('ship'); // TODO how to handle loading map and get on ship
@@ -86,9 +95,13 @@ export default class TransportService extends Service {
     //   }
     //     // boardedTransport: startingShip
     // );
+
+    let miragePlayer = await this.api.loadPlayer.perform(agents.player.id)
+
+        // player:agents.player,
     let player = new Player(
       {
-        player:agents.player,
+        player:miragePlayer,
         mapService:this.mapService,
         camera:this.camera,
         game:this.game,
@@ -99,7 +112,7 @@ export default class TransportService extends Service {
       }
     );
         // boardedTransport: startingShip,
-    agents.player.initialFlags.forEach(flag => {
+    miragePlayer.initialFlags.forEach(flag => {
       this.game.turnOnPlayerTravelAbilityFlag(flag);   // TODO set from map file
     });
         // travelAbilityFlags: this.game.FLAGS.TRAVEL.SEA,
@@ -114,27 +127,29 @@ export default class TransportService extends Service {
     //   gameboard:this.gameboard,
 
     let agentsArray = emberArray();
-    agents.enemies.forEach((gameAgent) => {
-      // let enemy = new Enemy({
-      //   agent:gameAgent,
-      //   game:this.game
-      // });
-      let enemy = new Enemy({
-        agent:gameAgent,
-        mapService:this.mapService,
-        camera:this.camera,
-        game:this.game,
-        transportService:this,
-        gameboard:this.gameboard,
-      });
-      if (gameAgent.initialFlags) {
-        gameAgent.initialFlags.forEach((/*flag*/) => {
-          // this.game.turnOnAgentTravelAbilityFlag(gameAgent, flag);  // TODO implement
+    if(agents.enemies) {
+      for (let i = 0; i < agents.enemies.length; i++) {
+        // agents.enemies.forEach((gameAgent) => {
+
+        let mirageEnemyAgent = await this.get('api.loadEnemy').perform(agents.enemies[i]);
+debugger;
+        let enemy = new Enemy({
+          agent: mirageEnemyAgent,
+          mapService: this.mapService,
+          camera: this.camera,
+          game: this.game,
+          transportService: this,
+          gameboard: this.gameboard,
         });
+        if (mirageEnemyAgent.initialFlags) {
+          mirageEnemyAgent.initialFlags.forEach((/*flag*/) => {
+            // this.game.turnOnAgentTravelAbilityFlag(gameAgent, flag);  // TODO implement
+          });
+        }
+        agentsArray.push(enemy);
+        // this.game.agents.push(enemy);
       }
-      agentsArray.push(enemy);
-      // this.game.agents.push(enemy);
-    });
+    }
 
     return {
       player: player,
