@@ -25,7 +25,11 @@ export class Map3 extends Basemap {
 
   static AGENTS = {
     player: {
-      id: 1
+      id: 1,
+      start: {
+        Q: 6,
+        R: 0
+      }
     },
     playerPreMirage: {
       name: 'player',

@@ -16,6 +16,13 @@ export class Map2 extends Basemap {
 
   static AGENTS = {
     player: {
+      id: 1,
+      start: {
+        Q: 3,
+        R: 0
+      }
+    },
+    playerPreMirage: {
       name: 'player',
       index: 0,
       opacity: 1,
@@ -51,7 +58,8 @@ export class Map2 extends Basemap {
       ]
     },
     transports: [],
-    enemies: [
+    enemies: [ 3 ],
+    enemiesPreMirage: [
       {
           name: 'orc',
           index: 1,

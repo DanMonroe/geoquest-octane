@@ -90,7 +90,8 @@ export class Transport extends BaseAgent {
         // y: this.point.y - (this.agentImageSize / 2) - 5,
     image.onload = () => {
       this.imageObj = new Konva.Image({
-        id: "agent" + agent.index,
+        id: "agent" + agent.id,
+        // id: "agent" + agent.index,
         x: -(this.agentImageSize / 2),
         y: -(this.agentImageSize / 2) - 5,
         image: image,

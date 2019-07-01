@@ -26,7 +26,8 @@ export class Enemy extends BaseAgent {
     let startHex = this.setStartHex(agent.startHex);
 
     // let startPoint = this.mapService.currentLayout.hexToPixel(startHex);
-    this.id = agent.index;
+    this.id = agent.id;
+    // this.id = agent.index;
     this.name = agent.name;
     this.startHex = startHex;
     this.hex = startHex;
@@ -83,7 +84,8 @@ export class Enemy extends BaseAgent {
     // y: this.point.y - (this.agentImageSize / 2) - 5,
     image.onload = () => {
       this.imageObj = new Konva.Image({
-        id: "agent" + agent.index,
+        id: "agent" + agent.id,
+        // id: "agent" + agent.index,
         x: -(this.agentImageSize / 2),
         y: -(this.agentImageSize / 2) - 5,
         image: image,

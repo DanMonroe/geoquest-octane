@@ -2,6 +2,7 @@ import DS from 'ember-data';
 const { attr, Model } = DS;
 
 export default class WeaponModel extends Model {
+  @attr() id;
   @attr() name;
   @attr('number', { defaultValue: 10 }) minDistanceForHit;
   @attr() maxRange;

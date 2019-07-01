@@ -4,6 +4,7 @@ const { attr, Model } = DS;
 export default class TransportModel extends Model {
   @attr() name;
   @attr() type;
+  @attr() opacity;
   @attr() startHex;
   @attr() agentImage;
   @attr() agentImageSize;

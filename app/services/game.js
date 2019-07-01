@@ -127,6 +127,7 @@ export default class GameService extends Service {
 
     // adjust enemy opacity based on range of player and obscured hexes
   updateEnemyOpacityForRangeAndObscurity(transport, targetHex) {
+    // console.log('updateEnemyOpacityForRangeAndObscurity', transport);
     let player = this.player;
     let playerSightRange = player.sightRange;
     let currentOpacity = transport.imageGroup.opacity();

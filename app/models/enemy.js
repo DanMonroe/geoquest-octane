@@ -4,11 +4,11 @@ const { attr, Model } = DS;
 export default class EnemyModel extends Model {
   @attr() name;
   @attr() type;
+  @attr() opacity;
   @attr() hex;
   @attr() startHex;
   @attr() armor;
   @attr() respawnTime;
-  @attr() patrolMethod;
   @attr() maxPower;
   @attr() healingSpeed;
   @attr() healingPower;
@@ -18,6 +18,7 @@ export default class EnemyModel extends Model {
   @attr() speed;
   @attr() pursuitSpeed;
   @attr() aggressionSpeed;
+  @attr() patrolMethod;
   @attr() patrol;
   @attr() currentWaypoint;
   @attr() state;

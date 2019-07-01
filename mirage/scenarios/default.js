@@ -11,7 +11,7 @@ export default function(server) {
 
     players: [
       {
-        id: 1,
+        // id: 1,
         name: 'player',
         index: 0,
         opacity: 1,
@@ -20,9 +20,7 @@ export default function(server) {
           R: 0
         },
         agentImage: "agents/pirate.svg",
-        // img: "agents/pirate.svg",
         agentImageSize: 32,
-        // imgSize: 32,
         sightRange: 4,
         speed: 200,
         maxHitPoints: 25,
@@ -40,7 +38,7 @@ export default function(server) {
     ],
     weapons: [
       {
-        id: 1,
+        // id: 1,
         name: 'Bow',
         minDistanceForHit: 20,
         type: 'arrow',
@@ -52,7 +50,7 @@ export default function(server) {
         reloadDelay: 1000  // lower is faster
       },
       {
-        id: 2,
+        // id: 2,
         name: 'Ship Cannon',
         minDistanceForHit: 10,
         type: 'cannon',
@@ -65,7 +63,7 @@ export default function(server) {
         reloadDelay: 1500  // lower is faster
       },
       {
-        id: 3,
+        // id: 3,
         name: 'Galleon Cannon',
         minDistanceForHit: 10,
         type: 'cannon',
@@ -78,7 +76,7 @@ export default function(server) {
         reloadDelay: 1500  // lower is faster
       },
       {
-        id: 4,
+        // id: 4,
         name: 'Tower Bow',
         minDistanceForHit: 20,
         type: 'arrow',
@@ -93,7 +91,7 @@ export default function(server) {
 
     transports: [
       {
-        id: 1,
+        // id: 1,
         type: 2,  // BaseAgent.AGENTTYPES.TRANSPORT;
         // index: 3,
         name: 'ship',
@@ -119,14 +117,14 @@ export default function(server) {
     ],
     enemies: [
       {
-        id: 1,
+        // id: 1,
         name: 'galleon',
         index: 1,
         startHex: {
           Q: 18,
           R: -3,
         },
-        agentImage: "enemies/galleon.svg",
+        agentImage: "transports/galleon.svg",
         opacity: 0,
         agentImageSize: 32,
         sightRange: 3,
@@ -146,14 +144,14 @@ export default function(server) {
         weapons: [ 3 ]
       },
       {
-        id: 2,
+        // id: 2,
         name: 'tower',
         index: 3,
         startHex: {
           Q: 11,
           R: -5
         },
-        agentImage: "enemies/roundtower.svg",
+        agentImage: "agents/roundtower.svg",
         opacity: 0,
         agentImageSize: 32,
         sightRange: 3,
@@ -173,7 +171,7 @@ export default function(server) {
         weapons: [ 4 ]
       },
       {
-        id: 3,
+        // id: 3,
         name: 'orc',
         index: 1,
         startHex: {

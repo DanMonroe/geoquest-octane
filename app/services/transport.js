@@ -98,6 +98,9 @@ export default class TransportService extends Service {
 
     let miragePlayer = await this.api.loadPlayer.perform(agents.player.id)
 
+    // set starting hex for this map
+    miragePlayer.set('startHex', agents.player.start)
+
         // player:agents.player,
     let player = new Player(
       {
@@ -132,7 +135,7 @@ export default class TransportService extends Service {
         // agents.enemies.forEach((gameAgent) => {
 
         let mirageEnemyAgent = await this.get('api.loadEnemy').perform(agents.enemies[i]);
-debugger;
+
         let enemy = new Enemy({
           agent: mirageEnemyAgent,
           mapService: this.mapService,
