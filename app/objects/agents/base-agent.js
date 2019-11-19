@@ -1,7 +1,8 @@
 import { tracked } from '@glimmer/tracking';
 import { Point } from '../point'
 import Konva from 'konva';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 
 export class BaseAgent {
   // @tracked hexLayout = null;
@@ -80,7 +81,7 @@ export class BaseAgent {
   }
 
   canFireWeapon(powerRequirement) {
-    // console.log('canFire', this.currentPower, powerRequirement);
+    console.log('canFire', this.currentPower, powerRequirement);
     return this.currentPower >= powerRequirement;
   }
 
@@ -142,25 +143,28 @@ export class BaseAgent {
     }
   }
 
-  @task( function*(weapon) {
+  @task
+  *reloadPower(weapon) {
     while (this.currentPower < this.maxPower) {
       // console.log('reloading power', this.currentPower, weapon.reloadDelay);
       yield timeout(weapon.reloadDelay);
       this.currentPower += Math.max(1, (weapon.poweruse / 3));  // weapon.power?
       this.updatePowerBar();
     }
-  }) reloadPower;
+  };
 
-  @task( function*() {
+  @task
+  *reloadHealth() {
     while (this.currentHitPoints < this.maxHitPoints) {
 // console.log('this.healingPower', this.healingPower);
       yield timeout(this.healingSpeed);
       this.currentHitPoints += Math.max(1, this.healingPower);
       this.updateHealthBar();
     }
-  }) reloadHealth;
+  };
 
-  @task( function*(weapon, startPoint, targetPoint, whoFiredType) {
+  @task
+  *fireWeapon(weapon, startPoint, targetPoint, whoFiredType) {
 
     this.imageGroup.to({opacity: 1});
 
@@ -207,7 +211,7 @@ export class BaseAgent {
 
     return yield timeout(weapon.fireDelay);
 
-  }) fireWeapon;
+  };
 
   checkForEnemiesHitByProjectile(anim, projectile) {
     if (this.game.agents) {

@@ -3,7 +3,8 @@ import {inject as service} from '@ember/service';
 import { A as emberArray } from '@ember/array';
 import { isPresent } from '@ember/utils';
 import { tracked } from '@glimmer/tracking';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 import Konva from 'konva';
 import { Player } from '../objects/agents/player'
 import { Enemy } from '../objects/agents/enemy'
@@ -116,6 +117,7 @@ export default class TransportService extends Service {
     );
         // boardedTransport: startingShip,
     miragePlayer.initialFlags.forEach(flag => {
+      console.log('flag', flag);
       this.game.turnOnPlayerTravelAbilityFlag(flag);   // TODO set from map file
     });
         // travelAbilityFlags: this.game.FLAGS.TRAVEL.SEA,
@@ -212,7 +214,8 @@ export default class TransportService extends Service {
     });
   }
 
-  @task( function*() {
+  @task
+  *moveQueueTask() {
     // console.log('in moveQueue', this.moveQueueEnabled);
     while (this.moveQueueEnabled === true) {
       yield timeout(2000);
@@ -266,7 +269,7 @@ export default class TransportService extends Service {
 //         // console.table(consoleTableItems);
 //       }
     }
-  }) moveQueueTask;
+  };
 
   moveTransportToHex(transport, targetHex) {
     transport.hex = targetHex;
@@ -284,7 +287,8 @@ export default class TransportService extends Service {
     tween.play();
   }
 
-  @task(function*(transport, targetHex) {
+  @task
+  *moveTransportTask(transport, targetHex) {
 
     this.moveTransportToHex(transport, targetHex);
 
@@ -292,11 +296,12 @@ export default class TransportService extends Service {
 
     yield timeout(transport.speed);
 
-  }) moveTransportTask;
+  };
   // }).enqueue() moveTransportTask;
 
 
-  @task(function*(playerObj, targetHex) {
+  @task
+  *movePlayerToHexTask(playerObj, targetHex) {
 
     this.game.onBeforeMovePlayer(targetHex);
 
@@ -345,7 +350,7 @@ export default class TransportService extends Service {
     yield timeout(playerObj.speed);
 
   // }) movePlayerToHexTask;
-  }) movePlayerToHexTask;
+  };
   // }).enqueue() movePlayerToHexTask;
 
   movePlayerAlongPath(path) {

@@ -1,7 +1,8 @@
 import Service from '@ember/service';
 import {inject as service} from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 import Konva from 'konva';
 import { A as emberArray } from '@ember/array';
 import { storageFor } from 'ember-local-storage';
@@ -10,8 +11,8 @@ export default class GameService extends Service {
 
   FLAGS = {
     TRAVEL: {
-      SEA: 1,
-      LAND: 2
+      SEA: {value: 1, description: 'Travel by Sea'},
+      LAND: {value: 2, description: 'Travel by Land'}
     }
   };
 
@@ -69,7 +70,23 @@ export default class GameService extends Service {
 
   }
 
+  get describePlayerFlags() {
+    let descriptions = [];
+
+    // TODO there is a better way to do this but I'm tired. :)
+    if (this.playerHasTravelAbilityFlag(this.FLAGS.TRAVEL.LAND)) {
+      descriptions.push(this.FLAGS.TRAVEL.LAND.description)
+    }
+    if (this.playerHasTravelAbilityFlag(this.FLAGS.TRAVEL.SEA)) {
+      descriptions.push(this.FLAGS.TRAVEL.SEA.description)
+    }
+    return descriptions.join(', ');
+  }
+
   playerHasTravelAbilityFlag(flag) {
+    if(flag && flag.value) {
+      flag = flag.value;
+    }
     if(flag) {
       return this.playerTravelAbilityFlags & flag
     }
@@ -77,12 +94,18 @@ export default class GameService extends Service {
   }
 
   turnOnPlayerTravelAbilityFlag(flag) {
+    if(flag && flag.value) {
+      flag = flag.value;
+    }
     if(flag) {
       this.playerTravelAbilityFlags |= flag;
     }
   }
 
   turnOffPlayerTravelAbilityFlag(flag) {
+    if(flag && flag.value) {
+      flag = flag.value;
+    }
     if(flag) {
       this.playerTravelAbilityFlags &= ~flag;
     }
@@ -101,12 +124,13 @@ export default class GameService extends Service {
     this.player.hex = targetHex;
   }
 
-  @task( function*() {
+  @task
+  *gameClock() {
     while (this.gameClockEnabled === true) {
       yield timeout(1000);
       console.log('game tick');
     }
-  }) gameClock;
+  };
 
   onTransportMoved(transport, targetHex) {
     // console.log('onTransportMoved', transport.name);

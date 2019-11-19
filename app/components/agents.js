@@ -1,21 +1,24 @@
 import Component from '@ember/component';
 import move from 'ember-animated/motions/move';
+import {task} from 'ember-concurrency-decorators';
 
-export default Component.extend({
-  agents: null,
-  hex: null,
-  point: null,
-  agentImage: null,
-  hexLayout: null,
-  sightRange: 1,
-  speed: null,
-  patrol: null,
-  currentWaypoint: -1,
+export default class AgentsComponent extends Component {
+  agents = null;
+  hex = null;
+  point = null;
+  agentImage = null;
+  hexLayout = null;
+  sightRange = 1;
+  speed = null;
+  patrol = null;
+  currentWaypoint = -1;
 
-  transition: function * ({ keptSprites }) {
-    keptSprites.forEach(move);
-  },
+  @task
+  *transition(context) {
+    let { keptSprites } = context;
+    yield keptSprites.forEach(move);
+  }
 
+}
 
-});
 

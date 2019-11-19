@@ -1,6 +1,7 @@
 import { BaseAgent } from './base-agent';
 import Konva from 'konva';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 import { isPresent } from '@ember/utils';
 
 export class Enemy extends BaseAgent {
@@ -144,15 +145,17 @@ export class Enemy extends BaseAgent {
 
   }
 
-  @task( function*() {
+  @task
+  *engagePlayer() {
     // and player is still alive
     while(this.state === BaseAgent.STATE.MISSILE) {
       this.fireProjectile.perform();
       yield timeout(this.aggressionSpeed);
     }
-  }) engagePlayer;
+  };
 
-  @task( function*() {
+  @task
+  *chasePlayer() {
     // and player is still alive
     while(this.state === BaseAgent.STATE.MISSILE) {
       let pathDistanceToShipHex = this.game.mapService.findPath(this.mapService.worldMap, this.hex, this.game.player.hex);
@@ -169,9 +172,10 @@ export class Enemy extends BaseAgent {
       }
       yield timeout(this.pursuitSpeed);
     }
-  }) chasePlayer;
+  };
 
-  @task( function*() {
+  @task
+  *fireProjectile() {
     console.log('Enemy Fire!');
     // if (this.game.player.boardedTransport === null) {
       // not on ship
@@ -183,7 +187,8 @@ export class Enemy extends BaseAgent {
       return;
     }
 
-    let weapon = this.weapons[0];
+    // let weapon = this.weapons[0];
+    let weapon = this.weapons.firstObject;
     if (!this.canFireWeapon(weapon.poweruse)) {
       // console.log('no power!');
       return
@@ -203,7 +208,7 @@ export class Enemy extends BaseAgent {
 
       this.fireWeapon.perform(weapon, startPoint, targetPoint);
     }
-  }) fireProjectile;
+  };
 
   checkForEnemiesHitByProjectile(anim, projectile) {
     // this.transportService.agents.forEach((agent) => {
@@ -267,7 +272,8 @@ console.log('this.healthPercentage', this.healthPercentage);
     }
   }
 
-  @task( function*() {
+  @task
+  *death() {
     console.log('dead and gone.');
     if (this.fireProjectile.isRunning) {
       this.fireProjectile.cancelAll();
@@ -290,7 +296,7 @@ console.log('this.healthPercentage', this.healthPercentage);
     this.updateHealthBar();
 
     this.game.transport.pushTransportWaypointToMoveQueue(this);
-  }) death;
+  };
 
 }
 

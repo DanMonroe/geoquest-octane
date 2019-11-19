@@ -28,7 +28,7 @@
     "ember-auto-import": "^1.2.21",
     "ember-cli": "3.15.0-beta.1",
     "ember-cli-app-version": "^3.2.0",
-    "ember-cli-babel": "^7.6.0",
+    "ember-cli-babel": "^7.12.0",
     "ember-cli-dependency-checker": "^3.0.0",
     "ember-cli-eslint": "^5.0.0",
     "ember-cli-htmlbars": "^4.0.8",
@@ -39,6 +39,7 @@
     "ember-cli-template-lint": "^1.0.0-beta.1",
     "ember-cli-uglify": "^2.1.0",
     "ember-concurrency": "^1.0.0",
+    "ember-concurrency-decorators": "^1.0.0",
     "ember-data": "3.16.0-alpha.2",
     "ember-decorators": "^6.1.1",
     "ember-export-application-global": "^2.0.0",
@@ -60,6 +61,6 @@
     "node": "6.* || 8.* || >= 10.*"
   },
   "dependencies": {
-    "konva": "^3.2.4"
+    "konva": "^4.0.18"
   }
 }

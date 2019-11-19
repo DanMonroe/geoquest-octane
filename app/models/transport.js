@@ -1,5 +1,4 @@
-import DS from 'ember-data';
-const { attr, Model } = DS;
+import Model, {attr, hasMany} from '@ember-data/model';
 
 export default class TransportModel extends Model {
   @attr() name;
@@ -26,6 +25,6 @@ export default class TransportModel extends Model {
   @attr() currentHitPoints;
   @attr() currentPower;
   @attr() initialFlags;
-  @attr() weapons;
 
+  @hasMany('weapon', {async: true}) weapons;
 }

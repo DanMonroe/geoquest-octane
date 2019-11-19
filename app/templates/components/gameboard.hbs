@@ -124,13 +124,13 @@
           Path Distance: {{this.gameboard.pathDistanceToMouseHex}}
       </div>
       <div>
-        Player Health {{this.game.player.healthPercentage}}%
+        Player Health: {{this.game.player.healthPercentage}}%
       </div>
       <div>
-        Player Flags {{this.game.playerTravelAbilityFlags}}
+        Player Flags: {{this.game.describePlayerFlags}}
       </div>
       <div>
-        Ship Health {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}
+        Ship Health: {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}
       </div>
     </div>
 

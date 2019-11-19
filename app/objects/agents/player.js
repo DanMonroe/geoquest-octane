@@ -147,7 +147,8 @@ export class Player extends BaseAgent {
       return;
     }
 
-    let weapon = this.weapons[0];
+    let weapon = this.weapons.firstObject;
+    // let weapon = this.weapons[0];
     if (!this.canFireWeapon(weapon.poweruse)) {
       console.log('no power!');
       return

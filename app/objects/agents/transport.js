@@ -1,7 +1,8 @@
 import { BaseAgent } from './base-agent';
 import Konva from 'konva';
 import { Point } from '../point';
-import { task, timeout, waitForProperty } from 'ember-concurrency';
+import { timeout, waitForProperty } from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 
 
 export class Transport extends BaseAgent {
@@ -119,7 +120,8 @@ export class Transport extends BaseAgent {
       return;
     }
 
-    let weapon = this.weapons[0];
+    // let weapon = this.weapons[0];
+    let weapon = this.weapons.firstObject;
     if (!this.canFireWeapon(weapon.poweruse)) {
       console.log('no power!');
       return
@@ -185,7 +187,8 @@ export class Transport extends BaseAgent {
     }
   }
 
-  @task( function*() {
+  @task
+  *death() {
     if (this.fireWeapon.isRunning) {
       this.fireWeapon.cancelAll();
     }
@@ -198,9 +201,10 @@ export class Transport extends BaseAgent {
 
     yield timeout(this.respawnTime);   // TODO get this time from somewhere
 
-  }) death;
+  };
 
-  @task( function*() {
+  @task
+  *respawn() {
     yield waitForProperty(this, 'imageGroup.attrs.opacity', (opacity) => opacity === 0);
 
     console.log('respawning');
@@ -210,6 +214,6 @@ export class Transport extends BaseAgent {
 
     this.imageGroup.to({opacity: 1});
 
-  }) respawn;
+  };
 }
 
