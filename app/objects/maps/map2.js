@@ -7,6 +7,9 @@ import { Basemap } from './basemap';
 //     LAND: 2
 //   }
 // };
+
+// Dungeon 1
+
 export class Map2 extends Basemap {
 
   static LAYOUT = {
@@ -231,7 +234,7 @@ export class Map2 extends Basemap {
 {id: 1,col: 0,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
 ,{id: 7,col: 1,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
 ,{id: 13,col: 2,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
-,{id: 19,col: 3,row: 0, t: 109, path: {w:0, v:0, flags: 2}, actions: {b:{id:1},a:{id:2}, loadmap:1}}
+,{id: 19,col: 3,row: 0, t: 109, path: {w:0, v:0, flags: 2}, actions: {b:{id:1},a:{id:2}, loadmap:2}}
 ,{id: 25,col: 4,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
 ,{id: 31,col: 5,row: 0, t: 5, path: {w:1, v:1, flags: 0}}
 ,{id: 37,col: 6,row: 0, t: 5, path: {w:1, v:1, flags: 0}}

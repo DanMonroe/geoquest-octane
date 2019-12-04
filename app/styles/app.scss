@@ -36,6 +36,22 @@ body {
   //background-color: black;
 }
 
+#mini-container {
+  //width: 200px;
+  //height: 100px;
+  border: 1px solid #414141;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+
+#konvaContainerMiniMap {
+  position: relative;
+  //margin: 0;
+  //min-height: 440px;
+  //background-color: #000;
+}
+
 .healthWrapper {
   margin: 0 10px 10px 0;
   display: flex;

@@ -64,6 +64,46 @@ export default function() {
     return schema.enemies.find(id);
   });
 
+  this.get('/tiles', (schema/*, request*/) => {
+    console.log('getting tiles');
+    return schema.tiles.all();
+  });
+  this.get('/tiles/:id', (schema, request) => {
+    let id = request.params.id;
+
+    return schema.tiles.find(id);
+  });
+
+  this.get('/hexes', (schema/*, request*/) => {
+    console.log('getting hexes');
+    return schema.hexes.all();
+  });
+  this.get('/hexes/:id', (schema, request) => {
+    let id = request.params.id;
+
+    return schema.hexes.find(id);
+  });
+
+  this.get('/hex-rows', (schema/*, request*/) => {
+    console.log('getting hex-rows');
+    return schema.hexRows.all();
+  });
+  this.get('/hex-rows/:id', (schema, request) => {
+    let id = request.params.id;
+
+    return schema.hexRows.find(id);
+  });
+
+  this.get('/maps', (schema/*, request*/) => {
+    console.log('getting maps');
+    return schema.maps.all();
+  });
+  this.get('/maps/:id', (schema, request) => {
+    let id = request.params.id;
+
+    return schema.maps.find(id);
+  });
+
   this.get('/players/:id', (schema, request) => {
     let id = request.params.id;
 

@@ -16,6 +16,8 @@ import { Basemap } from './basemap';
 //   }
 // };
 
+// Starting world map
+
 export class Map3 extends Basemap {
 
   static LAYOUT = {
@@ -397,7 +399,7 @@ export class Map3 extends Basemap {
 ,{id: 24,col: 2,row: 3, t: 96, path: {flags: 1, w:0}}
 ,{id: 34,col: 3,row: 3, t: 96, path: {flags: 1, w:0}}
 ,{id: 44,col: 4,row: 3, t: 102, path: {flags: 2, w:1, v:1}}
-,{id: 54,col: 5,row: 3, t: 109, path: {w:0, v:0, flags: 2}, actions: {b:{id:1},a:{id:2}, loadmap:0}}
+,{id: 54,col: 5,row: 3, t: 109, path: {w:0, v:0, flags: 2}, actions: {b:{id:1},a:{id:2}, loadmap:1}}
 ,{id: 64,col: 6,row: 3, t: 106, path: {flags: 2, w:1, v:1}}
 ,{id: 74,col: 7,row: 3, t: 96, path: {flags: 1, w:0}}
 ,{id: 84,col: 8,row: 3, t: 96, path: {flags: 1, w:0}}

@@ -24,7 +24,6 @@
     "babel-eslint": "^10.0.3",
     "broccoli-asset-rev": "^3.0.0",
     "ember-animated": "^0.9.0",
-    "ember-audio": "^1.0.0-beta.1",
     "ember-auto-import": "^1.2.21",
     "ember-cli": "3.15.0-beta.1",
     "ember-cli-app-version": "^3.2.0",

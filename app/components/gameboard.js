@@ -31,11 +31,11 @@ export default class GameboardComponent extends Component {
   @tracked selectedMap = 0;
 
 
-  mapOptions = [
-    {name: "Small", value: 0},
-    {name: "Island", value: 1},
-    {name: "Patrolling Pirate", value: 2}
-  ];
+  // mapOptions = [
+  //   {name: "Small", value: 0},
+  //   {name: "Island", value: 1},
+  //   {name: "Patrolling Pirate", value: 2}
+  // ];
 
   constructor() {
     super(...arguments);
@@ -48,15 +48,11 @@ export default class GameboardComponent extends Component {
     this.game.gameClockEnabled = config.game.gameClockEnabled;
     this.transport.moveQueueEnabled = config.game.transport.moveQueueEnabled;
 
-    this.model = arguments[1];
-    // this.loadMap(1);
-// debugger;
-    this.mapService.mapData = this.model.model.data;
-    // this.mapService.mapData = this.model.mapdata;
+    console.log('model', this.args.model);
+    console.log('config.game', config.game);
+    this.mapService.mapData = this.args.model.data;
 
     this.mapService.loadSeenHexesFromStorage();
-    // this.mapService.loadMap(config.game.startingMapIndex);
-    // this.mapService.loadMap(0);  //  put this in environment.vars
   }
 
   // loadMap(mapIndex) {
@@ -75,7 +71,7 @@ export default class GameboardComponent extends Component {
   }
 
   @action
-  setupGame(konvaContainer) {
+  setupGame(/*konvaContainer*/) {
 
     this.mapService.loadMap(config.game.startingMapIndex);
 

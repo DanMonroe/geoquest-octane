@@ -87,6 +87,11 @@ export default class GameboardService extends Service {
     stage.add(fieldOfViewLayer);
     stage.add(agentsLayer);
 
+    // stage.scale({
+    //   x: .1,
+    //   y: .1
+    // });
+
     this.camera.stage = stage;
     this.camera.viewportWidth = stage.width();
     this.camera.viewportHeight = stage.height();

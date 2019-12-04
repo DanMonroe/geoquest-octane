@@ -3,8 +3,21 @@ import { Basemap } from './basemap';
 export class Map1 extends Basemap {
 
   static LAYOUT = {
-    "type": "pointy",
+    "type": "flat",
     "hexSize": 24
+  };
+
+  static AGENTS = {
+    player: {
+      id: 1,
+      start: {
+        Q: 1,
+        R: 1
+      }
+    },
+
+    transports: [],
+    enemies: []
   };
 
   static TILEIMAGES = [
@@ -14,20 +27,20 @@ export class Map1 extends Basemap {
 
   static MAP = [
     [
-      {id: 1, col: 0, row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
-      {id: 5, col: 1, row: 0, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} }
+      {id: 1, col: 0, row: 0, t: 1, path: {w:1, v:0, flags: 0 }},
+      {id: 5, col: 1, row: 0, t: 1, path: {w:1, v:0, flags: 0 }}
     ],
     [
-      {id: 2, col: 0, row: 1, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
-      {id: 6, col: 1, row: 1, t: 1, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} }
+      {id: 2, col: 0, row: 1, t: 1, path: {w:1, v:0, flags: 0 }},
+      {id: 6, col: 1, row: 1, t: 1, path: {w:1, v:0, flags: 0 }}
     ],
     [
-      {id: 3, col: 0, row: 2, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} },
-      {id: 7, col: 1, row: 2, t: 1, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} }
+      {id: 3, col: 0, row: 2, t: 1, path: {w:1, v:0, flags: 0 }},
+      {id: 7, col: 1, row: 2, t: 1, path: {w:1, v:0, flags: 0 }}
     ],
     [
-      {id: 4, col: 0, row: 3, t: 0, path: {f:0, g:0, h:0, w:1, visited:false, closed:false, parent:null} },
-      {id: 8, col: 1, row: 3, t: 0, path: {f:0, g:0, h:0, w:0, visited:false, closed:false, parent:null} }
+      {id: 4, col: 0, row: 3, t: 1, path: {w:1, v:0, flags: 0 }},
+      {id: 8, col: 1, row: 3, t: 1, path: {w:1, v:0, flags: 0 }}
     ]
   ];
 }
