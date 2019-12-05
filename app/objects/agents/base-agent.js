@@ -230,7 +230,7 @@ export class BaseAgent {
 
         // let distance = Math.sqrt(Math.pow((agent.point.x - projectile.attrs.x), 2) + Math.pow((agent.point.y - projectile.attrs.y), 2));
 
-        console.log(`agent ${agent.name} to projectile distance:`, distance, agent);
+        // console.log(`agent ${agent.name} to projectile distance:`, distance, agent);
 
         // if (distance < 10) {
         if (distance < projectile.attrs.minDistanceForHit) {

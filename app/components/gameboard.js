@@ -20,6 +20,7 @@ export default class GameboardComponent extends Component {
   @tracked showTileGraphics = true;
   @tracked showTileHexInfo = true;
   @tracked showDebugLayer = true;
+  @tracked pathFindingDebug = true;
   @tracked showFieldOfViewLayer = true;
 
   @tracked map = null;
@@ -43,13 +44,14 @@ export default class GameboardComponent extends Component {
     this.game.showTileGraphics = config.game.board.showTileGraphics;
     this.game.showTileHexInfo = config.game.board.showTileHexInfo;
     this.game.showDebugLayer = config.game.board.showDebugLayer;
+    this.game.pathFindingDebug = config.game.board.pathFindingDebug;
     this.game.showFieldOfViewLayer = config.game.board.showFieldOfViewLayer;
     this.sound.soundEnabled = config.game.enableGameSounds;
     this.game.gameClockEnabled = config.game.gameClockEnabled;
     this.transport.moveQueueEnabled = config.game.transport.moveQueueEnabled;
 
-    console.log('model', this.args.model);
-    console.log('config.game', config.game);
+    // console.log('model', this.args.model);
+    // console.log('config.game', config.game);
     this.mapService.mapData = this.args.model.data;
 
     this.mapService.loadSeenHexesFromStorage();
@@ -72,37 +74,18 @@ export default class GameboardComponent extends Component {
 
   @action
   setupGame(/*konvaContainer*/) {
+    console.group('setupGame');
 
-    this.mapService.loadMap(config.game.startingMapIndex);
+    console.group('loadEmberDataMap');
+    this.mapService.loadEmberDataMap(config.game.startingMapIndex);
+    console.groupEnd();
 
-    // // Map setup
-    // this.gameboard.setupQRSFromMap(this.mapService.map.MAP);
-    // this.mapService.initMap({map: this.mapService.map.MAP});
-    // this.camera.initCamera();
-    //
-    // this.gameboard.setupGameboardCanvases(this.showDebugLayer, this.showFieldOfViewLayer);
-    // // this.gameboard.setupGameboardCanvases(konvaContainer, this.mapService.map, this.showDebugLayer, this.showFieldOfViewLayer);
-    // this.mapService.setHexmapSubset();
+    // console.group('loadMap');
+    // // TODO --> From pre-ember data maps: this.mapService.loadMap(config.game.startingMapIndex);
+    // this.mapService.loadMap(config.game.startingMapIndex);
+    // console.groupEnd();
+    console.groupEnd();
 
-    // let agentsObj = this.transport.setupAgents(this.mapService.mapData[this.mapService.mapIndex].map.AGENTS);
-    //
-    // this.player = agentsObj.player;
-    // this.agents = agentsObj.agents;
-    // this.transports = agentsObj.transports;
-    //
-    // this.transport.setupPatrols();
-    //
-    // this.gameboard.drawGrid({
-    //   hexes: this.mapService.hexMap,
-    //   withLabels: this.showTileHexInfo,
-    //   withTiles: this.showTileGraphics
-    // });
-    //
-    // this.fov.updatePlayerFieldOfView(this.game.player.hex)
-    //
-    // this.transport.moveQueueTask.perform();
-
-    // TODO put these back in:
     this.game.gameClock.perform();
   }
 
@@ -157,6 +140,11 @@ export default class GameboardComponent extends Component {
     layer.visible(this.game.showTileHexInfo);
     layer.draw();
     // this.camera.stage.draw();
+  }
+
+  @action
+  togglePathFindingDebug() {
+    this.game.pathFindingDebug = !this.game.pathFindingDebug;
   }
 
   @action

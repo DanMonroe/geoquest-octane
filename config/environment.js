@@ -49,7 +49,8 @@ module.exports = function(environment) {
         showTileGraphics: true,
         showTileHexInfo: false,
         showDebugLayer: false,
-        showFieldOfViewLayer: false
+        showFieldOfViewLayer: false,
+        pathFindingDebug: false
       }
     }
   // {Q:-1, R:-1, S:0}, {Q:-2, R:-2, S:0}, {Q:2, R:-1, S:-1}, {Q:4, R:-4, S:0}, {Q:2, R:-5, S:3}
@@ -72,8 +73,9 @@ module.exports = function(environment) {
     ENV.game.transport.moveQueueEnabled = false;
     ENV.game.board.showTileGraphics = true;
     ENV.game.board.showTileHexInfo = true;
-    ENV.game.board.showDebugLayer = false;
-    ENV.game.board.showFieldOfViewLayer = false;
+    ENV.game.board.showDebugLayer = true;
+    ENV.game.board.showFieldOfViewLayer = true;
+    ENV.game.board.pathFindingDebug = true;
 
   }
 

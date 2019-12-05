@@ -37,6 +37,7 @@ export default class GameboardService extends Service {
   @tracked enemyHex = `Q:  R:`;
 
 
+  // TODO DEPRECATED after ember data maps
   setupQRSFromMap(map) {
 
     let rows = map.length;
@@ -61,6 +62,7 @@ export default class GameboardService extends Service {
   setupGameboardCanvases() {
   // setupGameboardCanvases(showDebugLayer, showFieldOfViewLayer) {
   // setupGameboardCanvases(konvaContainer, map, showDebugLayer, showFieldOfViewLayer) {
+console.log('setupGameboardCanvases');
 
     let stage = new Konva.Stage({
       width: window.innerWidth,
@@ -196,7 +198,7 @@ export default class GameboardService extends Service {
 
 
   drawGrid(args) {
-    let { hexes, withLabels, withTiles } = args;
+    let { hexes, withLabels, withTiles, useEmberDataTiles } = args;
 
     let layers = this.camera.stage.getLayers();
     let gameLayer = layers[this.camera.LAYERS.GAME];
@@ -207,7 +209,7 @@ export default class GameboardService extends Service {
     hexes.forEach((hex) => {
       this.drawHex(hexLayer, hex);
       this.drawHexLabel(hexLayer, hex);
-      this.drawHexTile(gameLayer, hex, thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id));
+      this.drawHexTile(gameLayer, hex, thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id), useEmberDataTiles);
     });
 
     hexLayer.visible(withLabels);
@@ -230,16 +232,16 @@ export default class GameboardService extends Service {
       strokeWidth: 1,
       closed: true
     };
+
     // if (!hex.visual || !hex.visual.canSee) {
     //   polyConfig.fill = 'black';
-    //   polyConfig.opacity = 0.5; // change to 1 for prod
+    //   polyConfig.opacity = 0.5; // TODO change to 1 for prod
     // }
+
     let poly = new Konva.Line(polyConfig);
     poly.id(hex.id);
     layer.add(poly);
 
-    // console.log(corners);
-    // layer.draw();
   }
 
   drawHexLabel(layer, hex) {
@@ -294,32 +296,52 @@ export default class GameboardService extends Service {
     // TODO put map t (tile) back in when we add map to the hex
   }
 
-  drawHexTile(layer, hex, previouslySeenThisHex) {
+  drawHexTile(layer, hex, previouslySeenThisHex, useEmberDataTiles) {
+
     let point = this.mapService.currentLayout.hexToPixel(hex);
     let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
     let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
-// console.log('drawHexTile point', point);
-    let tileGraphics = [];
-    if (typeof hex.map.t === 'number') {
-      tileGraphics.push(this.mapService.getTileGraphic(hex.map.t));
-    } else if(Array.isArray(hex.map.t)) {
-      hex.map.t.forEach((tileIndex) => {
-        tileGraphics.push(this.mapService.getTileGraphic(tileIndex));
+
+    let tileGraphics = []
+
+    if (useEmberDataTiles) {
+      hex.mapObject.get('tiles').forEach((tile) => {
+        let tileGraphic = this.mapService.getTileGraphicByAltProperty(tile.name);
+        if (tileGraphic) {
+          tileGraphics.push(tileGraphic);
+        }
       });
+    } else {
+
+      if (typeof hex.map.t === 'number') {
+        tileGraphics.push(this.mapService.getTileGraphic(hex.map.t));
+      } else if(Array.isArray(hex.map.t)) {
+        hex.map.t.forEach((tileIndex) => {
+          tileGraphics.push(this.mapService.getTileGraphic(tileIndex));
+        });
+      }
     }
+
     tileGraphics.forEach((tile) => {
       let tileImage = new Konva.Image({
         x: x,
         y: y,
         image: tile,
+        // opacity: 1,
         opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
         width: (this.mapService.currentLayout.size.x*2)+1,
         height: (this.mapService.currentLayout.size.y*2)+1
       });
-        // opacity: 1,
+        // listening: false
+      tileImage.strokeHitEnabled(false);
+
+      // console.log('Konva image', tileImage);
+
       tileImage.id(hex.id);
+
       layer.add(tileImage);
-    })
+    });
+
   }
 
   clearDebugLayer() {
@@ -381,7 +403,8 @@ export default class GameboardService extends Service {
 
         // If point falls inside a hex that is blocks, then stop loop.
         // each hex after that is blocked
-        if (segmentHex.map.path.v === 1) {
+        if( segmentHex.mapObject.sightFlags && (this.game.playerHasAbilityFlag(this.game.FLAG_TYPE_VISIBILITY, segmentHex.mapObject.sightFlags) === 0)) {
+        // if (segmentHex.map.path.v === 1) {
           sightBlocked = true;
           blockedLoopStart = i;
           break;
@@ -536,8 +559,8 @@ export default class GameboardService extends Service {
       // console.log('shipHex' ,sourceHex);
       // let shipHex = this.transport.transportHexes[Player.transportHexIndex];
 
-      let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, sourceHex, targetHex, {debug:false});
-      // let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, shipHex, targetHex, {debug:false});
+      let pathDistanceToMouseHex = this.mapService.findPathEmberData(this.mapService.worldMap, sourceHex, targetHex, {debug:this.game.pathFindingDebug});
+      // let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.worldMap, sourceHex, targetHex, {debug:false});
 
       this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
 
@@ -579,7 +602,8 @@ export default class GameboardService extends Service {
             this.transformToLandOrSea(this.transport.TRANSPORTMODES.SEA, targetHex);
 
           } else {
-            let path = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex, {debug:false});
+            let path = this.mapService.findPathEmberData(this.mapService.worldMap, this.game.player.hex, targetHex, {debug:false});
+            // let path = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex, {debug:false});
             this.transport.movePlayerAlongPath(path);
           }
         }

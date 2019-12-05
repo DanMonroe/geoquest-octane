@@ -1,6 +1,8 @@
 <div class="hexwrapper">
   <div id="scroll-container">
-    <div id="large-container">
+    <div id="large-container"
+      {{did-insert (action this.setup)}}
+    >
       {{!#if this.mapService.tilesLoaded}}
       <figure id="konvaContainer" />
       {{!/if}}

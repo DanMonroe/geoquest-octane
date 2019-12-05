@@ -1,5 +1,3 @@
-{{log this.weapons}}
-
 <!--https://www.redblobgames.com/grids/hexagons/implementation.html-->
 <div class="header">
   <h2>GeoQuest - Octane</h2>
@@ -22,7 +20,7 @@
   {{will-destroy (action this.teardownGameboardCanvases)}}
 >
   <section>
-    <LargeMap />
+    <LargeMap @map={{@model.mirageMap}} />
   </section>
   <section>
     <MiniMap @map={{@model.mirageMap}} />
@@ -87,6 +85,9 @@
       </div>
       <div>
         <button {{action "toggleHexInfo"}}>Show Hex Info: {{this.game.showTileHexInfo}}</button>
+      </div>
+      <div>
+        <button {{action "togglePathFindingDebug"}}>Path Finding Debug: {{this.game.pathFindingDebug}}</button>
       </div>
       <div>
         <button {{action "toggleDebugLayer"}}>Debug Layer enabled: {{this.game.showDebugLayer}}</button>

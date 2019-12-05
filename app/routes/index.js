@@ -265,7 +265,7 @@ export default class IndexRoute extends Route {
       tiles: this.store.findAll('tile'),
       hexes: this.store.findAll('hex',{include:'tiles'}),
       hexRows: this.store.findAll('hex-row',{include:'hexes'}),
-      mirageMap: this.store.findRecord('map', 1, {include:'hexRows'}),
+      // mirageMap: this.store.findRecord('map', 1, {include:'hexRows'}),
     });
     // const player = await this.store.findRecord('player', 1);
     // const weapons = await this.store.findAll('weapon');

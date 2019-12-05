@@ -67,9 +67,6 @@ export class Graph {
     this.grid = tempGrid;
 
     this.cleanNodes();
-    // for (var i = 0; i < this.nodes.length; i++) {
-    //   this.cleanNode(this.nodes[i]);
-    // }
   }
 
   cleanNodes() {
@@ -150,13 +147,23 @@ export class Graph {
   }
 
   cleanNode(node) {
-    node.path = node.path || {}
-    node.path.f = node.path.f || 0;
-    node.path.g = node.path.g || 0;
-    node.path.h = node.path.h || 0;
-    node.path.visited = false;
-    node.path.closed = false;
-    node.path.parent = null;
+    // node.path = node.path || {}
+    // node.path.f = node.path.f || 0;
+    // node.path.g = node.path.g || 0;
+    // node.path.h = node.path.h || 0;
+    // node.path.visited = false;
+    // node.path.closed = false;
+    // node.path.parent = null;
+
+    node.pathFullScore =  0;
+    node.pathScore = 0;
+    node.heuristicDistance = 0;
+    // node.pathFullScore = node.pathFullScore || 0;
+    // node.pathScore = node.pathScore || 0;
+    // node.heuristicDistance = node.heuristicDistance || 0;
+    node.pathVisited = false;
+    node.pathClosed = false;
+    node.pathParent = null;
 
     // node.fovX = null;
     // node.fovY = null;

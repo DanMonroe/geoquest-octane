@@ -16,6 +16,8 @@ export default class GameService extends Service {
     }
   };
 
+  FLAG_TYPE_TRAVEL = 0;
+  FLAG_TYPE_VISIBILITY = 1;
 
   @service ('map') mapService;
   @service ('camera') camera;
@@ -40,6 +42,7 @@ export default class GameService extends Service {
   @tracked gameClockEnabled = true;
   @tracked showTileGraphics = true;
   @tracked showTileHexInfo = true;
+  @tracked pathFindingDebug = true;
   @tracked showDebugLayer = true;
   @tracked showFieldOfViewLayer = true;
 
@@ -111,6 +114,61 @@ export default class GameService extends Service {
     }
   }
 
+  playerHasAbilityFlag(type, flag) {
+    if(flag && flag.value) {
+      flag = flag.value;
+    }
+    if(flag) {
+      switch (type) {
+        case this.FLAG_TYPE_TRAVEL:
+          return this.playerTravelAbilityFlags & flag
+        case this.FLAG_TYPE_VISIBILITY:
+          return this.playerVisibilityAbilityFlags & flag
+        default:
+          return this.playerTravelAbilityFlags & flag
+      }
+    }
+    return false;
+  }
+
+  turnOnPlayerAbilityFlag(type, flag) {
+    if(flag && flag.value) {
+      flag = flag.value;
+    }
+    if(flag) {
+      switch (type) {
+        case this.FLAG_TYPE_TRAVEL:
+          this.playerTravelAbilityFlags |= flag;
+          break;
+        case this.FLAG_TYPE_VISIBILITY:
+          this.playerVisibilityAbilityFlags |= flag;
+          break;
+        default:
+          this.playerTravelAbilityFlags |= flag;
+          break;
+      }
+    }
+  }
+
+  turnOffPlayerAbilityFlag(type, flag) {
+    if(flag && flag.value) {
+      flag = flag.value;
+    }
+    if(flag) {
+      switch (type) {
+        case this.FLAG_TYPE_TRAVEL:
+          this.playerTravelAbilityFlags &= ~flag;
+          break;
+        case this.FLAG_TYPE_VISIBILITY:
+          this.playerVisibilityAbilityFlags &= ~flag;
+          break;
+        default:
+          this.playerTravelAbilityFlags &= ~flag;
+          break;
+      }
+    }
+  }
+
   boardTransport(transportName) {
     this.turnOffPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.LAND);
     this.turnOnPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.SEA);
@@ -130,7 +188,7 @@ export default class GameService extends Service {
       yield timeout(1000);
       console.log('game tick');
     }
-  };
+  }
 
   onTransportMoved(transport, targetHex) {
     // console.log('onTransportMoved', transport.name);

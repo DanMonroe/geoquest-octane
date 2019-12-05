@@ -114,16 +114,16 @@ export class Player extends BaseAgent {
       agentsLayer.draw();
     };
     imageObj.src = this.agentImage;
-    console.log('player img src:', imageObj.src);
+    // console.log('player img src:', imageObj.src);
   }
 
   updateHealthBar() {
-    console.log('player updateHealthBar');
+    // console.log('player updateHealthBar');
     let bar = this.imageGroup.getChildren((node) =>{
       return node.attrs && node.attrs.id === 'hp';
     });
     if (bar) {
-      console.log('player updateHealthBar this.healthPercentage', this.healthPercentage);
+      // console.log('player updateHealthBar this.healthPercentage', this.healthPercentage);
       bar.width( 30 * (this.healthPercentage/100) );
       bar.fill(this.healthPercentage < 25 ? 'red' : 'green')
       this.game.camera.getAgentsLayer().draw();
@@ -140,7 +140,7 @@ export class Player extends BaseAgent {
   }
 
   fire(mousecoords) {
-    console.log('Player Fire!');
+    // console.log('Player Fire!');
 
     if (!this.weapons || this.weapons.length === 0) {
       console.log('no weapons');

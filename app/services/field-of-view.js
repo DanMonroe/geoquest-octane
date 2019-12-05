@@ -13,7 +13,7 @@ export default class FieldOfViewService extends Service {
   @tracked lastNeighborsInRangeArray = {};
 
   updatePlayerFieldOfView() {
-    console.log('updatePlayerFieldOfView');
+    // console.log('updatePlayerFieldOfView');
     let player = this.game.player;
 
     // recursive
@@ -119,7 +119,7 @@ export default class FieldOfViewService extends Service {
 
   // hexesToCheck visible or noLongerVisible
   setStaticEnemyOpacity(transportAgent, hexesToCheck, isVisible) {
-    console.log('setStaticEnemyOpacity', transportAgent.id, transportAgent);
+    // console.log('setStaticEnemyOpacity', transportAgent.id, transportAgent);
     if (transportAgent.hex && hexesToCheck.includes(transportAgent.hex)) {
 
       let agentsLayer = this.camera.getAgentsLayer()

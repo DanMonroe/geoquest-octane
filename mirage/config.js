@@ -30,12 +30,12 @@ export default function() {
   // this.passthrough('/sounds/*');
   // this.passthrough();
   this.get('/sounds', (schema, request) => {
-    console.log('mirage sound get', request);
+    // console.log('mirage sound get', request);
     return null;
   });
 
   this.get('/weapons', (schema/*, request*/) => {
-    console.log('getting weapons');
+    // console.log('getting weapons');
     return schema.weapons.all();
   });
   this.get('/weapons/:id', (schema, request) => {
@@ -45,7 +45,7 @@ export default function() {
   });
 
   this.get('/transports', (schema/*, request*/) => {
-    console.log('getting transports');
+    // console.log('getting transports');
     return schema.transports.all();
   });
   this.get('/transports/:id', (schema, request) => {
@@ -55,7 +55,7 @@ export default function() {
   });
 
   this.get('/enemies', (schema/*, request*/) => {
-    console.log('getting enemies');
+    // console.log('getting enemies');
     return schema.enemies.all();
   });
   this.get('/enemies/:id', (schema, request) => {
@@ -65,7 +65,7 @@ export default function() {
   });
 
   this.get('/tiles', (schema/*, request*/) => {
-    console.log('getting tiles');
+    // console.log('getting tiles');
     return schema.tiles.all();
   });
   this.get('/tiles/:id', (schema, request) => {
@@ -75,7 +75,7 @@ export default function() {
   });
 
   this.get('/hexes', (schema/*, request*/) => {
-    console.log('getting hexes');
+    // console.log('getting hexes');
     return schema.hexes.all();
   });
   this.get('/hexes/:id', (schema, request) => {
@@ -85,7 +85,7 @@ export default function() {
   });
 
   this.get('/hex-rows', (schema/*, request*/) => {
-    console.log('getting hex-rows');
+    // console.log('getting hex-rows');
     return schema.hexRows.all();
   });
   this.get('/hex-rows/:id', (schema, request) => {
@@ -95,7 +95,7 @@ export default function() {
   });
 
   this.get('/maps', (schema/*, request*/) => {
-    console.log('getting maps');
+    // console.log('getting maps');
     return schema.maps.all();
   });
   this.get('/maps/:id', (schema, request) => {

@@ -103,7 +103,7 @@ export class Enemy extends BaseAgent {
   }
 
   playerInRange() {
-    console.log(`Player in Range for ${this.name}`);
+    // console.log(`Player in Range for ${this.name}`);
 
     this.state = BaseAgent.STATE.MISSILE;
 
@@ -127,7 +127,7 @@ export class Enemy extends BaseAgent {
   }
 
   playerOutOfRange() {
-    console.log(`Player out of Range for ${this.name}`);
+    // console.log(`Player out of Range for ${this.name}`);
 
     // cancel any patrolling for this enemy
     // this.transportService.removeAgentFromMoveQueue(this);
@@ -158,7 +158,8 @@ export class Enemy extends BaseAgent {
   *chasePlayer() {
     // and player is still alive
     while(this.state === BaseAgent.STATE.MISSILE) {
-      let pathDistanceToShipHex = this.game.mapService.findPath(this.mapService.worldMap, this.hex, this.game.player.hex);
+      let pathDistanceToShipHex = this.game.mapService.findPathEmberData(this.mapService.worldMap, this.hex, this.game.player.hex);
+      // let pathDistanceToShipHex = this.game.mapService.findPath(this.mapService.worldMap, this.hex, this.game.player.hex);
 
       if (isPresent(pathDistanceToShipHex)) {
         // TODO if pathDistanceToShipHex === 0, switch to MELEE ?
@@ -255,7 +256,7 @@ export class Enemy extends BaseAgent {
       bar.width( 30 * (this.healthPercentage/100) );
       bar.fill(this.healthPercentage < 25 ? 'red' : 'green')
       this.game.camera.getAgentsLayer().draw();
-console.log('this.healthPercentage', this.healthPercentage);
+// console.log('this.healthPercentage', this.healthPercentage);
       if (this.healthPercentage <= 0) {
         console.log(`${this.name} dead!`);
         // debugger;

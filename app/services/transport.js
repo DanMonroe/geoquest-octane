@@ -117,7 +117,7 @@ export default class TransportService extends Service {
     );
         // boardedTransport: startingShip,
     miragePlayer.initialFlags.forEach(flag => {
-      console.log('flag', flag);
+      // console.log('flag', flag);
       this.game.turnOnPlayerTravelAbilityFlag(flag);   // TODO set from map file
     });
         // travelAbilityFlags: this.game.FLAGS.TRAVEL.SEA,
@@ -168,7 +168,7 @@ export default class TransportService extends Service {
     this.moveQueue = emberArray();
     this.game.agents.forEach((agent) => {
       if (isPresent(agent.patrol) > 0) {
-        // console.log(`setting up patrol for ${transport.name}`);
+        console.log(`setting up patrol for ${agent.name}`);
 
         this.pushTransportWaypointToMoveQueue(agent)
       }
@@ -195,7 +195,8 @@ export default class TransportService extends Service {
 
     let targetHex = this.game.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
 
-    let path = this.game.mapService.findPath(this.game.mapService.worldMap, agent.hex, targetHex);
+    let path = this.game.mapService.findPathEmberData(this.game.mapService.worldMap, agent.hex, targetHex);
+    // let path = this.game.mapService.findPath(this.game.mapService.worldMap, agent.hex, targetHex);
     let moveObject = {
       agent: agent,
       path: path,

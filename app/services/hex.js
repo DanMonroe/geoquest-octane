@@ -48,7 +48,7 @@ export default class HexService extends Service {
     let rows = map.length;
     let cols = map[0].length;
 
-    // The first object in the map arry will be the start
+    // The first object in the map array will be the start
     // get the q,r,s from the map object
     // q,r,s MUST be previously set. (in gameboard.setupQRSFromMap)
 
@@ -65,21 +65,9 @@ export default class HexService extends Service {
           r: mapObject.r,
           s: mapObject.s,
           map: mapObject,
-          props: mapObject.props || {}
+          props: mapObject.props || {},
+          mapObject: mapObject
         });
-        // if (mapObject.id === 26) {
-        //   debugger
-        // }
-        // hexes.push(new Hex({
-        //   id: mapObject.id,
-        //   col: mapObject.col,
-        //   row: mapObject.row,
-        //   q: mapObject.q,
-        //   r: mapObject.r,
-        //   s: mapObject.s,
-        //   map: mapObject
-        // }));
-        // console.log(mapObject.id);
       }
     }
     // console.log(hexes);

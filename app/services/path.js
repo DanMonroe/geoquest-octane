@@ -63,7 +63,8 @@ export default class PathService extends Service {
 
   heap() {
     return new BinaryHeap(function(node) {
-      return node.path.f;
+      return node.pathFullScore;
+      // return node.path.f;
     });
   }
 
@@ -85,10 +86,14 @@ export default class PathService extends Service {
   // builds the resulting path
   to(node) {
     let ret = [];
-    while(node.path.parent) {
+    while(node.pathParent) {
       ret.push(node);
-      node = node.path.parent;
+      node = node.pathParent;
     }
+    // while(node.path.parent) {
+    //   ret.push(node);
+    //   node = node.path.parent;
+    // }
     return ret.reverse();
   }
 
