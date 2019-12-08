@@ -63,12 +63,13 @@ export default class GameboardService extends Service {
     const stage = new Konva.Stage({
       container: 'konvaContainerMiniMap',
       width: 200,
-      height: 100
+      height: 100,
+
     });
 
     stage.scale({
-      x: .5,
-      y: .5
+      x: .3,
+      y: .3
     });
     const miniMapLayer = new Konva.Layer({draggable: false});
 
@@ -232,7 +233,7 @@ console.log('setupGameboardCanvases');
       this.drawHex(hexLayer, hex);
       this.drawHexLabel(hexLayer, hex);
       this.drawHexTile(gameLayer, hex, thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id), useEmberDataTiles, false);
-      // this.drawMiniMapHexTile(miniMapLayer, gameLayer, hex, thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id), useEmberDataTiles, true);
+      this.drawMiniMapHexTile(miniMapLayer, gameLayer, hex, thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id), useEmberDataTiles, true);
     });
 
     hexLayer.visible(withLabels);
@@ -302,161 +303,53 @@ console.log('setupGameboardCanvases');
   }
 
   drawMiniMapHexTile(minimapLayer, gameLayer, hex, previouslySeenThisHex, useEmberDataTiles, isMiniMap) {
-    // console.group('draw mini map');
+    let point = this.mapService.currentLayout.hexToPixel(hex);
+    let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
+    let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
 
-    // if (hex.id === '20') {   // do once
-    //   let point = this.mapService.currentLayout.hexToPixel(hex);
-    //   let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
-    //   let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
+    let tileGraphics = [];
 
-    // console.log('x', x,'y', y,'point', point);
+    hex.mapObject.get('tiles').forEach((tile) => {
+      let tileGraphic = this.mapService.getTileGraphicByAltProperty(tile.name);
+      if (tileGraphic) {
+        tileGraphics.push(tileGraphic);
+      }
+    });
 
-      // let tileGraphics = [];
-
-      // hex.mapObject.get('tiles').forEach((tile) => {
-      //   let tileGraphic = this.mapService.getTileGraphicByAltProperty(tile.name);
-      //   if (tileGraphic) {
-      //     tileGraphics.push(tileGraphic);
-      //   }
-      // });
-      // console.log('mini tileGraphics', tileGraphics);
-
-      // tileGraphics.forEach((tile) => {
-        let gameTileImage = gameLayer.find(`#${hex.id}`);
-        // console.log('gameTileImage', gameTileImage[0]);
-
-        // let tileImage = new Konva.Image({
-        //       x: 100,
-        //       y: 50,
-        //       image: tile,
-        //       opacity: 1,
-        //       width: 36,
-        //       height: 36
-        //   // x: x,
-        //   // y: y,
-        //   // image: tile,
-        //   // opacity: 1,
-        //   // // opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
-        //   // width: (this.mapService.currentLayout.size.x*2)+1,
-        //   // height: (this.mapService.currentLayout.size.y*2)+1
+    // TODO  Why do we need to load another image first?
+    if (hex.id === "1") {
+      Konva.Image.fromURL('/images/cacheicon.png', function (cacheNode) {
+        // cacheNode.setAttrs({
+        //   x: x,
+        //   y: y
         // });
-        // // listening: false
-        // tileImage.strokeHitEnabled(false);
+        minimapLayer.batchDraw();
+      });
+    }
 
-        // console.log('Konva image', tileImage);
-        // console.log('Konva image', tileImage);
-
-        // tileImage.id(hex.id);
-
-        minimapLayer.add(gameTileImage[0]);
-        // minimapLayer.add(tileImage);
-        // minimapLayer.draw();
-      // });
-
-      // let tileGraphic = new Image(36, 36);
-      // tileGraphic.src = `/images/hex/ZeshioHexKitDemo_096.png`;
-      // tileGraphic.onload = () => {
-      //   let tileImage = new Konva.Image({
-      //     x: 100,
-      //     y: 50,
-      //     image: tileGraphic,
-      //     opacity: 1,
-      //     width: 36,
-      //     height: 36
-      //   });
-      //   // listening: false
-      //   tileImage.strokeHitEnabled(false);
-      //
-      //   console.log('Konva image', tileImage);
-      //
-      //   // tileImage.id(`mini_${hex.id}`);
-      //
-      //   console.log('tileImage', tileImage);
-      //   minimapLayer.add(tileImage);
-      //   minimapLayer.draw();
-      // }
-
-
-      // let tileImage = new Konva.Image({
-        //   x: 100,
-        //   y: 50,
-        //   image: '/images/hex/ZeshioHexKitDemo_096.png',
-        //   opacity: 1,
-        //   width: 50,
-        //   height: 50
-        // });
-        // // listening: false
-        // tileImage.strokeHitEnabled(false);
-        //
-        // console.log('Konva image', tileImage);
-        //
-        // // tileImage.id(`mini_${hex.id}`);
-        //
-        // console.log('tileImage', tileImage);
-        // minimapLayer.add(tileImage);
-
-      // var circle = new Konva.Circle({
-      //   x: 0,
-      //   y: 0,
-      //   radius: 30,
-      //   fill: 'red',
-      //   stroke: 'black',
-      //   strokeWidth: 4
-      // });
-
-      // add the shape to the layer
-      // minimapLayer.add(circle);
-
-    // }
-      // let point = this.mapService.currentLayout.hexToPixel(hex);
-      // let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
-      // let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
-      // console.log('hex', hex, 'point', point, 'x', x, 'y', y);
-      //
-      // let tileGraphics = [];
-      //
-      // hex.mapObject.get('tiles').forEach((tile) => {
-      //   let tileGraphic = this.mapService.getTileGraphicByAltProperty(tile.name);
-      //   if (tileGraphic) {
-      //     tileGraphics.push(tileGraphic);
-      //   }
-      // });
-      //
-      // tileGraphics.forEach((tile) => {
-      //   console.log('tile', tile);
-      //   let tileImage = new Konva.Image({
-      //     x: 100,
-      //     y: 50,
-      //     image: tile,
-      //     opacity: 1,
-      //     // opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
-      //     // width: (this.mapService.currentLayout.size.x*2)+1,
-      //     // height: (this.mapService.currentLayout.size.y*2)+1
-      //   });
-      //   // listening: false
-      //   tileImage.strokeHitEnabled(false);
-      //
-      //   // console.log('Konva image', tileImage);
-      //
-      //   tileImage.id(`mini_${hex.id}`);
-      //
-      //   console.log('tileImage', tileImage);
-      //   minimapLayer.add(tileImage);
-      // });
-    // }
-    // var circle = new Konva.Circle({
-    //   x: 0,
-    //   y: 0,
-    //   radius: 30,
-    //   fill: 'red',
-    //   stroke: 'black',
-    //   strokeWidth: 4
-    // });
+    tileGraphics.forEach((tile) => {
+      let tileImage = new Konva.Image({
+        x: x,
+        y: y,
+        image: tile,
+        // opacity: 1,
+        opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
+        width: (this.mapService.currentLayout.size.x*2)+1,
+        height: (this.mapService.currentLayout.size.y*2)+1
+      });
+    //   // listening: false
+    //   tileImage.strokeHitEnabled(false);
     //
-    // // add the shape to the layer
-    // minimapLayer.add(circle);
-    // console.groupEnd();
+    //   // console.log('Konva image', tileImage);
+    //
+      tileImage.id("mini" + hex.id);
+
+      minimapLayer.add(tileImage);
+      // minimapLayer.batchDraw();
+    });
+    // minimapLayer.draw();
   }
+
   drawHexTile(layer, hex, previouslySeenThisHex, useEmberDataTiles, isMiniMap) {
 
     let point = this.mapService.currentLayout.hexToPixel(hex);

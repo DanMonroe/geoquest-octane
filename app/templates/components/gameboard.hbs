@@ -86,7 +86,7 @@
       <button class="btn inventory" {{on "click" (fn showInventory)}} >
         <EmberTooltip tooltipClass="tooltip-controls" >Inventory</EmberTooltip>
       </button>
-      <button class="btn trophy" >
+      <button class="btn trophy"  {{on "click" (fn saveGame)}}>
         <EmberTooltip tooltipClass="tooltip-controls" >Awards</EmberTooltip>
       </button>
       <button class="btn gems">
