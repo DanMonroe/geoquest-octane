@@ -148,14 +148,18 @@ export default class FieldOfViewService extends Service {
 
   }
 
+  // update both main and mini maps
   updateGameboardTilesOpacity(finalFovHexes) {
+    this.updateGameboardTilesOpacityForLayer(finalFovHexes, this.camera.getGameLayer());
+    this.updateGameboardTilesOpacityForLayer(finalFovHexes, this.camera.getMiniMapLayer());
+  }
+
+  updateGameboardTilesOpacityForLayer(finalFovHexes, layer) {
     let visibleIds = finalFovHexes.visible.map(function(h){
       return h.id;
     })
 
-    let gameLayer = this.camera.getGameLayer();
-
-    let visibleHexImages = gameLayer.getChildren((node) => {
+    let visibleHexImages = layer.getChildren((node) => {
       return visibleIds.includes(node.id());
     });
 
@@ -167,7 +171,7 @@ export default class FieldOfViewService extends Service {
     let noLongerVisibleIds = finalFovHexes.noLongerVisible.map(function(h){
       return h.id;
     })
-    let noLongerVisibleHexImages = gameLayer.getChildren((node) => {
+    let noLongerVisibleHexImages = layer.getChildren((node) => {
       return noLongerVisibleIds.includes(node.id());
     });
     // remove any hex that is in visible hexes
@@ -179,6 +183,6 @@ export default class FieldOfViewService extends Service {
       tile.to({opacity: this.mapService.MAPOPACITY.PREVIOUSLYSEEN});
     });
 
-    gameLayer.draw();
+    layer.draw();
   }
 }

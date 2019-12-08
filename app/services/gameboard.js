@@ -342,7 +342,8 @@ console.log('setupGameboardCanvases');
     //
     //   // console.log('Konva image', tileImage);
     //
-      tileImage.id("mini" + hex.id);
+      tileImage.id(hex.id);
+      // tileImage.id("mini" + hex.id);
 
       minimapLayer.add(tileImage);
       // minimapLayer.batchDraw();
