@@ -2,14 +2,204 @@ body {
   margin:0;
   padding:0;
   font-family: sans-serif;
-  height: 100%;
-  background-color: antiquewhite;
+  color: #efefef;
+  //height: 100%;
+  //background-color: antiquewhite;
   //background-image: url("/images/ocean09.jpg");
   //background-image: url("/images/paper_texture1.jpg");
+
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #22454f url(/images/portal-background.png);
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.game {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  .game-controller {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .header {
   margin: 0 0 0 20px;
+}
+
+/*---------------------------------------------------------------------------
+  ember-elsewhere
+---------------------------------------------------------------------------*/
+.elsewhere-modal-background {
+  background-color: black;
+  opacity: 0.8;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.elsewhere-modal-container {
+  width: 100vw;
+  height: 105vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 500;
+}
+
+.elsewhere-modal-dialog {
+  position: relative;
+}
+
+.btn {
+  cursor: pointer;
+}
+.modal1 {
+  width: 600px;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 6px;
+  background-color: white;
+  box-shadow: 0 4px 28px 0 rgba(200, 200, 200, 0.36);
+  padding: 16px 32px;
+}
+
+.configDialog {
+  background-image: url("/images/subscribe-background-blank.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 618px;
+  height: 480px;
+  margin-top: -312px;
+
+  .title {
+    display: inline-table;
+    padding-top: 56px;
+    h2 {
+      display: inline-table;
+      padding-left: 250px;
+      text-align: center;
+      color: #efefef;
+    }
+
+    .close-btn-x {
+      display: inline-table;
+      color: #efefef;
+      padding: 15px;
+      font-weight: bold;
+      font-size: 22px;
+      margin-left: 126px;
+
+      &:hover {
+        color: #ef0;
+      }
+    }
+  }
+  .body {
+    height: 210px;
+    width: 510px;
+    //background-color: #ffb6c1;
+    margin: 50px 0 0px 50px;
+    button {
+      margin: 2px;
+    }
+  }
+  .footer {
+    position: absolute;
+    bottom: 0;
+    button {
+      display: inline-block;
+      border: none;
+      padding: 1.8rem 2rem;
+      margin: 0;
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 1rem;
+      margin: 0 0 31px 237px;
+        &.btn-primary {
+          background: url(/images/button-background-primary-active.png);
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+          height: 30px;
+          width: 140px;
+          padding-top: 10px;
+          span {
+            margin-left: 50px;
+          }
+          &:hover {
+            background: url(/images/button-background-primary-pressed.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+          }
+        }
+    }
+    button:focus {
+      outline: none;
+    }
+  }
+}
+
+.game-controls {
+  position: absolute;
+  right: 1%;
+  bottom: 1%;
+  z-index: 2;
+  .btn {
+    width: 80px;
+    height: 80px;
+    background: url(/images/menu_icons.png) no-repeat;
+    position: relative;
+    background-size: cover;
+    -webkit-transition: 0.5s ease;
+    transition: 0.5s ease;
+    -webkit-box-shadow: 2px 2px 4px black;
+    box-shadow: 2px 2px 4px black;
+    border: 0;
+    border-radius: 12px;
+    filter: none;
+    margin-left: 30px;
+
+    &:hover {
+      -webkit-box-shadow: 0 0 12px #bbf;
+      box-shadow: 0 0 12px #bbf;
+    }
+    //&:not(:first-child) {
+    //  margin-left: 30px;
+    //}
+
+    &.inventory {
+      background-position: -80px 0px
+    }
+    &.trophy {
+      background-position: -240px 0px;
+    }
+    &.gems {
+      background-position: -480px 0px;
+    }
+    &.settings {
+      background-position: -400px 0px;
+    }
+  }
+  .tooltip {
+      background-color: #000;
+      color: #fff;
+      font-size: 1.1em;
+    .tooltip-arrow {
+      display: none;
+    }
+  }
 }
 
 #large-container {
@@ -32,24 +222,29 @@ body {
   height: calc(55vh - 22px);
   overflow: auto;
   margin: 10px;
-  border: 1px solid grey;
+  //border: 1px solid grey;
   //background-color: black;
 }
 
 #mini-container {
+  position: absolute;
+  left: 1%;
+  bottom: 1%;
+  z-index: 3;
+
   width: 200px;
   height: 100px;
   border: 1px solid #414141;
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
+  background-color: #000;
 }
 
 #konvaContainerMiniMap {
-  position: relative;
-  //margin: 0;
+  position: absolute;
+  margin: 0;
   //min-height: 440px;
   //background-color: #000;
+  width: 200px;
+  height: 100px;
 }
 
 .healthWrapper {
@@ -67,6 +262,11 @@ body {
 }
 
 .debugWrapper {
+  position: absolute;
+  right: 1%;
+  top: 250px;
+  //z-index: 2;
+
   margin: 5px;
 
   .row:after {
@@ -92,4 +292,4 @@ button {
   padding: 5px;
 }
 
-@import "ember-power-select";
+//@import "ember-power-select";

@@ -59,10 +59,30 @@ export default class GameboardService extends Service {
     }
   }
 
+  setupMinimapCanvases() {
+    const stage = new Konva.Stage({
+      container: 'konvaContainerMiniMap',
+      width: 200,
+      height: 100
+    });
+
+    stage.scale({
+      x: .5,
+      y: .5
+    });
+    const miniMapLayer = new Konva.Layer({draggable: false});
+
+    stage.add(miniMapLayer);
+
+    this.camera.miniMapStage = stage;
+  }
+
   setupGameboardCanvases() {
   // setupGameboardCanvases(showDebugLayer, showFieldOfViewLayer) {
   // setupGameboardCanvases(konvaContainer, map, showDebugLayer, showFieldOfViewLayer) {
 console.log('setupGameboardCanvases');
+
+    // this.tempFooMiniMap();
 
     let stage = new Konva.Stage({
       width: window.innerWidth,
@@ -204,17 +224,23 @@ console.log('setupGameboardCanvases');
     let gameLayer = layers[this.camera.LAYERS.GAME];
     let hexLayer = layers[this.camera.LAYERS.HEX];
 
+    let miniMapLayer = this.camera.getMiniMapLayer();
+
     let thisMapsSeenHexes = this.mapService.getSeenHexesForLoadedMap();
 
     hexes.forEach((hex) => {
       this.drawHex(hexLayer, hex);
       this.drawHexLabel(hexLayer, hex);
-      this.drawHexTile(gameLayer, hex, thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id), useEmberDataTiles);
+      this.drawHexTile(gameLayer, hex, thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id), useEmberDataTiles, false);
+      // this.drawMiniMapHexTile(miniMapLayer, gameLayer, hex, thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id), useEmberDataTiles, true);
     });
 
     hexLayer.visible(withLabels);
     gameLayer.visible(withTiles);
+    miniMapLayer.visible(withTiles);
+
     this.camera.stage.batchDraw();
+    this.camera.miniMapStage.batchDraw();
   }
 
   drawHex(layer, hex) {
@@ -257,16 +283,6 @@ console.log('setupGameboardCanvases');
     });
     idText.offsetX(idText.width() / 2);
 
-    // let colRowText = new Konva.Text({
-    //   x: center.x,
-    //   y: center.y-4,
-    //   text: hex.col + "," + hex.row,
-    //   fontSize: 12,
-    //   fontFamily: 'sans-serif',
-    //   fill: this.colorForHex(hex)
-    // });
-    // colRowText.offsetX(colRowText.width() / 2);
-
     let qrsText = new Konva.Text({
       x: center.x,
       y: center.y+9,
@@ -279,30 +295,175 @@ console.log('setupGameboardCanvases');
     qrsText.offsetX(qrsText.width() / 2);
 
     layer.add(idText);
-    // layer.add(colRowText);
-    layer.add(qrsText);
 
-    // let rect = new Konva.Rect({
-    //   x: center.x-2,
-    //   y: center.y-2,
-    //   width: 4,
-    //   height: 4,
-    //   fill: 'red'
-    // });
-    //
-    // // add the shape to the layer
-    // layer.add(rect);
+    layer.add(qrsText);
 
     // TODO put map t (tile) back in when we add map to the hex
   }
 
-  drawHexTile(layer, hex, previouslySeenThisHex, useEmberDataTiles) {
+  drawMiniMapHexTile(minimapLayer, gameLayer, hex, previouslySeenThisHex, useEmberDataTiles, isMiniMap) {
+    // console.group('draw mini map');
+
+    // if (hex.id === '20') {   // do once
+    //   let point = this.mapService.currentLayout.hexToPixel(hex);
+    //   let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
+    //   let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
+
+    // console.log('x', x,'y', y,'point', point);
+
+      // let tileGraphics = [];
+
+      // hex.mapObject.get('tiles').forEach((tile) => {
+      //   let tileGraphic = this.mapService.getTileGraphicByAltProperty(tile.name);
+      //   if (tileGraphic) {
+      //     tileGraphics.push(tileGraphic);
+      //   }
+      // });
+      // console.log('mini tileGraphics', tileGraphics);
+
+      // tileGraphics.forEach((tile) => {
+        let gameTileImage = gameLayer.find(`#${hex.id}`);
+        // console.log('gameTileImage', gameTileImage[0]);
+
+        // let tileImage = new Konva.Image({
+        //       x: 100,
+        //       y: 50,
+        //       image: tile,
+        //       opacity: 1,
+        //       width: 36,
+        //       height: 36
+        //   // x: x,
+        //   // y: y,
+        //   // image: tile,
+        //   // opacity: 1,
+        //   // // opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
+        //   // width: (this.mapService.currentLayout.size.x*2)+1,
+        //   // height: (this.mapService.currentLayout.size.y*2)+1
+        // });
+        // // listening: false
+        // tileImage.strokeHitEnabled(false);
+
+        // console.log('Konva image', tileImage);
+        // console.log('Konva image', tileImage);
+
+        // tileImage.id(hex.id);
+
+        minimapLayer.add(gameTileImage[0]);
+        // minimapLayer.add(tileImage);
+        // minimapLayer.draw();
+      // });
+
+      // let tileGraphic = new Image(36, 36);
+      // tileGraphic.src = `/images/hex/ZeshioHexKitDemo_096.png`;
+      // tileGraphic.onload = () => {
+      //   let tileImage = new Konva.Image({
+      //     x: 100,
+      //     y: 50,
+      //     image: tileGraphic,
+      //     opacity: 1,
+      //     width: 36,
+      //     height: 36
+      //   });
+      //   // listening: false
+      //   tileImage.strokeHitEnabled(false);
+      //
+      //   console.log('Konva image', tileImage);
+      //
+      //   // tileImage.id(`mini_${hex.id}`);
+      //
+      //   console.log('tileImage', tileImage);
+      //   minimapLayer.add(tileImage);
+      //   minimapLayer.draw();
+      // }
+
+
+      // let tileImage = new Konva.Image({
+        //   x: 100,
+        //   y: 50,
+        //   image: '/images/hex/ZeshioHexKitDemo_096.png',
+        //   opacity: 1,
+        //   width: 50,
+        //   height: 50
+        // });
+        // // listening: false
+        // tileImage.strokeHitEnabled(false);
+        //
+        // console.log('Konva image', tileImage);
+        //
+        // // tileImage.id(`mini_${hex.id}`);
+        //
+        // console.log('tileImage', tileImage);
+        // minimapLayer.add(tileImage);
+
+      // var circle = new Konva.Circle({
+      //   x: 0,
+      //   y: 0,
+      //   radius: 30,
+      //   fill: 'red',
+      //   stroke: 'black',
+      //   strokeWidth: 4
+      // });
+
+      // add the shape to the layer
+      // minimapLayer.add(circle);
+
+    // }
+      // let point = this.mapService.currentLayout.hexToPixel(hex);
+      // let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
+      // let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
+      // console.log('hex', hex, 'point', point, 'x', x, 'y', y);
+      //
+      // let tileGraphics = [];
+      //
+      // hex.mapObject.get('tiles').forEach((tile) => {
+      //   let tileGraphic = this.mapService.getTileGraphicByAltProperty(tile.name);
+      //   if (tileGraphic) {
+      //     tileGraphics.push(tileGraphic);
+      //   }
+      // });
+      //
+      // tileGraphics.forEach((tile) => {
+      //   console.log('tile', tile);
+      //   let tileImage = new Konva.Image({
+      //     x: 100,
+      //     y: 50,
+      //     image: tile,
+      //     opacity: 1,
+      //     // opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
+      //     // width: (this.mapService.currentLayout.size.x*2)+1,
+      //     // height: (this.mapService.currentLayout.size.y*2)+1
+      //   });
+      //   // listening: false
+      //   tileImage.strokeHitEnabled(false);
+      //
+      //   // console.log('Konva image', tileImage);
+      //
+      //   tileImage.id(`mini_${hex.id}`);
+      //
+      //   console.log('tileImage', tileImage);
+      //   minimapLayer.add(tileImage);
+      // });
+    // }
+    // var circle = new Konva.Circle({
+    //   x: 0,
+    //   y: 0,
+    //   radius: 30,
+    //   fill: 'red',
+    //   stroke: 'black',
+    //   strokeWidth: 4
+    // });
+    //
+    // // add the shape to the layer
+    // minimapLayer.add(circle);
+    // console.groupEnd();
+  }
+  drawHexTile(layer, hex, previouslySeenThisHex, useEmberDataTiles, isMiniMap) {
 
     let point = this.mapService.currentLayout.hexToPixel(hex);
     let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
     let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
 
-    let tileGraphics = []
+    let tileGraphics = [];
 
     if (useEmberDataTiles) {
       hex.mapObject.get('tiles').forEach((tile) => {
@@ -311,15 +472,6 @@ console.log('setupGameboardCanvases');
           tileGraphics.push(tileGraphic);
         }
       });
-    } else {
-
-      if (typeof hex.map.t === 'number') {
-        tileGraphics.push(this.mapService.getTileGraphic(hex.map.t));
-      } else if(Array.isArray(hex.map.t)) {
-        hex.map.t.forEach((tileIndex) => {
-          tileGraphics.push(this.mapService.getTileGraphic(tileIndex));
-        });
-      }
     }
 
     tileGraphics.forEach((tile) => {

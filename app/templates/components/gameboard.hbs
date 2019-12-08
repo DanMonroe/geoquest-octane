@@ -1,123 +1,113 @@
 <!--https://www.redblobgames.com/grids/hexagons/implementation.html-->
-<div class="header">
-  <h2>GeoQuest - Octane</h2>
-  <div class="healthWrapper">
-    <div>
-    For build notes, see <a href="https://blog.danmonroe.dev/" target="_new">blog.danmonroe.dev</a>
+<div class="game">
+  <div class="game-container">
+    <div class="header">
+      <h2>GeoQuest - Octane</h2>
+      <div class="healthWrapper">
+        <div>
+          <span>
+            Player Health {{this.game.player.healthPercentage}}%
+          </span>
+          <span>
+            Ship Health {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}
+          </span>
+        </div>
+      </div>
     </div>
-    <div>
-      <span>
-        Player Health {{this.game.player.healthPercentage}}%
-      </span>
-      <span>
-        Ship Health {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}
-      </span>
+    <div class="instructions">
+      <b>Instructions:</b> Use keys Q, W, E, A, S, D to move.  Click mouse on target to fire.
+      <div>
+        For build notes, see <a href="https://blog.danmonroe.dev/" target="_new">blog.danmonroe.dev</a>
+      </div>
+
     </div>
-  </div>
-</div>
-<AnimatedContainer class="gameboard"
-  {{did-insert (action this.setupGame)}}
-  {{will-destroy (action this.teardownGameboardCanvases)}}
->
-  <section>
-    <LargeMap @map={{@model.mirageMap}} />
-  </section>
-  <section>
+
+    <AnimatedContainer class="gameboard"
+      {{did-insert (action this.setupGame)}}
+      {{will-destroy (action this.teardownGameboardCanvases)}}
+    >
+      <section>
+        <LargeMap @map={{@model.mirageMap}} />
+      </section>
+      <section>
+      </section>
+
+    </AnimatedContainer>
+
+    <div class="debugWrapper">
+      <div class="row">
+        <div class="col">
+          <div>
+            Mouse: <p>{{this.gameboard.currentHex}}&nbsp;/&nbsp;{{this.gameboard.mouseXY}}</p>
+          </div>
+          <div>
+            Player: <p>{{this.game.gameboard.playerHex}}&nbsp;/&nbsp;{{this.game.gameboard.playerXY}}</p>
+          </div>
+          <div>
+            Ship: <p>{{this.game.gameboard.shipHex}}&nbsp;/&nbsp;{{this.game.gameboard.shipXY}}</p>
+          </div>
+          {{#if showCameraDebug}}
+            <div>
+              Camera:
+            </div>
+            <div>
+              world width:{{this.camera.worldX}} height:{{this.camera.worldY}}
+            </div>
+            <div>
+              hexes: width:{{this.mapService.currentLayout.hexWidth}} height:{{this.mapService.currentLayout.hexHeight}}
+            </div>
+            <div>
+              top left: x:{{this.mapService.topLeftPoint.x}} y:{{this.mapService.topLeftPoint.y}}
+            </div>
+            <div>
+              bottom right: x:{{this.mapService.bottomRightPoint.x}} y:{{this.mapService.bottomRightPoint.y}}
+            </div>
+          {{/if}}
+          <div>
+              Path Distance: {{this.gameboard.pathDistanceToMouseHex}}
+          </div>
+          <div>
+            Player Health: {{this.game.player.healthPercentage}}%
+          </div>
+          <div>
+            Player Flags: {{this.game.describePlayerFlags}}
+          </div>
+          <div>
+            Ship Health: {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <MiniMap @map={{@model.mirageMap}} />
-  </section>
-</AnimatedContainer>
 
-<div class="instructions">
-  <b>Instructions:</b> Use keys Q, W, E, A, S, D to move.  Click mouse on target to fire.
-</div>
-<div class="debugWrapper">
-  <div class="row">
-    <div class="col label">
-      <div>
-        Mouse:
-      </div>
-      <div>
-        Player:
-      </div>
-      <div>
-        Ship:
-      </div>
-      {{#if showCameraDebug}}
-        <div>
-          Camera:
-        </div>
-      {{/if}}
-    </div>
-    <div class="col">
-      <div>
-        {{this.gameboard.currentHex}}&nbsp;/&nbsp;{{this.gameboard.mouseXY}}
-      </div>
-      <div>
-        {{this.game.gameboard.playerHex}}&nbsp;/&nbsp;{{this.game.gameboard.playerXY}}
-      </div>
-      <div>
-        {{this.game.gameboard.shipHex}}&nbsp;/&nbsp;{{this.game.gameboard.shipXY}}
-      </div>
-      {{#if showCameraDebug}}
-        <div>
-          world width:{{this.camera.worldX}} height:{{this.camera.worldY}}
-        </div>
-        <div>
-          hexes: width:{{this.mapService.currentLayout.hexWidth}} height:{{this.mapService.currentLayout.hexHeight}}
-        </div>
-        <div>
-          top left: x:{{this.mapService.topLeftPoint.x}} y:{{this.mapService.topLeftPoint.y}}
-        </div>
-        <div>
-          bottom right: x:{{this.mapService.bottomRightPoint.x}} y:{{this.mapService.bottomRightPoint.y}}
-        </div>
-      {{/if}}
-    </div>
-    <div class="col">
-      <div>
-        <button {{action "saveGame"}}>Save</button>
-      </div>
-      <div>
-        <button {{action "toggleGameClock"}}>Game clock running: {{this.game.gameClock.isRunning}}</button>
-      </div>
-      <div>
-        <button {{action "toggleTiles"}}>Show Tiles: {{this.game.showTileGraphics}}</button>
-      </div>
-      <div>
-        <button {{action "toggleHexInfo"}}>Show Hex Info: {{this.game.showTileHexInfo}}</button>
-      </div>
-      <div>
-        <button {{action "togglePathFindingDebug"}}>Path Finding Debug: {{this.game.pathFindingDebug}}</button>
-      </div>
-      <div>
-        <button {{action "toggleDebugLayer"}}>Debug Layer enabled: {{this.game.showDebugLayer}}</button>
-      </div>
-      <div>
-        <button {{action "toggleGameSounds"}}>Sound enabled: {{this.sound.soundEnabled}}</button>
-      </div>
-      <div>
-        <button {{action "toggleMoveQueue"}}>Enable Enemy Patrols: {{this.transport.moveQueueTask.isRunning}}</button>
-      </div>
-      <div>
-        <button {{action "fireCannon"}}>Fire</button>
-      </div>
-    </div>
-    <div class="col">
-      <div>
-          Path Distance: {{this.gameboard.pathDistanceToMouseHex}}
-      </div>
-      <div>
-        Player Health: {{this.game.player.healthPercentage}}%
-      </div>
-      <div>
-        Player Flags: {{this.game.describePlayerFlags}}
-      </div>
-      <div>
-        Ship Health: {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}
-      </div>
+    <div class="game-controls">
+      <button class="btn inventory" {{on "click" (fn showInventory)}} >
+        <EmberTooltip tooltipClass="tooltip-controls" >Inventory</EmberTooltip>
+      </button>
+      <button class="btn trophy" >
+        <EmberTooltip tooltipClass="tooltip-controls" >Awards</EmberTooltip>
+      </button>
+      <button class="btn gems">
+        <EmberTooltip tooltipClass="tooltip-controls" >Gems</EmberTooltip>
+      </button>
+      <button class="btn settings" {{on "click" (fn showConfigDialog)}} >
+        <EmberTooltip tooltipClass="tooltip-controls" >Settings</EmberTooltip>
+      </button>
     </div>
 
   </div>
-  <div>
-  </div>
 </div>
+{{#if configDialogResolver}}
+  <ToElsewhere
+      @named={{"modal"}}
+      @send={{hash body=(component "config-dialog"
+      onConfirm=(action this.configDialogResolver.confirm)
+      onCancel=(action (mut this.configDialogResolver) null)
+  )
+     onOutsideClick=(action (mut this.configDialogResolver) null)
+  }}
+  />
+
+{{/if}}

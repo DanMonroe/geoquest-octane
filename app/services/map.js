@@ -83,6 +83,8 @@ export default class MapService extends Service {
     this.initMap({map: emberDataMap.hexGrid});
     // this.camera.initCamera();
 
+    this.gameboard.setupMinimapCanvases();
+
     this.gameboard.setupGameboardCanvases();
 
     // setup just the hexes within view
@@ -439,9 +441,9 @@ export default class MapService extends Service {
 
   // https://briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated/
   findPathEmberData(gridIn, startHex, targetHex, options = {}) {
-      console.time("findPathEmberData");
 
     if (options.debug) {
+      console.time("findPathEmberData");
       console.groupCollapsed(`findPath from ${startHex.id} to ${targetHex.id}`);
       // console.groupCollapsed(`findPath from ${startHex.id} to ${targetHex.id}`);
     }
@@ -466,7 +468,7 @@ export default class MapService extends Service {
 
     // TODO!!   isBlockedByFlags uses the player...   What about ENEMIES that use this method?!!!!!
 
-    console.log('this.isBlockedByFlags(targetHex.travelFlags)', this.isBlockedByFlags(endNode.travelFlags), endNode.travelFlags);
+    // console.log('this.isBlockedByFlags(targetHex.travelFlags)', this.isBlockedByFlags(endNode.travelFlags), endNode.travelFlags);
     if (this.isBlockedByFlags(endNode.travelFlags)) {
       return [];
     }
@@ -513,8 +515,8 @@ export default class MapService extends Service {
         if (options.debug) {
           console.log('path', path);
           console.groupEnd();
+          console.timeEnd("findPathEmberData");
         }
-        console.timeEnd("findPathEmberData");
         return path;
       }
 

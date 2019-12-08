@@ -12,6 +12,7 @@ export default class CameraService extends Service {
     DEBUG: 2,
     FOV: 3,
     AGENTS: 4,
+    MINIMAP: 0
   };
 
   @service ('map') mapService;
@@ -30,6 +31,8 @@ export default class CameraService extends Service {
 
   // camera stage
   @tracked stage = null;
+
+  @tracked miniMapStage = null;
 
   /**
    * width and height: The size of the camera's viewport.
@@ -93,6 +96,10 @@ export default class CameraService extends Service {
   }
   getAgentsLayer() {
     return this.stage.getLayers()[this.LAYERS.AGENTS];
+  }
+
+  getMiniMapLayer() {
+    return this.miniMapStage.getLayers()[this.LAYERS.MINIMAP];
   }
 
 

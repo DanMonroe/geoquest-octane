@@ -3,7 +3,13 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import {inject as service} from '@ember/service';
 // import { A as emberArray } from '@ember/array';
+// import Confirmer from 'confirmed';
 import config from 'geoquest-octane/config/environment';
+
+// import fade from 'ember-animated/transitions/fade';
+// import move from 'ember-animated/motions/move';
+// import { easeOut, easeIn } from 'ember-animated/easings/cosine';
+
 
 export default class GameboardComponent extends Component {
 
@@ -16,6 +22,7 @@ export default class GameboardComponent extends Component {
   @service ('sound') sound;
   @service ('path') pathService;
   @service ('fieldOfView') fov;
+  @service ('modals') modals;
 
   @tracked showTileGraphics = true;
   @tracked showTileHexInfo = true;
@@ -31,6 +38,32 @@ export default class GameboardComponent extends Component {
 
   @tracked selectedMap = 0;
 
+  // @tracked configDialogResolver = null;
+
+  // @tracked fade = fade;
+  // @tracked showThing = false;
+
+  // eslint-disable-next-line require-yield
+  // slideFromSide = function * ({ insertedSprites, keptSprites, removedSprites }) {
+  //
+  //   insertedSprites.forEach(sprite => {
+  //     sprite.startAtPixel({ y: 0 });
+  //     sprite.applyStyles({ 'z-index': 100000 });
+  //     move(sprite, { easing: easeOut });
+  //   });
+  //
+  //   keptSprites.forEach(sprite => {
+  //     sprite.applyStyles({ 'z-index': 100000 });
+  //     sprite.endAtPixel({ y: 50 });
+  //     move(sprite);
+  //   });
+  //
+  //   removedSprites.forEach(sprite => {
+  //     sprite.applyStyles({ 'z-index': 1 });
+  //     sprite.endAtPixel({ y: 50 });
+  //     move(sprite, { easing: easeIn });
+  //   });
+  // }
 
   // mapOptions = [
   //   {name: "Small", value: 0},
@@ -102,68 +135,77 @@ export default class GameboardComponent extends Component {
     // this.player.boardedTransport.fire();
   }
 
-
   @action
-  toggleDebugLayer() {
-    this.game.showDebugLayer = !this.game.showDebugLayer;
-    this.gameboard.showDebugLayer = this.game.showDebugLayer;
-    let layer = this.camera.getDebugLayer();
-    layer.visible(this.game.showDebugLayer);
-
-    this.game.showFieldOfViewLayer = !this.game.showFieldOfViewLayer;
-    this.gameboard.showFieldOfViewLayer = this.game.showFieldOfViewLayer;
-    let fovlayer = this.camera.getFOVLayer();
-    fovlayer.visible(this.game.showFieldOfViewLayer);
+  async showConfigDialog() {
+    this.modals.open('config-dialog');
   }
 
   @action
-  toggleTiles() {
-    this.game.showTileGraphics = !this.game.showTileGraphics;
-    let layer = this.camera.getGameLayer();
-    layer.visible(this.game.showTileGraphics);
-    // this.camera.stage.draw();
-    layer.draw();
+  async showInventory() {
+    // this.modals.open('config-dialog');
   }
 
-  @action
-  toggleGameSounds() {
-    this.sound.soundEnabled = !this.sound.soundEnabled;
-    if (!this.sound.soundEnabled) {
-      // this.sound.audio.stopAll('sounds')  // throws because no sounds playing
-    }
-  }
-
-  @action
-  toggleHexInfo() {
-    this.game.showTileHexInfo = !this.game.showTileHexInfo;
-    let layer = this.camera.getHexLayer();
-    layer.visible(this.game.showTileHexInfo);
-    layer.draw();
-    // this.camera.stage.draw();
-  }
-
-  @action
-  togglePathFindingDebug() {
-    this.game.pathFindingDebug = !this.game.pathFindingDebug;
-  }
-
-  @action
-  toggleMoveQueue() {
-    this.transport.moveQueueEnabled = !this.transport.moveQueueEnabled;
-
-    if (this.transport.moveQueueEnabled && this.transport.moveQueueTask.isIdle) {
-      this.transport.moveQueueTask.perform();
-    }
-  }
-
-  @action
-  toggleGameClock() {
-    this.game.gameClockEnabled = !this.game.gameClockEnabled;
-
-    if (this.game.gameClockEnabled && this.game.gameClock.isIdle) {
-      this.game.gameClock.perform();
-    }
-  }
+  // @action
+  // toggleDebugLayer() {
+  //   this.game.showDebugLayer = !this.game.showDebugLayer;
+  //   this.gameboard.showDebugLayer = this.game.showDebugLayer;
+  //   let layer = this.camera.getDebugLayer();
+  //   layer.visible(this.game.showDebugLayer);
+  //
+  //   this.game.showFieldOfViewLayer = !this.game.showFieldOfViewLayer;
+  //   this.gameboard.showFieldOfViewLayer = this.game.showFieldOfViewLayer;
+  //   let fovlayer = this.camera.getFOVLayer();
+  //   fovlayer.visible(this.game.showFieldOfViewLayer);
+  // }
+  //
+  // @action
+  // toggleTiles() {
+  //   this.game.showTileGraphics = !this.game.showTileGraphics;
+  //   let layer = this.camera.getGameLayer();
+  //   layer.visible(this.game.showTileGraphics);
+  //   // this.camera.stage.draw();
+  //   layer.draw();
+  // }
+  //
+  // @action
+  // toggleGameSounds() {
+  //   this.sound.soundEnabled = !this.sound.soundEnabled;
+  //   if (!this.sound.soundEnabled) {
+  //     // this.sound.audio.stopAll('sounds')  // throws because no sounds playing
+  //   }
+  // }
+  //
+  // @action
+  // toggleHexInfo() {
+  //   this.game.showTileHexInfo = !this.game.showTileHexInfo;
+  //   let layer = this.camera.getHexLayer();
+  //   layer.visible(this.game.showTileHexInfo);
+  //   layer.draw();
+  //   // this.camera.stage.draw();
+  // }
+  //
+  // @action
+  // togglePathFindingDebug() {
+  //   this.game.pathFindingDebug = !this.game.pathFindingDebug;
+  // }
+  //
+  // @action
+  // toggleMoveQueue() {
+  //   this.transport.moveQueueEnabled = !this.transport.moveQueueEnabled;
+  //
+  //   if (this.transport.moveQueueEnabled && this.transport.moveQueueTask.isIdle) {
+  //     this.transport.moveQueueTask.perform();
+  //   }
+  // }
+  //
+  // @action
+  // toggleGameClock() {
+  //   this.game.gameClockEnabled = !this.game.gameClockEnabled;
+  //
+  //   if (this.game.gameClockEnabled && this.game.gameClock.isIdle) {
+  //     this.game.gameClock.perform();
+  //   }
+  // }
 
   @action
   saveGame() {

@@ -1,21 +1,4 @@
 <div id="mini-container">
-  <div>Mini-Map</div>
   <figure id="konvaContainerMiniMap" />
 
-{{log "mini map" @map}}
-    <div>
-      <div>{{@map.name}}</div>
-      {{#each @map.hexRows as |row|}}
-        <div>
-          {{#each row.hexes as |hex|}}
-            <span>
-              {{#each hex.tiles as |tile index|}}
-                {{#if index}}, {{/if}}
-                {{tile.name}}
-              {{/each}}
-            </span>
-          {{/each}}
-        </div>
-      {{/each}}
-  </div>
 </div>

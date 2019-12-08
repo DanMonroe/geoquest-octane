@@ -73,9 +73,9 @@ module.exports = function(environment) {
     ENV.game.transport.moveQueueEnabled = false;
     ENV.game.board.showTileGraphics = true;
     ENV.game.board.showTileHexInfo = true;
-    ENV.game.board.showDebugLayer = true;
+    ENV.game.board.showDebugLayer = false;
     ENV.game.board.showFieldOfViewLayer = true;
-    ENV.game.board.pathFindingDebug = true;
+    ENV.game.board.pathFindingDebug = false;
 
   }
 

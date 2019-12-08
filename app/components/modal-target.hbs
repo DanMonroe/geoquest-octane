@@ -1,0 +1,10 @@
+<FromElsewhere @name={{"modal"}} as |currentModal|>
+  {{#if currentModal}}
+    <div class='elsewhere-modal-container'>
+      <div class='elsewhere-modal-background' onclick={{action currentModal.onOutsideClick}}></div>
+      <div class='elsewhere-modal-dialog'>
+        {{component currentModal.body}}
+      </div>
+    </div>
+  {{/if}}
+</FromElsewhere>

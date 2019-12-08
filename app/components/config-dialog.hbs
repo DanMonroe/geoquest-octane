@@ -1,0 +1,33 @@
+<div class="configDialog">
+  <div class="title">
+    <h2>Settings</h2>
+    <div class="btn close-btn-x" {{action @close true}}>X</div>
+  </div>
+  <div class="body">
+      <div>
+        <button {{action "toggleGameClock"}}>Game clock running: {{this.game.gameClock.isRunning}}</button>
+      </div>
+      <div>
+        <button {{action "toggleTiles"}}>Show Tiles: {{this.game.showTileGraphics}}</button>
+      </div>
+      <div>
+        <button {{action "toggleHexInfo"}}>Show Hex Info: {{this.game.showTileHexInfo}}</button>
+      </div>
+      <div>
+        <button {{action "togglePathFindingDebug"}}>Path Finding Debug: {{this.game.pathFindingDebug}}</button>
+      </div>
+      <div>
+        <button {{action "toggleDebugLayer"}}>Debug Layer enabled: {{this.game.showDebugLayer}}</button>
+      </div>
+      <div>
+        <button {{action "toggleGameSounds"}}>Sound enabled: {{this.sound.soundEnabled}}</button>
+      </div>
+      <div>
+        <button {{action "toggleMoveQueue"}}>Enable Enemy Patrols: {{this.transport.moveQueueTask.isRunning}}</button>
+      </div>
+  </div>
+  <div class="footer">
+    <button class="btn btn-primary" type="button" {{action @close true}}>Close</button>
+  </div>
+</div>
+
