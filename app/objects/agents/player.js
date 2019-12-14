@@ -76,7 +76,8 @@ export class Player extends BaseAgent {
       height: 4,
       fill: 'green',
       stroke: 'black',
-      strokeWidth: 1
+      strokeWidth: 1,
+      listening: false
     });
 
     let powerBar = new Konva.Rect({
@@ -87,7 +88,8 @@ export class Player extends BaseAgent {
       height: 4,
       fill: 'blue',
       stroke: 'black',
-      strokeWidth: 1
+      strokeWidth: 1,
+      listening: false
     });
 
     // console.log('Creating player image');

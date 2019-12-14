@@ -75,7 +75,8 @@ export class Enemy extends BaseAgent {
       height: 4,
       fill: 'green',
       stroke: 'black',
-      strokeWidth: 1
+      strokeWidth: 1,
+      listening: false
     });
 
     let image = new Image();

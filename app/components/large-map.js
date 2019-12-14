@@ -18,14 +18,14 @@ export default class LargeMapComponent extends Component {
   constructor() {
     super(...arguments);
 
-    console.log('in LargeMap constructor');
+    // console.log('in LargeMap constructor');
 
     // this.setup();
   }
 
   @action
   setup() {
-    console.log('large board setup');
+    // console.log('large board setup');
 
     // this.setupCanvases();
   }

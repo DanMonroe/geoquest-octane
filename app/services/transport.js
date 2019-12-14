@@ -122,14 +122,16 @@ export default class TransportService extends Service {
     });
         // travelAbilityFlags: this.game.FLAGS.TRAVEL.SEA,
 
-    // this.player = player;
-    // this.game.player = player;
+    // MiniMap circle for player
+    let playerCircle = new Konva.Circle({
+      radius: 4,
+      fill: 'red',
+      draggable: false,
+      opacity: 1,
+      listening: false
+    });
+    player.miniMapPlayerCircle = playerCircle;
 
-    // mapService:this.mapService,
-    //   camera:this.camera,
-    //   game:this.game,
-    //   transportService:this,
-    //   gameboard:this.gameboard,
 
     let agentsArray = emberArray();
     if(agents.enemies) {
@@ -297,7 +299,7 @@ export default class TransportService extends Service {
 
     yield timeout(transport.speed);
 
-  };
+  }
   // }).enqueue() moveTransportTask;
 
 

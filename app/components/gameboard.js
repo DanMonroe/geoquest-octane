@@ -38,6 +38,8 @@ export default class GameboardComponent extends Component {
 
   @tracked selectedMap = 0;
 
+  @tracked epmModalContainerClass = '';
+
   // @tracked configDialogResolver = null;
 
   // @tracked fade = fade;
@@ -87,6 +89,8 @@ export default class GameboardComponent extends Component {
     // console.log('config.game', config.game);
     this.mapService.mapData = this.args.model.data;
 
+    this.modals.set('modalsDuration', 600);
+
     this.mapService.loadSeenHexesFromStorage();
   }
 
@@ -107,17 +111,17 @@ export default class GameboardComponent extends Component {
 
   @action
   setupGame(/*konvaContainer*/) {
-    console.group('setupGame');
+    // console.group('setupGame');
 
-    console.group('loadEmberDataMap');
+    // console.group('loadEmberDataMap');
     this.mapService.loadEmberDataMap(config.game.startingMapIndex);
-    console.groupEnd();
+    // console.groupEnd();
 
     // console.group('loadMap');
     // // TODO --> From pre-ember data maps: this.mapService.loadMap(config.game.startingMapIndex);
     // this.mapService.loadMap(config.game.startingMapIndex);
     // console.groupEnd();
-    console.groupEnd();
+    // console.groupEnd();
 
     this.game.gameClock.perform();
   }
@@ -137,12 +141,19 @@ export default class GameboardComponent extends Component {
 
   @action
   async showConfigDialog() {
-    this.modals.open('config-dialog');
+
+    console.log('modals', this.modals);
+    // debugger;
+    this.epmModalContainerClass = 'config';
+    await this.modals.open('config-dialog');
+    // this.epmModalContainerClass = '';
   }
 
   @action
   async showInventory() {
-    // this.modals.open('config-dialog');
+    this.epmModalContainerClass = 'inventory';
+    await this.modals.open('inventory-dialog');
+    // this.epmModalContainerClass = '';
   }
 
   // @action

@@ -49,7 +49,7 @@ export default class MapService extends Service {
   initMap(args) {
     let { map } = args;
     this.set('worldMap', map);
-    console.log('initMap', map);
+    // console.log('initMap', map);
     // this.set('worldMapHexes', this.hexService.createHexesFromMap(map));
 
     let graph = new Graph({
@@ -57,7 +57,7 @@ export default class MapService extends Service {
     });
     graph.setup(); // cleans all nodes
     this.set('graph', graph);
-    console.log('graph', graph);
+    // console.log('graph', graph);
   }
 
   async loadEmberDataMap(mapIndex) {
@@ -78,7 +78,7 @@ export default class MapService extends Service {
 
     // this.sound.loadSounds(this.mapData[mapIndex].sounds);
 
-    console.log(emberDataMap.hexGrid);
+    // console.log(emberDataMap.hexGrid);
 
     this.initMap({map: emberDataMap.hexGrid});
     // this.camera.initCamera();
@@ -93,6 +93,7 @@ export default class MapService extends Service {
 
     //
     // Player, Agents, and transports
+    // TODO figure out these from saved game or something
     let tempAgents = {
       player: {
         id: 1,
@@ -822,7 +823,8 @@ export default class MapService extends Service {
       y: center.y-12,
       width: 16,
       height: 12,
-      fill: 'yellow'
+      fill: 'yellow',
+      listening: false
     });
 
     debugLayer.add(rect);
@@ -833,7 +835,8 @@ export default class MapService extends Service {
       text: visitedCounter,
       fontSize: 10,
       fontFamily: 'sans-serif',
-      fill: 'black'
+      fill: 'black',
+      listening: false
     });
     debugLayer.add(counterText);
 

@@ -284,7 +284,8 @@ export default class GameService extends Service {
           radius: 4,
           fill: 'black',
           draggable: false,
-          opacity: 1
+          opacity: 1,
+          listening: false
         });
         break;
       case 'arrow':
@@ -307,6 +308,7 @@ export default class GameService extends Service {
           pointerWidth: 4,
           strokeWidth: 3,
           draggable: false,
+          listening: false
         });
         break;
       default:

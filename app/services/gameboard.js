@@ -81,7 +81,6 @@ export default class GameboardService extends Service {
   setupGameboardCanvases() {
   // setupGameboardCanvases(showDebugLayer, showFieldOfViewLayer) {
   // setupGameboardCanvases(konvaContainer, map, showDebugLayer, showFieldOfViewLayer) {
-console.log('setupGameboardCanvases');
 
     // this.tempFooMiniMap();
 
@@ -230,10 +229,13 @@ console.log('setupGameboardCanvases');
     let thisMapsSeenHexes = this.mapService.getSeenHexesForLoadedMap();
 
     hexes.forEach((hex) => {
-      this.drawHex(hexLayer, hex);
-      this.drawHexLabel(hexLayer, hex);
-      this.drawHexTile(gameLayer, hex, thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id), useEmberDataTiles, false);
-      this.drawMiniMapHexTile(miniMapLayer, gameLayer, hex, thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id), useEmberDataTiles, true);
+      if (withLabels) {
+        this.drawHex(hexLayer, hex);
+        this.drawHexLabel(hexLayer, hex);
+      }
+      const previouslySeenThisHex = thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id);
+      this.drawHexTile(gameLayer, hex, previouslySeenThisHex, useEmberDataTiles, false);
+      this.drawMiniMapHexTile(miniMapLayer, hex, previouslySeenThisHex, useEmberDataTiles, true);
     });
 
     hexLayer.visible(withLabels);
@@ -245,6 +247,7 @@ console.log('setupGameboardCanvases');
   }
 
   drawHex(layer, hex) {
+    console.log('draw hex', this.game.showTileHexInfo);
     let corners = this.mapService.currentLayout.polygonCorners(hex);
 
     let points = [];
@@ -267,6 +270,7 @@ console.log('setupGameboardCanvases');
 
     let poly = new Konva.Line(polyConfig);
     poly.id(hex.id);
+    poly.listening(false);
     layer.add(poly);
 
   }
@@ -280,7 +284,8 @@ console.log('setupGameboardCanvases');
       text: 'id:' + hex.map.id,
       fontSize: 11,
       fontFamily: 'sans-serif',
-      fill: this.colorForHex(hex)
+      fill: this.colorForHex(hex),
+      listening: false
     });
     idText.offsetX(idText.width() / 2);
 
@@ -291,7 +296,8 @@ console.log('setupGameboardCanvases');
       // text: hex.q + "," + hex.r + "," + hex.s,
       fontSize: 11,
       fontFamily: 'sans-serif',
-      fill: this.colorForHex(hex)
+      fill: this.colorForHex(hex),
+      listening: false
     });
     qrsText.offsetX(qrsText.width() / 2);
 
@@ -302,7 +308,7 @@ console.log('setupGameboardCanvases');
     // TODO put map t (tile) back in when we add map to the hex
   }
 
-  drawMiniMapHexTile(minimapLayer, gameLayer, hex, previouslySeenThisHex, useEmberDataTiles, isMiniMap) {
+  drawMiniMapHexTile(minimapLayer, hex, previouslySeenThisHex) {
     let point = this.mapService.currentLayout.hexToPixel(hex);
     let x = Math.floor(point.x) - this.mapService.currentLayout.size.x;
     let y = Math.floor(point.y) - this.mapService.currentLayout.size.y - 4;
@@ -318,11 +324,7 @@ console.log('setupGameboardCanvases');
 
     // TODO  Why do we need to load another image first?
     if (hex.id === "1") {
-      Konva.Image.fromURL('/images/cacheicon.png', function (cacheNode) {
-        // cacheNode.setAttrs({
-        //   x: x,
-        //   y: y
-        // });
+      Konva.Image.fromURL('/images/cacheicon.png', function () {
         minimapLayer.batchDraw();
       });
     }
@@ -335,7 +337,8 @@ console.log('setupGameboardCanvases');
         // opacity: 1,
         opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
         width: (this.mapService.currentLayout.size.x*2)+1,
-        height: (this.mapService.currentLayout.size.y*2)+1
+        height: (this.mapService.currentLayout.size.y*2)+1,
+        listening: false
       });
     //   // listening: false
     //   tileImage.strokeHitEnabled(false);
@@ -349,6 +352,7 @@ console.log('setupGameboardCanvases');
       // minimapLayer.batchDraw();
     });
     // minimapLayer.draw();
+
   }
 
   drawHexTile(layer, hex, previouslySeenThisHex, useEmberDataTiles, isMiniMap) {
@@ -376,7 +380,8 @@ console.log('setupGameboardCanvases');
         // opacity: 1,
         opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
         width: (this.mapService.currentLayout.size.x*2)+1,
-        height: (this.mapService.currentLayout.size.y*2)+1
+        height: (this.mapService.currentLayout.size.y*2)+1,
+        listening: false
       });
         // listening: false
       tileImage.strokeHitEnabled(false);
@@ -499,7 +504,8 @@ console.log('setupGameboardCanvases');
           x: returnFieldOfViewHexes.visible[i].fovX,
           y: returnFieldOfViewHexes.visible[i].fovY,
           radius: 4,
-          fill: 'lightgreen'
+          fill: 'lightgreen',
+          listening: false
         });
         layer.add(circle);
       }
@@ -509,7 +515,8 @@ console.log('setupGameboardCanvases');
           x: returnFieldOfViewHexes.blocked[i].fovX,
           y: returnFieldOfViewHexes.blocked[i].fovY,
           radius: 4,
-          fill: 'red'
+          fill: 'red',
+          listening: false
         });
         layer.add(circle);
       }
@@ -538,7 +545,8 @@ console.log('setupGameboardCanvases');
         stroke: 'purple',
         strokeWidth: 3,
         lineCap: 'round',
-        lineJoin: 'round'
+        lineJoin: 'round',
+        listening: false
       });
 
       let debugLayer = this.camera.getDebugLayer()

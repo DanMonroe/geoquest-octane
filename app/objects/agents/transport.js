@@ -70,7 +70,8 @@ export class Transport extends BaseAgent {
       height: 4,
       fill: 'green',
       stroke: 'black',
-      strokeWidth: 1
+      strokeWidth: 1,
+      listening: false
     });
 
     let powerBar = new Konva.Rect({
@@ -81,7 +82,8 @@ export class Transport extends BaseAgent {
       height: 4,
       fill: 'blue',
       stroke: 'black',
-      strokeWidth: 1
+      strokeWidth: 1,
+      listening: false
     });
 
     let image = new Image();

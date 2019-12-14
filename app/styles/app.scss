@@ -1,8 +1,21 @@
-body {
-  margin:0;
-  padding:0;
+* {
+  background: none repeat scroll 0 0 transparent;
+  border: medium none;
+  border-spacing: 0;
+  font-size: 16px;
+  font-weight: normal;
   font-family: sans-serif;
+  line-height: 1.42rem;
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+  text-indent: 0;
   color: #efefef;
+}
+
+body {
   //height: 100%;
   //background-color: antiquewhite;
   //background-image: url("/images/ocean09.jpg");
@@ -12,9 +25,19 @@ body {
   width: 100%;
   height: 100vh;
   background: #22454f url(/images/portal-background.png);
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  //align-items: center;
+  //justify-content: center;
+  //overflow: hidden;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+h2 {
+  font-size: 2.2em;
 }
 
 .game {
@@ -32,6 +55,10 @@ body {
 
 .header {
   margin: 0 0 0 20px;
+}
+
+.absolute {
+  position: absolute;
 }
 
 /*---------------------------------------------------------------------------
@@ -65,24 +92,299 @@ body {
 
 .btn {
   cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+
 }
-.modal1 {
-  width: 600px;
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 6px;
-  background-color: white;
-  box-shadow: 0 4px 28px 0 rgba(200, 200, 200, 0.36);
-  padding: 16px 32px;
+.big-font {
+  text-transform: uppercase;
+  font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
 }
+
+.epm-modal-container {
+  .epm-modal {
+    z-index: 1111;
+  }
+}
+.epm-modal-container {
+  &.config {
+    .epm-modal {
+      top: 29%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  &.inventory {
+    .epm-modal {
+      top: 27%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .epm-modal-container.inventory .epm-modal {
+    top: 324px;
+  }
+  .inventoryDialog {
+    background-image: url("/images/items-background-narrow.png");
+    width: 966px;
+    h2.title {
+      display: none;
+    }
+
+    .close-btn-x {
+      top: 86px;
+      left: 384px;
+      &:hover {
+        color: #ef0;
+      }
+
+    }
+
+    .inventory-list {
+      width: 426px;
+      left: 160px;
+      height: 447px;
+    }
+    .left-nav {
+      left: -31px;
+    }
+  }
+}
+@media only screen and (min-width: 1025px) {
+  .inventoryDialog {
+    background-image: url("/images/items-background.png");
+    width: 1227px;
+    h2.title {
+      position: absolute;
+      top: 100px;
+      left: 220px;
+      color: #efefef;
+    }
+
+    .close-btn-x {
+      top: 106px;
+      left: 633px;
+    }
+
+    .inventory-list {
+      width: 653px;
+      left: 180px;
+      height: 481px;
+    }
+    .left-nav {
+      left: -24px;
+    }
+  }
+}
+.inventoryDialog {
+  position: relative;
+  //background-image: url("/images/items-background.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 726px;
+
+
+  .close-btn-x {
+    position: absolute;
+    color: #efefef;
+    font-weight: bold;
+    font-size: 22px;
+    padding: 15px;
+  }
+
+  .left-nav {
+    position: absolute;
+    top: 180px;
+
+
+    .btn {
+      display: block;
+      background: url("/images/menu-tab.png");
+      //background-repeat: no-repeat;
+      //background-size:  contain;
+      width: 180px;
+      height: 80px;
+      span {
+        font-size: 18px;
+        line-height: 50px;
+        background: none;
+        color: #c3997c;
+        font-weight: bold;
+        padding: 10px 7px;
+      }
+      &.active {
+        background: url("/images/menu-tab-selected.png");
+        width: 197px;
+        span {
+          color: #fff;
+        }
+      }
+      img {
+        vertical-align: middle;
+      }
+    }
+  }
+  .inventory-list {
+    position: absolute;
+    top: 200px;
+
+    //width: 653px;
+    //height: 481px;
+    overflow: hidden;
+    .pane {
+      height: 100%;
+      padding: 26px 51px 26px 26px;
+      .item {
+        cursor: pointer;
+        width: 168px;
+        padding: 10px;
+        height: 176px;
+        float: left;
+        background: url("/images/item-box-background.png");
+        margin: 4px;
+        text-align: center;
+        position: relative;
+
+        &.selected {
+          background: url("/images/item-box-background-selected.png");
+        }
+        strong {
+          position: absolute;
+          top: 7px;
+          padding: 2px;
+          left: 0;
+          right: 0;
+          font-size: 18px;
+          z-index: 2;
+          line-height: 18px;
+          color: #161005;
+          text-align: center;
+        }
+
+        img {
+          position: absolute;
+          margin-left: auto;
+          margin-right: auto;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 45px;
+          width: 90px;
+          height: 90px;
+        }
+
+        span.owned {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 41px;
+          color: #163d49;
+          line-height: 38px;
+          font-size: 16px;
+          text-align: center;
+        }
+
+        span.cost {
+          position: absolute;
+          height: 41px;
+          left: 0;
+          bottom: 0;
+          width: 95px;
+          line-height: 38px;
+          font-size: 16px;
+          color: #163d49;
+          font-weight: bold;
+          text-align: center;
+
+          img {
+            width: 22px;
+            height: 22px;
+            margin-right: 8px;
+            position: relative;
+            top: -2px;
+            vertical-align: middle;
+          }
+          span.big-font {
+            line-height: 38px;
+            font-size: 16px;
+            color: #163d49;
+          }
+        }
+        .unlock-button {
+          padding: 6px 9px;
+          position: absolute;
+          border: 3px solid #074153;
+          background: #0077a8;
+          color: white;
+          border-radius: 0;
+          right: 3px;
+          bottom: 2px;
+          width: 93px;
+          height: 41px;
+          font-size: 16px;
+          &.confirm {
+            padding-left: 6px;
+          }
+        }
+      }
+      .scroll {
+        position: absolute;
+        overflow: scroll;
+        overflow-x: hidden;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        &::-webkit-scrollbar-track {
+          -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+          background-color: #000;
+          width: 16px;
+          background: #000;
+          border: 3px solid #614c3a;
+          border-radius: 5px;
+          transition: .2s;
+        }
+
+        &::-webkit-scrollbar {
+          width: 16px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #bd8331;
+          border: 3px solid #000;
+          border-radius: 10px;
+        }
+      }
+    }
+    .pane-scroll {
+      width: 16px;
+      background: #000;
+      border: 3px solid #614c3a;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+  }
+} // inventoryDialog
+
 
 .configDialog {
   background-image: url("/images/subscribe-background-blank.png");
   background-repeat: no-repeat;
   background-size: contain;
-  width: 618px;
-  height: 480px;
-  margin-top: -312px;
+  //width: 618px;
+  //height: 480px;
+  width: 60vw;
+  height: 63vh;
+
+  //margin-top: -312px;
+  //position: absolute;
+  //top: -400px;
+  //left: -290px;
 
   .title {
     display: inline-table;
@@ -175,6 +477,9 @@ body {
       -webkit-box-shadow: 0 0 12px #bbf;
       box-shadow: 0 0 12px #bbf;
     }
+    &:focus {
+      outline: none;
+    }
     //&:not(:first-child) {
     //  margin-left: 30px;
     //}
@@ -232,8 +537,7 @@ body {
   bottom: 1%;
   z-index: 3;
 
-  //width: 840px;
-  //height: 395px;
+  background-color: rgba(0, 0, 0, 0.4);
 
   width: 200px;
   height: 100px;
@@ -258,7 +562,7 @@ body {
 }
 
 .instructions {
-  margin: 25px 10px;
+  margin: 25px 20px;
 }
 .pickMap {
   width: 200px;

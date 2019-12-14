@@ -1,0 +1,29 @@
+<div class="inventoryDialog">
+  <h2 class="title">Inventory</h2>
+  <div class="btn close-btn-x" {{action @close true}}>X</div>
+  <div class="left-nav absolute">
+    {{#each this.leftNavItems as |navItem|}}
+      {{log "navItem" navItem}}
+      <button class="btn{{if (eq this.currentNavCategory.text navItem.text) " active"}}" type="button" {{on "click" (fn pickCategory navItem)}}><img src={{navItem.img}}/><span class="big-font">{{navItem.text}}</span></button>
+    {{/each}}
+  </div>
+  <div class="inventory-list">
+
+    <div class="pane" >
+      <div class="scroll">
+        {{#each this.filteredItems as |item|}}
+          <div class="item{{if (eq item.id itemSelectedId) " selected"}}" {{on "click" (fn selectItem item)}}>
+            <strong class="big-font">{{item.name}}</strong>
+            <img class="item-img" src="{{item.img}}">
+            {{#if item.owned}}
+              <span class="big-font owned">Owned</span>
+            {{else}}
+              <span class="cost"><img src="/images/gem.png"><span class="big-font">{{item.price}}</span></span>
+              <button class="btn unlock-button big-font">Unlock</button>
+            {{/if}}
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
