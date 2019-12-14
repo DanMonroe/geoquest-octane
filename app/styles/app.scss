@@ -12,7 +12,6 @@
   text-align: left;
   text-decoration: none;
   text-indent: 0;
-  color: #efefef;
 }
 
 body {
@@ -40,12 +39,20 @@ h2 {
   font-size: 2.2em;
 }
 
+h3, .h3 {
+  font-size: 20px;
+}
+
+p {
+  margin: 0 0 10px;
+}
 .game {
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   position: absolute;
+  color: #efefef;
   .game-controller {
     position: absolute;
     height: 100%;
@@ -102,7 +109,9 @@ h2 {
   font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: bold;
 }
-
+.game .epm-backdrop {
+  background-color: #0a2430bd;
+}
 .epm-modal-container {
   .epm-modal {
     z-index: 1111;
@@ -116,13 +125,17 @@ h2 {
     }
   }
   &.inventory {
+    position: relative;
+    background-color: none;
+    background-clip: padding-box;
+    outline: none;
     .epm-modal {
       top: 27%;
       transform: translate(-50%, -50%);
     }
   }
 }
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1300px) {
   .epm-modal-container.inventory .epm-modal {
     top: 324px;
   }
@@ -150,9 +163,22 @@ h2 {
     .left-nav {
       left: -31px;
     }
+    .item-title {
+      position: absolute;
+      width: 206px;
+      height: 50px;
+      left: 679px;
+      top: 118px;
+      z-index: 2;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .item-details-body {
+      width: 325px;
+    }
   }
 }
-@media only screen and (min-width: 1025px) {
+@media only screen and (min-width: 1301px) {
   .inventoryDialog {
     background-image: url("/images/items-background.png");
     width: 1227px;
@@ -176,6 +202,15 @@ h2 {
     .left-nav {
       left: -24px;
     }
+    .item-title {
+      position: absolute;
+      width: 228px;
+      height: 50px;
+      left: 910px;
+      top: 60px;
+      z-index: 2;
+    }
+
   }
 }
 .inventoryDialog {
@@ -223,6 +258,135 @@ h2 {
       }
       img {
         vertical-align: middle;
+      }
+    }
+  }
+
+  .item-details-view {
+    img.hr {
+      width: 70%;
+      margin: 0 10% -3px;
+    }
+
+    .stat-row {
+      height: 16px;
+      position: relative;
+      font-weight: bold;
+      .stat-label {
+        position: absolute;
+        left: 54px;
+        color: #5d4934;
+      }
+      .stat {
+        position: absolute;
+        left: 150px;
+        color: #2a261c;
+      }
+    }
+
+    .item-title {
+      h2 {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: middle;
+        margin-top: 13px;
+        color: #352819;
+      }
+    }
+    .item-title .one-line {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    //position: absolute;
+    //top: 200px;
+    //overflow: hidden;
+    .item-details-body {
+      position: absolute;
+      top: 200px;
+      left: 636px;
+      //background-color: lightpink;
+      height: 410px;
+      color: #555;
+
+      .item-description {
+        margin: 15px 15px 0 25px;
+        padding-right: 5px;
+      }
+
+      .skills {
+        margin: 15px 15px 0 25px;
+        h3 {
+          color: #292319;
+          padding-right: 5px;
+          margin-bottom: 5px;
+        }
+      }
+
+      .pane {
+        height: 100%;
+        .scroll {
+          position: absolute;
+          overflow: scroll;
+          overflow-x: hidden;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          &::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            background-color: #000;
+            width: 16px;
+            background: #000;
+            border: 3px solid #614c3a;
+            border-radius: 5px;
+            transition: .2s;
+          }
+
+          &::-webkit-scrollbar {
+            width: 16px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background: #bd8331;
+            border: 3px solid #000;
+            border-radius: 10px;
+          }
+
+          .item-container {
+            height: 163px;
+            width: 100%;
+            img {
+              vertical-align: middle;
+            }
+
+            //img.hr {
+            //  width: 80%;
+            //  margin: 0 10% -3px;
+            //}
+            .item-img {
+              top: 15px;
+            }
+            .item-img, .item-shadow {
+              position: absolute;
+              margin-left: auto;
+              margin-right: auto;
+              left: -24px;
+              right: 0;
+              bottom: 0;
+            }
+            .item-shadow {
+              top: 25px;
+              left: -19px;
+              -webkit-filter: contrast(0%) brightness(0%);
+              -moz-filter: contrast(0%) brightness(0%);
+              -o-filter: contrast(0%) brightness(0%);
+              filter: contrast(0%) brightness(0%);
+              opacity: 0.2;
+            }
+          }
+        }
       }
     }
   }
@@ -359,15 +523,15 @@ h2 {
         }
       }
     }
-    .pane-scroll {
-      width: 16px;
-      background: #000;
-      border: 3px solid #614c3a;
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-    }
+    //.pane-scroll {
+    //  width: 16px;
+    //  background: #000;
+    //  border: 3px solid #614c3a;
+    //  position: absolute;
+    //  right: 0;
+    //  top: 0;
+    //  bottom: 0;
+    //}
   }
 } // inventoryDialog
 

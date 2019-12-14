@@ -6,7 +6,7 @@ export default class InventoryDialogComponent extends Component {
   tagName = '';
 
   @tracked currentNavCategory = this.leftNavItems[0];
-  @tracked itemSelectedId = null;
+  @tracked itemSelected = null;
 
   @computed
   get leftNavItems() {
@@ -49,16 +49,33 @@ export default class InventoryDialogComponent extends Component {
         owned: false,
         img: '/images/items/crossbow.png',
         locked: false,
+        unlockText: 'Unlock',
         type: 'weapon'
       },
       {
         id:3,
-        name: 'Sword',
+        name: 'Faux Fur Hat',
         price: 100,
         owned: true,
-        img: '/images/items/crossbow.png',
+        img: '/images/items/furhat.png',
         locked: false,
-        type: 'armor'
+        type: 'armor',
+        stats: [
+          {
+            title: 'Health',
+            desc: '+8'
+          }
+        ],
+        description: 'Modest range and damage; it\'s the beginner crossbow. But hey, it\'s cheap!' +
+          'Modest range and damage; it\'s the beginner crossbow. But hey, it\'s cheap!' +
+          'Modest range and damage; it\'s the beginner crossbow. But hey, it\'s cheap!' +
+          'Modest range and damage; it\'s the beginner crossbow. But hey, it\'s cheap!\n',
+        skills: [
+          {
+            title: 'attack',
+            desc: 'The attack method makes the hero attack the target.'
+          }
+        ]
       },
       {
         id:4,
@@ -76,6 +93,7 @@ export default class InventoryDialogComponent extends Component {
         owned: false,
         img: '/images/items/crossbow.png',
         locked: false,
+        unlockText: 'Unlock', // TODO change to computed
         type: 'weapon'
       },
       {
@@ -130,6 +148,7 @@ export default class InventoryDialogComponent extends Component {
         owned: false,
         img: '/images/items/crossbow.png',
         locked: false,
+        unlockText: 'Unlock',
         type: 'weapon'
       }
     ];
@@ -148,6 +167,24 @@ export default class InventoryDialogComponent extends Component {
 
   @action
   selectItem(item) {
-    this.itemSelectedId = item.id;
+    // console.log(item);
+    if(this.itemSelected) {
+      this.itemSelected.confirmUnlock = false;
+      // this.itemSelected.set('unlockText','Unlock');
+    };
+    this.itemSelected = item;
+  }
+
+  @action
+  unlockItem(item) {
+    console.log('unlock', item.name);
+    if (item.confirmUnlock) {
+      console.log('todo unlock');
+      item.confirmUnlock = false;
+      // item.unlockText.set('unlockText','Unlock');
+    } else {
+      item.confirmUnlock = true;
+      // item.unlockText.set('unlockText','Confirm');
+    }
   }
 }

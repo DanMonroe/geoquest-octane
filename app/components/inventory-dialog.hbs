@@ -8,22 +8,65 @@
     {{/each}}
   </div>
   <div class="inventory-list">
-
-    <div class="pane" >
+    <div class="pane">
       <div class="scroll">
         {{#each this.filteredItems as |item|}}
-          <div class="item{{if (eq item.id itemSelectedId) " selected"}}" {{on "click" (fn selectItem item)}}>
+          <div class="item{{if (eq item.id this.itemSelected.id) " selected"}}" {{on "click" (fn selectItem item)}}>
             <strong class="big-font">{{item.name}}</strong>
             <img class="item-img" src="{{item.img}}">
             {{#if item.owned}}
               <span class="big-font owned">Owned</span>
             {{else}}
               <span class="cost"><img src="/images/gem.png"><span class="big-font">{{item.price}}</span></span>
-              <button class="btn unlock-button big-font">Unlock</button>
+              <button class="btn unlock-button big-font" {{on "click" (fn unlockItem item)}}>{{item.unlockText}}</button>
             {{/if}}
           </div>
         {{/each}}
       </div>
     </div>
+  </div>
+  <div class="item-details-view">
+    {{#if this.itemSelected}}
+    <div class="item-title">
+      <h2 class="one-line big-font">{{this.itemSelected.name}}</h2>
+    </div>
+    <div class="item-details-body">
+      <div class="pane">
+        <div class="scroll">
+            <div class="item-container">
+              <img src="{{this.itemSelected.img}}" draggable="false" class="item-img">
+              <img src="{{this.itemSelected.img}}" draggable="false" class="item-shadow">
+            </div>
+            <img src="/images/hr.png" class="hr">
+            {{#each this.itemSelected.stats as |stat|}}
+              <div class="stat-row big-font short-name">
+                <div class="stat-label">{{stat.title}}</div>
+                <div class="stat">{{stat.desc}}</div>
+              </div>
+              <img src="/images/hr.png" class="hr">
+            {{/each}}
+          {{#if this.itemSelected.description}}
+            <div dir="auto" class="item-description">
+              {{this.itemSelected.description}}
+            </div>
+          {{/if}}
+          {{#if (gte this.itemSelected.skills.length 0)}}
+            <div class="skills">
+              <h3 class="big-font">
+                Skills Granted
+              </h3>
+              {{#each this.itemSelected.skills as |skill|}}
+              <p>
+                <strong>{{skill.title}}</strong>
+                <span class="spr">:</span>
+                <span>{{skill.desc}}</span>
+              </p>
+              {{/each}}
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  {{/if}}
   </div>
 </div>
