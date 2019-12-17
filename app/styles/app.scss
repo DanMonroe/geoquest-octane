@@ -68,6 +68,92 @@ p {
   position: absolute;
 }
 
+.title-text {
+  color: #febc44;
+  font-size: 38px;
+  font-variant: small-caps;
+  text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0;
+}
+.btn {
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  &.styled {
+    min-width: 130px;
+    min-height: 45px;
+    font-size: 1.2rem;
+    color: #ffffff;
+    text-align: center;
+    padding-top: 5px;
+    &:hover {
+      color: #ffd94a;
+    }
+
+  }
+  &.btn-primary, &.btn-blue {
+    background: url(/images/common/button-background-primary-active.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    &:hover {
+      background: url(/images/common/button-background-primary-pressed.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+  &.btn-green {
+    background: url(/images/common/button-background-success-active.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    &:hover {
+      background: url(/images/common/button-background-success-pressed.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+  &.btn-green {
+    background: url(/images/common/button-background-success-active.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    &.disabled {
+      background: url(/images/common/button-background-success-inactive.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+    &:hover {
+      background: url(/images/common/button-background-success-pressed.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+  &.btn-warning, &.btn-tan {
+    background: url(/images/common/button-background-warning-active.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    &:hover {
+      background: url(/images/common/button-background-warning-pressed.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+  &.btn-danger, &.btn-red {
+    background: url(/images/common/button-background-danger-active.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    &:hover {
+      background: url(/images/common/button-background-danger-pressed.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+  &.btn-warning.disabled, &.btn-primary.disabled, &.btn-green.disabled, &.disabled {
+    background: url(/images/common/button-background-disabled.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+}
+button:focus {
+  outline: none;
+}
 /*---------------------------------------------------------------------------
   ember-elsewhere
 ---------------------------------------------------------------------------*/
@@ -120,7 +206,7 @@ p {
 .epm-modal-container {
   &.config {
     .epm-modal {
-      top: 29%;
+      top: 27%;
       transform: translate(-50%, -50%);
     }
   }
@@ -175,6 +261,10 @@ p {
     }
     .item-details-body {
       width: 325px;
+      position: absolute;
+      top: 200px;
+      left: 636px;
+      height: 410px;
     }
   }
 }
@@ -186,12 +276,15 @@ p {
       position: absolute;
       top: 100px;
       left: 220px;
-      color: #efefef;
     }
 
     .close-btn-x {
-      top: 106px;
-      left: 633px;
+      top: 92px;
+      left: 618px;
+      &:hover {
+        color: #ef0;
+      }
+
     }
 
     .inventory-list {
@@ -206,12 +299,30 @@ p {
       position: absolute;
       width: 228px;
       height: 50px;
-      left: 910px;
-      top: 60px;
+      left: 921px;
+      top: 126px;
       z-index: 2;
     }
-
   }
+  .item-title {
+    position: absolute;
+    width: 206px;
+    height: 50px;
+    left: 679px;
+    top: 118px;
+    z-index: 2;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .item-details-body {
+    width: 325px;
+    position: absolute;
+    top: 200px;
+    left: 893px;
+    height: 440px;
+  }
+
 }
 .inventoryDialog {
   position: relative;
@@ -299,15 +410,7 @@ p {
       text-overflow: ellipsis;
     }
 
-    //position: absolute;
-    //top: 200px;
-    //overflow: hidden;
     .item-details-body {
-      position: absolute;
-      top: 200px;
-      left: 636px;
-      //background-color: lightpink;
-      height: 410px;
       color: #555;
 
       .item-description {
@@ -394,8 +497,6 @@ p {
     position: absolute;
     top: 200px;
 
-    //width: 653px;
-    //height: 481px;
     overflow: hidden;
     .pane {
       height: 100%;
@@ -523,61 +624,42 @@ p {
         }
       }
     }
-    //.pane-scroll {
-    //  width: 16px;
-    //  background: #000;
-    //  border: 3px solid #614c3a;
-    //  position: absolute;
-    //  right: 0;
-    //  top: 0;
-    //  bottom: 0;
-    //}
   }
 } // inventoryDialog
 
-
 .configDialog {
+  position: relative;
   background-image: url("/images/subscribe-background-blank.png");
   background-repeat: no-repeat;
   background-size: contain;
-  //width: 618px;
-  //height: 480px;
-  width: 60vw;
-  height: 63vh;
+  width: 966px;
+  height: 726px;
 
-  //margin-top: -312px;
-  //position: absolute;
-  //top: -400px;
-  //left: -290px;
+  h2.title {
+    position: absolute;
+    top: 120px;
+    left: 395px;
+  }
 
-  .title {
-    display: inline-table;
-    padding-top: 56px;
-    h2 {
-      display: inline-table;
-      padding-left: 250px;
-      text-align: center;
-      color: #efefef;
-    }
+  .close-btn-x {
+    position: absolute;
+    color: #efefef;
+    top: 124px;
+    left: 736px;
 
-    .close-btn-x {
-      display: inline-table;
-      color: #efefef;
-      padding: 15px;
-      font-weight: bold;
-      font-size: 22px;
-      margin-left: 126px;
+    font-weight: bold;
+    font-size: 28px;
 
-      &:hover {
-        color: #ef0;
-      }
+    &:hover {
+      color: #ffd94a;
     }
   }
   .body {
-    height: 210px;
-    width: 510px;
-    //background-color: #ffb6c1;
-    margin: 50px 0 0px 50px;
+    position: absolute;
+    top: 235px;
+    left: 75px;
+    height: 350px;
+    width: 770px;
     button {
       margin: 2px;
     }
@@ -585,31 +667,12 @@ p {
   .footer {
     position: absolute;
     bottom: 0;
+    height: 130px;
+    width: 930px;
     button {
-      display: inline-block;
-      border: none;
-      padding: 1.8rem 2rem;
-      margin: 0;
-      text-decoration: none;
-      color: #ffffff;
-      font-size: 1rem;
-      margin: 0 0 31px 237px;
-        &.btn-primary {
-          background: url(/images/button-background-primary-active.png);
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
-          height: 30px;
-          width: 140px;
-          padding-top: 10px;
-          span {
-            margin-left: 50px;
-          }
-          &:hover {
-            background: url(/images/button-background-primary-pressed.png);
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-          }
-        }
+      position: absolute;
+      top: 50px;
+      left: 410px;
     }
     button:focus {
       outline: none;
