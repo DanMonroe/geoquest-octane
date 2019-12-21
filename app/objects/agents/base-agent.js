@@ -31,6 +31,7 @@ export class BaseAgent {
 
   get point() {
     if (this.mapService && this.mapService.currentLayout) {
+      // return this.hex.point;
       return this.mapService.currentLayout.hexToPixel(this.hex);
     }
     return new Point({x: 0, y: 0});
@@ -77,7 +78,8 @@ export class BaseAgent {
       // TODO this probably should never happen
       startHex = this.game.mapService.hexMap[0];
     }
-    return startHex;
+    return startHex.mapObject;
+    // return startHex;
   }
 
   canFireWeapon(powerRequirement) {

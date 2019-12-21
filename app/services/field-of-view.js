@@ -13,8 +13,9 @@ export default class FieldOfViewService extends Service {
   @tracked lastNeighborsInRangeArray = {};
 
   updatePlayerFieldOfView() {
-    // console.log('updatePlayerFieldOfView');
+    console.time('updatePlayerFieldOfView')
     let player = this.game.player;
+    // console.log('updatePlayerFieldOfView', 'player', player,'player.hex', player.hex);
 
     // recursive
     let neighborsInRangeArray = [];
@@ -22,10 +23,13 @@ export default class FieldOfViewService extends Service {
     this.clean(player.hex, neighborsInRangeArray);
 
     let finalFovHexes = this.buildFieldOfVisionVisibleAndBlockedHexes(neighborsInRangeArray, player.hex);
-// console.log('finalFovHexes', finalFovHexes);
+
+    // console.log('finalFovHexes', finalFovHexes);
     this.mapService.updateSeenHexes(finalFovHexes);
     this.updateGameboardTilesOpacity(finalFovHexes);
     this.updateStaticEnemyOpacity(finalFovHexes);
+
+    console.timeEnd('updatePlayerFieldOfView')
   }
 
   clean(originHex, neighborsInRangeArray) {
@@ -47,6 +51,8 @@ export default class FieldOfViewService extends Service {
       blocked: [],
       noLongerVisible: [] // hexes that used to be visible, now out of range
     }
+
+    // console.log('buildFieldOfVisionVisibleAndBlockedHexes', 'playerHex', playerHex, 'playerHex.mapObject', playerHex.mapObject);
 
     // set fov properties, build visible, blocked arrays
     for (let n = 0, nLength = sortedByDistanceNeighbors.length; n < nLength; n++) {
@@ -150,8 +156,9 @@ export default class FieldOfViewService extends Service {
 
   // update both main and mini maps
   updateGameboardTilesOpacity(finalFovHexes) {
+    // this.updateGameboardTilesOpacityForLayer(finalFovHexes, this.camera.getHexLayer());
     this.updateGameboardTilesOpacityForLayer(finalFovHexes, this.camera.getGameLayer());
-    this.updateGameboardTilesOpacityForLayer(finalFovHexes, this.camera.getMiniMapLayer());
+    // this.updateGameboardTilesOpacityForLayer(finalFovHexes, this.camera.getMiniMapLayer());
   }
 
   updateGameboardTilesOpacityForLayer(finalFovHexes, layer) {
@@ -159,19 +166,25 @@ export default class FieldOfViewService extends Service {
       return h.id;
     })
 
-    let visibleHexImages = layer.getChildren((node) => {
+    const hexGroup = layer.find('#hex');
+
+    let visibleHexImages = hexGroup.getChildren((node) => {
+    // let visibleHexImages = layer.getChildren((node) => {
       return visibleIds.includes(node.id());
     });
 
     visibleHexImages.forEach(tile => {
-      tile.to({opacity: this.mapService.MAPOPACITY.VISIBLE});
+      console.count("set tile to opacity 0");
+      tile.to({opacity: 0});
+      // tile.to({opacity: this.mapService.MAPOPACITY.VISIBLE});
     });
 
     // No longer visible
     let noLongerVisibleIds = finalFovHexes.noLongerVisible.map(function(h){
       return h.id;
     })
-    let noLongerVisibleHexImages = layer.getChildren((node) => {
+    let noLongerVisibleHexImages = hexGroup.getChildren((node) => {
+    // let noLongerVisibleHexImages = layer.getChildren((node) => {
       return noLongerVisibleIds.includes(node.id());
     });
     // remove any hex that is in visible hexes

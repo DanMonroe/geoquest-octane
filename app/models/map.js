@@ -1,11 +1,22 @@
 import Model, {attr, hasMany } from '@ember-data/model';
 import {computed} from '@ember/object';
+import {reads} from '@ember/object/computed';
 
 export default class MapModel extends Model {
 
   @attr name;
+  @attr backgroundImage;
+  @attr backgroundImageWidth;
+  @attr backgroundImageHeight;
+  @attr({ defaultValue: 0 }) backgroundOffsetX;
+  @attr({ defaultValue: 0 }) backgroundOffsetY;
   @attr({ defaultValue: "flat" }) layoutType;
-  @attr({ defaultValue: 24 }) layoutHexSize;
+  // @attr({ defaultValue: 36 }) layoutHexSizeX;
+  // @attr({ defaultValue: 41 }) layoutHexSizeY;
+
+  @attr layout;
+  @reads('layout.size.x') layoutHexSizeX;
+  @reads('layout.size.y') layoutHexSizeY;
 
   @hasMany('hex-row') hexRows;
 

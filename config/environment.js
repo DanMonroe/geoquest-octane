@@ -39,7 +39,8 @@ module.exports = function(environment) {
     },
 
     game: {
-      startingMapIndex: 2,
+      startingMapIndex: 1,
+      // startingMapIndex: 2,
       enableGameSounds: false,
       gameClockEnabled: false,
       transport: {
@@ -67,12 +68,13 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV.game.startingMapIndex = 2;
+    ENV.game.startingMapIndex = 1;
+    // ENV.game.startingMapIndex = 2;
     ENV.game.gameClockEnabled = false;
     ENV.game.enableGameSounds = false;
     ENV.game.transport.moveQueueEnabled = false;
     ENV.game.board.showTileGraphics = true;
-    ENV.game.board.showTileHexInfo = false;
+    ENV.game.board.showTileHexInfo = true;
     ENV.game.board.showDebugLayer = false;
     ENV.game.board.showFieldOfViewLayer = true;
     ENV.game.board.pathFindingDebug = false;

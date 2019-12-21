@@ -1,3 +1,4 @@
+import testmap from './testmap';
 import map2 from './map2';
 
 export default function(server) {
@@ -80,7 +81,7 @@ export default function(server) {
     healingPower: 1,
     armor: 2,
     initialFlags: [
-      {value:1} // 1 SEA, 2 AND
+      {value:2} // 1 SEA, 2 LAND
     ],
     weaponIds: [1]
   });
@@ -199,7 +200,10 @@ export default function(server) {
   const water1 = server.create('tile', { name: 'ZeshioHexKitDemo_096.png' });
   const sand1 = server.create('tile', { name: 'ZeshioHexKitDemo_104.png' });
 
-  map2(server, water1, sand1);
+  testmap(server, water1, sand1);
+  // map2(server, water1, sand1);
+
+
 // // FLAGS = {
 // //   TRAVEL: {
 // //     SEA: 1,

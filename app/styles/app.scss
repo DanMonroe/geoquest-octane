@@ -736,7 +736,7 @@ button:focus {
 
 #large-container {
   width: 840px;
-  height: 395px;
+  //height: 395px;
   overflow: hidden;
 }
   //width: 3000px;
@@ -751,7 +751,8 @@ button:focus {
 
 #scroll-container {
   width: calc(100% - 22px);
-  height: calc(55vh - 22px);
+  height: calc(70vh - 22px);
+  //height: calc(55vh - 22px);
   overflow: auto;
   margin: 10px;
   //border: 1px solid grey;

@@ -31,7 +31,6 @@ export class Player extends BaseAgent {
       playerStartHex = this.setStartHex(player.startHex);
       // playerStartHex = this.setStartHex(player.start);
     }
-// debugger;
 //     this.id = player.index;
     this.id = player.id;
     this.name = player.name;

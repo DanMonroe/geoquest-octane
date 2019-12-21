@@ -8,12 +8,22 @@ export default class CameraService extends Service {
 
   LAYERS = {
     GAME: 0,
-    HEX: 1,
-    DEBUG: 2,
-    FOV: 3,
-    AGENTS: 4,
+    // BACKGROUNDMAP: 1,
+    // HEX: 2,
+    // DEBUG: 3,
+    // FOV: 4,
+    AGENTS: 1,
     MINIMAP: 0
   };
+  // LAYERS = {
+  //   GAME: 0,
+  //   BACKGROUNDMAP: 1,
+  //   HEX: 2,
+  //   DEBUG: 3,
+  //   FOV: 4,
+  //   AGENTS: 5,
+  //   MINIMAP: 0
+  // };
 
   @service ('map') mapService;
   @service ('gameboard') gameboard;  // remove this ?
@@ -87,6 +97,9 @@ export default class CameraService extends Service {
   }
   getHexLayer() {
     return this.stage.getLayers()[this.LAYERS.HEX];
+  }
+  getBackgroundMapLayer() {
+    return this.stage.getLayers()[this.LAYERS.BACKGROUNDMAP];
   }
   getDebugLayer() {
     return this.stage.getLayers()[this.LAYERS.DEBUG];

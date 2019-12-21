@@ -276,7 +276,8 @@ export default class TransportService extends Service {
 
   moveTransportToHex(transport, targetHex) {
     transport.hex = targetHex;
-    let point = this.game.mapService.currentLayout.hexToPixel(targetHex);
+    let point = targetHex.mapObject.point;
+    // let point = this.game.mapService.currentLayout.hexToPixel(targetHex);
 
     // node: transport.imageObj,
     let tween = new Konva.Tween({
@@ -303,14 +304,16 @@ export default class TransportService extends Service {
   // }).enqueue() moveTransportTask;
 
 
-  @task
+  @task({drop:true})
   *movePlayerToHexTask(playerObj, targetHex) {
-
+// console.log('move', 'playerObj', playerObj, 'targetHex', targetHex);
     this.game.onBeforeMovePlayer(targetHex);
-
+// debugger;
     playerObj.hex = targetHex;
 
-    let point = this.game.mapService.currentLayout.hexToPixel(targetHex);
+    let point = targetHex.point;
+    // let point = targetHex.mapObject.point;
+    // let point = this.game.mapService.currentLayout.hexToPixel(targetHex);
 
     // for debugging:
     this.game.gameboard.playerHex = `Q:${targetHex.q} R:${targetHex.r}`;
@@ -342,7 +345,8 @@ export default class TransportService extends Service {
 
     tween.play();
 
-    this.game.fov.updatePlayerFieldOfView(playerObj.hex);
+    this.game.fov.updatePlayerFieldOfView();
+    // this.game.fov.updatePlayerFieldOfView(playerObj.hex);
 
     this.game.camera.stage.draw();
 
@@ -353,7 +357,7 @@ export default class TransportService extends Service {
     yield timeout(playerObj.speed);
 
   // }) movePlayerToHexTask;
-  };
+  }
   // }).enqueue() movePlayerToHexTask;
 
   movePlayerAlongPath(path) {

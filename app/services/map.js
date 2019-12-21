@@ -24,7 +24,9 @@ export default class MapService extends Service {
   @service ('sound') sound;
   @service ('fieldOfView') fov;
 
-  @tracked hexSize = 24;  // get from init?  zoom level ?
+  // @tracked hexSize = 24;  // get from init?  zoom level ?
+  @tracked hexSizeX = 24;
+  @tracked hexSizeY = 24;
 
   @tracked map = null;
   @tracked mapIndex = null;
@@ -69,10 +71,13 @@ export default class MapService extends Service {
     this.mapIndex = mapIndex;
     // this.map = this.mapData[mapIndex].map;
 
-    this.loadLayout({
-      "type": emberDataMap.layoutType,
-      "hexSize": emberDataMap.layoutHexSize
-    });
+    this.loadLayout(emberDataMap);
+
+    // this.loadLayout({
+    //   "type": emberDataMap.layoutType,
+    //   "hexSizeX": emberDataMap.layoutHexSizeX,
+    //   "hexSizeY": emberDataMap.layoutHexSizeY
+    // });
 
     this.loadEmberDataTiles(emberDataMap);
 
@@ -83,8 +88,7 @@ export default class MapService extends Service {
     this.initMap({map: emberDataMap.hexGrid});
     // this.camera.initCamera();
 
-    this.gameboard.setupMinimapCanvases();
-
+    // this.gameboard.setupMinimapCanvases();
     this.gameboard.setupGameboardCanvases();
 
     // setup just the hexes within view
@@ -114,14 +118,21 @@ export default class MapService extends Service {
 
     this.transport.setupPatrols();
 
+    // this.gameboard.drawBackgroundMap(emberDataMap);
+
+    console.time('drawGrid')
+
     this.gameboard.drawGrid({
+      emberDataMap: emberDataMap,
       hexes: this.hexMap,
       withLabels: this.game.showTileHexInfo,
       withTiles: this.game.showTileGraphics,
       useEmberDataTiles: true
     });
+    console.timeEnd('drawGrid');
 
-    this.fov.updatePlayerFieldOfView(this.game.player.hex)
+    // this.fov.updatePlayerFieldOfView(this.game.player.hex)
+    this.fov.updatePlayerFieldOfView()
 
     this.transport.moveQueueTask.perform();
 
@@ -161,7 +172,8 @@ export default class MapService extends Service {
       withTiles: this.game.showTileGraphics
     });
 
-    this.fov.updatePlayerFieldOfView(this.game.player.hex)
+    this.fov.updatePlayerFieldOfView()
+    // this.fov.updatePlayerFieldOfView(this.game.player.hex)
 
     this.transport.moveQueueTask.perform();
   }
@@ -210,27 +222,28 @@ export default class MapService extends Service {
     return this.mapSeenHexes.get(`${this.mapIndex}`);
   }
 
-  loadLayout(layout) {
-
-    this.hexSize = layout.hexSize;
-    if(layout.type === "flat") {
+  loadLayout(emberDataMap) {
+    this.hexSizeX = emberDataMap.layoutHexSizeX;
+    this.hexSizeY = emberDataMap.layoutHexSizeY;
+    // this.currentLayout = emberDataMap.layout;
+    if(emberDataMap.layout.orientation.type === "flat") {
+    // if(layout.type === "flat") {
       this.currentLayout = new Layout({
         orientation: Layout.FLAT,
-        size: new Point({x:this.hexSize, y:this.hexSize}),
+        size: new Point({x:this.hexSizeX, y:this.hexSizeY}),
         origin: new Point({x:0, y:0})
       });
     } else {
       this.currentLayout = new Layout({
         orientation: Layout.POINTY,
-        size: new Point({x:this.hexSize, y:this.hexSize}),
+        size: new Point({x:this.hexSizeX, y:this.hexSizeY}),
         origin: new Point({x:0, y:0})
       });
     }
-      // orientation: Layout.FLAT,
-      // orientation: Layout.POINTY,
+    console.log('loadLayout', this.hexSizeX, this.hexSizeY, this.currentLayout);
 
-    let hexPairWidth = this.currentLayout.hexWidth * 1.5;
-    return hexPairWidth;
+    // let hexPairWidth = this.currentLayout.hexWidth * 1.5;
+    // return hexPairWidth;
 
   }
 
@@ -359,8 +372,10 @@ export default class MapService extends Service {
     this.set('numCols', numCols);
 
     let mapLength = this.hexMap.length;
-    let topLeftPoint = this.currentLayout.hexToPixel(this.hexMap[startCol*numRows]);
-    let bottomRightPoint = this.currentLayout.hexToPixel(this.hexMap[mapLength-1]);
+    let topLeftPoint = this.hexMap[startCol*numRows].point;
+    let bottomRightPoint = this.hexMap[mapLength-1].point;
+    // let topLeftPoint = this.currentLayout.hexToPixel(this.hexMap[startCol*numRows]);
+    // let bottomRightPoint = this.currentLayout.hexToPixel(this.hexMap[mapLength-1]);
     this.set('topLeftPoint', topLeftPoint);
     this.set('bottomRightPoint', bottomRightPoint);
   }
@@ -397,8 +412,10 @@ export default class MapService extends Service {
     this.set('numCols', numCols);
 
     let mapLength = this.hexMap.length;
-    let topLeftPoint = this.currentLayout.hexToPixel(this.hexMap[startCol*numRows]);
-    let bottomRightPoint = this.currentLayout.hexToPixel(this.hexMap[mapLength-1]);
+    let topLeftPoint = this.hexMap[startCol*numRows].point;
+    let bottomRightPoint = this.hexMap[mapLength-1].point;
+    // let topLeftPoint = this.currentLayout.hexToPixel(this.hexMap[startCol*numRows]);
+    // let bottomRightPoint = this.currentLayout.hexToPixel(this.hexMap[mapLength-1]);
     this.set('topLeftPoint', topLeftPoint);
     this.set('bottomRightPoint', bottomRightPoint);
   }
@@ -816,7 +833,8 @@ export default class MapService extends Service {
   // shows yellow boxes 'visited' during the findPath method
   drawVisitedRect(neighbor, visitedCounter) {
     let debugLayer = this.camera.getDebugLayer();
-    let center = this.currentLayout.hexToPixel(neighbor);
+    let center = neighbor.point;
+    // let center = this.currentLayout.hexToPixel(neighbor);
 
     var rect = new Konva.Rect({
       x: center.x+8,

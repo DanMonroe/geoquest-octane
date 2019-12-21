@@ -38,6 +38,7 @@ export class Layout {
   _hexHeight = 0;
 
   constructor(args) {
+// console.log('constructor of layout class', args);
     this.orientation = args.orientation;
     this.size = args.size;
     this.origin = args.origin;
@@ -104,10 +105,6 @@ export class Layout {
       let y = size.x * (3 / 2) * hex.row;
       return new Point({x: x, y: y});
     }
-
-
-    // console.log('hexToPixel', x, y, M.f0, M.f1, M.f2, M.f3, size);
-
   }
 
   oddr_offset_to_pixel(hex) {
@@ -177,7 +174,9 @@ export class Layout {
   polygonCorners(hex) {
     let corners = [];
     // let center = this.oddr_offset_to_pixel(hex);
-    let center = this.hexToPixel(hex);
+    debugger;
+    let center = hex.point;
+    // let center = this.hexToPixel(hex);
 
     // console.log('hex', hex);
     // console.log('center', center);

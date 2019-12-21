@@ -206,7 +206,8 @@ export class Enemy extends BaseAgent {
     if (this.hex) {
       let startPoint = this.point;
       let playerTargetHex = this.game.player.hex;
-      let targetPoint = this.game.mapService.currentLayout.hexToPixel(playerTargetHex);
+      let targetPoint = playerTargetHex.point;
+      // let targetPoint = this.game.mapService.currentLayout.hexToPixel(playerTargetHex);
 
       this.fireWeapon.perform(weapon, startPoint, targetPoint);
     }
