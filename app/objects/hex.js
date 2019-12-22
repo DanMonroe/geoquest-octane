@@ -39,6 +39,7 @@ export class Hex {
   }
 
   add(b) {
+    debugger;
     return new Hex({q:this.q + b.q, r:this.r + b.r, s:this.s + b.s});
   }
 
@@ -61,6 +62,7 @@ export class Hex {
   }
 
   neighbor(direction) {
+    debugger;
     return this.add(this.direction(direction));
   }
 
@@ -74,6 +76,7 @@ export class Hex {
   //   return this.subtract(b).len();
   // },
   round() {
+// console.error('In Hex round');
     var qi = Math.round(this.q);
     var ri = Math.round(this.r);
     var si = Math.round(this.s);
@@ -93,10 +96,12 @@ export class Hex {
   }
 
   lerp(b, t) {
+    debugger;
     return new Hex({q:this.q * (1.0 - t) + b.q * t, r:this.r * (1.0 - t) + b.r * t, s:this.s * (1.0 - t) + b.s * t});
   }
 
   linedraw(b) {
+    debugger;
     var N = this.distance(b);
     var a_nudge = new Hex({q:this.q + 0.000001, r:this.r + 0.000001, s:this.s - 0.000002});
     var b_nudge = new Hex({q:b.q + 0.000001, r:b.r + 0.000001, s:b.s - 0.000002});

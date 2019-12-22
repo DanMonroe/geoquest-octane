@@ -195,7 +195,8 @@ export default class TransportService extends Service {
       currentWaypointHex = agent.patrol[agent.currentWaypoint];
     }
 
-    let targetHex = this.game.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
+    let targetHex = this.game.mapService.findHexByQR(currentWaypointHex.Q, currentWaypointHex.R);
+    // let targetHex = this.game.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
 
     let path = this.game.mapService.findPathEmberData(this.game.mapService.worldMap, agent.hex, targetHex);
     // let path = this.game.mapService.findPath(this.game.mapService.worldMap, agent.hex, targetHex);
@@ -276,7 +277,8 @@ export default class TransportService extends Service {
 
   moveTransportToHex(transport, targetHex) {
     transport.hex = targetHex;
-    let point = targetHex.mapObject.point;
+    let point = targetHex.point;
+    // let point = targetHex.mapObject.point;
     // let point = this.game.mapService.currentLayout.hexToPixel(targetHex);
 
     // node: transport.imageObj,
@@ -304,15 +306,15 @@ export default class TransportService extends Service {
   // }).enqueue() moveTransportTask;
 
 
+  // @task
   @task({drop:true})
   *movePlayerToHexTask(playerObj, targetHex) {
 // console.log('move', 'playerObj', playerObj, 'targetHex', targetHex);
     this.game.onBeforeMovePlayer(targetHex);
-// debugger;
+
     playerObj.hex = targetHex;
 
     let point = targetHex.point;
-    // let point = targetHex.mapObject.point;
     // let point = this.game.mapService.currentLayout.hexToPixel(targetHex);
 
     // for debugging:
@@ -348,7 +350,7 @@ export default class TransportService extends Service {
     this.game.fov.updatePlayerFieldOfView();
     // this.game.fov.updatePlayerFieldOfView(playerObj.hex);
 
-    this.game.camera.stage.draw();
+    this.game.camera.stage.batchDraw();
 
     this.game.onAfterMovePlayer(targetHex);
     // yield this.game.onAfterMovePlayer(targetHex);
@@ -356,9 +358,7 @@ export default class TransportService extends Service {
 
     yield timeout(playerObj.speed);
 
-  // }) movePlayerToHexTask;
   }
-  // }).enqueue() movePlayerToHexTask;
 
   movePlayerAlongPath(path) {
     if (path && path.length) {

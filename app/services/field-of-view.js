@@ -13,7 +13,7 @@ export default class FieldOfViewService extends Service {
   @tracked lastNeighborsInRangeArray = {};
 
   updatePlayerFieldOfView() {
-    console.time('updatePlayerFieldOfView')
+    // console.time('updatePlayerFieldOfView')
     let player = this.game.player;
     // console.log('updatePlayerFieldOfView', 'player', player,'player.hex', player.hex);
 
@@ -29,7 +29,7 @@ export default class FieldOfViewService extends Service {
     this.updateGameboardTilesOpacity(finalFovHexes);
     this.updateStaticEnemyOpacity(finalFovHexes);
 
-    console.timeEnd('updatePlayerFieldOfView')
+    // console.timeEnd('updatePlayerFieldOfView')
   }
 
   clean(originHex, neighborsInRangeArray) {
@@ -51,8 +51,6 @@ export default class FieldOfViewService extends Service {
       blocked: [],
       noLongerVisible: [] // hexes that used to be visible, now out of range
     }
-
-    // console.log('buildFieldOfVisionVisibleAndBlockedHexes', 'playerHex', playerHex, 'playerHex.mapObject', playerHex.mapObject);
 
     // set fov properties, build visible, blocked arrays
     for (let n = 0, nLength = sortedByDistanceNeighbors.length; n < nLength; n++) {
@@ -156,46 +154,63 @@ export default class FieldOfViewService extends Service {
 
   // update both main and mini maps
   updateGameboardTilesOpacity(finalFovHexes) {
-    // this.updateGameboardTilesOpacityForLayer(finalFovHexes, this.camera.getHexLayer());
     this.updateGameboardTilesOpacityForLayer(finalFovHexes, this.camera.getGameLayer());
     // this.updateGameboardTilesOpacityForLayer(finalFovHexes, this.camera.getMiniMapLayer());
   }
 
   updateGameboardTilesOpacityForLayer(finalFovHexes, layer) {
-    let visibleIds = finalFovHexes.visible.map(function(h){
-      return h.id;
-    })
-
+    // console.log('layer', layer);
     const hexGroup = layer.find('#hex');
+    // console.log('hexGroup',hexGroup);
+    if (hexGroup.length > 0) {
 
-    let visibleHexImages = hexGroup.getChildren((node) => {
-    // let visibleHexImages = layer.getChildren((node) => {
-      return visibleIds.includes(node.id());
-    });
+      const hexes = hexGroup[0];
+      // console.log('hexes',hexes);
 
-    visibleHexImages.forEach(tile => {
-      console.count("set tile to opacity 0");
-      tile.to({opacity: 0});
-      // tile.to({opacity: this.mapService.MAPOPACITY.VISIBLE});
-    });
+      // console.log('finalFovHexes', finalFovHexes);
+      let visibleIds = finalFovHexes.visible.map(function(h){
+        return h.id;
+      })
 
-    // No longer visible
-    let noLongerVisibleIds = finalFovHexes.noLongerVisible.map(function(h){
-      return h.id;
-    })
-    let noLongerVisibleHexImages = hexGroup.getChildren((node) => {
-    // let noLongerVisibleHexImages = layer.getChildren((node) => {
-      return noLongerVisibleIds.includes(node.id());
-    });
-    // remove any hex that is in visible hexes
-    noLongerVisibleHexImages = noLongerVisibleHexImages.filter((node) => {
-      return !visibleHexImages.includes(node);
-    });
+      let visibleHexImages = hexes.getChildren((node) => {
+      // let visibleHexImages = layer.getChildren((node) => {
+        return visibleIds.includes(node.id());
+      });
+  // console.log('visibleHexImages', visibleHexImages);
+      visibleHexImages.forEach(tile => {
+        // tile.to({opacity: 0});
+        tile.to({
+          fill: this.mapService.MAPFILLOPACITY.VISIBLE,
+          duration : this.mapService.MAPFILLTWEENDURATION
+        });
+        // tile.to({fillA: this.mapService.MAPFILLOPACITY.VISIBLE});
+        // tile.to({opacity: this.mapService.MAPOPACITY.VISIBLE});
+      });
 
-    noLongerVisibleHexImages.forEach(tile => {
-      tile.to({opacity: this.mapService.MAPOPACITY.PREVIOUSLYSEEN});
-    });
+      // No longer visible
+      let noLongerVisibleIds = finalFovHexes.noLongerVisible.map(function(h){
+        return h.id;
+      })
+      let noLongerVisibleHexImages = hexes.getChildren((node) => {
+      // let noLongerVisibleHexImages = layer.getChildren((node) => {
+        return noLongerVisibleIds.includes(node.id());
+      });
+      // remove any hex that is in visible hexes
+      noLongerVisibleHexImages = noLongerVisibleHexImages.filter((node) => {
+        return !visibleHexImages.includes(node);
+      });
 
-    layer.draw();
+      noLongerVisibleHexImages.forEach(tile => {
+        tile.to({
+          fill: this.mapService.MAPFILLOPACITY.PREVIOUSLYSEEN,
+          duration : this.mapService.MAPFILLTWEENDURATION
+        });
+        // tile.to({fill: this.mapService.MAPFILLOPACITY.PREVIOUSLYSEEN});
+        // tile.to({opacity: this.mapService.MAPOPACITY.PREVIOUSLYSEEN});
+      });
+
+      layer.batchDraw();
+    }
+
   }
 }

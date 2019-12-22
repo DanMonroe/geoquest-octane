@@ -10,19 +10,19 @@ export default class ApiService extends Service {
       return yield this.store.findRecord('player', playerId, {
         include: 'weapons'
       });
-    };
+    }
 
     @task
     *loadTransport(transportId) {
       return yield this.store.findRecord('transport', transportId, {
         include: 'weapons'
       });
-    };
+    }
 
     @task
     *loadEnemy(enemyId) {
       return yield this.store.findRecord('enemy', enemyId, {
         include: 'weapons'
       });
-    };
+    }
 }

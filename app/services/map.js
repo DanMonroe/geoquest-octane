@@ -14,6 +14,13 @@ export default class MapService extends Service {
     PREVIOUSLYSEEN: .4,
     VISIBLE: 1
   }
+  MAPFILLOPACITY = {
+    HIDDEN: 'rgba(0,0,0,1)',
+    PREVIOUSLYSEEN: 'rgba(0,0,0,0.4)',
+    VISIBLE: 'rgba(0,0,0,0)'
+  }
+  MAPFILLTWEENDURATION = 0.5;
+
   @service ('store') store;
   @service ('gameboard') gameboard;
   @service ('transport') transport;
@@ -34,7 +41,12 @@ export default class MapService extends Service {
   @tracked mapSeenHexes = null; // array from index.js
 
   @tracked hexMap = null;
+  @tracked allHexesMap = null;    // All HexModel objects in single array format
+
+  @tracked emberDataMap = null;
+
   worldMap = null;
+  // worldMapHexArray = null;
   // worldMapHexes = null;  //  TODO need both worldMap and worldMapHexes?
   tileGraphics = [];
   currentLayout = null;
@@ -59,19 +71,19 @@ export default class MapService extends Service {
     });
     graph.setup(); // cleans all nodes
     this.set('graph', graph);
-    // console.log('graph', graph);
   }
 
+  // TODO 12/21/19 This method does a lot.. break up
   async loadEmberDataMap(mapIndex) {
     this.game.saveGame();
 
-    let emberDataMap = await this.store.findRecord('map', mapIndex, {include:'hexRows'});
+    this.emberDataMap = await this.store.findRecord('map', mapIndex, {include:'hexRows'});
     // console.log('emberDataMap', emberDataMap);
 
     this.mapIndex = mapIndex;
     // this.map = this.mapData[mapIndex].map;
 
-    this.loadLayout(emberDataMap);
+    this.loadLayout(this.emberDataMap);
 
     // this.loadLayout({
     //   "type": emberDataMap.layoutType,
@@ -79,21 +91,26 @@ export default class MapService extends Service {
     //   "hexSizeY": emberDataMap.layoutHexSizeY
     // });
 
-    this.loadEmberDataTiles(emberDataMap);
+    this.loadEmberDataTiles(this.emberDataMap);
 
+    // TODO re-enable sounds
     // this.sound.loadSounds(this.mapData[mapIndex].sounds);
 
     // console.log(emberDataMap.hexGrid);
 
-    this.initMap({map: emberDataMap.hexGrid});
+    // sets worldMap using the hexGrid (uses HexModel objects)
+    // Creates a Graph Object
+    this.initMap({map: this.emberDataMap.hexGrid});
     // this.camera.initCamera();
 
     // this.gameboard.setupMinimapCanvases();
     this.gameboard.setupGameboardCanvases();
 
+    this.gameboard.initKeyboardAndMouseEventListeners();
+
     // setup just the hexes within view
     // this.setHexmapSubset();
-    this.setEmberMapHexmapSubset(emberDataMap);
+    this.setEmberMapHexmapSubset(this.emberDataMap);
 
     //
     // Player, Agents, and transports
@@ -123,8 +140,8 @@ export default class MapService extends Service {
     console.time('drawGrid')
 
     this.gameboard.drawGrid({
-      emberDataMap: emberDataMap,
-      hexes: this.hexMap,
+      emberDataMap: this.emberDataMap,
+      hexMap: this.hexMap,
       withLabels: this.game.showTileHexInfo,
       withTiles: this.game.showTileGraphics,
       useEmberDataTiles: true
@@ -154,6 +171,7 @@ export default class MapService extends Service {
     this.camera.initCamera();
 
     this.gameboard.setupGameboardCanvases();
+    this.gameboard.initKeyboardAndMouseEventListeners();
 
     this.setHexmapSubset();
 
@@ -222,6 +240,7 @@ export default class MapService extends Service {
     return this.mapSeenHexes.get(`${this.mapIndex}`);
   }
 
+  // Sets hexSizeX, hexSizeY, and currentLayout
   loadLayout(emberDataMap) {
     this.hexSizeX = emberDataMap.layoutHexSizeX;
     this.hexSizeY = emberDataMap.layoutHexSizeY;
@@ -240,7 +259,6 @@ export default class MapService extends Service {
         origin: new Point({x:0, y:0})
       });
     }
-    console.log('loadLayout', this.hexSizeX, this.hexSizeY, this.currentLayout);
 
     // let hexPairWidth = this.currentLayout.hexWidth * 1.5;
     // return hexPairWidth;
@@ -317,14 +335,46 @@ export default class MapService extends Service {
   }
 
   // ability to pass in the source of hexes to search - should make finding faster when passed in smaller subset of maps.
-  findHexByQRS(Q, R, S, sourceHexMap = this.hexMap) {
+  // findHexByQR(Q, R, sourceHexMap = this.hexMap) {
+  //   let hex = undefined;
+  //   for (let hexRow of sourceHexMap) {
+  //     for (let hexObject of hexRow) {
+  //       if ((Q === hexObject.q) && (R === hexObject.r)) {
+  //         hex = hexObject;
+  //         break;
+  //       }
+  //     }
+  //     if (hex) {
+  //       break;
+  //     }
+  //   }
+  //   return hex;
+  // }
+
+  // ability to pass in the source of hexes to search - should make finding faster when passed in smaller subset of maps.
+  findHexByQR(Q, R, sourceHexMap = this.allHexesMap) {
     let hex = sourceHexMap.find((hex) => {
       if (!hex) {
         return false;
       }
-      return (Q === hex.q) && (R === hex.r) && (S === hex.s);
+      return (Q === hex.q) && (R === hex.r);
     });
+    // console.trace('findHexByQR', hex);
     return hex;
+  }
+
+  // ability to pass in the source of hexes to search - should make finding faster when passed in smaller subset of maps.
+  // xyObj should be a json obj {x:xcoord, y:ycoord }
+  // xcoord and ycoord will probably be a floating point
+  // round, find hex coordinates that contain X and Y, then find HexModel
+  findHexByXY(xyObj, sourceHexMap = this.allHexesMap) {
+    // this will replace:
+    // let point = new Point({x:newX, y:newY});
+    // let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
+    // let segmentHex = this.mapService.findHexByQR(thisHex.q, thisHex.r, sourceHexMap);
+    const hexCoordinates = this.currentLayout.pixelToHexCoordinate(xyObj);
+    const hexModel = this.findHexByQR(hexCoordinates.q, hexCoordinates.r, sourceHexMap);
+    return hexModel;
   }
 
   findPlayerHexNeighborByDirection(direction) {
@@ -333,13 +383,14 @@ export default class MapService extends Service {
     }
     let currentQ = this.game.player.hex.q;
     let currentR = this.game.player.hex.r;
-    let currentS = this.game.player.hex.s;
+    // let currentS = this.game.player.hex.s;
 
     let targetQ = currentQ + direction.q;
     let targetR = currentR + direction.r;
-    let targetS = currentS + direction.s;
+    // let targetS = currentS + direction.s;
 
-    return this.findHexByQRS(targetQ, targetR, targetS);
+    return this.findHexByQR(targetQ, targetR);
+    // return this.findHexByQRS(targetQ, targetR, targetS);
   }
 
   setEmberMapHexmapSubset(emberDataMap) {
@@ -347,6 +398,7 @@ export default class MapService extends Service {
 
     let numCols = mapHexGrid[0].length;
     let numRows = mapHexGrid.length;
+    // TODO uncomment when map is larger
     // let numCols = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
     // let numRows = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
 
@@ -365,7 +417,18 @@ export default class MapService extends Service {
     }
 
     // console.log('subsetMap', subsetMap);
-    this.set('hexMap', this.hexService.createHexesFromMap(subsetMap));
+    this.set('hexMap', subsetMap);    // All HexModel objects in double array format
+
+    let allHexes = [];
+    subsetMap.forEach(hexRow => {
+      hexRow.forEach(hex => {
+        allHexes.push(hex);
+      });
+    });
+    this.set('allHexesMap', allHexes);    // All HexModel objects in single array format
+
+
+    // this.set('hexMap', this.hexService.createHexesFromMap(subsetMap));
     this.set('startRow', startRow);
     this.set('startCol', startCol);
     this.set('numRows', numRows);
@@ -817,7 +880,9 @@ export default class MapService extends Service {
           neighbor.visual = neighbor.visual || {};
           neighbor.visual.checked = true;
 
-          let hex = this.findHexByQRS(neighbor.q, neighbor.r, neighbor.s);
+          // TODO 12/21/19 This is called a lot - uses all hexes in map
+          let hex = this.findHexByQR(neighbor.q, neighbor.r);
+          // let hex = this.findHexByQRS(neighbor.q, neighbor.r, neighbor.s);
           if (hex && !neighborsInRangeArray.includes(hex)) {
             neighborsInRangeArray.push(hex);
           }

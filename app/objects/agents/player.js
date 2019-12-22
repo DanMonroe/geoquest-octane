@@ -29,9 +29,7 @@ export class Player extends BaseAgent {
     let playerStartHex;
     if (this.game.mapService) {
       playerStartHex = this.setStartHex(player.startHex);
-      // playerStartHex = this.setStartHex(player.start);
     }
-//     this.id = player.index;
     this.id = player.id;
     this.name = player.name;
     this.hex = playerStartHex;

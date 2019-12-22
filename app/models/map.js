@@ -48,4 +48,16 @@ export default class MapModel extends Model {
 
     return hexGrid;
   }
+
+  @computed('hexRows.[]')
+  get allHexes() {
+    let allHexes = [];
+    this.hexRows.forEach(hexRow => {
+      hexRow.get('hexes').forEach(hex => {
+        allHexes.push(hex);
+      });
+    });
+
+    return allHexes;
+  }
 }

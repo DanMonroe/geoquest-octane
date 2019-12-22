@@ -111,17 +111,12 @@ export default class GameboardComponent extends Component {
 
   @action
   setupGame(/*konvaContainer*/) {
-    // console.group('setupGame');
 
-    // console.group('loadEmberDataMap');
     this.mapService.loadEmberDataMap(config.game.startingMapIndex);
-    // console.groupEnd();
 
     // console.group('loadMap');
     // // TODO --> From pre-ember data maps: this.mapService.loadMap(config.game.startingMapIndex);
     // this.mapService.loadMap(config.game.startingMapIndex);
-    // console.groupEnd();
-    // console.groupEnd();
 
     this.game.gameClock.perform();
   }

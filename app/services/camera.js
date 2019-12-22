@@ -2,7 +2,8 @@ import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import {assert} from '@ember/debug';
-import { task, timeout } from 'ember-concurrency';
+import {reads} from '@ember/object/computed';
+// import { task, timeout } from 'ember-concurrency';
 
 export default class CameraService extends Service {
 
@@ -41,16 +42,16 @@ export default class CameraService extends Service {
 
   // camera stage
   @tracked stage = null;
-
   @tracked miniMapStage = null;
 
   /**
    * width and height: The size of the camera's viewport.
    *
    */
-  @tracked stageWidth = 0;
-  @tracked stageHeight = 0;
-
+  @tracked stageWidth = 0;              // Is used?
+  @tracked stageHeight = 0;             // Is used?
+  @reads('stage.width') viewportWidth;  // Is used?
+  @reads('stage.height') viewportHeight;// Is used?
 
   /**
    * maxX and maxY: The limit for the camera's position

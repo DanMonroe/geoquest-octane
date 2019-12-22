@@ -63,23 +63,24 @@ export class BaseAgent {
   @tracked state = BaseAgent.STATE.IDLE;
 
   setStartHex(agentStart){
-    let startHex = this.game.mapService.hexMap.find((hex) => {
-      if (!hex) {
-        return false;
-      }
-      return (agentStart.Q === hex.q) && (agentStart.R === hex.r)
-      // return (agentStart.Q === hex.q) &&
-      //   (agentStart.R === hex.r) &&
-      //   (agentStart.S === hex.s)
-    });
+    let startHex = this.game.mapService.findHexByQR(agentStart.Q, agentStart.R);
+    // let startHex = this.game.mapService.hexMap.find((hex) => {
+    //   if (!hex) {
+    //     return false;
+    //   }
+    //   return (agentStart.Q === hex.q) && (agentStart.R === hex.r)
+    //   // return (agentStart.Q === hex.q) &&
+    //   //   (agentStart.R === hex.r) &&
+    //   //   (agentStart.S === hex.s)
+    // });
 
     if (!startHex) {
       console.error("Could not find agent start hex.  Setting to first one in map");
       // TODO this probably should never happen
-      startHex = this.game.mapService.hexMap[0];
+      startHex = this.game.mapService.hexMap[0][0];
     }
-    return startHex.mapObject;
-    // return startHex;
+
+    return startHex;
   }
 
   canFireWeapon(powerRequirement) {

@@ -179,8 +179,8 @@ export default class GameService extends Service {
     this.turnOffPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.SEA);
     this.turnOnPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.LAND);
     this.player.boardedTransport = null;
-    this.player.hex = targetHex.mapObject || targetHex;
-    // this.player.hex = targetHex;
+    // this.player.hex = targetHex.mapObject || targetHex;
+    this.player.hex = targetHex;
   }
 
   @task

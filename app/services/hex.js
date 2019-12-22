@@ -4,6 +4,15 @@ import { DoubledCoordinates } from '../objects/doubled-coordinates'
 
 export default class HexService extends Service {
 
+  DIRECTIONS = [
+    {dir:'SE', q:1, r:0, s:-1},
+    {dir:'NE', q:1, r:-1,s: 0},
+    {dir:'N', q:0, r:-1,s: 1},
+    {dir:'NW', q:-1,r: 0,s: 1},
+    {dir:'SW', q:-1,r: 1,s: 0},
+    {dir:'S', q:0, r:1, s:-1}
+  ];
+
   q = null;
   r = null;
   s = null;
@@ -13,17 +22,17 @@ export default class HexService extends Service {
   getDirection(direction) {
     switch(direction) {
       case 'SE':
-        return Hex.DIRECTIONS[0];
+        return this.DIRECTIONS[0];
       case 'NE':
-        return Hex.DIRECTIONS[1];
+        return this.DIRECTIONS[1];
       case 'N':
-        return Hex.DIRECTIONS[2];
+        return this.DIRECTIONS[2];
       case 'NW':
-        return Hex.DIRECTIONS[3];
+        return this.DIRECTIONS[3];
       case 'SW':
-        return Hex.DIRECTIONS[4];
+        return this.DIRECTIONS[4];
       case 'S':
-        return Hex.DIRECTIONS[5];
+        return this.DIRECTIONS[5];
       default:
         return null;
     }
@@ -43,6 +52,7 @@ export default class HexService extends Service {
     return filteredHexes.length > 0;
   }
 
+  // TODO 12/21/19 if removing Hex object, then don't need this map
   createHexesFromMap (map) {
     let hexes = [];
     let rows = map.length;
