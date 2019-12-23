@@ -103,11 +103,11 @@ export default class GameboardService extends Service {
 
 
     const mapGroup = new Konva.Group({
-      id: "map"
+      id: this.camera.GROUPS.BACKGROUNDMAP
     });
     gameLayer.add(mapGroup);
     const hexGroup = new Konva.Group({
-      id: "hex"
+      id: this.camera.GROUPS.HEX
     });
     gameLayer.add(hexGroup);
     // const fovGroup = new Konva.Group({
@@ -226,14 +226,14 @@ export default class GameboardService extends Service {
     let { emberDataMap, hexMap, withLabels, withTiles, useEmberDataTiles } = args;
 
     // let layers = this.camera.stage.getLayers();
-    let gameLayer = this.camera.getGameLayer();
+    // let gameLayer = this.camera.getGameLayer();
     // let hexLayer = this.camera.getHexLayer();
 
     // let miniMapLayer = this.camera.getMiniMapLayer();
 
     this.drawBackgroundMap(emberDataMap);
 
-    const hexGroup = gameLayer.find('#hex');
+    const hexGroup = this.camera.getHexLayerGroup();
 
     let thisMapsSeenHexes = this.mapService.getSeenHexesForLoadedMap();
 
@@ -255,7 +255,7 @@ export default class GameboardService extends Service {
     //
     // hexLayer.visible(withLabels);
     // gameLayer.visible(withTiles);
-    gameLayer.visible(true);
+    // gameLayer.visible(true);
     // miniMapLayer.visible(withTiles);
 
     this.camera.stage.batchDraw();
@@ -263,8 +263,7 @@ export default class GameboardService extends Service {
   }
 
   drawHex(hexGroup, hex, drawStroke, previouslySeenThisHex) {
-  // drawHex(layer, hex, drawStroke, previouslySeenThisHex) {
-    // console.log('draw hex', this.game.showTileHexInfo);
+  //   console.log('draw hex - drawStroke, showTileHExInfo', drawStroke, this.game.showTileHexInfo);
     let corners = hex.polygonCorners;
     // let corners = this.mapService.currentLayout.polygonCorners(hex);
 
@@ -289,7 +288,8 @@ export default class GameboardService extends Service {
       // opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
     };
     if (drawStroke) {
-      polyConfig.stroke = '#FFB000';
+      polyConfig.stroke = 'rgba(0,0,0,.25)';
+      // polyConfig.stroke = '#FFB00040';
       polyConfig.strokeWidth = 1;
     }
 

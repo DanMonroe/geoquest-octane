@@ -16,6 +16,16 @@ export default class CameraService extends Service {
     AGENTS: 1,
     MINIMAP: 0
   };
+  GROUPS = {
+    // GAME: 0,
+    BACKGROUNDMAP: "map",
+    HEX: "hex",
+    DEBUG: "debug"
+    // FOV: 4,
+    // AGENTS: "agents",
+    // MINIMAP: 0
+
+  }
   // LAYERS = {
   //   GAME: 0,
   //   BACKGROUNDMAP: 1,
@@ -97,7 +107,8 @@ export default class CameraService extends Service {
     return this.stage.getLayers()[this.LAYERS.GAME];
   }
   getHexLayer() {
-    return this.stage.getLayers()[this.LAYERS.HEX];
+    return this.stage.getLayers()[this.LAYERS.GAME];
+    // return this.stage.getLayers()[this.LAYERS.HEX];
   }
   getBackgroundMapLayer() {
     return this.stage.getLayers()[this.LAYERS.BACKGROUNDMAP];
@@ -111,10 +122,31 @@ export default class CameraService extends Service {
   getAgentsLayer() {
     return this.stage.getLayers()[this.LAYERS.AGENTS];
   }
-
   getMiniMapLayer() {
     return this.miniMapStage.getLayers()[this.LAYERS.MINIMAP];
   }
+
+  // getGameLayerGroup() {
+  //   return this.getGameLayer().find("#");
+  // }
+  getHexLayerGroup() {
+    return this.getHexLayer().find(`#${this.GROUPS.HEX}`);
+  }
+  getBackgroundMapLayerGroup() {
+    return this.getBackgroundMapLayer().find(`#${this.GROUPS.BACKGROUNDMAP}`);
+  }
+  getDebugLayerGroup() {
+    return this.getDebugLayer().find(`#${this.GROUPS.DEBUG}`);
+  }
+  // getFOVLayer() {
+  //   return this.stage.getLayers()[this.LAYERS.FOV];
+  // }
+  // getAgentsLayer() {
+  //   return this.stage.getLayers()[this.LAYERS.AGENTS];
+  // }
+  // getMiniMapLayer() {
+  //   return this.miniMapStage.getLayers()[this.LAYERS.MINIMAP];
+  // }
 
 
 }

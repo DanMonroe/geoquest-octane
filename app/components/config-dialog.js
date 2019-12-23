@@ -44,9 +44,9 @@ export default class ConfigDialogComponent extends Component {
   @action
   toggleHexInfo() {
     this.game.showTileHexInfo = !this.game.showTileHexInfo;
-    let layer = this.camera.getHexLayer();
-    layer.visible(this.game.showTileHexInfo);
-    layer.draw();
+    let hexGroup = this.camera.getHexLayerGroup();
+    hexGroup.visible(this.game.showTileHexInfo);
+    hexGroup.draw();
     // this.camera.stage.draw();
   }
 

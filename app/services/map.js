@@ -16,7 +16,7 @@ export default class MapService extends Service {
   }
   MAPFILLOPACITY = {
     HIDDEN: 'rgba(0,0,0,1)',
-    PREVIOUSLYSEEN: 'rgba(0,0,0,0.4)',
+    PREVIOUSLYSEEN: 'rgba(0,0,0,0.6)',
     VISIBLE: 'rgba(0,0,0,0)'
   }
   MAPFILLTWEENDURATION = 0.5;

@@ -2,14 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import {inject as service} from '@ember/service';
-// import { A as emberArray } from '@ember/array';
-// import Confirmer from 'confirmed';
 import config from 'geoquest-octane/config/environment';
-
-// import fade from 'ember-animated/transitions/fade';
-// import move from 'ember-animated/motions/move';
-// import { easeOut, easeIn } from 'ember-animated/easings/cosine';
-
 
 export default class GameboardComponent extends Component {
 
@@ -32,46 +25,10 @@ export default class GameboardComponent extends Component {
 
   @tracked map = null;
   @tracked mapIndex = null;
-  // @tracked player = null;
-  // @tracked agents = emberArray();
-  // @tracked transports = emberArray();
 
   @tracked selectedMap = 0;
 
   @tracked epmModalContainerClass = '';
-
-  // @tracked configDialogResolver = null;
-
-  // @tracked fade = fade;
-  // @tracked showThing = false;
-
-  // eslint-disable-next-line require-yield
-  // slideFromSide = function * ({ insertedSprites, keptSprites, removedSprites }) {
-  //
-  //   insertedSprites.forEach(sprite => {
-  //     sprite.startAtPixel({ y: 0 });
-  //     sprite.applyStyles({ 'z-index': 100000 });
-  //     move(sprite, { easing: easeOut });
-  //   });
-  //
-  //   keptSprites.forEach(sprite => {
-  //     sprite.applyStyles({ 'z-index': 100000 });
-  //     sprite.endAtPixel({ y: 50 });
-  //     move(sprite);
-  //   });
-  //
-  //   removedSprites.forEach(sprite => {
-  //     sprite.applyStyles({ 'z-index': 1 });
-  //     sprite.endAtPixel({ y: 50 });
-  //     move(sprite, { easing: easeIn });
-  //   });
-  // }
-
-  // mapOptions = [
-  //   {name: "Small", value: 0},
-  //   {name: "Island", value: 1},
-  //   {name: "Patrolling Pirate", value: 2}
-  // ];
 
   constructor() {
     super(...arguments);
@@ -85,24 +42,12 @@ export default class GameboardComponent extends Component {
     this.game.gameClockEnabled = config.game.gameClockEnabled;
     this.transport.moveQueueEnabled = config.game.transport.moveQueueEnabled;
 
-    // console.log('model', this.args.model);
-    // console.log('config.game', config.game);
     this.mapService.mapData = this.args.model.data;
 
     this.modals.set('modalsDuration', 600);
 
     this.mapService.loadSeenHexesFromStorage();
   }
-
-  // loadMap(mapIndex) {
-  //   this.mapIndex = mapIndex;
-  //   this.map = this.model.mapdata[mapIndex].map;
-  //   // this.selectedMap = this.mapOptions.findBy('value', this.model.mapdata[mapIndex].mapid);
-  //
-  //   this.game.mapService.loadLayout(this.map.LAYOUT);
-  //   this.game.mapService.loadTiles(this.map);
-  //   this.game.sound.loadSounds(this.model.mapdata[mapIndex].sounds);
-  // }
 
   @action
   changeMap (map) {
@@ -114,7 +59,6 @@ export default class GameboardComponent extends Component {
 
     this.mapService.loadEmberDataMap(config.game.startingMapIndex);
 
-    // console.group('loadMap');
     // // TODO --> From pre-ember data maps: this.mapService.loadMap(config.game.startingMapIndex);
     // this.mapService.loadMap(config.game.startingMapIndex);
 
@@ -127,28 +71,27 @@ export default class GameboardComponent extends Component {
   }
 
   @action
-  fireCannon() {
-    // this.player.boardedTransport.currentHitPoints *= .9;
-    // this.player.boardedTransport.updateHealthBar();
-
-    // this.player.boardedTransport.fire();
-  }
-
-  @action
   async showConfigDialog() {
-
-    console.log('modals', this.modals);
-    // debugger;
     this.epmModalContainerClass = 'config';
     await this.modals.open('config-dialog');
-    // this.epmModalContainerClass = '';
   }
 
   @action
   async showInventory() {
     this.epmModalContainerClass = 'inventory';
     await this.modals.open('inventory-dialog');
-    // this.epmModalContainerClass = '';
+  }
+
+  @action
+  async clickGems() {
+    console.log('click gems');
+    // this.game.showTileHexInfo = !this.game.showTileHexInfo;
+    // console.log('this.game.showTileHexInfo', this.game.showTileHexInfo);
+    // let hexGroup = this.camera.getHexLayerGroup();
+    // console.log('hexGroup visible', hexGroup.isVisible());
+    // hexGroup.visible(this.game.showTileHexInfo);
+    // this.camera.stage.batchDraw();
+    // console.log('hexGroup visible', hexGroup.isVisible());
   }
 
   // @action

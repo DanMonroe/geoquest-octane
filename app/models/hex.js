@@ -62,7 +62,7 @@ export default class HexModel extends Model {
   get hexWidth() {
     const hexWidth = Math.round(this.layoutOrientation.type === 'flat' ?
       2 * this.layoutSize.x : Math.sqrt(3) * this.layoutSize.x);
-    console.log('hex this.hexWidth', hexWidth);
+    // console.log('hex this.hexWidth', hexWidth);
     return hexWidth;
   }
 
@@ -70,7 +70,7 @@ export default class HexModel extends Model {
   get hexHeight() {
     const hexHeight = Math.round(this.layoutOrientation.type === 'flat' ?
       Math.sqrt(3) * this.layoutSize.y : 2 * this.layoutSize.y);
-    console.log('hex this.hexHeight', this.hexHeight);
+    // console.log('hex this.hexHeight', this.hexHeight);
     return hexHeight;
   }
 

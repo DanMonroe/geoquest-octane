@@ -89,11 +89,11 @@
       <button class="btn inventory" {{on "click" (fn showInventory)}} >
         <EmberTooltip tooltipClass="tooltip-controls" >Inventory</EmberTooltip>
       </button>
-      <button class="btn trophy"  {{on "click" (fn saveGame)}}>
+      <button class="btn trophy" {{on "click" (fn saveGame)}}>
         <EmberTooltip tooltipClass="tooltip-controls" >Awards</EmberTooltip>
       </button>
-      <button class="btn gems">
-        <EmberTooltip tooltipClass="tooltip-controls" >Gems</EmberTooltip>
+      <button class="btn gems" {{on "click" (fn clickGems)}}>
+        <EmberTooltip tooltipClass="tooltip-controls">Gems</EmberTooltip>
       </button>
       <button class="btn settings" {{on "click" (fn showConfigDialog)}} >
         <EmberTooltip tooltipClass="tooltip-controls" >Settings</EmberTooltip>
@@ -102,15 +102,3 @@
 
   </div>
 </div>
-{{#if configDialogResolver}}
-  <ToElsewhere
-      @named={{"modal"}}
-      @send={{hash body=(component "config-dialog"
-      onConfirm=(action this.configDialogResolver.confirm)
-      onCancel=(action (mut this.configDialogResolver) null)
-  )
-     onOutsideClick=(action (mut this.configDialogResolver) null)
-  }}
-  />
-
-{{/if}}

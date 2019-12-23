@@ -180,6 +180,7 @@ export default class FieldOfViewService extends Service {
       visibleHexImages.forEach(tile => {
         // tile.to({opacity: 0});
         tile.to({
+          stroke:  this.mapService.MAPFILLOPACITY.VISIBLE,
           fill: this.mapService.MAPFILLOPACITY.VISIBLE,
           duration : this.mapService.MAPFILLTWEENDURATION
         });

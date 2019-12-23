@@ -70,7 +70,7 @@ export default function(server) {
       R: 0
     },
     agentImage: "agents/pirate.svg",
-    agentImageSize: 32,
+    agentImageSize: 60,
     sightRange: 3,
     speed: 200,
     maxHitPoints: 25,
