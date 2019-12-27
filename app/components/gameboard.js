@@ -20,7 +20,7 @@ export default class GameboardComponent extends Component {
   @tracked showTileGraphics = true;
   @tracked showTileHexInfo = true;
   @tracked showDebugLayer = true;
-  @tracked pathFindingDebug = true;
+  @tracked pathFindingDebug = false;
   @tracked showFieldOfViewLayer = true;
 
   @tracked map = null;
@@ -42,9 +42,9 @@ export default class GameboardComponent extends Component {
     this.game.gameClockEnabled = config.game.gameClockEnabled;
     this.transport.moveQueueEnabled = config.game.transport.moveQueueEnabled;
 
-    this.mapService.mapData = this.args.model.data;
+    // this.mapService.mapData = this.args.model.data;
 
-    this.modals.set('modalsDuration', 600);
+    this.modals.set('modalsDuration', config.game.modalsDuration);
 
     this.mapService.loadSeenHexesFromStorage();
   }
@@ -54,19 +54,54 @@ export default class GameboardComponent extends Component {
     this.loadMap(map.value);
   }
 
+  // @action
+  // mouseMove(event) {
+  //   // console.log(event);
+  // }
+  // @action
+  // keyboardDown(event) {
+  //   console.log(event);
+  //   switch(event.keyCode) {
+  //     // case 70:  // F [ire]
+  //     //   if (this.game.player.boardedTransport) {
+  //     //     this.game.player.boardedTransport.fire();
+  //     //   }
+  //     //   break;
+  //     case 81:  // Q
+  //       this.gameboard.movePlayer('NW');
+  //       break;
+  //     case 87:  // W
+  //       this.gameboard.movePlayer('N');
+  //       break;
+  //     case 69:  // E
+  //       this.gameboard.movePlayer('NE');
+  //       break;
+  //     case 65:  // A
+  //       this.gameboard.movePlayer('SW');
+  //       break;
+  //     case 83:  // S
+  //       this.gameboard.movePlayer('S');
+  //       break;
+  //     case 68:  // D
+  //       this.gameboard.movePlayer('SE');
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   event.preventDefault();
+  // }
+
   @action
   setupGame(/*konvaContainer*/) {
-
+console.log('gameboard setup');
     this.mapService.loadEmberDataMap(config.game.startingMapIndex);
-
-    // // TODO --> From pre-ember data maps: this.mapService.loadMap(config.game.startingMapIndex);
-    // this.mapService.loadMap(config.game.startingMapIndex);
 
     this.game.gameClock.perform();
   }
 
   @action
-  teardownGameboardCanvases(/*konvaContainer*/) {
+  teardown(/*konvaContainer*/) {
+console.log('gameboard teardown');
     // konvaContainer.removeEventListener('click', this.handleContainerClick);
   }
 
@@ -85,6 +120,19 @@ export default class GameboardComponent extends Component {
   @action
   async clickGems() {
     console.log('click gems');
+
+    // debugger;
+    let testhex = this.transport.api.store.peekRecord('hex', 1);
+
+    console.log('testhex', testhex);
+
+    testhex.set('special-flags', 1337);
+    testhex.set('specialFlags', 13);
+
+    testhex.save();
+
+    console.log('testhex', testhex);
+
     // this.game.showTileHexInfo = !this.game.showTileHexInfo;
     // console.log('this.game.showTileHexInfo', this.game.showTileHexInfo);
     // let hexGroup = this.camera.getHexLayerGroup();

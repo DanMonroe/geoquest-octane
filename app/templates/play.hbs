@@ -1,0 +1,6 @@
+<div class="play"
+    {{did-insert (action this.setup)}}
+    {{will-destroy (action this.teardown)}}
+  >
+  <Gameboard @model={{@model}} />
+</div>

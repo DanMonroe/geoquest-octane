@@ -3,7 +3,8 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import {assert} from '@ember/debug';
 import {reads} from '@ember/object/computed';
-// import { task, timeout } from 'ember-concurrency';
+import {timeout} from 'ember-concurrency';
+import {task} from 'ember-concurrency-decorators';
 
 export default class CameraService extends Service {
 
@@ -20,7 +21,8 @@ export default class CameraService extends Service {
     // GAME: 0,
     BACKGROUNDMAP: "map",
     HEX: "hex",
-    DEBUG: "debug"
+    DEBUG: "debug",
+    FOV: "fov"
     // FOV: 4,
     // AGENTS: "agents",
     // MINIMAP: 0
@@ -103,6 +105,32 @@ export default class CameraService extends Service {
 
   }
 
+  @tracked stageScale = 100;
+
+  get stageScaleDisplay() {
+    console.log(this.stageScale);
+    if (this.stage) {
+      const newScale = this.stageScale/100;
+      console.log('newScale', newScale);
+      this.stage.setScale({
+        x: newScale,
+        y: newScale
+      });
+      this.stage.batchDraw();
+    }
+    return this.stageScale;
+  }
+
+  @task
+  *scaleStageBy(inc) {
+    let speed = 400;
+    while (true) {
+      this.incrementProperty('stageScale', inc);
+      yield timeout(speed);
+      speed = Math.max(50, speed * 0.8);
+    }
+  }
+
   getGameLayer() {
     return this.stage.getLayers()[this.LAYERS.GAME];
   }
@@ -114,10 +142,12 @@ export default class CameraService extends Service {
     return this.stage.getLayers()[this.LAYERS.BACKGROUNDMAP];
   }
   getDebugLayer() {
-    return this.stage.getLayers()[this.LAYERS.DEBUG];
+    return this.stage.getLayers()[this.LAYERS.GAME];
+    // return this.stage.getLayers()[this.LAYERS.DEBUG];
   }
   getFOVLayer() {
-    return this.stage.getLayers()[this.LAYERS.FOV];
+    return this.stage.getLayers()[this.LAYERS.GAME];
+    // return this.stage.getLayers()[this.LAYERS.FOV];
   }
   getAgentsLayer() {
     return this.stage.getLayers()[this.LAYERS.AGENTS];
@@ -136,11 +166,20 @@ export default class CameraService extends Service {
     return this.getBackgroundMapLayer().find(`#${this.GROUPS.BACKGROUNDMAP}`);
   }
   getDebugLayerGroup() {
-    return this.getDebugLayer().find(`#${this.GROUPS.DEBUG}`);
+    let group = this.getDebugLayer().find(`#${this.GROUPS.DEBUG}`);
+    if (group.length) {
+      return group[0];
+    }
+    return group;
+    // return this.getDebugLayer().find(`#${this.GROUPS.DEBUG}`);
   }
-  // getFOVLayer() {
-  //   return this.stage.getLayers()[this.LAYERS.FOV];
-  // }
+  getFOVLayerGroup() {
+    let group = this.getFOVLayer().find(`#${this.GROUPS.FOV}`);
+    if (group.length) {
+      return group[0];
+    }
+    return group;
+  }
   // getAgentsLayer() {
   //   return this.stage.getLayers()[this.LAYERS.AGENTS];
   // }

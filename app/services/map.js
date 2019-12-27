@@ -142,7 +142,7 @@ export default class MapService extends Service {
     this.gameboard.drawGrid({
       emberDataMap: this.emberDataMap,
       hexMap: this.hexMap,
-      withLabels: this.game.showTileHexInfo,
+      withLabels: this.game.showDebugLayer,
       withTiles: this.game.showTileGraphics,
       useEmberDataTiles: true
     });
@@ -156,45 +156,45 @@ export default class MapService extends Service {
   }
 
   // Map setup
-  async loadMap(mapIndex) {
-    this.game.saveGame();
-
-    this.mapIndex = mapIndex;
-    this.map = this.mapData[mapIndex].map;
-
-    this.loadLayout(this.map.LAYOUT);
-    this.loadTiles(this.map);
-    this.sound.loadSounds(this.mapData[mapIndex].sounds);
-
-    this.gameboard.setupQRSFromMap(this.map.MAP);
-    this.initMap({map: this.map.MAP});
-    this.camera.initCamera();
-
-    this.gameboard.setupGameboardCanvases();
-    this.gameboard.initKeyboardAndMouseEventListeners();
-
-    this.setHexmapSubset();
-
-    // Player, Agents, and transports
-    let agentsObj = await this.transport.setupAgents(this.mapData[this.mapIndex].map.AGENTS);
-
-    this.game.player = agentsObj.player;
-    this.game.agents = agentsObj.agents;
-    this.game.transports = agentsObj.transports;
-
-    this.transport.setupPatrols();
-
-    this.gameboard.drawGrid({
-      hexes: this.hexMap,
-      withLabels: this.game.showTileHexInfo,
-      withTiles: this.game.showTileGraphics
-    });
-
-    this.fov.updatePlayerFieldOfView()
-    // this.fov.updatePlayerFieldOfView(this.game.player.hex)
-
-    this.transport.moveQueueTask.perform();
-  }
+  // async loadMap(mapIndex) {
+  //   this.game.saveGame();
+  //
+  //   this.mapIndex = mapIndex;
+  //   this.map = this.mapData[mapIndex].map;
+  //
+  //   this.loadLayout(this.map.LAYOUT);
+  //   this.loadTiles(this.map);
+  //   this.sound.loadSounds(this.mapData[mapIndex].sounds);
+  //
+  //   this.gameboard.setupQRSFromMap(this.map.MAP);
+  //   this.initMap({map: this.map.MAP});
+  //   this.camera.initCamera();
+  //
+  //   this.gameboard.setupGameboardCanvases();
+  //   this.gameboard.initKeyboardAndMouseEventListeners();
+  //
+  //   this.setHexmapSubset();
+  //
+  //   // Player, Agents, and transports
+  //   let agentsObj = await this.transport.setupAgents(this.mapData[this.mapIndex].map.AGENTS);
+  //
+  //   this.game.player = agentsObj.player;
+  //   this.game.agents = agentsObj.agents;
+  //   this.game.transports = agentsObj.transports;
+  //
+  //   this.transport.setupPatrols();
+  //
+  //   this.gameboard.drawGrid({
+  //     hexes: this.hexMap,
+  //     withLabels: this.game.showTileHexInfo,
+  //     withTiles: this.game.showTileGraphics
+  //   });
+  //
+  //   this.fov.updatePlayerFieldOfView()
+  //   // this.fov.updatePlayerFieldOfView(this.game.player.hex)
+  //
+  //   this.transport.moveQueueTask.perform();
+  // }
 
   updateSeenHexes(finalFovHexes) {
     if (typeof this.mapIndex === undefined || !finalFovHexes.visible) {
@@ -295,33 +295,33 @@ export default class MapService extends Service {
   }
 
   // TODO DEPRECATED after ember data maps
-  loadTiles(map) {
-    let tileset = map.TILEIMAGES
-    // console.log(tileset);
-
-    this.tileGraphics = [];
-    this.tilesLoaded = false;
-    let tileGraphicsLoaded = 0;
-    for (let i = 0; i < tileset.length; i++) {
-
-      let tileGraphic = new Image(36, 36);
-      tileGraphic.src = `/images/hex/${tileset[i]}`;
-      tileGraphic.onload = () => {
-        // Once the image is loaded increment the loaded graphics count and check if all images are ready.
-
-        tileGraphicsLoaded++;
-
-        if (tileGraphicsLoaded === tileset.length) {
-          // console.log('tiles loaded');
-          this.tilesLoaded = true;
-        }
-      }
-
-      this.tileGraphics.pushObject(tileGraphic);
-
-    }
-      console.log('tileGraphics', this.tileGraphics);
-  }
+  // loadTiles(map) {
+  //   let tileset = map.TILEIMAGES
+  //   // console.log(tileset);
+  //
+  //   this.tileGraphics = [];
+  //   this.tilesLoaded = false;
+  //   let tileGraphicsLoaded = 0;
+  //   for (let i = 0; i < tileset.length; i++) {
+  //
+  //     let tileGraphic = new Image(36, 36);
+  //     tileGraphic.src = `/images/hex/${tileset[i]}`;
+  //     tileGraphic.onload = () => {
+  //       // Once the image is loaded increment the loaded graphics count and check if all images are ready.
+  //
+  //       tileGraphicsLoaded++;
+  //
+  //       if (tileGraphicsLoaded === tileset.length) {
+  //         // console.log('tiles loaded');
+  //         this.tilesLoaded = true;
+  //       }
+  //     }
+  //
+  //     this.tileGraphics.pushObject(tileGraphic);
+  //
+  //   }
+  //     console.log('tileGraphics', this.tileGraphics);
+  // }
 
   getTileGraphic(tileIndex) {
     return this.tileGraphics[tileIndex];
@@ -374,6 +374,7 @@ export default class MapService extends Service {
     // let segmentHex = this.mapService.findHexByQR(thisHex.q, thisHex.r, sourceHexMap);
     const hexCoordinates = this.currentLayout.pixelToHexCoordinate(xyObj);
     const hexModel = this.findHexByQR(hexCoordinates.q, hexCoordinates.r, sourceHexMap);
+// console.log('xyObj', xyObj, 'hexCoordinates', hexCoordinates, 'findHexByXY hexModel', hexModel);
     return hexModel;
   }
 
@@ -444,45 +445,45 @@ export default class MapService extends Service {
   }
 
   // TODO DEPRECATED after ember data maps (setEmberMapHexmapSubset)
-  setHexmapSubset() {
-  // setHexmapSubset(startRow, startCol, numRows, numCols) {
-
-    let numCols = this.map.MAP[0].length;
-    let numRows = this.map.MAP.length;
-    // let numCols = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
-    // let numRows = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
-
-    let startRow = 0;
-    let startCol = 0
-
-
-    let subsetMap = [];
-    for (let r = startRow; r < (startRow + numRows); r++) {
-      let subsetMapCols = [];
-      for (let c = startCol; c < (startCol + numCols); c++) {
-        let thisMapObject = this.worldMap[r][c];
-        // console.log(thisMapObject);
-        subsetMapCols.push(thisMapObject);
-      }
-      subsetMap.push(subsetMapCols);
-    }
-
-    // console.log('subsetMap', subsetMap);
-    this.set('hexMap', this.hexService.createHexesFromMap(subsetMap));
-    this.set('startRow', startRow);
-    this.set('startCol', startCol);
-    this.set('numRows', numRows);
-    this.set('numCols', numCols);
-
-    let mapLength = this.hexMap.length;
-    let topLeftPoint = this.hexMap[startCol*numRows].point;
-    let bottomRightPoint = this.hexMap[mapLength-1].point;
-    // let topLeftPoint = this.currentLayout.hexToPixel(this.hexMap[startCol*numRows]);
-    // let bottomRightPoint = this.currentLayout.hexToPixel(this.hexMap[mapLength-1]);
-    this.set('topLeftPoint', topLeftPoint);
-    this.set('bottomRightPoint', bottomRightPoint);
-  }
-
+  // setHexmapSubset() {
+  // // setHexmapSubset(startRow, startCol, numRows, numCols) {
+  //
+  //   let numCols = this.map.MAP[0].length;
+  //   let numRows = this.map.MAP.length;
+  //   // let numCols = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
+  //   // let numRows = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
+  //
+  //   let startRow = 0;
+  //   let startCol = 0
+  //
+  //
+  //   let subsetMap = [];
+  //   for (let r = startRow; r < (startRow + numRows); r++) {
+  //     let subsetMapCols = [];
+  //     for (let c = startCol; c < (startCol + numCols); c++) {
+  //       let thisMapObject = this.worldMap[r][c];
+  //       // console.log(thisMapObject);
+  //       subsetMapCols.push(thisMapObject);
+  //     }
+  //     subsetMap.push(subsetMapCols);
+  //   }
+  //
+  //   // console.log('subsetMap', subsetMap);
+  //   this.set('hexMap', this.hexService.createHexesFromMap(subsetMap));
+  //   this.set('startRow', startRow);
+  //   this.set('startCol', startCol);
+  //   this.set('numRows', numRows);
+  //   this.set('numCols', numCols);
+  //
+  //   let mapLength = this.hexMap.length;
+  //   let topLeftPoint = this.hexMap[startCol*numRows].point;
+  //   let bottomRightPoint = this.hexMap[mapLength-1].point;
+  //   // let topLeftPoint = this.currentLayout.hexToPixel(this.hexMap[startCol*numRows]);
+  //   // let bottomRightPoint = this.currentLayout.hexToPixel(this.hexMap[mapLength-1]);
+  //   this.set('topLeftPoint', topLeftPoint);
+  //   this.set('bottomRightPoint', bottomRightPoint);
+  // }
+  //
   createHeap() {
     return new BinaryHeap({
       content: [],
@@ -522,10 +523,10 @@ export default class MapService extends Service {
 
   // https://briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated/
   findPathEmberData(gridIn, startHex, targetHex, options = {}) {
-
     if (options.debug) {
       console.time("findPathEmberData");
-      console.groupCollapsed(`findPath from ${startHex.id} to ${targetHex.id}`);
+      console.log(`findPath from ${startHex.id} to ${targetHex.id}`);
+      // console.groupCollapsed(`findPath from ${startHex.id} to ${targetHex.id}`);
       // console.groupCollapsed(`findPath from ${startHex.id} to ${targetHex.id}`);
     }
 
@@ -551,6 +552,9 @@ export default class MapService extends Service {
 
     // console.log('this.isBlockedByFlags(targetHex.travelFlags)', this.isBlockedByFlags(endNode.travelFlags), endNode.travelFlags);
     if (this.isBlockedByFlags(endNode.travelFlags)) {
+      if (options.debug) {
+        console.log('isBlockedByFlags: endNode.travelFlags', endNode.travelFlags);
+      }
       return [];
     }
 
@@ -897,6 +901,7 @@ export default class MapService extends Service {
 
   // shows yellow boxes 'visited' during the findPath method
   drawVisitedRect(neighbor, visitedCounter) {
+    this.gameboard.clearDebugLayer();
     let debugLayer = this.camera.getDebugLayer();
     let center = neighbor.point;
     // let center = this.currentLayout.hexToPixel(neighbor);

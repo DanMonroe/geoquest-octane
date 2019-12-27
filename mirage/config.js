@@ -84,6 +84,14 @@ export default function() {
     return schema.hexes.find(id);
   });
 
+  this.patch('/hexes/:id', function(schema, request) {
+    // let attrs = this.normalizedRequestAttrs('hex');
+    // console.log(attrs);
+    console.log(request);
+    console.log(schema);
+    debugger;
+  });
+
   this.get('/hex-rows', (schema/*, request*/) => {
     // console.log('getting hex-rows');
     return schema.hexRows.all();

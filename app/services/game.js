@@ -42,7 +42,7 @@ export default class GameService extends Service {
   @tracked gameClockEnabled = true;
   @tracked showTileGraphics = true;
   @tracked showTileHexInfo = true;
-  @tracked pathFindingDebug = true;
+  @tracked pathFindingDebug = false;
   @tracked showDebugLayer = true;
   @tracked showFieldOfViewLayer = true;
 
@@ -87,13 +87,11 @@ export default class GameService extends Service {
   }
 
   playerHasTravelAbilityFlag(flag) {
-    if(flag && flag.value) {
-      flag = flag.value;
-    }
-    if(flag) {
-      return this.playerTravelAbilityFlags & flag
-    }
-    return false;
+    return this.playerHasAbilityFlag(this.FLAG_TYPE_TRAVEL, flag);
+  }
+
+  playerHasVisibilityAbilityFlag(flag) {
+    return this.playerHasAbilityFlag(this.FLAG_TYPE_VISIBILITY, flag);
   }
 
   turnOnPlayerTravelAbilityFlag(flag) {

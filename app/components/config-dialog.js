@@ -10,18 +10,27 @@ export default class ConfigDialogComponent extends Component {
   @service ('gameboard') gameboard;
   @service ('camera') camera;
   @service ('sound') sound;
+  @service config;
 
   @action
   toggleDebugLayer() {
     this.game.showDebugLayer = !this.game.showDebugLayer;
     this.gameboard.showDebugLayer = this.game.showDebugLayer;
-    let layer = this.camera.getDebugLayer();
-    layer.visible(this.game.showDebugLayer);
+    let debugGroup = this.camera.getDebugLayerGroup();
+    if (debugGroup) {
+      debugGroup.visible(this.game.showDebugLayer);
+    }
+    // let layer = this.camera.getDebugLayer();
+    // layer.visible(this.game.showDebugLayer);
 
     this.game.showFieldOfViewLayer = !this.game.showFieldOfViewLayer;
     this.gameboard.showFieldOfViewLayer = this.game.showFieldOfViewLayer;
-    let fovlayer = this.camera.getFOVLayer();
-    fovlayer.visible(this.game.showFieldOfViewLayer);
+    // let fovlayer = this.camera.getFOVLayer();
+    // fovlayer.visible(this.game.showFieldOfViewLayer);
+    let fovGroup = this.camera.getFOVLayerGroup();
+    if (fovGroup) {
+      fovGroup.visible(this.game.showFieldOfViewLayer);
+    }
   }
 
   @action
@@ -43,16 +52,12 @@ export default class ConfigDialogComponent extends Component {
 
   @action
   toggleHexInfo() {
-    this.game.showTileHexInfo = !this.game.showTileHexInfo;
-    let hexGroup = this.camera.getHexLayerGroup();
-    hexGroup.visible(this.game.showTileHexInfo);
-    hexGroup.draw();
-    // this.camera.stage.draw();
+    this.config.toggleHexInfo();
   }
 
   @action
   togglePathFindingDebug() {
-    this.game.pathFindingDebug = !this.game.pathFindingDebug;
+    this.config.togglePathFindingDebug();
   }
 
   @action

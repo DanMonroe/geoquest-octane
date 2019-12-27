@@ -72,11 +72,11 @@ export default class TransportService extends Service {
         gameboard: this.gameboard,
       });
       // console.log('adding transport', transport);
-      if (mirageTransportAgent.initialFlags) {
-        mirageTransportAgent.initialFlags.forEach((/*flag*/) => {
+      // if (mirageTransportAgent.travelFlags) {
+        // mirageTransportAgent.travelFlags.forEach((/*flag*/) => {
           // this.game.turnOnTransportTravelAbilityFlag(transportAgent, flag); // TODO implement
-        });
-      }
+        // });
+      // }
 
       transportsArray.push(transport);
       // });
@@ -111,15 +111,15 @@ export default class TransportService extends Service {
         game:this.game,
         gameboard:this.gameboard,
         transportService:this,
-        travelAbilityFlags: this.game.FLAGS.TRAVEL.LAND,
+        // travelAbilityFlags: this.game.FLAGS.TRAVEL.LAND,
         boardedTransport: null
       }
     );
         // boardedTransport: startingShip,
-    miragePlayer.initialFlags.forEach(flag => {
+    // miragePlayer.travelFlags.forEach(flag => {
       // console.log('flag', flag);
-      this.game.turnOnPlayerTravelAbilityFlag(flag);   // TODO set from map file
-    });
+      // this.game.turnOnPlayerTravelAbilityFlag(flag);   // TODO set from map file
+    // });
         // travelAbilityFlags: this.game.FLAGS.TRAVEL.SEA,
 
     // MiniMap circle for player
@@ -148,8 +148,8 @@ export default class TransportService extends Service {
           transportService: this,
           gameboard: this.gameboard,
         });
-        if (mirageEnemyAgent.initialFlags) {
-          mirageEnemyAgent.initialFlags.forEach((/*flag*/) => {
+        if (mirageEnemyAgent.travelFlags) {
+          mirageEnemyAgent.travelFlags.forEach((/*flag*/) => {
             // this.game.turnOnAgentTravelAbilityFlag(gameAgent, flag);  // TODO implement
           });
         }

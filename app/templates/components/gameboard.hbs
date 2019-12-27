@@ -1,40 +1,20 @@
 <!--https://www.redblobgames.com/grids/hexagons/implementation.html-->
-<div class="game">
+
+<div class="game"
+  {{did-insert (action this.setupGame)}}
+  {{will-destroy (action this.teardown)}}
+  >
   <div class="game-container">
     <div class="epm-modal-container {{this.epmModalContainerClass}}">
       <EpmModalContainer/>
     </div>
     <div class="header">
       <h2>GeoQuest - Octane</h2>
-      <div class="healthWrapper">
-        <div>
-          <span>
-            Player Health {{this.game.player.healthPercentage}}%
-          </span>
-          <span>
-            Ship Health {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}
-          </span>
-        </div>
-      </div>
     </div>
-    <div class="instructions">
-      <b>Instructions:</b> Use keys Q, W, E, A, S, D to move.  Click mouse on target to fire.
-<!--      <div>-->
-<!--        For build notes, see <a href="https://blog.danmonroe.dev/" target="_new">blog.danmonroe.dev</a>-->
-<!--      </div>-->
-
-    </div>
-
-    <AnimatedContainer class="gameboard"
-      {{did-insert (action this.setupGame)}}
-      {{will-destroy (action this.teardownGameboardCanvases)}}
-    >
+    <AnimatedContainer class="gameboard">
       <section>
         <LargeMap @map={{@model.mirageMap}} />
       </section>
-      <section>
-      </section>
-
     </AnimatedContainer>
 
     <div class="debugWrapper">
@@ -68,6 +48,7 @@
           {{/if}}
           <div>
               Path Distance: {{this.gameboard.pathDistanceToMouseHex}}
+            <p>pathFindingDebug {{this.game.pathFindingDebug}}</p>
           </div>
           <div>
             Player Health: {{this.game.player.healthPercentage}}%
@@ -83,7 +64,22 @@
       </div>
     </div>
 
-    <MiniMap @map={{@model.mirageMap}} />
+    [{{this.camera.stageScaleDisplay}}]
+    <div>
+      <input type="range" id="zoom" name="zoom"
+             min="0" max="100" value="{{this.camera.stageScaleDisplay}}" step="10">
+      <label for="zoom">Zoom</label>
+    </div>
+
+    <PressAndHoldButton
+      @press={{perform this.camera.scaleStageBy -1}}
+      @release={{cancel-all this.camera.scaleStageBy}}>--</PressAndHoldButton>
+
+    <PressAndHoldButton
+      @press={{perform this.camera.scaleStageBy 1}}
+      @release={{cancel-all this.camera.scaleStageBy}}>++</PressAndHoldButton>
+
+<!--    <MiniMap @map={{!@model.mirageMap}} />-->
 
     <div class="game-controls">
       <button class="btn inventory" {{on "click" (fn showInventory)}} >

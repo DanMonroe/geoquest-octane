@@ -24,7 +24,9 @@ export default class EnemyModel extends Model {
   @attr maxHitPoints;
   @attr currentHitPoints;
   @attr currentPower;
-  @attr initialFlags;
+  @attr({ defaultValue: 0 }) travelFlags;
+  @attr({ defaultValue: 0 }) sightFlags;
+  // @attr initialFlags;
 
   @hasMany('weapon', {async: false}) weapons;
 

@@ -1,5 +1,5 @@
 import testmap from './testmap';
-import map2 from './map2';
+// import map2 from './map2';
 
 export default function(server) {
 
@@ -80,10 +80,9 @@ export default function(server) {
     healingSpeed: 10000,
     healingPower: 1,
     armor: 2,
-    initialFlags: [
-      {value:2} // 1 SEA, 2 LAND
-    ],
-    weaponIds: [1]
+    weaponIds: [1],
+    travelFlags: 2,  // 1 SEA, 2 LAND
+    sightFlags: 0  // 1 SEA, 2 LAND
   });
 
   // console.log(player);
@@ -112,7 +111,9 @@ export default function(server) {
     maxPower: 50,
     currentPower: 50,
     armor: 2,
-    weaponIds: [ 2 ]
+    weaponIds: [ 2 ],
+    travelFlags: 1,  // 1 SEA, 2 LAND
+    sightFlags: 2  // 1 SEA, 2 LAND
   });
 
   server.create('enemy', {
@@ -140,7 +141,10 @@ export default function(server) {
     healingSpeed: 16000,
     healingPower: 1,
     armor: 2,
-    weaponIds: [ 3 ]
+    weaponIds: [ 3 ],
+    travelFlags: 1,  // 1 SEA, 2 LAND
+    sightFlags: 3  // 1 SEA, 2 LAND
+
   });
   server.create('enemy', {
     id: 2,
@@ -167,7 +171,9 @@ export default function(server) {
     healingSpeed: 16000,
     healingPower: 1,
     armor: 2,
-    weaponIds: [ 4 ]
+    weaponIds: [ 4 ],
+    travelFlags: 0,  // 1 SEA, 2 LAND
+    sightFlags: 3  // 1 SEA, 2 LAND
   });
   server.create('enemy', {
     id: 3,
@@ -194,13 +200,15 @@ export default function(server) {
     healingSpeed: 16000,
     healingPower: 1,
     armor: 2,
-    weaponIds: [ 4 ]
+    weaponIds: [ 4 ],
+    travelFlags: 1,  // 1 SEA, 2 LAND
+    sightFlags: 2  // 1 SEA, 2 LAND
   });
 
-  const water1 = server.create('tile', { name: 'ZeshioHexKitDemo_096.png' });
-  const sand1 = server.create('tile', { name: 'ZeshioHexKitDemo_104.png' });
+  // const water1 = server.create('tile', { name: 'ZeshioHexKitDemo_096.png' });
+  // const sand1 = server.create('tile', { name: 'ZeshioHexKitDemo_104.png' });
 
-  testmap(server, water1, sand1);
+  testmap(server);
   // map2(server, water1, sand1);
 
 

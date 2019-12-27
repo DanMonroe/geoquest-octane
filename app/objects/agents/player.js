@@ -22,9 +22,11 @@ export class Player extends BaseAgent {
     this.maxHitPoints = args.maxHitPoints;
     this.currentHitPoints = args.currentHitPoints;
 
-    // if(this.game) {
+    if(this.game) {
+      this.game.playerTravelAbilityFlags = player.travelFlags;
+      this.game.playerVisibilityAbilityFlags = player.sightFlags;
     //   this.game.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
-    // }
+    }
 
     let playerStartHex;
     if (this.game.mapService) {

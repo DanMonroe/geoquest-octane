@@ -43,6 +43,7 @@ module.exports = function(environment) {
       // startingMapIndex: 2,
       enableGameSounds: false,
       gameClockEnabled: false,
+      modalsDuration: 600,  // transition time for drop down modals
       transport: {
         moveQueueEnabled: true,
       },
@@ -74,7 +75,7 @@ module.exports = function(environment) {
     ENV.game.enableGameSounds = false;
     ENV.game.transport.moveQueueEnabled = false;
     ENV.game.board.showTileGraphics = true;
-    ENV.game.board.showTileHexInfo = true;
+    ENV.game.board.showTileHexInfo = false;
     ENV.game.board.showDebugLayer = false;
     ENV.game.board.showFieldOfViewLayer = true;
     ENV.game.board.pathFindingDebug = false;
