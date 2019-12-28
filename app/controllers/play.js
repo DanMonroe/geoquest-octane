@@ -26,7 +26,7 @@ export default class PlayController extends Controller {
   setupKeyboardListeners() {
     // using 'element' does not work for keyboard events ?
     document.addEventListener('keydown', (e) => {
-      console.log(e.key);
+      // console.log(e.key);
       switch(e.key.toUpperCase()) {
         case 'Q':  // Q
           this.gameboard.movePlayer('NW');

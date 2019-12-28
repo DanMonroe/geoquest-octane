@@ -21,6 +21,7 @@ export default class PlayerModel extends Model {
   @attr currentPower;
   @attr({ defaultValue: 0 }) travelFlags;
   @attr({ defaultValue: 0 }) sightFlags;
+  @attr({ defaultValue: 0 }) specialFlags;
   @attr miniMapPlayerCircle;
 
   @hasMany('weapon', {async: false}) weapons;

@@ -128,7 +128,7 @@ export default class FieldOfViewService extends Service {
 
       let agentsLayer = this.camera.getAgentsLayer()
       let visibleAgentImages = agentsLayer.getChildren((node) => {
-        console.log('node.name()',node.name());
+        // console.log('node.name()',node.name());
         return `agent${transportAgent.id}` === node.name();
       });
       visibleAgentImages.forEach(agentImageGroup => {

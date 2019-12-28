@@ -2,8 +2,6 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Konva from 'konva';
-import { Point } from '../objects/point'
-// import { Player } from '../objects/agents/player'
 
 export default class GameboardService extends Service {
 
@@ -16,14 +14,11 @@ export default class GameboardService extends Service {
 
   @tracked rect = null;
 
-
   @tracked centerX = null;
   @tracked centerY = null;
 
   @tracked viewport;
   @tracked redraw = false;
-  // @tracked showDebugLayer = false;
-  // @tracked showFieldOfViewLayer = false;
 
   @tracked pathDistanceToMouseHex = 0;
   @tracked mousePoint = `X: Y:`;
@@ -471,7 +466,7 @@ export default class GameboardService extends Service {
   }
 
   clearDebugLayer() {
-    if (this.game.showDebugLayer) {
+    // if (this.game.showDebugLayer) {
       // let layer = this.camera.getFOVLayer();
       // debugLayer.removeChildren();
       // debugLayer.clear();
@@ -479,28 +474,29 @@ export default class GameboardService extends Service {
       // if (debugLayer) {
       //   const debugGroup = debugLayer.find('#debug');
         const debugGroup = this.camera.getDebugLayerGroup();
-        if (debugGroup) {
+        if (debugGroup && debugGroup.children.length > 0) {
           debugGroup.removeChildren();
+          this.camera.stage.batchDraw();
           // debugGroup.removeChildren();
           // debugGroup.clear();
-          this.camera.stage.batchDraw();
+          // this.camera.stage.batchDraw();
         }
       // }
-    }
+    // }
   }
 
   clearFOVLayer() {
-    if (this.game.showFieldOfViewLayer) {
+    // if (this.game.showFieldOfViewLayer) {
       // let gameLayer = this.camera.getGameLayer();
       // let layer = this.camera.getFOVLayer();
       const fovGroup = this.camera.getFOVLayerGroup();
-      if (fovGroup) {
+      if (fovGroup && fovGroup.children.length > 0) {
         // fovGroup.remove(fovGroup);
         fovGroup.removeChildren();
         this.camera.stage.batchDraw();
         // fovGroup.clear();
       }
-    }
+    // }
   }
 
 
@@ -738,34 +734,36 @@ export default class GameboardService extends Service {
   }
 
   hexMouseMove() {
-    const mouseCoords = this.getMousePointerPosition();
+    if (this.game.pathFindingDebug) {
+      const mouseCoords = this.getMousePointerPosition();
 
-// console.log('hexMouseMove', mouseCoords);
-    let targetHex = this.getHexAtMousePoint(mouseCoords, true);
+      let targetHex = this.getHexAtMousePoint(mouseCoords, true);
 
-    if(this.game.showFieldOfViewLayer && targetHex && targetHex.id != this.lastMouseMoveTargetId) {
-      this.clearFOVLayer();
-      // this.clearDebugLayer();
+      if (targetHex && targetHex.id != this.lastMouseMoveTargetId) {
+      // if (this.game.showFieldOfViewLayer && targetHex && targetHex.id != this.lastMouseMoveTargetId) {
+        this.clearFOVLayer();
+        this.clearDebugLayer();
 
-      this.lastMouseMoveTargetId = targetHex.id;
+        this.lastMouseMoveTargetId = targetHex.id;
 
-      let sourceHex = this.game.player.hex;
-      // let shipHex = this.transport.transportHexes[Player.transportHexIndex];
-      // console.log('shipHex' ,sourceHex);
+        let sourceHex = this.game.player.hex;
+        // let shipHex = this.transport.transportHexes[Player.transportHexIndex];
+        // console.log('shipHex' ,sourceHex);
 
-      let pathDistanceToMouseHex = this.mapService.findPathEmberData(this.mapService.worldMap, sourceHex, targetHex, {debug:this.game.pathFindingDebug});
+        let pathDistanceToMouseHex = this.mapService.findPathEmberData(this.mapService.allHexesMap, sourceHex, targetHex, {
+          agent: this.game.player,
+          debug: this.game.pathFindingDebug
+        });
 
-      this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
+        this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
 
-      this.drawPathToTarget(sourceHex, pathDistanceToMouseHex);
-      this.drawSightLineCircles(sourceHex, targetHex);
-      // this.drawPathToTarget(shipHex, pathDistanceToMouseHex);
-      // this.drawSightLineCircles(shipHex, targetHex);
-      this.camera.stage.batchDraw();
-    } else {
-      // this.pathDistanceToMouseHex = 0;
+        this.drawPathToTarget(sourceHex, pathDistanceToMouseHex);
+        this.drawSightLineCircles(sourceHex, targetHex);
+        // this.drawPathToTarget(shipHex, pathDistanceToMouseHex);
+        // this.drawSightLineCircles(shipHex, targetHex);
+        this.camera.stage.batchDraw();
+      }
     }
-
   }
 
   hexClick() {
@@ -778,7 +776,11 @@ export default class GameboardService extends Service {
   }
 
   movePlayer(directionStr) {
+    // console.log('Move player', directionStr);
     if (this.transport.movePlayerToHexTask.isIdle) {
+
+      this.clearFOVLayer();
+      this.clearDebugLayer();
 
       let direction = this.hexService.getDirection(directionStr);
 
@@ -796,7 +798,7 @@ export default class GameboardService extends Service {
             this.transformToLandOrSea(this.transport.TRANSPORTMODES.SEA, targetHex);
 
           } else {
-            let path = this.mapService.findPathEmberData(this.mapService.worldMap, this.game.player.hex, targetHex, {debug:false});
+            let path = this.mapService.findPathEmberData(this.mapService.allHexesMap, this.game.player.hex, targetHex, {agent:this.game.player, debug:this.game.pathFindingDebug});
             // let path = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex, {debug:false});
             this.transport.movePlayerAlongPath(path);
           }

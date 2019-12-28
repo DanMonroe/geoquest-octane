@@ -121,19 +121,19 @@ export default function(server) {
     name: 'galleon',
     index: 1,
     startHex: {
-      Q: 18,
-      R: -3,
+      Q: 1,
+      R: 4,
     },
     agentImage: "transports/galleon.svg",
     opacity: 0,
-    agentImageSize: 32,
+    agentImageSize: 60,
     sightRange: 3,
     speed: 2000,
     pursuitSpeed: 1500,
     aggressionSpeed: 1500,  // delay time in between aggression turns
     respawnTime: 10000,
     patrolMethod: 'random',
-    patrol: [{Q: 16, R: -6, S: -10}, {Q: 19, R: -4, S: -15}, {Q: 20, R: -7, S: -13}, {Q: 15, R: -3, S: -12}],
+    patrol: [{Q: 2, R: 9, S: -11}, {Q: 11, R: 4, S: -15}, {Q: 8, R: -4, S: 4}],
     maxHitPoints: 25,
     currentHitPoints: 5,
     maxPower: 25,
@@ -143,7 +143,7 @@ export default function(server) {
     armor: 2,
     weaponIds: [ 3 ],
     travelFlags: 1,  // 1 SEA, 2 LAND
-    sightFlags: 3  // 1 SEA, 2 LAND
+    sightFlags: 0  // 1 SEA, 2 LAND
 
   });
   server.create('enemy', {

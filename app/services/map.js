@@ -124,7 +124,7 @@ export default class MapService extends Service {
         }
       },
       transports: [ 1 ],
-      enemies: [ ]
+      enemies: [ 1 ]
     }
     let agentsObj = await this.transport.setupAgents(tempAgents);
     // let agentsObj = await this.transport.setupAgents(this.mapData[this.mapIndex].map.AGENTS);
@@ -513,10 +513,15 @@ export default class MapService extends Service {
     return foundNode;
   }
 
-  isBlockedByFlags(neighborPathFlags) {
-    return !this.game.playerHasTravelAbilityFlag(neighborPathFlags);
+  isBlockedByFlags(sourceFlags, targetFlag) {
+    const flagOn = this.game.isOnForFlag(sourceFlags, targetFlag);
+    return !flagOn;
   }
 
+  // isBlockedByFlags(neighborPathFlags) {
+  //   return !this.game.playerHasTravelAbilityFlag(neighborPathFlags);
+  // }
+  //
   distanceInHexes(startHex, targetHex) {
     return this.pathService.heuristics.hex(startHex, targetHex);
   }
@@ -548,10 +553,14 @@ export default class MapService extends Service {
     let startNode = this.findNodeFromHex(graph.gridIn, startHex);
     let endNode = this.findNodeFromHex(graph.gridIn, targetHex);
 
-    // TODO!!   isBlockedByFlags uses the player...   What about ENEMIES that use this method?!!!!!
 
+    const agent = options.agent || this.game.player;
     // console.log('this.isBlockedByFlags(targetHex.travelFlags)', this.isBlockedByFlags(endNode.travelFlags), endNode.travelFlags);
-    if (this.isBlockedByFlags(endNode.travelFlags)) {
+    if (options.debug) {
+      console.log('agent.travelFlags', agent.travelFlags, 'endNode.travelFlags', endNode.travelFlags);
+    }
+
+    if (this.isBlockedByFlags(agent.travelFlags, endNode.travelFlags)) {
       if (options.debug) {
         console.log('isBlockedByFlags: endNode.travelFlags', endNode.travelFlags);
       }
@@ -621,8 +630,8 @@ export default class MapService extends Service {
 
         if(neighbor) {
 // console.log('current neighbor.', neighbor.id, neighbor);
-
-          if (neighbor.pathClosed || this.isBlockedByFlags(neighbor.travelFlags)) {
+          if (neighbor.pathClosed || this.isBlockedByFlags(agent.travelFlags, neighbor.travelFlags)) {
+          // if (neighbor.pathClosed || this.isBlockedByFlags(neighbor.travelFlags)) {
           // if (neighbor.path.closed || this.isBlockedByFlags(neighbor.path.flags)) {
           // if (neighbor.path.closed || neighbor.pathWeight !== 0) {   // this line works with pathfinding before FLAGS
 
@@ -901,8 +910,8 @@ export default class MapService extends Service {
 
   // shows yellow boxes 'visited' during the findPath method
   drawVisitedRect(neighbor, visitedCounter) {
-    this.gameboard.clearDebugLayer();
-    let debugLayer = this.camera.getDebugLayer();
+    // this.gameboard.clearDebugLayer();
+    let debugGroup = this.camera.getDebugLayerGroup();
     let center = neighbor.point;
     // let center = this.currentLayout.hexToPixel(neighbor);
 
@@ -915,7 +924,7 @@ export default class MapService extends Service {
       listening: false
     });
 
-    debugLayer.add(rect);
+    debugGroup.add(rect);
 
     let counterText = new Konva.Text({
       x: center.x+10,
@@ -926,8 +935,8 @@ export default class MapService extends Service {
       fill: 'black',
       listening: false
     });
-    debugLayer.add(counterText);
-
-    debugLayer.draw();
+    debugGroup.add(counterText);
+    this.camera.stage.batchDraw();
+    // debugLayer.draw();
   }
 }

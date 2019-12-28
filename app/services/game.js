@@ -37,10 +37,6 @@ export default class GameService extends Service {
   @tracked agents = emberArray();
   @tracked transports = emberArray();
 
-  // track what attributes the player currently has so that
-  // we can know if the player is allowed to move there
-  @tracked playerTravelAbilityFlags = 0;
-  @tracked playerVisibilityAbilityFlags = 0;  // TODO implement... fog?  darkness?  binoculars?
 
   @tracked gameClockEnabled = true;
   @tracked showTileGraphics = true;
@@ -98,74 +94,84 @@ export default class GameService extends Service {
   }
 
   turnOnPlayerTravelAbilityFlag(flag) {
-    if(flag && flag.value) {
-      flag = flag.value;
-    }
-    if(flag) {
-      this.playerTravelAbilityFlags |= flag;
+    if (this.player) {
+      if(flag && flag.value) {
+        flag = flag.value;
+      }
+      if(flag) {
+        this.player.travelFlags |= flag;
+      }
     }
   }
 
   turnOffPlayerTravelAbilityFlag(flag) {
-    if(flag && flag.value) {
-      flag = flag.value;
-    }
-    if(flag) {
-      this.playerTravelAbilityFlags &= ~flag;
+    if (this.player) {
+      if (flag && flag.value) {
+        flag = flag.value;
+      }
+      if (flag) {
+        this.player.travelFlags &= ~flag;
+      }
     }
   }
 
   playerHasAbilityFlag(type, flag) {
-    if(flag && flag.value) {
-      flag = flag.value;
-    }
-    if(flag) {
-      switch (type) {
-        case this.FLAG_TYPE_TRAVEL:
-          return this.playerTravelAbilityFlags & flag
-        case this.FLAG_TYPE_VISIBILITY:
-          return this.playerVisibilityAbilityFlags & flag
-        default:
-          return this.playerTravelAbilityFlags & flag
+    if (this.player) {
+      if (flag && flag.value) {
+        flag = flag.value;
+      }
+      if (flag) {
+        switch (type) {
+          case this.FLAG_TYPE_TRAVEL:
+            return this.player.travelFlags & flag
+          case this.FLAG_TYPE_VISIBILITY:
+            return this.player.sightFlags & flag
+          default:
+            return this.player.travelFlags & flag
+        }
       }
     }
     return false;
   }
 
   turnOnPlayerAbilityFlag(type, flag) {
-    if(flag && flag.value) {
-      flag = flag.value;
-    }
-    if(flag) {
-      switch (type) {
-        case this.FLAG_TYPE_TRAVEL:
-          this.playerTravelAbilityFlags |= flag;
-          break;
-        case this.FLAG_TYPE_VISIBILITY:
-          this.playerVisibilityAbilityFlags |= flag;
-          break;
-        default:
-          this.playerTravelAbilityFlags |= flag;
-          break;
+    if (this.player) {
+      if (flag && flag.value) {
+        flag = flag.value;
+      }
+      if (flag) {
+        switch (type) {
+          case this.FLAG_TYPE_TRAVEL:
+            this.player.travelFlags |= flag;
+            break;
+          case this.FLAG_TYPE_VISIBILITY:
+            this.player.sightFlags |= flag;
+            break;
+          default:
+            this.player.travelFlags |= flag;
+            break;
+        }
       }
     }
   }
 
   turnOffPlayerAbilityFlag(type, flag) {
-    if(flag && flag.value) {
-      flag = flag.value;
-    }
-    if(flag) {
-      switch (type) {
-        case this.FLAG_TYPE_TRAVEL:
-          this.playerTravelAbilityFlags &= ~flag;
-          break;
-        case this.FLAG_TYPE_VISIBILITY:
-          this.playerVisibilityAbilityFlags &= ~flag;
-          break;
-        default:
-          this.playerTravelAbilityFlags &= ~flag;
-          break;
+    if (this.player) {
+      if (flag && flag.value) {
+        flag = flag.value;
+      }
+      if (flag) {
+        switch (type) {
+          case this.FLAG_TYPE_TRAVEL:
+            this.player.travelFlags &= ~flag;
+            break;
+          case this.FLAG_TYPE_VISIBILITY:
+            this.player.sightFlags &= ~flag;
+            break;
+          default:
+            this.player.travelFlags &= ~flag;
+            break;
+        }
       }
     }
   }

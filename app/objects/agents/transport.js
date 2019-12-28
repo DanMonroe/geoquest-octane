@@ -32,6 +32,9 @@ export class Transport extends BaseAgent {
     this.maxPower = args.maxPower || 25;
     this.healingSpeed = agent.healingSpeed || 5000;
     this.healingPower = agent.healingPower || 1;
+    this.travelFlags = agent.travelFlags;
+    this.sightFlags = agent.sightFlags;
+    this.specialFlags = agent.specialFlags;
 
     this.reset(agent);
 

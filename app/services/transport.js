@@ -148,11 +148,11 @@ export default class TransportService extends Service {
           transportService: this,
           gameboard: this.gameboard,
         });
-        if (mirageEnemyAgent.travelFlags) {
-          mirageEnemyAgent.travelFlags.forEach((/*flag*/) => {
-            // this.game.turnOnAgentTravelAbilityFlag(gameAgent, flag);  // TODO implement
-          });
-        }
+        // if (mirageEnemyAgent.travelFlags) {
+        //   mirageEnemyAgent.travelFlags.forEach((/*flag*/) => {
+        //     // this.game.turnOnAgentTravelAbilityFlag(gameAgent, flag);  // TODO implement
+        //   });
+        // }
         agentsArray.push(enemy);
         // this.game.agents.push(enemy);
       }
@@ -198,7 +198,8 @@ export default class TransportService extends Service {
     let targetHex = this.game.mapService.findHexByQR(currentWaypointHex.Q, currentWaypointHex.R);
     // let targetHex = this.game.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
 
-    let path = this.game.mapService.findPathEmberData(this.game.mapService.worldMap, agent.hex, targetHex);
+    let path = this.game.mapService.findPathEmberData(this.game.mapService.allHexesMap, agent.hex, targetHex, {agent: agent});
+    // let path = this.game.mapService.findPathEmberData(this.game.mapService.worldMap, agent.hex, targetHex);
     // let path = this.game.mapService.findPath(this.game.mapService.worldMap, agent.hex, targetHex);
     let moveObject = {
       agent: agent,
@@ -220,7 +221,7 @@ export default class TransportService extends Service {
 
   @task
   *moveQueueTask() {
-    // console.log('in moveQueue', this.moveQueueEnabled);
+    console.log('in moveQueue', this.moveQueueEnabled);
     while (this.moveQueueEnabled === true) {
       yield timeout(2000);
       // yield timeout(1000);

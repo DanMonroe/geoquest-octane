@@ -61,6 +61,7 @@ export class BaseAgent {
 
   @tracked travelFlags = 0;
   @tracked sightFlags = 0;
+  @tracked specialFlags = 0;
   @tracked state = BaseAgent.STATE.IDLE;
 
   setStartHex(agentStart){

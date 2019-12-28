@@ -37,6 +37,9 @@ export class Enemy extends BaseAgent {
     this.respawnTime = agent.respawnTime | 5000;
     this.state = agent.state; // state machine - see notes.md
     this.patrolMethod = agent.patrolMethod;
+    this.travelFlags = agent.travelFlags;
+    this.sightFlags = agent.sightFlags;
+    this.specialFlags = agent.specialFlags;
 
     this.reset(agent);
 
@@ -89,7 +92,7 @@ export class Enemy extends BaseAgent {
         id: "agent" + agent.id,
         // id: "agent" + agent.index,
         x: -(this.agentImageSize / 2),
-        y: -(this.agentImageSize / 2) - 5,
+        y: -(this.agentImageSize / 2) - 20,
         image: image,
         width: this.agentImageSize,
         height: this.agentImageSize
@@ -159,7 +162,7 @@ export class Enemy extends BaseAgent {
   *chasePlayer() {
     // and player is still alive
     while(this.state === BaseAgent.STATE.MISSILE) {
-      let pathDistanceToShipHex = this.game.mapService.findPathEmberData(this.mapService.worldMap, this.hex, this.game.player.hex);
+      let pathDistanceToShipHex = this.game.mapService.findPathEmberData(this.mapService.allHexesMap, this.hex, this.game.player.hex, {agent: this});
       // let pathDistanceToShipHex = this.game.mapService.findPath(this.mapService.worldMap, this.hex, this.game.player.hex);
 
       if (isPresent(pathDistanceToShipHex)) {

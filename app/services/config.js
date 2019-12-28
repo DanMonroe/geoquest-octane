@@ -13,6 +13,9 @@ export default class ConfigService extends Service {
   }
 
   togglePathFindingDebug() {
+    this.game.gameboard.clearFOVLayer();
+    this.game.gameboard.clearDebugLayer();
+
     this.game.pathFindingDebug = !this.game.pathFindingDebug;
   }
 

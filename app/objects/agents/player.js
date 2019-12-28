@@ -16,17 +16,10 @@ export class Player extends BaseAgent {
     this.camera = args.camera;
     this.game = args.game;
     this.transportService = args.transportService;
-    this.travelAbilityFlags = args.travelAbilityFlags || 0;
     this.boardedTransport = args.boardedTransport;
     this.gameboard = args.gameboard;
     this.maxHitPoints = args.maxHitPoints;
     this.currentHitPoints = args.currentHitPoints;
-
-    if(this.game) {
-      this.game.playerTravelAbilityFlags = player.travelFlags;
-      this.game.playerVisibilityAbilityFlags = player.sightFlags;
-    //   this.game.turnOnPlayerTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
-    }
 
     let playerStartHex;
     if (this.game.mapService) {
@@ -50,6 +43,9 @@ export class Player extends BaseAgent {
     this.currentPower = player.currentPower;
     this.healingSpeed = player.healingSpeed || 5000;
     this.healingPower = player.healingPower || 1;
+    this.travelFlags = player.travelFlags;
+    this.sightFlags = player.sightFlags;
+    this.specialFlags = player.specialFlags;
 
     this.armor = player.armor | 2;
     this.respawnTime = player.respawnTime | 5000;
