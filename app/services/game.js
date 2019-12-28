@@ -13,6 +13,9 @@ export default class GameService extends Service {
     TRAVEL: {
       SEA: {value: 1, description: 'Travel by Sea'},
       LAND: {value: 2, description: 'Travel by Land'}
+    },
+    SPECIAL: {
+      DOCK: {value: 1, description: 'Dock'}
     }
   };
 
@@ -165,6 +168,13 @@ export default class GameService extends Service {
           break;
       }
     }
+  }
+
+  isOnForFlag(sourceFlags, targetFlag) {
+    if(targetFlag && targetFlag.value) {
+      targetFlag = targetFlag.value;
+    }
+    return sourceFlags & targetFlag;
   }
 
   boardTransport(transportName) {

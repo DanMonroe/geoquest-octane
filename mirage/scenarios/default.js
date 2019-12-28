@@ -95,12 +95,12 @@ export default function(server) {
     // index: 3,
     name: 'ship',
     startHex: {
-      Q: 7,
-      R: 1
+      Q: 10,
+      R: 3
     },
     agentImage: "transports/ship.svg",
     opacity: 1,
-    agentImageSize: 32,
+    agentImageSize: 60,
     sightRange: 3,
     speed: 500,
     respawnTime: 5000,

@@ -808,10 +808,9 @@ export default class GameboardService extends Service {
   playerOnDockTryingToBoard(sourceHex, targetHex) {
     let distance = this.pathService.heuristics.hex(sourceHex, targetHex);
     if(distance === 1) {
-      let ship = this.transport.findTransportByName('ship');
-      let tryingToBoard = (sourceHex.props && sourceHex.props.dock === true) &&
+      const ship = this.transport.findTransportByName('ship');
+      return ship && this.game.isOnForFlag(sourceHex.specialFlags, this.game.FLAGS.SPECIAL.DOCK) &&
         (this.hexService.hasSameCoordinates(targetHex, ship.hex));
-      return tryingToBoard;
     }
     return false;
   }
@@ -819,9 +818,8 @@ export default class GameboardService extends Service {
   playerAtSeaTryingToDock(sourceHex, targetHex) {
     let distance = this.pathService.heuristics.hex(sourceHex, targetHex);
     if(distance === 1) {
-      let tryingToDock = ((targetHex.props && targetHex.props.dock) === true) &&
+      return this.game.isOnForFlag(targetHex.specialFlags, this.game.FLAGS.SPECIAL.DOCK) &&
         this.game.playerHasTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
-      return tryingToDock;
     }
     return false;
   }

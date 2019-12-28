@@ -99,7 +99,7 @@ export class Player extends BaseAgent {
       this.imageObj = new Konva.Image({
         id: player.name,
         x: -(this.agentImageSize / 2),
-        y: -(this.agentImageSize / 2) - 5,
+        y: -(this.agentImageSize / 2) - 20,
         image: imageObj,
         width: this.agentImageSize,
         height: this.agentImageSize

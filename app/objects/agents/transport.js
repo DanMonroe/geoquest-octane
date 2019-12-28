@@ -96,7 +96,7 @@ export class Transport extends BaseAgent {
         id: "agent" + agent.id,
         // id: "agent" + agent.index,
         x: -(this.agentImageSize / 2),
-        y: -(this.agentImageSize / 2) - 5,
+        y: -(this.agentImageSize / 2) - 20,
         image: image,
         opacity: agent.opacity,
         width: this.agentImageSize,
@@ -105,8 +105,8 @@ export class Transport extends BaseAgent {
 
       let agentsLayer = this.game.camera.getAgentsLayer();
       this.imageGroup.add(this.imageObj, healthBar, powerBar);
-      healthBar.moveToBottom();
-      powerBar.moveToBottom();
+      // healthBar.moveToBottom();
+      // powerBar.moveToBottom();
       agentsLayer.add(this.imageGroup);
       // agentsLayer.add(this.imageObj);
       agentsLayer.draw();

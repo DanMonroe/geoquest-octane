@@ -120,7 +120,7 @@ export default function(server) {
   const  hex6_7 = server.create('hex', {layout: layout, col: 6, row:  7, travelFlags: 2, tiles: []});
   const  hex7_7 = server.create('hex', {layout: layout, col: 7, row:  7, travelFlags: 1, tiles: []});
   const  hex8_7 = server.create('hex', {layout: layout, col: 8, row:  7, travelFlags: 2, tiles: []});
-  const  hex9_7 = server.create('hex', {layout: layout, col: 9, row:  7, travelFlags: 2, tiles: []});
+  const  hex9_7 = server.create('hex', {layout: layout, col: 9, row:  7, travelFlags: 2, specialFlags: 1, tiles: []});
   const hex10_7 = server.create('hex', {layout: layout, col: 10, row: 7, travelFlags: 1, tiles: []});
   const hex11_7 = server.create('hex', {layout: layout, col: 11, row: 7, travelFlags: 1, tiles: []}); // 96
 

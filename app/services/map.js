@@ -123,7 +123,7 @@ export default class MapService extends Service {
           R: 0
         }
       },
-      transports: [ ],
+      transports: [ 1 ],
       enemies: [ ]
     }
     let agentsObj = await this.transport.setupAgents(tempAgents);
