@@ -9,7 +9,6 @@ import Konva from 'konva';
 import { Player } from '../objects/agents/player'
 import { Enemy } from '../objects/agents/enemy'
 import { Transport } from '../objects/agents/transport'
-// import { alias } from '@ember-decorators/object/computed';
 
 export default class TransportService extends Service {
 
@@ -25,10 +24,6 @@ export default class TransportService extends Service {
   @service ('camera') camera;
   @service ('gameboard') gameboard;
   @service ('fieldOfView') fov;
-
-  // @tracked player = null;
-  // @tracked agents = emberArray();
-  // @tracked transports = emberArray();
 
 
   @tracked moveQueueEnabled = true;
@@ -49,19 +44,13 @@ export default class TransportService extends Service {
 
   async setupAgents(agents) {
 
-    // let player = null;
   let transportsArray = emberArray();
-    // this.agents = emberArray();
 
   if(agents.transports) {
     for (let i = 0; i < agents.transports.length; i++) {
 
-      // agents.transports.forEach((transportAgentId) => {
-
-      // agents.transports.forEach((transportAgent) => {
       let mirageTransportAgent = await this.get('api.loadTransport').perform(agents.transports[i]);
 
-      // this.store.find('transport', transportAgentId).then(mirageTransportAgent => {
       let transport = new Transport({
         agent: mirageTransportAgent,
         // agent:transportAgent,
@@ -71,7 +60,6 @@ export default class TransportService extends Service {
         transportService: this,
         gameboard: this.gameboard,
       });
-      // console.log('adding transport', transport);
       // if (mirageTransportAgent.travelFlags) {
         // mirageTransportAgent.travelFlags.forEach((/*flag*/) => {
           // this.game.turnOnTransportTravelAbilityFlag(transportAgent, flag); // TODO implement
@@ -79,23 +67,11 @@ export default class TransportService extends Service {
       // }
 
       transportsArray.push(transport);
-      // });
-
     }
   }
 
     // find the ship to board initially
-    let startingShip = this.findTransportByName('ship'); // TODO how to handle loading map and get on ship
-
-    // let player = new Player(
-    //   {
-    //     player:agents.player,
-    //     game:this.game,
-    //     travelAbilityFlags: 0,
-    //     boardedTransport: null
-    //   }
-    //     // boardedTransport: startingShip
-    // );
+    // let startingShip = this.findTransportByName('ship'); // TODO how to handle loading map and get on ship
 
     let miragePlayer = await this.api.loadPlayer.perform(agents.player.id)
 
@@ -196,11 +172,8 @@ export default class TransportService extends Service {
     }
 
     let targetHex = this.game.mapService.findHexByQR(currentWaypointHex.Q, currentWaypointHex.R);
-    // let targetHex = this.game.mapService.findHexByQRS(currentWaypointHex.Q, currentWaypointHex.R, currentWaypointHex.S);
 
-    let path = this.game.mapService.findPathEmberData(this.game.mapService.allHexesMap, agent.hex, targetHex, {agent: agent});
-    // let path = this.game.mapService.findPathEmberData(this.game.mapService.worldMap, agent.hex, targetHex);
-    // let path = this.game.mapService.findPath(this.game.mapService.worldMap, agent.hex, targetHex);
+    let path = this.game.mapService.findPath(this.game.mapService.allHexesMap, agent.hex, targetHex, {agent: agent});
     let moveObject = {
       agent: agent,
       path: path,
@@ -223,9 +196,8 @@ export default class TransportService extends Service {
   *moveQueueTask() {
     console.log('in moveQueue', this.moveQueueEnabled);
     while (this.moveQueueEnabled === true) {
-      yield timeout(2000);
-      // yield timeout(1000);
-      // debugger;
+      // yield timeout(2000);
+      yield timeout(1000);
 
       // if there are things to move
       if (this.moveQueue.length > 0) {
@@ -274,13 +246,11 @@ export default class TransportService extends Service {
 //         // console.table(consoleTableItems);
 //       }
     }
-  };
+  }
 
   moveTransportToHex(transport, targetHex) {
     transport.hex = targetHex;
     let point = targetHex.point;
-    // let point = targetHex.mapObject.point;
-    // let point = this.game.mapService.currentLayout.hexToPixel(targetHex);
 
     // node: transport.imageObj,
     let tween = new Konva.Tween({

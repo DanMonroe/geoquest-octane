@@ -41,17 +41,12 @@ export default class HexModel extends Model {
 
   @computed('layoutOrientation.{type,f0,f1,f2,f3}','layoutSize.{x,y}','q','r','col','row','layoutOrigin.{x,y}')
   get point() {
-  // hexToPixel(hex) {
     if(this.layoutOrientation.type === 'flat') {
-      // let M = this.layoutOrientation;
-      // let size = this.size;
-      // let origin = this.layout.origin;
       let x = (this.layoutOrientation.f0 * this.q + this.layoutOrientation.f1 * this.r) * this.layoutSize.x;
       let y = (this.layoutOrientation.f2 * this.q + this.layoutOrientation.f3 * this.r) * this.layoutSize.y;
       return new Point({x:x + this.layoutOrigin.x, y:y + this.layoutOrigin.y});
     } else {
       // oddr_offset_to_pixel
-      // let size = this.size;
       let x = this.layoutSize.x * Math.sqrt(3) * (this.col + (0.5 * (this.row & 1)));
       let y = this.layoutSize.x * (3 / 2) * this.row;
       return new Point({x: x, y: y});
@@ -62,7 +57,6 @@ export default class HexModel extends Model {
   get hexWidth() {
     const hexWidth = Math.round(this.layoutOrientation.type === 'flat' ?
       2 * this.layoutSize.x : Math.sqrt(3) * this.layoutSize.x);
-    // console.log('hex this.hexWidth', hexWidth);
     return hexWidth;
   }
 
@@ -70,12 +64,9 @@ export default class HexModel extends Model {
   get hexHeight() {
     const hexHeight = Math.round(this.layoutOrientation.type === 'flat' ?
       Math.sqrt(3) * this.layoutSize.y : 2 * this.layoutSize.y);
-    // console.log('hex this.hexHeight', this.hexHeight);
     return hexHeight;
   }
 
-  // @computed('point')
-  // polygonCorners(hex) {
   get polygonCorners() {
 
     let corners = [];

@@ -13,9 +13,7 @@ export default class FieldOfViewService extends Service {
   @tracked lastNeighborsInRangeArray = {};
 
   updatePlayerFieldOfView() {
-    // console.time('updatePlayerFieldOfView')
     let player = this.game.player;
-    // console.log('updatePlayerFieldOfView', 'player', player,'player.hex', player.hex);
 
     // recursive
     let neighborsInRangeArray = [];
@@ -24,12 +22,10 @@ export default class FieldOfViewService extends Service {
 
     let finalFovHexes = this.buildFieldOfVisionVisibleAndBlockedHexes(neighborsInRangeArray, player.hex);
 
-    // console.log('finalFovHexes', finalFovHexes);
     this.mapService.updateSeenHexes(finalFovHexes);
     this.updateGameboardTilesOpacity(finalFovHexes);
     this.updateStaticEnemyOpacity(finalFovHexes);
 
-    // console.timeEnd('updatePlayerFieldOfView')
   }
 
   clean(originHex, neighborsInRangeArray) {

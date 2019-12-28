@@ -157,10 +157,7 @@ export class Player extends BaseAgent {
     }
 
     let startPoint = this.point;
-    // let mousecoords = this.gameboard.getMousePointerPosition()
     let targetPoint = new Point({x:mousecoords.x, y:mousecoords.y}); // harder to aim
-    // let targetHex = this.gameboard.getHexAtMousePoint(mousecoords);   // center of hex
-    // let targetPoint = this.mapService.currentLayout.hexToPixel(targetHex);  // center of hex
 
     this.fireWeapon.perform(weapon, startPoint, targetPoint);
   }

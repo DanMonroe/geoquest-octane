@@ -162,7 +162,7 @@ export class Enemy extends BaseAgent {
   *chasePlayer() {
     // and player is still alive
     while(this.state === BaseAgent.STATE.MISSILE) {
-      let pathDistanceToShipHex = this.game.mapService.findPathEmberData(this.mapService.allHexesMap, this.hex, this.game.player.hex, {agent: this});
+      let pathDistanceToShipHex = this.game.mapService.findPath(this.mapService.allHexesMap, this.hex, this.game.player.hex, {agent: this});
       // let pathDistanceToShipHex = this.game.mapService.findPath(this.mapService.worldMap, this.hex, this.game.player.hex);
 
       if (isPresent(pathDistanceToShipHex)) {

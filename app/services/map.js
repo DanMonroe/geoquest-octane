@@ -63,8 +63,6 @@ export default class MapService extends Service {
   initMap(args) {
     let { map } = args;
     this.set('worldMap', map);
-    // console.log('initMap', map);
-    // this.set('worldMapHexes', this.hexService.createHexesFromMap(map));
 
     let graph = new Graph({
       gridIn: this.worldMap
@@ -78,25 +76,15 @@ export default class MapService extends Service {
     this.game.saveGame();
 
     this.emberDataMap = await this.store.findRecord('map', mapIndex, {include:'hexRows'});
-    // console.log('emberDataMap', emberDataMap);
 
     this.mapIndex = mapIndex;
-    // this.map = this.mapData[mapIndex].map;
 
     this.loadLayout(this.emberDataMap);
 
-    // this.loadLayout({
-    //   "type": emberDataMap.layoutType,
-    //   "hexSizeX": emberDataMap.layoutHexSizeX,
-    //   "hexSizeY": emberDataMap.layoutHexSizeY
-    // });
-
-    this.loadEmberDataTiles(this.emberDataMap);
+    this.loadTiles(this.emberDataMap);
 
     // TODO re-enable sounds
     // this.sound.loadSounds(this.mapData[mapIndex].sounds);
-
-    // console.log(emberDataMap.hexGrid);
 
     // sets worldMap using the hexGrid (uses HexModel objects)
     // Creates a Graph Object
@@ -106,11 +94,11 @@ export default class MapService extends Service {
     // this.gameboard.setupMinimapCanvases();
     this.gameboard.setupGameboardCanvases();
 
-    this.gameboard.initKeyboardAndMouseEventListeners();
+    this.gameboard.initMouseEventListeners();
 
     // setup just the hexes within view
     // this.setHexmapSubset();
-    this.setEmberMapHexmapSubset(this.emberDataMap);
+    this.setHexmapSubset(this.emberDataMap);
 
     //
     // Player, Agents, and transports
@@ -127,15 +115,12 @@ export default class MapService extends Service {
       enemies: [ 1 ]
     }
     let agentsObj = await this.transport.setupAgents(tempAgents);
-    // let agentsObj = await this.transport.setupAgents(this.mapData[this.mapIndex].map.AGENTS);
 
     this.game.player = agentsObj.player;
     this.game.agents = agentsObj.agents;
     this.game.transports = agentsObj.transports;
 
     this.transport.setupPatrols();
-
-    // this.gameboard.drawBackgroundMap(emberDataMap);
 
     console.time('drawGrid')
 
@@ -155,46 +140,6 @@ export default class MapService extends Service {
 
   }
 
-  // Map setup
-  // async loadMap(mapIndex) {
-  //   this.game.saveGame();
-  //
-  //   this.mapIndex = mapIndex;
-  //   this.map = this.mapData[mapIndex].map;
-  //
-  //   this.loadLayout(this.map.LAYOUT);
-  //   this.loadTiles(this.map);
-  //   this.sound.loadSounds(this.mapData[mapIndex].sounds);
-  //
-  //   this.gameboard.setupQRSFromMap(this.map.MAP);
-  //   this.initMap({map: this.map.MAP});
-  //   this.camera.initCamera();
-  //
-  //   this.gameboard.setupGameboardCanvases();
-  //   this.gameboard.initKeyboardAndMouseEventListeners();
-  //
-  //   this.setHexmapSubset();
-  //
-  //   // Player, Agents, and transports
-  //   let agentsObj = await this.transport.setupAgents(this.mapData[this.mapIndex].map.AGENTS);
-  //
-  //   this.game.player = agentsObj.player;
-  //   this.game.agents = agentsObj.agents;
-  //   this.game.transports = agentsObj.transports;
-  //
-  //   this.transport.setupPatrols();
-  //
-  //   this.gameboard.drawGrid({
-  //     hexes: this.hexMap,
-  //     withLabels: this.game.showTileHexInfo,
-  //     withTiles: this.game.showTileGraphics
-  //   });
-  //
-  //   this.fov.updatePlayerFieldOfView()
-  //   // this.fov.updatePlayerFieldOfView(this.game.player.hex)
-  //
-  //   this.transport.moveQueueTask.perform();
-  // }
 
   updateSeenHexes(finalFovHexes) {
     if (typeof this.mapIndex === undefined || !finalFovHexes.visible) {
@@ -216,7 +161,6 @@ export default class MapService extends Service {
 
     this.mapSeenHexes.set(this.mapIndex, thisMapsSeenHexes);
 
-    // console.log(this.mapSeenHexes);
   }
 
   loadSeenHexesFromStorage() {
@@ -230,7 +174,6 @@ export default class MapService extends Service {
         this.mapSeenHexes.set(mapIndex, seenHexes);
       })
     }
-    // console.log(this.mapSeenHexes);
   }
 
   getSeenHexesForLoadedMap() {
@@ -260,12 +203,9 @@ export default class MapService extends Service {
       });
     }
 
-    // let hexPairWidth = this.currentLayout.hexWidth * 1.5;
-    // return hexPairWidth;
-
   }
 
-  loadEmberDataTiles(emberDataMap) {
+  loadTiles(emberDataMap) {
     let tileset = emberDataMap.get('tileImages');
 
     // let tileset = map.TILEIMAGES
@@ -294,35 +234,6 @@ export default class MapService extends Service {
     }
   }
 
-  // TODO DEPRECATED after ember data maps
-  // loadTiles(map) {
-  //   let tileset = map.TILEIMAGES
-  //   // console.log(tileset);
-  //
-  //   this.tileGraphics = [];
-  //   this.tilesLoaded = false;
-  //   let tileGraphicsLoaded = 0;
-  //   for (let i = 0; i < tileset.length; i++) {
-  //
-  //     let tileGraphic = new Image(36, 36);
-  //     tileGraphic.src = `/images/hex/${tileset[i]}`;
-  //     tileGraphic.onload = () => {
-  //       // Once the image is loaded increment the loaded graphics count and check if all images are ready.
-  //
-  //       tileGraphicsLoaded++;
-  //
-  //       if (tileGraphicsLoaded === tileset.length) {
-  //         // console.log('tiles loaded');
-  //         this.tilesLoaded = true;
-  //       }
-  //     }
-  //
-  //     this.tileGraphics.pushObject(tileGraphic);
-  //
-  //   }
-  //     console.log('tileGraphics', this.tileGraphics);
-  // }
-
   getTileGraphic(tileIndex) {
     return this.tileGraphics[tileIndex];
   }
@@ -333,23 +244,6 @@ export default class MapService extends Service {
     })
     return (tileIndex >= 0) ? this.tileGraphics[tileIndex] : undefined;
   }
-
-  // ability to pass in the source of hexes to search - should make finding faster when passed in smaller subset of maps.
-  // findHexByQR(Q, R, sourceHexMap = this.hexMap) {
-  //   let hex = undefined;
-  //   for (let hexRow of sourceHexMap) {
-  //     for (let hexObject of hexRow) {
-  //       if ((Q === hexObject.q) && (R === hexObject.r)) {
-  //         hex = hexObject;
-  //         break;
-  //       }
-  //     }
-  //     if (hex) {
-  //       break;
-  //     }
-  //   }
-  //   return hex;
-  // }
 
   // ability to pass in the source of hexes to search - should make finding faster when passed in smaller subset of maps.
   findHexByQR(Q, R, sourceHexMap = this.allHexesMap) {
@@ -368,14 +262,8 @@ export default class MapService extends Service {
   // xcoord and ycoord will probably be a floating point
   // round, find hex coordinates that contain X and Y, then find HexModel
   findHexByXY(xyObj, sourceHexMap = this.allHexesMap) {
-    // this will replace:
-    // let point = new Point({x:newX, y:newY});
-    // let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
-    // let segmentHex = this.mapService.findHexByQR(thisHex.q, thisHex.r, sourceHexMap);
     const hexCoordinates = this.currentLayout.pixelToHexCoordinate(xyObj);
-    const hexModel = this.findHexByQR(hexCoordinates.q, hexCoordinates.r, sourceHexMap);
-// console.log('xyObj', xyObj, 'hexCoordinates', hexCoordinates, 'findHexByXY hexModel', hexModel);
-    return hexModel;
+    return this.findHexByQR(hexCoordinates.q, hexCoordinates.r, sourceHexMap);
   }
 
   findPlayerHexNeighborByDirection(direction) {
@@ -384,17 +272,14 @@ export default class MapService extends Service {
     }
     let currentQ = this.game.player.hex.q;
     let currentR = this.game.player.hex.r;
-    // let currentS = this.game.player.hex.s;
 
     let targetQ = currentQ + direction.q;
     let targetR = currentR + direction.r;
-    // let targetS = currentS + direction.s;
 
     return this.findHexByQR(targetQ, targetR);
-    // return this.findHexByQRS(targetQ, targetR, targetS);
   }
 
-  setEmberMapHexmapSubset(emberDataMap) {
+  setHexmapSubset(emberDataMap) {
     let mapHexGrid = emberDataMap.hexGrid;
 
     let numCols = mapHexGrid[0].length;
@@ -444,46 +329,6 @@ export default class MapService extends Service {
     this.set('bottomRightPoint', bottomRightPoint);
   }
 
-  // TODO DEPRECATED after ember data maps (setEmberMapHexmapSubset)
-  // setHexmapSubset() {
-  // // setHexmapSubset(startRow, startCol, numRows, numCols) {
-  //
-  //   let numCols = this.map.MAP[0].length;
-  //   let numRows = this.map.MAP.length;
-  //   // let numCols = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
-  //   // let numRows = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
-  //
-  //   let startRow = 0;
-  //   let startCol = 0
-  //
-  //
-  //   let subsetMap = [];
-  //   for (let r = startRow; r < (startRow + numRows); r++) {
-  //     let subsetMapCols = [];
-  //     for (let c = startCol; c < (startCol + numCols); c++) {
-  //       let thisMapObject = this.worldMap[r][c];
-  //       // console.log(thisMapObject);
-  //       subsetMapCols.push(thisMapObject);
-  //     }
-  //     subsetMap.push(subsetMapCols);
-  //   }
-  //
-  //   // console.log('subsetMap', subsetMap);
-  //   this.set('hexMap', this.hexService.createHexesFromMap(subsetMap));
-  //   this.set('startRow', startRow);
-  //   this.set('startCol', startCol);
-  //   this.set('numRows', numRows);
-  //   this.set('numCols', numCols);
-  //
-  //   let mapLength = this.hexMap.length;
-  //   let topLeftPoint = this.hexMap[startCol*numRows].point;
-  //   let bottomRightPoint = this.hexMap[mapLength-1].point;
-  //   // let topLeftPoint = this.currentLayout.hexToPixel(this.hexMap[startCol*numRows]);
-  //   // let bottomRightPoint = this.currentLayout.hexToPixel(this.hexMap[mapLength-1]);
-  //   this.set('topLeftPoint', topLeftPoint);
-  //   this.set('bottomRightPoint', bottomRightPoint);
-  // }
-  //
   createHeap() {
     return new BinaryHeap({
       content: [],
@@ -514,37 +359,25 @@ export default class MapService extends Service {
   }
 
   isBlockedByFlags(sourceFlags, targetFlag) {
-    const flagOn = this.game.isOnForFlag(sourceFlags, targetFlag);
-    return !flagOn;
+    return ! this.game.isOnForFlag(sourceFlags, targetFlag);
   }
 
-  // isBlockedByFlags(neighborPathFlags) {
-  //   return !this.game.playerHasTravelAbilityFlag(neighborPathFlags);
-  // }
-  //
   distanceInHexes(startHex, targetHex) {
     return this.pathService.heuristics.hex(startHex, targetHex);
   }
 
   // https://briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated/
-  findPathEmberData(gridIn, startHex, targetHex, options = {}) {
+  findPath(gridIn, startHex, targetHex, options = {}) {
     if (options.debug) {
-      console.time("findPathEmberData");
+      console.time("findPath");
       console.log(`findPath from ${startHex.id} to ${targetHex.id}`);
-      // console.groupCollapsed(`findPath from ${startHex.id} to ${targetHex.id}`);
-      // console.groupCollapsed(`findPath from ${startHex.id} to ${targetHex.id}`);
     }
 
     let distance = this.pathService.heuristics.hex;
 
     let closest = options.closest || true;
-    // console.log('closest', closest);
 
     let openHeap = this.createHeap();
-    // let graph = new Graph({
-    //   gridIn: gridIn
-    // });
-    // graph.setup(); // cleans all nodes
 
     // TODO 4/11/19 do we need to clean all nodes each time we find path?  12/5/2019 - Yes
     let graph = this.graph;
@@ -553,9 +386,7 @@ export default class MapService extends Service {
     let startNode = this.findNodeFromHex(graph.gridIn, startHex);
     let endNode = this.findNodeFromHex(graph.gridIn, targetHex);
 
-
     const agent = options.agent || this.game.player;
-    // console.log('this.isBlockedByFlags(targetHex.travelFlags)', this.isBlockedByFlags(endNode.travelFlags), endNode.travelFlags);
     if (options.debug) {
       console.log('agent.travelFlags', agent.travelFlags, 'endNode.travelFlags', endNode.travelFlags);
     }
@@ -567,7 +398,6 @@ export default class MapService extends Service {
       return [];
     }
 
-
     let closestNode = startNode; // set the start node to be the closest if required
 
     // path:
@@ -576,13 +406,6 @@ export default class MapService extends Service {
     // pathFullScore = neighbor.path.g + neighbor.path.h ??
     // pathWeight = path weight for the node (used for walls, blocking, travel through cost)
 
-    // old: pre emberData
-    // path.h = heuristic path ("smart" shortest distance - only search in directions that are closer to target)
-    // path.g = g score is the shortest distance from start to current node.
-    // path.f = neighbor.path.g + neighbor.path.h ??
-    // path.w = path weight for the node (used for walls, blocking, travel through cost)
-
-    // startNode.path.h = distance(startNode, endNode);
     startNode.heuristicDistance = distance(startNode, endNode);
 
     graph.markDirty(startNode);
@@ -599,9 +422,6 @@ export default class MapService extends Service {
 
       // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
       let currentNode = openHeap.pop();
-      // if (options.debug) {
-      //   console.log('openHeap.size()', openHeap.size(), 'currentNode', currentNode, 'endNode', endNode);
-      // }
 
       // End case -- result has been found, return the traced path.
       if (currentNode.id === endNode.id) {
@@ -609,7 +429,7 @@ export default class MapService extends Service {
         if (options.debug) {
           console.log('path', path);
           console.groupEnd();
-          console.timeEnd("findPathEmberData");
+          console.timeEnd("findPath");
         }
         return path;
       }
@@ -620,23 +440,14 @@ export default class MapService extends Service {
 
       // Find all neighbors for the current node.
       let neighbors = graph.neighbors(currentNode);
-// if (options.debug) {
-// console.log('currentNode', currentNode);
-// console.log('neighbors', neighbors);
-// }
 
       for (let i = 0, il = neighbors.length; i < il; ++i) {
         let neighbor = neighbors[i];
 
         if(neighbor) {
-// console.log('current neighbor.', neighbor.id, neighbor);
           if (neighbor.pathClosed || this.isBlockedByFlags(agent.travelFlags, neighbor.travelFlags)) {
-          // if (neighbor.pathClosed || this.isBlockedByFlags(neighbor.travelFlags)) {
-          // if (neighbor.path.closed || this.isBlockedByFlags(neighbor.path.flags)) {
-          // if (neighbor.path.closed || neighbor.pathWeight !== 0) {   // this line works with pathfinding before FLAGS
 
             // Not a valid node to process, skip to next neighbor.
-// console.log('Not a valid node to process, skip to next neighbor.', neighbor.id);
             continue;
           }
           // The g score is the shortest distance from start to current node.
@@ -655,42 +466,22 @@ export default class MapService extends Service {
 
             }
 
-// console.group('neighbor');
             // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
             neighbor.pathVisited = true;
-            // neighbor.path.visited = true;
             neighbor.pathParent = currentNode;
-            // neighbor.path.parent = currentNode;
             neighbor.heuristicDistance = neighbor.heuristicDistance || distance(neighbor, endNode);
             neighbor.pathScore = gScore;
             neighbor.pathFullScore = neighbor.pathScore + neighbor.heuristicDistance;
 
-// console.log('pathVisited', neighbor.pathVisited);
-// console.log('pathParent.id', neighbor.pathParent.id);
-// console.log('heuristicDistance', neighbor.heuristicDistance);
-// console.log('distance', distance(neighbor, endNode));
-// console.log('pathScore', neighbor.pathScore);
-// console.log('pathFullScore', neighbor.pathFullScore);
-
             graph.markDirty(neighbor);
             if (closest) {
-// console.group('closestNode');
-// console.log('closestNode.heuristicDistance', closestNode.heuristicDistance);
-// console.log('closestNode.pathScore', closestNode.pathScore);
-// console.log('neighbor.heuristicDistance < closestNode.heuristicDistance', neighbor.heuristicDistance < closestNode.heuristicDistance);
-// console.log('(neighbor.heuristicDistance === closestNode.heuristicDistance && neighbor.pathScore < closestNode.pathScore)', (neighbor.heuristicDistance === closestNode.heuristicDistance && neighbor.pathScore < closestNode.pathScore));
-
               // If the neighbor is closer than the current closestNode or if it's equally close but has
               // a cheaper path than the current closest node then it becomes the closest node
               if (neighbor.heuristicDistance < closestNode.heuristicDistance || (neighbor.heuristicDistance === closestNode.heuristicDistance && neighbor.pathScore < closestNode.pathScore)) {
-// console.log('!!! setting closestNode');
                 closestNode = neighbor;
               }
-// console.groupEnd();
             }
-// console.groupEnd();
 
-// console.log(' --> beenVisited', beenVisited);
             if (!beenVisited) {
               // Pushing to heap will put it in proper place based on the 'f' value.
               openHeap.push(neighbor);
@@ -700,7 +491,6 @@ export default class MapService extends Service {
             }
 
             if (distance(neighbor, endNode) === 0) {
-// console.log('distance(neighbor, endNode) = 0');
               break;
             }
           } // if
@@ -710,7 +500,6 @@ export default class MapService extends Service {
     } // while
 
     if (closest) {
-// console.log('closestNode', closestNode.id, closestNode);
       let path = this.pathService.to(closestNode);
       if (options.debug) {
         console.groupEnd();
@@ -724,158 +513,6 @@ export default class MapService extends Service {
 
     // No result was found - empty array signifies failure to find path.
     return [];
-  }
-
-  // TODO DEPRECATE after EmberDataMap
-  // https://briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated/
-  findPath(gridIn, startHex, targetHex, options = {}) {
-
-    if (options.debug) {
-      console.groupCollapsed(`findPath from ${startHex.id} to ${targetHex.id}`);
-    }
-
-    const distance = this.pathService.heuristics.hex;
-
-    const closest = options.closest || true;
-    // console.log('closest', closest);
-
-    let openHeap = this.createHeap();
-    // let graph = new Graph({
-    //   gridIn: gridIn
-    // });
-    // graph.setup(); // cleans all nodes
-
-    // TODO 4/11/19 do we need to clean all nodes each time we find path?
-    let graph = this.graph;
-    graph.cleanNodes();
-
-    let startNode = this.findNodeFromHex(graph.gridIn, startHex);
-    let endNode = this.findNodeFromHex(graph.gridIn, targetHex);
-
-    var closestNode = startNode; // set the start node to be the closest if required
-
-    // path:
-    // path.h = heuristic path ("smart" shortest distance - only search in directions that are closer to target)
-    // path.g = g score is the shortest distance from start to current node.
-    // path.f = neighbor.path.g + neighbor.path.h ??
-    // path.w = path weight for the node (used for walls, blocking, travel through cost)
-
-    startNode.path.h = distance(startNode, endNode);
-
-    graph.markDirty(startNode);
-
-    openHeap.push(startNode);
-
-    if (options.debug) {
-      console.log('startNode', startNode, 'endNode', endNode);
-    }
-
-    let visitedCounter = 0;
-
-    while (openHeap.size() > 0) {
-
-      // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
-      var currentNode = openHeap.pop();
-      if (options.debug) {
-        console.log('openHeap.size()', openHeap.size(), 'currentNode', currentNode);
-      }
-
-      // End case -- result has been found, return the traced path.
-      if (currentNode.id === endNode.id) {
-        if (options.debug) {
-          console.log('currentNode.id === endNode.id - done');
-        }
-
-        let path = this.pathService.to(currentNode);
-        if (options.debug) {
-          console.groupEnd();
-        }
-        return path;
-      }
-
-      // Normal case -- move currentNode from open to closed, process each of its neighbors.
-      currentNode.path.closed = true;
-
-      // Find all neighbors for the current node.
-      var neighbors = graph.neighbors(currentNode);
-      for (var i = 0, il = neighbors.length; i < il; ++i) {
-        var neighbor = neighbors[i];
-
-        if(neighbor) {
-
-          if (neighbor.path.closed || this.isBlockedByFlags(neighbor.path.flags)) {
-// if (neighbor.path.closed || neighbor.path.w !== 0) {   // this line works with pathfinding before FLAGS
-
-            // Not a valid node to process, skip to next neighbor.
-            continue;
-          }
-          // The g score is the shortest distance from start to current node.
-          // We need to check if the path we have arrived at this neighbor is the shortest one we have seen yet.
-          var gScore = currentNode.path.g + neighbor.path.w;
-          // var gScore = currentNode.g + neighbor.getCost(currentNode);
-          var beenVisited = neighbor.path.visited;
-
-          if (!beenVisited || gScore < neighbor.path.g) {
-
-            if (options.debug) {
-              visitedCounter++;
-              console.log('visited neighbor', neighbor.id, visitedCounter, neighbor);
-              this.drawVisitedRect(neighbor, visitedCounter)
-
-            }
-
-            // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
-            neighbor.path.visited = true;
-            neighbor.path.parent = currentNode;
-            neighbor.path.h = neighbor.path.h || distance(neighbor, endNode);
-            neighbor.path.g = gScore;
-            neighbor.path.f = neighbor.path.g + neighbor.path.h;
-            graph.markDirty(neighbor);
-            if (closest) {
-              // If the neighbor is closer than the current closestNode or if it's equally close but has
-              // a cheaper path than the current closest node then it becomes the closest node
-              if (neighbor.path.h < closestNode.path.h || (neighbor.path.h === closestNode.path.h && neighbor.path.g < closestNode.path.g)) {
-                closestNode = neighbor;
-              }
-            }
-
-            if (!beenVisited) {
-              // Pushing to heap will put it in proper place based on the 'f' value.
-              openHeap.push(neighbor);
-            } else {
-              // Already seen the node, but since it has been rescored we need to reorder it in the heap
-              openHeap.rescoreElement(neighbor);
-            }
-          } // if
-        } // if neighbor
-      }  // for
-
-    } // while
-
-    if (closest) {
-      let path = this.pathService.to(closestNode);
-      if (options.debug) {
-        console.groupEnd();
-      }
-      return path;
-    }
-
-    if (options.debug) {
-      console.groupEnd();
-    }
-
-    // No result was found - empty array signifies failure to find path.
-    return [];
-  }
-
-  reportGetNeighborHexesInRange() {
-    let player = this.game.player;
-    // let start = performance.now();
-    let neighborsInRangeArray = [];
-    this.getNeighborHexesInRange(1, player.sightRange, player.hex, neighborsInRangeArray)
-    // let end = performance.now();
-    // console.log('getNeighborHexesInRange time', end -  start);
-    // console.log(neighborsInRangeArray);
   }
 
   // get an array of "neighbors" up to n range
@@ -910,10 +547,8 @@ export default class MapService extends Service {
 
   // shows yellow boxes 'visited' during the findPath method
   drawVisitedRect(neighbor, visitedCounter) {
-    // this.gameboard.clearDebugLayer();
     let debugGroup = this.camera.getDebugLayerGroup();
     let center = neighbor.point;
-    // let center = this.currentLayout.hexToPixel(neighbor);
 
     var rect = new Konva.Rect({
       x: center.x+8,
@@ -937,6 +572,5 @@ export default class MapService extends Service {
     });
     debugGroup.add(counterText);
     this.camera.stage.batchDraw();
-    // debugLayer.draw();
   }
 }

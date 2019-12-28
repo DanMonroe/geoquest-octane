@@ -26,7 +26,6 @@ export default class PlayController extends Controller {
   setupKeyboardListeners() {
     // using 'element' does not work for keyboard events ?
     document.addEventListener('keydown', (e) => {
-      // console.log(e.key);
       switch(e.key.toUpperCase()) {
         case 'Q':  // Q
           this.gameboard.movePlayer('NW');
@@ -63,35 +62,34 @@ export default class PlayController extends Controller {
         default:
           break;
       }
-      // e.preventDefault();
     });
   }
 
-  setupMouseEvents() {
-    if (this.camera.stage) {
-      this.camera.stage.on('click', () => {
-        this.gameboard.hexClick();
-      });
-
-      this.camera.stage.on('mousemove', () => {
-        console.log('mousemove', arguments);
-        this.gameboard.hexMouseMove();
-      });
-    }
-  }
-
-  setupScrollListener() {
-    let scrollContainer = document.getElementById('scroll-container');
-    if (scrollContainer) {
-      scrollContainer.addEventListener('scroll', () => {
-        let dx = scrollContainer.scrollLeft;
-        let dy = scrollContainer.scrollTop;
-        this.camera.stage.container().style.transform = 'translate(' + dx + 'px, ' + dy + 'px)';
-        // console.log('scrolling container', scrollContainer, 'translate(' + dx + 'px, ' + dy + 'px)');
-        this.camera.stage.x(-dx);
-        this.camera.stage.y(-dy);
-        this.camera.stage.batchDraw();
-      });
-    }
-  }
+  // setupMouseEvents() {
+  //   if (this.camera.stage) {
+  //     this.camera.stage.on('click', () => {
+  //       this.gameboard.hexClick();
+  //     });
+  //
+  //     this.camera.stage.on('mousemove', () => {
+  //       console.log('mousemove', arguments);
+  //       this.gameboard.hexMouseMove();
+  //     });
+  //   }
+  // }
+  //
+  // setupScrollListener() {
+  //   let scrollContainer = document.getElementById('scroll-container');
+  //   if (scrollContainer) {
+  //     scrollContainer.addEventListener('scroll', () => {
+  //       let dx = scrollContainer.scrollLeft;
+  //       let dy = scrollContainer.scrollTop;
+  //       this.camera.stage.container().style.transform = 'translate(' + dx + 'px, ' + dy + 'px)';
+  //       // console.log('scrolling container', scrollContainer, 'translate(' + dx + 'px, ' + dy + 'px)');
+  //       this.camera.stage.x(-dx);
+  //       this.camera.stage.y(-dy);
+  //       this.camera.stage.batchDraw();
+  //     });
+  //   }
+  // }
 }
