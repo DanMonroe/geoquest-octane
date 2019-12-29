@@ -4,9 +4,9 @@ import { tracked } from '@glimmer/tracking';
 
 export default class FieldOfViewService extends Service {
   @service ('map') mapService;
-  @service ('gameboard') gameboard;
-  @service ('transport') transport;
-  @service ('camera') camera;
+  @service gameboard;
+  @service transport;
+  @service camera;
   @service ('path') pathService;
   @service ('game') game;
 

@@ -39,7 +39,7 @@ export default class CameraService extends Service {
   // };
 
   @service ('map') mapService;
-  @service ('gameboard') gameboard;  // remove this ?
+  @service gameboard;  // remove this ?
 
   /**
    * x and y: The current position of the camera.

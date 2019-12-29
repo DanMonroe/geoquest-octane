@@ -9,24 +9,25 @@ import { storageFor } from 'ember-local-storage';
 
 export default class GameService extends Service {
 
-  FLAGS = {
-    TRAVEL: {
-      SEA: {value: 1, description: 'Travel by Sea'},
-      LAND: {value: 2, description: 'Travel by Land'}
-    },
-    SPECIAL: {
-      DOCK: {value: 1, description: 'Dock'}
-    }
-  };
+  // FLAGS = {
+  //   TRAVEL: {
+  //     SEA: {value: 1, description: 'Travel by Sea'},
+  //     LAND: {value: 2, description: 'Travel by Land'}
+  //   },
+  //   SPECIAL: {
+  //     DOCK: {value: 1, description: 'Dock'}
+  //   }
+  // };
+  //
+  // FLAG_TYPE_TRAVEL = 0;
+  // FLAG_TYPE_VISIBILITY = 1;
 
-  FLAG_TYPE_TRAVEL = 0;
-  FLAG_TYPE_VISIBILITY = 1;
-
+  @service constants;
   @service ('map') mapService;
-  @service ('camera') camera;
-  @service ('sound') sound;
-  @service ('transport') transport;
-  @service ('gameboard') gameboard;
+  @service camera;
+  @service sound;
+  @service transport;
+  @service gameboard;
   @service ('hex') hexService;
   @service ('fieldOfView') fov;
 
@@ -76,21 +77,21 @@ export default class GameService extends Service {
     let descriptions = [];
 
     // TODO there is a better way to do this but I'm tired. :)
-    if (this.playerHasTravelAbilityFlag(this.FLAGS.TRAVEL.LAND)) {
-      descriptions.push(this.FLAGS.TRAVEL.LAND.description)
+    if (this.playerHasTravelAbilityFlag(this.constants.FLAGS.TRAVEL.LAND)) {
+      descriptions.push(this.constants.FLAGS.TRAVEL.LAND.description)
     }
-    if (this.playerHasTravelAbilityFlag(this.FLAGS.TRAVEL.SEA)) {
-      descriptions.push(this.FLAGS.TRAVEL.SEA.description)
+    if (this.playerHasTravelAbilityFlag(this.constants.FLAGS.TRAVEL.SEA)) {
+      descriptions.push(this.constants.FLAGS.TRAVEL.SEA.description)
     }
     return descriptions.join(', ');
   }
 
   playerHasTravelAbilityFlag(flag) {
-    return this.playerHasAbilityFlag(this.FLAG_TYPE_TRAVEL, flag);
+    return this.playerHasAbilityFlag(this.constants.FLAG_TYPE_TRAVEL, flag);
   }
 
   playerHasVisibilityAbilityFlag(flag) {
-    return this.playerHasAbilityFlag(this.FLAG_TYPE_VISIBILITY, flag);
+    return this.playerHasAbilityFlag(this.constants.FLAG_TYPE_VISIBILITY, flag);
   }
 
   turnOnPlayerTravelAbilityFlag(flag) {
@@ -122,9 +123,9 @@ export default class GameService extends Service {
       }
       if (flag) {
         switch (type) {
-          case this.FLAG_TYPE_TRAVEL:
+          case this.constants.FLAG_TYPE_TRAVEL:
             return this.player.travelFlags & flag
-          case this.FLAG_TYPE_VISIBILITY:
+          case this.constants.FLAG_TYPE_VISIBILITY:
             return this.player.sightFlags & flag
           default:
             return this.player.travelFlags & flag
@@ -141,10 +142,10 @@ export default class GameService extends Service {
       }
       if (flag) {
         switch (type) {
-          case this.FLAG_TYPE_TRAVEL:
+          case this.constants.FLAG_TYPE_TRAVEL:
             this.player.travelFlags |= flag;
             break;
-          case this.FLAG_TYPE_VISIBILITY:
+          case this.constants.FLAG_TYPE_VISIBILITY:
             this.player.sightFlags |= flag;
             break;
           default:
@@ -162,10 +163,10 @@ export default class GameService extends Service {
       }
       if (flag) {
         switch (type) {
-          case this.FLAG_TYPE_TRAVEL:
+          case this.constants.FLAG_TYPE_TRAVEL:
             this.player.travelFlags &= ~flag;
             break;
-          case this.FLAG_TYPE_VISIBILITY:
+          case this.constants.FLAG_TYPE_VISIBILITY:
             this.player.sightFlags &= ~flag;
             break;
           default:
@@ -184,14 +185,14 @@ export default class GameService extends Service {
   }
 
   boardTransport(transportName) {
-    this.turnOffPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.LAND);
-    this.turnOnPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.SEA);
+    this.turnOffPlayerTravelAbilityFlag(this.constants.FLAGS.TRAVEL.LAND);
+    this.turnOnPlayerTravelAbilityFlag(this.constants.FLAGS.TRAVEL.SEA);
     this.player.boardedTransport = this.transport.findTransportByName(transportName);
   }
 
   disembarkTransportToHex(targetHex) {
-    this.turnOffPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.SEA);
-    this.turnOnPlayerTravelAbilityFlag(this.FLAGS.TRAVEL.LAND);
+    this.turnOffPlayerTravelAbilityFlag(this.constants.FLAGS.TRAVEL.SEA);
+    this.turnOnPlayerTravelAbilityFlag(this.constants.FLAGS.TRAVEL.LAND);
     this.player.boardedTransport = null;
     // this.player.hex = targetHex.mapObject || targetHex;
     this.player.hex = targetHex;

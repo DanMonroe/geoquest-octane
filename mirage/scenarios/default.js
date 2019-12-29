@@ -1,4 +1,5 @@
-import testmap from './testmap';
+import largetest from './largetest';
+// import testmap from './testmap';
 // import map2 from './map2';
 
 export default function(server) {
@@ -208,7 +209,8 @@ export default function(server) {
   // const water1 = server.create('tile', { name: 'ZeshioHexKitDemo_096.png' });
   // const sand1 = server.create('tile', { name: 'ZeshioHexKitDemo_104.png' });
 
-  testmap(server);
+  largetest(server);
+  // testmap(server);
   // map2(server, water1, sand1);
 
 

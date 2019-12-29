@@ -1,0 +1,13 @@
+
+<div class="editor">
+  <h1>Editor</h1>
+  <p>
+    <Textarea @id="maparraytextarea" rows=20 cols=80 @value={{this.mapText}} />
+  </p>
+  <p class="btn-wrapper">
+    <button class="btn style btn-primary" {{on "click" this.generateHexes}}>Generate Hex Models</button>
+  </p>
+  <p>
+    <Textarea rows=20 cols=80 @value={{this.finalMap}} />
+  </p>
+</div>

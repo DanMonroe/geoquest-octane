@@ -21,8 +21,8 @@ export default class TransportService extends Service {
   @service ('store') store;
   @service ('map') mapService;
   @service ('game') game;
-  @service ('camera') camera;
-  @service ('gameboard') gameboard;
+  @service camera;
+  @service gameboard;
   @service ('fieldOfView') fov;
 
 
@@ -87,7 +87,7 @@ export default class TransportService extends Service {
         game:this.game,
         gameboard:this.gameboard,
         transportService:this,
-        // travelAbilityFlags: this.game.FLAGS.TRAVEL.LAND,
+        // travelAbilityFlags: this.game.constants.FLAGS.TRAVEL.LAND,
         boardedTransport: null
       }
     );
@@ -96,7 +96,7 @@ export default class TransportService extends Service {
       // console.log('flag', flag);
       // this.game.turnOnPlayerTravelAbilityFlag(flag);   // TODO set from map file
     // });
-        // travelAbilityFlags: this.game.FLAGS.TRAVEL.SEA,
+        // travelAbilityFlags: this.game.constants.FLAGS.TRAVEL.SEA,
 
     // MiniMap circle for player
     let playerCircle = new Konva.Circle({

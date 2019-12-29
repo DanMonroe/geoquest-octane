@@ -5,11 +5,11 @@ import {inject as service} from '@ember/service';
 export default class ConfigDialogComponent extends Component {
   tagName = '';
 
-  @service ('transport') transport;
+  @service transport;
   @service ('game') game;
-  @service ('gameboard') gameboard;
-  @service ('camera') camera;
-  @service ('sound') sound;
+  @service gameboard;
+  @service camera;
+  @service sound;
   @service config;
 
   @action

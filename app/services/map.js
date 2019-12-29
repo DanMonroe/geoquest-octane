@@ -22,13 +22,13 @@ export default class MapService extends Service {
   MAPFILLTWEENDURATION = 0.5;
 
   @service ('store') store;
-  @service ('gameboard') gameboard;
-  @service ('transport') transport;
+  @service gameboard;
+  @service transport;
   @service ('path') pathService;
-  @service ('camera') camera;
+  @service camera;
   @service ('hex') hexService;
   @service ('game') game;
-  @service ('sound') sound;
+  @service sound;
   @service ('fieldOfView') fov;
 
   // @tracked hexSize = 24;  // get from init?  zoom level ?

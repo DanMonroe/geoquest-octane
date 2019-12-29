@@ -7,8 +7,9 @@ export default class GameboardService extends Service {
 
   @service ('map') mapService;
   @service ('hex') hexService;
-  @service ('camera') camera;
-  @service ('transport') transport;
+  @service camera;
+  @service transport;
+  @service constants;
   @service ('path') pathService;
   @service ('game') game;
 
@@ -626,7 +627,7 @@ export default class GameboardService extends Service {
     let distance = this.pathService.heuristics.hex(sourceHex, targetHex);
     if(distance === 1) {
       const ship = this.transport.findTransportByName('ship');
-      return ship && this.game.isOnForFlag(sourceHex.specialFlags, this.game.FLAGS.SPECIAL.DOCK) &&
+      return ship && this.game.isOnForFlag(sourceHex.specialFlags, this.constants.FLAGS.SPECIAL.DOCK) &&
         (this.hexService.hasSameCoordinates(targetHex, ship.hex));
     }
     return false;
@@ -635,8 +636,8 @@ export default class GameboardService extends Service {
   playerAtSeaTryingToDock(sourceHex, targetHex) {
     let distance = this.pathService.heuristics.hex(sourceHex, targetHex);
     if(distance === 1) {
-      return this.game.isOnForFlag(targetHex.specialFlags, this.game.FLAGS.SPECIAL.DOCK) &&
-        this.game.playerHasTravelAbilityFlag(this.game.FLAGS.TRAVEL.SEA);
+      return this.game.isOnForFlag(targetHex.specialFlags, this.constants.FLAGS.SPECIAL.DOCK) &&
+        this.game.playerHasTravelAbilityFlag(this.constants.FLAGS.TRAVEL.SEA);
     }
     return false;
   }

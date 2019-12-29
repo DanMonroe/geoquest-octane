@@ -69,8 +69,8 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV.game.startingMapIndex = 1;
-    // ENV.game.startingMapIndex = 2;
+    // ENV.game.startingMapIndex = 1;
+    ENV.game.startingMapIndex = 2;
     ENV.game.gameClockEnabled = false;
     ENV.game.enableGameSounds = false;
     ENV.game.transport.moveQueueEnabled = true;

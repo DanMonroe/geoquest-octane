@@ -8,11 +8,11 @@ export default class GameboardComponent extends Component {
 
   @service ('hex') hexService;
   @service ('map') mapService;
-  @service ('gameboard') gameboard;
-  @service ('transport') transport;
+  @service gameboard;
+  @service transport;
   @service ('game') game;
-  @service ('camera') camera;
-  @service ('sound') sound;
+  @service camera;
+  @service sound;
   @service ('path') pathService;
   @service ('fieldOfView') fov;
   @service ('modals') modals;
