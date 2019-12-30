@@ -7,12 +7,15 @@ export default class FieldOfViewService extends Service {
   @service gameboard;
   @service transport;
   @service camera;
+  @service config;
   @service ('path') pathService;
   @service ('game') game;
 
   @tracked lastNeighborsInRangeArray = {};
 
   updatePlayerFieldOfView() {
+// performance.mark("updatePlayerFieldOfView Start");
+
     let player = this.game.player;
 
     // recursive
@@ -25,7 +28,10 @@ export default class FieldOfViewService extends Service {
     this.mapService.updateSeenHexes(finalFovHexes);
     this.updateGameboardTilesOpacity(finalFovHexes);
     this.updateStaticEnemyOpacity(finalFovHexes);
+// performance.mark("updatePlayerFieldOfView End");
+// performance.measure("measure updatePlayerFieldOfView Start to updatePlayerFieldOfView End", "updatePlayerFieldOfView Start", "updatePlayerFieldOfView End");
 
+    // this.config.reportAndResetPerformance();
   }
 
   clean(originHex, neighborsInRangeArray) {
@@ -206,7 +212,8 @@ export default class FieldOfViewService extends Service {
         // tile.to({opacity: this.mapService.MAPOPACITY.PREVIOUSLYSEEN});
       });
 
-      layer.batchDraw();
+      this.camera.stage.batchDraw();
+      // layer.batchDraw();
     }
 
   }

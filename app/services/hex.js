@@ -4,13 +4,18 @@ import { DoubledCoordinates } from '../objects/doubled-coordinates'
 
 export default class HexService extends Service {
 
+  // TODO  Some of this code is a duplicate of code in Graph
+  // i.e, directions
+
+  // roweven: row modification when current col is even
+  // rowodd: row modification when current col is odd
   DIRECTIONS = [
-    {dir:'SE', q:1, r:0, s:-1},
-    {dir:'NE', q:1, r:-1,s: 0},
-    {dir:'N', q:0, r:-1,s: 1},
-    {dir:'NW', q:-1,r: 0,s: 1},
-    {dir:'SW', q:-1,r: 1,s: 0},
-    {dir:'S', q:0, r:1, s:-1}
+    {dir:'SE', q:1, r:0, s:-1,col:1,roweven:0,rowodd:1},
+    {dir:'NE', q:1, r:-1,s: 0,col:1,roweven:-1,rowodd:0},
+    {dir:'N', q:0, r:-1,s: 1,col:0,roweven:-1,rowodd:-1},
+    {dir:'NW', q:-1,r: 0,s: 1,col:-1,roweven:-1,rowodd:0},
+    {dir:'SW', q:-1,r: 1,s: 0,col:-1,roweven:0,rowodd:1},
+    {dir:'S', q:0, r:1, s:-1,col:0,roweven:1,rowodd:1}
   ];
 
   q = null;

@@ -85,6 +85,7 @@ export default class CameraService extends Service {
   initCamera() {
     assert("Must set currentLayout and worldMap", this.mapService.currentLayout && this.mapService.worldMap);
 
+    // debugger;
     let hexWidth = this.mapService.currentLayout.hexWidth;
     let hexHeight = this.mapService.currentLayout.hexHeight;
 

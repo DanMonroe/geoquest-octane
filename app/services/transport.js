@@ -289,7 +289,7 @@ export default class TransportService extends Service {
     // let point = this.game.mapService.currentLayout.hexToPixel(targetHex);
 
     // for debugging:
-    this.game.gameboard.playerHex = `Q:${targetHex.q} R:${targetHex.r}`;
+    this.game.gameboard.playerHex = `Q:${targetHex.q} R:${targetHex.r} col:${targetHex.col} row:${targetHex.row}`;
     this.game.gameboard.playerXY = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
 
     let objectToVisuallyMove = playerObj;

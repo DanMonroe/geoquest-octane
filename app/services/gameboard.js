@@ -90,8 +90,8 @@ export default class GameboardService extends Service {
     // TODO re-enable ...  for scrolling maps
     // let colsToGrab = map.MAP[0].length;
     // let rowsToGrab = map.MAP.length;
-    // // let colsToGrab = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
-    // // let rowsToGrab = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
+    // let colsToGrab = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
+    // let rowsToGrab = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
     //
     // let startRow = 0;
     // let startCol = 0
@@ -540,7 +540,7 @@ export default class GameboardService extends Service {
       this.mouseXY = `X:${mouseCoords.x} Y:${mouseCoords.y}`;
       this.mousePoint = `X:${Math.round(x)} Y:${Math.round(y)}`;
       if(targetHex) {
-        this.currentHex = `Q:${targetHex.q} R:${targetHex.r}`;
+        this.currentHex = `Q:${targetHex.q} R:${targetHex.r} col:${targetHex.col} row:${targetHex.row}`;
       }
       // this.mousePoint = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
       // this.currentHex = `Q:${thisHex.q} R:${thisHex.r}`;
@@ -614,9 +614,10 @@ export default class GameboardService extends Service {
             this.transformToLandOrSea(this.transport.TRANSPORTMODES.SEA, targetHex);
 
           } else {
-            let path = this.mapService.findPath(this.mapService.allHexesMap, this.game.player.hex, targetHex, {agent:this.game.player, debug:this.game.pathFindingDebug});
-            // let path = this.mapService.findPath(this.mapService.worldMap, this.game.player.hex, targetHex, {debug:false});
-            this.transport.movePlayerAlongPath(path);
+            // 12/30/19 - no need to go through findPath since we are only moving one hex and we have targetHex already
+            // let path = this.mapService.findPath(this.mapService.allHexesMap, this.game.player.hex, targetHex, {agent:this.game.player, debug:this.game.pathFindingDebug});
+            // this.transport.movePlayerAlongPath(path);
+            this.transport.movePlayerAlongPath([targetHex]);
           }
         }
       }

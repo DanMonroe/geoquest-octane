@@ -19,5 +19,10 @@ export default class ConfigService extends Service {
     this.game.pathFindingDebug = !this.game.pathFindingDebug;
   }
 
+  reportAndResetPerformance() {
+    console.log(performance.getEntriesByType("measure"));
+    performance.clearMarks();
+    performance.clearMeasures();
+  }
 
 }

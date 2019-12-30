@@ -89,7 +89,8 @@ export default class MapService extends Service {
     // sets worldMap using the hexGrid (uses HexModel objects)
     // Creates a Graph Object
     this.initMap({map: this.emberDataMap.hexGrid});
-    // this.camera.initCamera();
+
+    this.camera.initCamera();
 
     // this.gameboard.setupMinimapCanvases();
     this.gameboard.setupGameboardCanvases();
@@ -257,6 +258,25 @@ export default class MapService extends Service {
     return hex;
   }
 
+
+  // TODO  Some of this code is a duplicate of code in Graph
+  // i.e, findHexByColRow is graph.getNeighborByColAndRow
+
+  findHexByColRow(col, row) {
+    if (this.worldMap && ((row >= 0 && row < this.worldMap.length) && (col >= 0 && col < this.worldMap[0].length))) {
+      return this.worldMap[row][col];
+    }
+    return false;
+    // let hex = sourceHexMap.find((hex) => {
+    //   if (!hex) {
+    //     return false;
+    //   }
+    //   return (Q === hex.q) && (R === hex.r);
+    // });
+    // // console.trace('findHexByQR', hex);
+    // return hex;
+  }
+
   // ability to pass in the source of hexes to search - should make finding faster when passed in smaller subset of maps.
   // xyObj should be a json obj {x:xcoord, y:ycoord }
   // xcoord and ycoord will probably be a floating point
@@ -270,13 +290,9 @@ export default class MapService extends Service {
     if (!direction) {
       return undefined;
     }
-    let currentQ = this.game.player.hex.q;
-    let currentR = this.game.player.hex.r;
-
-    let targetQ = currentQ + direction.q;
-    let targetR = currentR + direction.r;
-
-    return this.findHexByQR(targetQ, targetR);
+    const targetCol = this.game.player.hex.col + direction.col;
+    const targetRow = this.game.player.hex.row + (this.game.player.hex.col % 2 === 1 ? direction.rowodd : direction.roweven);
+    return this.findHexByColRow(targetCol, targetRow);
   }
 
   setHexmapSubset(emberDataMap) {
@@ -284,9 +300,10 @@ export default class MapService extends Service {
 
     let numCols = mapHexGrid[0].length;
     let numRows = mapHexGrid.length;
+
     // TODO uncomment when map is larger
-    // let numCols = Math.min(this.camera.maxViewportHexesX + 2, map.MAP[0].length);
-    // let numRows = Math.min(this.camera.maxViewportHexesY + 4, map.MAP.length);
+    // let numColsSubset = Math.min(this.camera.maxViewportHexesX + 2, mapHexGrid[0].length);
+    // let numRowsSubset = Math.min(this.camera.maxViewportHexesY + 4, mapHexGrid.length);
 
     let startRow = 0;
     let startCol = 0
@@ -368,9 +385,10 @@ export default class MapService extends Service {
 
   // https://briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated/
   findPath(gridIn, startHex, targetHex, options = {}) {
+performance.mark("findPathStart");
     if (options.debug) {
       console.time("findPath");
-      console.log(`findPath from ${startHex.id} to ${targetHex.id}`);
+      console.log(`findPath from ${startHex.id} to ${targetHex.id} in gridIn`, gridIn, 'graph:', this.graph);
     }
 
     let distance = this.pathService.heuristics.hex;
@@ -381,9 +399,15 @@ export default class MapService extends Service {
 
     // TODO 4/11/19 do we need to clean all nodes each time we find path?  12/5/2019 - Yes
     let graph = this.graph;
+// performance.mark("cleanNodesStart");
     graph.cleanNodes();
+// performance.mark("cleanNodesEnd");
+// performance.measure("measure cleanNodesStart to cleanNodesEnd", "cleanNodesStart", "cleanNodesEnd");
 
+// performance.mark("findNodeFromHexStart");
     let startNode = this.findNodeFromHex(graph.gridIn, startHex);
+// performance.mark("findNodeFromHexEnd");
+// performance.measure("measure findNodeFromHexStart to findNodeFromHexEnd", "findNodeFromHexStart", "findNodeFromHexEnd");
     let endNode = this.findNodeFromHex(graph.gridIn, targetHex);
 
     const agent = options.agent || this.game.player;
@@ -431,6 +455,16 @@ export default class MapService extends Service {
           console.groupEnd();
           console.timeEnd("findPath");
         }
+
+performance.mark("findPathEnd");
+performance.measure("measure findPathStart to findPathEnd", "findPathStart", "findPathEnd");
+
+// Pull out all of the measurements.
+console.log(performance.getEntriesByType("measure"));
+
+// Finally, clean up the entries.
+performance.clearMarks();
+performance.clearMeasures();
         return path;
       }
 
@@ -515,9 +549,10 @@ export default class MapService extends Service {
     return [];
   }
 
+  // 12/30/19 - This is very expensive/slow with large maps
   // get an array of "neighbors" up to n range
   // does not set any properties
-  getNeighborHexesInRange(currentIteration, maxRange, currentNode, neighborsInRangeArray) {
+  originalButSlowGetNeighborHexesInRange(currentIteration, maxRange, currentNode, neighborsInRangeArray) {
     this.graph.cleanNodes();
 
     let neighbors = this.graph.neighbors(currentNode);
@@ -535,6 +570,32 @@ export default class MapService extends Service {
           // let hex = this.findHexByQRS(neighbor.q, neighbor.r, neighbor.s);
           if (hex && !neighborsInRangeArray.includes(hex)) {
             neighborsInRangeArray.push(hex);
+          }
+        }
+
+        if (currentIteration < maxRange) {
+          this.getNeighborHexesInRange(currentIteration + 1, maxRange, neighbor, neighborsInRangeArray);
+        }
+      }
+    }
+  }
+
+  getNeighborHexesInRange(currentIteration, maxRange, currentNode, neighborsInRangeArray) {
+    // this.graph.cleanNodes();
+
+    let neighbors = this.graph.neighbors(currentNode);
+// console.log('fasterGetNeighborHexesInRange currentIteration', currentIteration, 'neighbors', neighbors);
+    for (let i = 0, il = neighbors.length; i < il; ++i) {
+      let neighbor = neighbors[i];
+      if (neighbor) {
+        if (neighbor.visual && neighbor.visual.checked) {
+          // console.log('checked', neighbor);
+        } else {
+          neighbor.visual = neighbor.visual || {};
+          neighbor.visual.checked = true;
+
+          if (!neighborsInRangeArray.includes(neighbor)) {
+            neighborsInRangeArray.push(neighbor);
           }
         }
 
