@@ -9,6 +9,7 @@ export default class FieldOfViewService extends Service {
   @service camera;
   @service config;
   @service ('path') pathService;
+  @service ('agent') agentService;
   @service ('game') game;
 
   @tracked lastNeighborsInRangeArray = {};
@@ -147,9 +148,9 @@ export default class FieldOfViewService extends Service {
     // console.log(this.mapService.distanceInHexes(this.game.player.hex, agent.hex), agent.sightRange);
 
     if(this.mapService.distanceInHexes(this.game.player.hex, agent.hex) <= agent.sightRange) {
-      agent.playerInRange(); // check range
+      this.agentService.playerInRange(agent); // check range
     } else {
-      agent.playerOutOfRange();
+      this.agentService.playerOutOfRange(agent);
     }
 
   }

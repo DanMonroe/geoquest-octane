@@ -21,11 +21,13 @@
       <div class="row">
         <div class="col">
           <div>
-            Mouse: <p>{{this.gameboard.currentHex}}&nbsp;/&nbsp;{{this.gameboard.mouseXY}}</p>
+            Mouse: {{this.gameboard.currentHex}}&nbsp;/&nbsp;{{this.gameboard.mouseXY}}
           </div>
           <div>
-            Player: <p>{{this.game.gameboard.playerHex}}&nbsp;/&nbsp;{{this.game.gameboard.playerXY}}</p>
+            Player: {{this.game.gameboard.playerHex}}&nbsp;/&nbsp;{{this.game.gameboard.playerXY}}
           </div>
+          {{#if false}}
+            [{{this.game.player.sightRange}}]
           <div>
             Ship: <p>{{this.game.gameboard.shipHex}}&nbsp;/&nbsp;{{this.game.gameboard.shipXY}}</p>
           </div>
@@ -59,12 +61,12 @@
           <div>
             Ship Health: {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}
           </div>
+          {{/if}}
         </div>
 
       </div>
     </div>
 
-    [{{this.camera.stageScaleDisplay}}]
     <div>
       <input type="range" id="zoom" name="zoom"
              min="0" max="100" value="{{this.camera.stageScaleDisplay}}" step="10">

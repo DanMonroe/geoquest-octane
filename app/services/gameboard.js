@@ -409,7 +409,7 @@ export default class GameboardService extends Service {
       }
 
     }
-    if (blockedLoopStart !== null) {
+    if (blockedLoopStart) {
       // newY -= sin;
       // newX -= cos;
 
@@ -550,11 +550,11 @@ export default class GameboardService extends Service {
   }
 
   hexMouseMove() {
-    if (this.game.pathFindingDebug) {
       const mouseCoords = this.getMousePointerPosition();
 
       let targetHex = this.getHexAtMousePoint(mouseCoords, true);
 
+    if (this.game.pathFindingDebug) {
       if (targetHex && targetHex.id != this.lastMouseMoveTargetId) {
       // if (this.game.showFieldOfViewLayer && targetHex && targetHex.id != this.lastMouseMoveTargetId) {
         this.clearFOVLayer();

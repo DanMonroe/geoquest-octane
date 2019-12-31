@@ -19,4 +19,25 @@ export default class ConstantsService extends Service {
   FLAG_TYPE_TRAVEL = 0;
   FLAG_TYPE_VISIBILITY = 1;
 
+  AGENTTYPES = {
+    PLAYER: 0,
+    ENEMY: 1,
+    TRANSPORT: 2
+  };
+
+  // see notes.md
+  STATE = {
+    IDLE: 0,
+    PATROL: 1,
+    MELEE: 2,
+    MISSILE: 3,
+    SEARCHING: 4,
+    FLEEING: 5,
+    FINDHELP: 6
+  };
+
+  PATROLMETHOD = {
+    RANDOM: 'random',
+    STATIC: 'static'
+  }
 }

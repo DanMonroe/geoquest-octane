@@ -108,18 +108,17 @@ export default class MapService extends Service {
       player: {
         id: 1,
         start: {
-          Q: 6,
-          R: 0
+          // Q: 6,
+          // R: 0,
+          col: 5,
+          row: 4
         }
       },
       transports: [ 1 ],
       enemies: [ 1 ]
     }
-    let agentsObj = await this.transport.setupAgents(tempAgents);
 
-    this.game.player = agentsObj.player;
-    this.game.agents = agentsObj.agents;
-    this.game.transports = agentsObj.transports;
+    await this.transport.setupAgents(tempAgents);
 
     this.transport.setupPatrols();
 

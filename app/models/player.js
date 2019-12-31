@@ -1,29 +1,31 @@
-import Model, {attr, hasMany} from '@ember-data/model';
+import { BaseAgentModel } from './base-agent';
+import { Point } from '../objects/point'
 
-export default class PlayerModel extends Model {
-  @attr name;
-  @attr type; // ?
-  @attr opacity;
-  @attr startHex;
-  @attr armor;
-  @attr maxPower;
-  @attr healingSpeed;
-  @attr healingPower;
-  @attr agentImage;
-  @attr agentImageSize;
-  @attr sightRange;
-  @attr speed;
-  @attr patrol;
-  @attr currentWaypoint;
-  @attr state;
-  @attr maxHitPoints;
-  @attr currentHitPoints;
-  @attr currentPower;
-  @attr({ defaultValue: 0 }) travelFlags;
-  @attr({ defaultValue: 0 }) sightFlags;
-  @attr({ defaultValue: 0 }) specialFlags;
-  @attr miniMapPlayerCircle;
+export default class PlayerModel extends BaseAgentModel {
 
-  @hasMany('weapon', {async: false}) weapons;
+  fire(mousecoords) {
+    console.log('Player Fire!');
 
+    if (!this.weapons || this.weapons.length === 0) {
+      console.log('no weapons');
+      return;
+    }
+
+    let weapon = this.weapons.firstObject;
+    // let weapon = this.weapons[0];
+    if (!this.agent.canFireWeapon(this, weapon.poweruse)) {
+      console.log('no power!');
+      return
+    }
+
+    if (this.agent.fireWeapon.isRunning) {
+      console.log('waiting to reload');
+      return;
+    }
+
+    let startPoint = this.point;
+    let targetPoint = new Point({x:mousecoords.x, y:mousecoords.y}); // harder to aim
+
+    this.agent.fireWeapon.perform(this, weapon, startPoint, targetPoint);
+  }
 }

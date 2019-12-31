@@ -114,7 +114,7 @@ export class BinaryHeap {
       }
 
       // If the element needs to be moved, swap it, and continue.
-      if (swap !== null) {
+      if (swap) {
         this.content[n] = this.content[swap];
         this.content[swap] = element;
         n = swap;

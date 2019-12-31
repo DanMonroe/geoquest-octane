@@ -63,14 +63,15 @@ export default function(server) {
 
   let player = server.create('player', {
     id: 1,
+    type: 0, // PLAYER:0, ENEMY:1, TRANSPORT:2
     name: 'player',
     index: 0,
     opacity: 1,
     startHex: {
-      Q: 6,
-      R: 0
+      col: 5,
+      row: 3
     },
-    agentImage: "agents/pirate.svg",
+    agentImage: "/images/agents/pirate.svg",
     agentImageSize: 60,
     sightRange: 3,
     speed: 200,
@@ -92,14 +93,13 @@ export default function(server) {
 
   server.create('transport', {
     id: 1,
-    type: 2,  // BaseAgent.AGENTTYPES.TRANSPORT;
-    // index: 3,
+    type: 2,  // PLAYER:0, ENEMY:1, TRANSPORT:2
     name: 'ship',
     startHex: {
-      Q: 10,
-      R: 3
+      col: 5,
+      row: 3
     },
-    agentImage: "transports/ship.svg",
+    agentImage: "/images/transports/ship.svg",
     opacity: 1,
     agentImageSize: 60,
     sightRange: 3,
@@ -120,12 +120,13 @@ export default function(server) {
   server.create('enemy', {
     id: 1,
     name: 'galleon',
+    type: 1, // PLAYER:0, ENEMY:1, TRANSPORT:2
     index: 1,
     startHex: {
-      Q: 1,
-      R: 4,
+      col: 1,
+      row: 1,
     },
-    agentImage: "transports/galleon.svg",
+    agentImage: "/images/transports/galleon.svg",
     opacity: 0,
     agentImageSize: 60,
     sightRange: 3,
@@ -134,7 +135,7 @@ export default function(server) {
     aggressionSpeed: 1500,  // delay time in between aggression turns
     respawnTime: 10000,
     patrolMethod: 'random',
-    patrol: [{Q: 2, R: 9, S: -11}, {Q: 11, R: 4, S: -15}, {Q: 8, R: -4, S: 4}],
+    patrol: [{col:4,row:4},{col:2,row:3}],
     maxHitPoints: 25,
     currentHitPoints: 5,
     maxPower: 25,
@@ -147,64 +148,66 @@ export default function(server) {
     sightFlags: 0  // 1 SEA, 2 LAND
 
   });
-  server.create('enemy', {
-    id: 2,
-    name: 'tower',
-    index: 3,
-    startHex: {
-      Q: 11,
-      R: -5
-    },
-    agentImage: "agents/roundtower.svg",
-    opacity: 0,
-    agentImageSize: 32,
-    sightRange: 3,
-    speed: 1600,
-    pursuitSpeed: 1000,
-    aggressionSpeed: 1000,  // delay time in between aggression turns
-    respawnTime: 10000,
-    patrolMethod: 'static',
-    patrol: [],
-    maxHitPoints: 25,
-    currentHitPoints: 5,
-    maxPower: 25,
-    currentPower: 125,
-    healingSpeed: 16000,
-    healingPower: 1,
-    armor: 2,
-    weaponIds: [ 4 ],
-    travelFlags: 0,  // 1 SEA, 2 LAND
-    sightFlags: 3  // 1 SEA, 2 LAND
-  });
-  server.create('enemy', {
-    id: 3,
-    name: 'orc',
-    index: 1,
-    startHex: {
-      Q: 11,
-      R: -1
-    },
-    agentImage: "agents/orc.svg",
-    opacity: 0,
-    agentImageSize: 32,
-    sightRange: 3,
-    speed: 2000,
-    pursuitSpeed: 1500,
-    aggressionSpeed: 1500,  // delay time in between aggression turns
-    respawnTime: 10000,
-    patrolMethod: 'random',
-    patrol: [{Q: 11, R: -1, S: -10}, {Q: 13, R: -2, S: -11}],
-    maxHitPoints: 25,
-    currentHitPoints: 5,
-    maxPower: 25,
-    currentPower: 25,
-    healingSpeed: 16000,
-    healingPower: 1,
-    armor: 2,
-    weaponIds: [ 4 ],
-    travelFlags: 1,  // 1 SEA, 2 LAND
-    sightFlags: 2  // 1 SEA, 2 LAND
-  });
+  // server.create('enemy', {
+  //   id: 2,
+  //   name: 'tower',
+  //   type: 1, // PLAYER:0, ENEMY:1, TRANSPORT:2
+  //   index: 3,
+  //   startHex: {
+  //     Q: 11,
+  //     R: -5
+  //   },
+  //   agentImage: "/images/agents/roundtower.svg",
+  //   opacity: 0,
+  //   agentImageSize: 32,
+  //   sightRange: 3,
+  //   speed: 1600,
+  //   pursuitSpeed: 1000,
+  //   aggressionSpeed: 1000,  // delay time in between aggression turns
+  //   respawnTime: 10000,
+  //   patrolMethod: 'static',
+  //   patrol: [],
+  //   maxHitPoints: 25,
+  //   currentHitPoints: 5,
+  //   maxPower: 25,
+  //   currentPower: 125,
+  //   healingSpeed: 16000,
+  //   healingPower: 1,
+  //   armor: 2,
+  //   weaponIds: [ 4 ],
+  //   travelFlags: 0,  // 1 SEA, 2 LAND
+  //   sightFlags: 3  // 1 SEA, 2 LAND
+  // });
+  // server.create('enemy', {
+  //   id: 3,
+  //   name: 'orc',
+  //   type: 1, // PLAYER:0, ENEMY:1, TRANSPORT:2
+  //   index: 1,
+  //   startHex: {
+  //     Q: 11,
+  //     R: -1
+  //   },
+  //   agentImage: "/images/agents/orc.svg",
+  //   opacity: 0,
+  //   agentImageSize: 32,
+  //   sightRange: 3,
+  //   speed: 2000,
+  //   pursuitSpeed: 1500,
+  //   aggressionSpeed: 1500,  // delay time in between aggression turns
+  //   respawnTime: 10000,
+  //   patrolMethod: 'random',
+  //   patrol: [{Q: 11, R: -1, S: -10}, {Q: 13, R: -2, S: -11}],
+  //   maxHitPoints: 25,
+  //   currentHitPoints: 5,
+  //   maxPower: 25,
+  //   currentPower: 25,
+  //   healingSpeed: 16000,
+  //   healingPower: 1,
+  //   armor: 2,
+  //   weaponIds: [ 4 ],
+  //   travelFlags: 1,  // 1 SEA, 2 LAND
+  //   sightFlags: 2  // 1 SEA, 2 LAND
+  // });
 
   // const water1 = server.create('tile', { name: 'ZeshioHexKitDemo_096.png' });
   // const sand1 = server.create('tile', { name: 'ZeshioHexKitDemo_104.png' });

@@ -6,9 +6,6 @@ import { tracked } from '@glimmer/tracking';
 import { timeout } from 'ember-concurrency';
 import {task} from 'ember-concurrency-decorators';
 import Konva from 'konva';
-import { Player } from '../objects/agents/player'
-import { Enemy } from '../objects/agents/enemy'
-import { Transport } from '../objects/agents/transport'
 
 export default class TransportService extends Service {
 
@@ -17,10 +14,12 @@ export default class TransportService extends Service {
     LAND: 1
   };
 
-  @service ('api') api;
-  @service ('store') store;
+  @service api;
+  @service store;
   @service ('map') mapService;
-  @service ('game') game;
+  @service agent;
+  @service game;
+  @service constants;
   @service camera;
   @service gameboard;
   @service ('fieldOfView') fov;
@@ -42,104 +41,51 @@ export default class TransportService extends Service {
     return transport ? transport : null;
   }
 
+  // Loads player, all transports, and all enemies
   async setupAgents(agents) {
 
-  let transportsArray = emberArray();
+    let transportsArray = emberArray();
 
-  if(agents.transports) {
-    for (let i = 0; i < agents.transports.length; i++) {
+    if(agents.transports) {
+      for (let i = 0; i < agents.transports.length; i++) {
 
-      let mirageTransportAgent = await this.get('api.loadTransport').perform(agents.transports[i]);
-
-      let transport = new Transport({
-        agent: mirageTransportAgent,
-        // agent:transportAgent,
-        mapService: this.mapService,
-        camera: this.camera,
-        game: this.game,
-        transportService: this,
-        gameboard: this.gameboard,
-      });
-      // if (mirageTransportAgent.travelFlags) {
-        // mirageTransportAgent.travelFlags.forEach((/*flag*/) => {
-          // this.game.turnOnTransportTravelAbilityFlag(transportAgent, flag); // TODO implement
-        // });
-      // }
-
-      transportsArray.push(transport);
+        let transport = await this.get('api.loadTransport').perform(agents.transports[i]);
+        transport.set('hex', this.mapService.findHexByColRow(transport.startHex.col, transport.startHex.row));
+        this.agent.buildDisplayGroup(transport);
+        transportsArray.push(transport);
+      }
     }
-  }
+    this.game.transports = transportsArray;
 
     // find the ship to board initially
     // let startingShip = this.findTransportByName('ship'); // TODO how to handle loading map and get on ship
 
-    let miragePlayer = await this.api.loadPlayer.perform(agents.player.id)
+    this.game.player = await this.api.loadPlayer.perform(agents.player.id)
+    this.game.player.set('startHex', agents.player.start)
+    this.game.player.set('hex', this.mapService.findHexByColRow(agents.player.start.col, agents.player.start.row));
+    this.agent.buildDisplayGroup(this.game.player);
 
-    // set starting hex for this map
-    miragePlayer.set('startHex', agents.player.start)
-
-        // player:agents.player,
-    let player = new Player(
-      {
-        player:miragePlayer,
-        mapService:this.mapService,
-        camera:this.camera,
-        game:this.game,
-        gameboard:this.gameboard,
-        transportService:this,
-        // travelAbilityFlags: this.game.constants.FLAGS.TRAVEL.LAND,
-        boardedTransport: null
-      }
-    );
-        // boardedTransport: startingShip,
-    // miragePlayer.travelFlags.forEach(flag => {
-      // console.log('flag', flag);
-      // this.game.turnOnPlayerTravelAbilityFlag(flag);   // TODO set from map file
+    // // MiniMap circle for player
+    // let playerCircle = new Konva.Circle({
+    //   radius: 4,
+    //   fill: 'red',
+    //   draggable: false,
+    //   opacity: 1,
+    //   listening: false
     // });
-        // travelAbilityFlags: this.game.constants.FLAGS.TRAVEL.SEA,
-
-    // MiniMap circle for player
-    let playerCircle = new Konva.Circle({
-      radius: 4,
-      fill: 'red',
-      draggable: false,
-      opacity: 1,
-      listening: false
-    });
-    player.miniMapPlayerCircle = playerCircle;
-
+    // player.miniMapPlayerCircle = playerCircle;
 
     let agentsArray = emberArray();
     if(agents.enemies) {
       for (let i = 0; i < agents.enemies.length; i++) {
-        // agents.enemies.forEach((gameAgent) => {
 
-        let mirageEnemyAgent = await this.get('api.loadEnemy').perform(agents.enemies[i]);
-
-        let enemy = new Enemy({
-          agent: mirageEnemyAgent,
-          mapService: this.mapService,
-          camera: this.camera,
-          game: this.game,
-          transportService: this,
-          gameboard: this.gameboard,
-        });
-        // if (mirageEnemyAgent.travelFlags) {
-        //   mirageEnemyAgent.travelFlags.forEach((/*flag*/) => {
-        //     // this.game.turnOnAgentTravelAbilityFlag(gameAgent, flag);  // TODO implement
-        //   });
-        // }
-        agentsArray.push(enemy);
-        // this.game.agents.push(enemy);
+        let enemyAgent = await this.get('api.loadEnemy').perform(agents.enemies[i]);
+        enemyAgent.set('hex', this.mapService.findHexByColRow(enemyAgent.startHex.col, enemyAgent.startHex.row));
+        this.agent.buildDisplayGroup(enemyAgent);
+        agentsArray.push(enemyAgent);
       }
     }
-
-    return {
-      player: player,
-      agents: agentsArray,
-      transports: transportsArray
-    };
-
+    this.game.agents = agentsArray;
   }
 
   setupPatrols() {
@@ -158,7 +104,7 @@ export default class TransportService extends Service {
 
     let currentWaypointHex;
 
-    if(agent.patrolMethod === 'random') {
+    if(agent.patrolMethod === this.constants.PATROLMETHOD.RANDOM) {
       //random patrol:
       currentWaypointHex = agent.patrol[Math.floor(Math.random() * agent.patrol.length)];
 
@@ -171,7 +117,8 @@ export default class TransportService extends Service {
       currentWaypointHex = agent.patrol[agent.currentWaypoint];
     }
 
-    let targetHex = this.game.mapService.findHexByQR(currentWaypointHex.Q, currentWaypointHex.R);
+    // let targetHex = this.game.mapService.findHexByQR(currentWaypointHex.Q, currentWaypointHex.R);
+    let targetHex = this.mapService.findHexByColRow(currentWaypointHex.col, currentWaypointHex.row);
 
     let path = this.game.mapService.findPath(this.game.mapService.allHexesMap, agent.hex, targetHex, {agent: agent});
     let moveObject = {
