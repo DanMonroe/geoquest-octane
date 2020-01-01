@@ -67,24 +67,37 @@ export default class HexModel extends Model {
     return hexHeight;
   }
 
-  get polygonCorners() {
+  // get polygonCorners() {
+  //
+  //   let corners = [];
+  //
+  //   const center = this.point;
+  //
+  //   for (let i = 0; i < 6; i++) {
+  //     // let offset = this.hexCornerOffset(i);
+  //     const angle = 2.0 * Math.PI * (this.layoutOrientation.start_angle - i) / 6.0;
+  //
+  //     let offset = {
+  //       x: this.layoutSize.x * Math.cos(angle),
+  //       y: this.layoutSize.y * Math.sin(angle)
+  //     }
+  //
+  //     corners.push(new Point({x:center.x + offset.x, y:center.y + offset.y}));
+  //   }
+  //   return corners;
+  // }
 
-    let corners = [];
-
-    const center = this.point;
+  get polygonPoints() {
+    let points = [];
 
     for (let i = 0; i < 6; i++) {
-      // let offset = this.hexCornerOffset(i);
       const angle = 2.0 * Math.PI * (this.layoutOrientation.start_angle - i) / 6.0;
 
-      let offset = {
-        x: this.layoutSize.x * Math.cos(angle),
-        y: this.layoutSize.y * Math.sin(angle)
-      }
+      points.push(this.point.x + this.layoutSize.x * Math.cos(angle));
+      points.push(this.point.y + this.layoutSize.y * Math.sin(angle));
 
-      corners.push(new Point({x:center.x + offset.x, y:center.y + offset.y}));
     }
-    return corners;
+    return points;
   }
 
 }

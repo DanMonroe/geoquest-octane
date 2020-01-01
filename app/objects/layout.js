@@ -205,29 +205,4 @@ export class Layout {
     return {q:qi, r:ri, s:si};
   }
 
-  hexCornerOffset(corner) {
-    let M = this.orientation;
-    let size = this.size;
-    let angle = 2.0 * Math.PI * (M.start_angle - corner) / 6.0;
-
-    return new Point({x:size.x * Math.cos(angle), y:size.y * Math.sin(angle)});
-  }
-
-  polygonCorners(hex) {
-    let corners = [];
-    // let center = this.oddr_offset_to_pixel(hex);
-    debugger;
-    let center = hex.point;
-    // let center = this.hexToPixel(hex);
-
-    // console.log('hex', hex);
-    // console.log('center', center);
-
-    for (let i = 0; i < 6; i++) {
-      let offset = this.hexCornerOffset(i);
-// console.log(offset);
-      corners.push(new Point({x:center.x + offset.x, y:center.y + offset.y}));
-    }
-    return corners;
-  }
 }

@@ -58,7 +58,6 @@ export default class AgentService extends Service {
 
 
     imageObj.onload = () => {
-      console.log('imageObj', imageObj.src);
       agent.imageObj = new Konva.Image({
         // id: "agent" + agent.id,
         // id: "agent" + agent.index,

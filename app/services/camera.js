@@ -56,6 +56,8 @@ export default class CameraService extends Service {
   @tracked stage = null;
   @tracked miniMapStage = null;
 
+  @tracked stageScale = 75;
+
   /**
    * width and height: The size of the camera's viewport.
    *
@@ -105,8 +107,6 @@ export default class CameraService extends Service {
     this.set('worldY', worldY);
 
   }
-
-  @tracked stageScale = 100;
 
   get stageScaleDisplay() {
     console.log(this.stageScale);

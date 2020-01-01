@@ -53,14 +53,21 @@ export default class GameboardService extends Service {
 
   setupGameboardCanvases() {
 
+    // style="min-width: 3527px; min-height: 2412px;"
     let stage = new Konva.Stage({
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: 3527/2,
+      height: 2412/2,
+      // width: 3527,
+      // height: 2412,
+      // width: window.innerWidth,
+      // height: window.innerHeight,
       container: '#konvaContainer'
     });
 
     // create layers
-    const gameLayer = new Konva.Layer({draggable: false, hitGraphEnabled: false});
+    const gameLayer = new Konva.Layer({draggable: false});
+    // const agentsLayer = new Konva.Layer({draggable: false});
+    // const gameLayer = new Konva.Layer({draggable: false, hitGraphEnabled: false});
     const agentsLayer = new Konva.Layer({draggable: false, hitGraphEnabled: false});
 
     const mapGroup = new Konva.Group({
@@ -104,13 +111,13 @@ export default class GameboardService extends Service {
   }
 
   initMouseEventListeners() {
-    this.camera.stage.on('click', () => {
-      this.hexClick();
-    });
-
-    this.camera.stage.on('mousemove', () => {
-      this.hexMouseMove();
-    });
+    // this.camera.stage.on('click', () => {
+    //   this.hexClick();
+    // });
+    //
+    // this.camera.stage.on('mousemove', () => {
+    //   this.hexMouseMove();
+    // });
 
     let scrollContainer = document.getElementById('scroll-container');
     scrollContainer.addEventListener('scroll', () => {
@@ -144,7 +151,7 @@ export default class GameboardService extends Service {
 
   drawGrid(args) {
     let { emberDataMap, hexMap, withLabels/*, withTiles, useEmberDataTiles */} = args;
-
+// console.log('emberDataMap', emberDataMap, 'hexMap', hexMap);
     // let miniMapLayer = this.camera.getMiniMapLayer();
 
     this.drawBackgroundMap(emberDataMap);
@@ -170,33 +177,66 @@ export default class GameboardService extends Service {
   }
 
   drawHex(hexGroup, hex, previouslySeenThisHex) {
-    let corners = hex.polygonCorners;
 
-    let points = [];
-    for (var i = 0; i < 6; i++) {
-      points.push(corners[i].x);
-      points.push(corners[i].y);
-    }
+    let hexagon = new Konva.Line({
+        points: hex.polygonPoints,
+        closed: true,
+        fill: previouslySeenThisHex ? this.mapService.MAPFILLOPACITY.PREVIOUSLYSEEN : this.mapService.MAPFILLOPACITY.HIDDEN,
+        // stroke: 'rgba(226,148,0,.75)',
+        // stroke: 'rgba(0,0,0,.25)',
+        // strokeWidth: 1,
+        dashEnabled: false,
+        shadowEnabled: false,
+        listening: true,
+        draggable: false,
+        hitStrokeWidth: 0,
+        perfectDrawEnabled: false
+    });
+    // let poly = new Konva.Line(polyConfig);
+    hexagon.id(hex.id);
 
-    //  Setting opacity seriously degrades performance.
-    //  Setting alpha on the fill color is an alternative that seems to work better.
+    // hexGroup.add(poly);
 
-    let polyConfig = {
-      points: points,
-      closed: true,
-      fill: previouslySeenThisHex ? this.mapService.MAPFILLOPACITY.PREVIOUSLYSEEN : this.mapService.MAPFILLOPACITY.HIDDEN,
-      stroke: 'rgba(0,0,0,.25)',
-      strokeWidth: 1,
-      dashEnabled: false,
-      shadowEnabled: false,
-      listening: false,
-      draggable: false
-    };
+    // if (hex.row === 2 || hex.row === 3) {
+    // if (hex.col === 2 && hex.row === 2) {
+    //   console.log('2/2 hex', hex);
+    //   const hexagon = new Konva.RegularPolygon({
+    //     id: hex.id,
+    //     x: hex.point.x,
+    //     y: hex.point.y,
+    //     sides: 6,
+    //     height: hex.layout.size.y * 2,
+    //     width: hex.layout.size.x * 2,
+    //     scaleX: 1.1,
+    //     scaleY: 1.1,
+    //     // radius: hex.layout.size.x,
+    //     // fill: hex.row === 2 ? 'red' : 'blue',
+    //     fill: previouslySeenThisHex ? this.mapService.MAPFILLOPACITY.PREVIOUSLYSEEN : this.mapService.MAPFILLOPACITY.HIDDEN,
+    //     rotation: 30,
+    //     stroke: 0,
+    //     hitStrokeWidth: 0,
+    //     perfectDrawEnabled: false
+    //   });
 
-    let poly = new Konva.Line(polyConfig);
-    poly.id(hex.id);
+      hexagon.on('click', (evt) => {
+        console.log('click', arguments);
+        if (arguments.length >= 2) {
+          this.hexClick(arguments[1]);
+        }
+        evt.cancelBubble = true;
+      });
 
-    hexGroup.add(poly);
+      hexagon.on('mouseover', (evt) => {
+        // console.log('mouseover', arguments);
+        if (arguments.length >= 2) {
+          this.hexMouseMove(arguments[1], true);
+        }
+        evt.cancelBubble = true;
+      });
+
+      hexGroup.add(hexagon);
+
+    // }
   }
 
   drawHexLabel(group, hex) {
@@ -216,7 +256,7 @@ export default class GameboardService extends Service {
     let qrsText = new Konva.Text({
       x: center.x,
       y: center.y+9,
-      text: hex.q + "," + hex.r,
+      text: hex.col + "," + hex.row,
       fontSize: 11,
       fontFamily: 'sans-serif',
       fill: this.colorForHex(hex),
@@ -520,74 +560,78 @@ export default class GameboardService extends Service {
     // }
   }
 
-  getHexAtMousePoint(mouseCoords, shouldUpdateDebugInfo = false) {
-  // getHexAtMousePoint(event, shouldUpdateDebugInfo) {
-  //   let mouse = this.getMouse(event);
-    let x = mouseCoords.x;
-    let y = mouseCoords.y;
+  // getHexAtMousePoint(mouseCoords, shouldUpdateDebugInfo = false) {
+  // // getHexAtMousePoint(event, shouldUpdateDebugInfo) {
+  // //   let mouse = this.getMouse(event);
+  //   let x = mouseCoords.x;
+  //   let y = mouseCoords.y;
+  //
+  //   // adjust for camera position
+  //   x += -this.camera.x;
+  //   y += -this.camera.y;
+  //
+  //   // adjust for camera stage scale
+  //   // x *= this.camera.stageScalePercentage;
+  //   // y *= this.camera.stageScalePercentage;
+  //
+  //   // let point = new Point({x:x, y:y});
+  //   // let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
+  //   // let targetHex = this.mapService.findHexByQR(thisHex.q, thisHex.r);
+  //   // let targetHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
+  //   let targetHex = this.mapService.findHexByXY({x:x, y:y});
+  //
+  //   if(shouldUpdateDebugInfo) {
+  //     this.mouseXY = `X:${mouseCoords.x} Y:${mouseCoords.y}`;
+  //     this.mousePoint = `X:${Math.round(x)} Y:${Math.round(y)}`;
+  //     if(targetHex) {
+  //       this.currentHex = `col:${targetHex.col} row:${targetHex.row}`;
+  //     }
+  //     // this.mousePoint = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
+  //     // this.currentHex = `Q:${thisHex.q} R:${thisHex.r}`;
+  //   }
+  //
+  //   return targetHex;
+  // }
 
-    // adjust for camera position
-    x += -this.camera.x;
-    y += -this.camera.y;
+  hexMouseMove(targetHex, shouldUpdateDebugInfo) {
 
-    // let point = new Point({x:x, y:y});
-    // let thisHex = this.mapService.currentLayout.pixelToHex(point).round();
-    // let targetHex = this.mapService.findHexByQR(thisHex.q, thisHex.r);
-    // let targetHex = this.mapService.findHexByQRS(thisHex.q, thisHex.r, thisHex.s);
-    let targetHex = this.mapService.findHexByXY({x:x, y:y});
-
-    if(shouldUpdateDebugInfo) {
-      this.mouseXY = `X:${mouseCoords.x} Y:${mouseCoords.y}`;
-      this.mousePoint = `X:${Math.round(x)} Y:${Math.round(y)}`;
-      if(targetHex) {
-        this.currentHex = `Q:${targetHex.q} R:${targetHex.r} col:${targetHex.col} row:${targetHex.row}`;
-      }
-      // this.mousePoint = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
-      // this.currentHex = `Q:${thisHex.q} R:${thisHex.r}`;
+    if(shouldUpdateDebugInfo && targetHex) {
+      this.currentHex = `col:${targetHex.col} row:${targetHex.row}`;
     }
 
-    return targetHex;
-  }
+    if (this.game.pathFindingDebug && (targetHex && targetHex.id != this.lastMouseMoveTargetId) ) {
+      this.clearFOVLayer();
+      this.clearDebugLayer();
 
-  hexMouseMove() {
-      const mouseCoords = this.getMousePointerPosition();
+      this.lastMouseMoveTargetId = targetHex.id;
 
-      let targetHex = this.getHexAtMousePoint(mouseCoords, true);
+      let sourceHex = this.game.player.hex;
+      // let shipHex = this.transport.transportHexes[Player.transportHexIndex];
+      // console.log('shipHex' ,sourceHex);
 
-    if (this.game.pathFindingDebug) {
-      if (targetHex && targetHex.id != this.lastMouseMoveTargetId) {
-      // if (this.game.showFieldOfViewLayer && targetHex && targetHex.id != this.lastMouseMoveTargetId) {
-        this.clearFOVLayer();
-        this.clearDebugLayer();
+      let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.allHexesMap, sourceHex, targetHex, {
+        agent: this.game.player,
+        debug: this.game.pathFindingDebug
+      });
 
-        this.lastMouseMoveTargetId = targetHex.id;
+      this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
 
-        let sourceHex = this.game.player.hex;
-        // let shipHex = this.transport.transportHexes[Player.transportHexIndex];
-        // console.log('shipHex' ,sourceHex);
-
-        let pathDistanceToMouseHex = this.mapService.findPath(this.mapService.allHexesMap, sourceHex, targetHex, {
-          agent: this.game.player,
-          debug: this.game.pathFindingDebug
-        });
-
-        this.pathDistanceToMouseHex = pathDistanceToMouseHex.length;
-
-        this.drawPathToTarget(sourceHex, pathDistanceToMouseHex);
-        this.drawSightLineCircles(sourceHex, targetHex);
-        // this.drawPathToTarget(shipHex, pathDistanceToMouseHex);
-        // this.drawSightLineCircles(shipHex, targetHex);
-        this.camera.stage.batchDraw();
-      }
+      this.drawPathToTarget(sourceHex, pathDistanceToMouseHex);
+      this.drawSightLineCircles(sourceHex, targetHex);
+      // this.drawPathToTarget(shipHex, pathDistanceToMouseHex);
+      // this.drawSightLineCircles(shipHex, targetHex);
+      this.camera.stage.batchDraw();
     }
   }
 
-  hexClick() {
-    const mouseCoords = this.getMousePointerPosition();
+  hexClick(targetHex) {
+    // const mouseCoords = this.getMousePointerPosition();
     if (this.game.player.boardedTransport) {
-      this.game.player.boardedTransport.fire(mouseCoords);
+      this.game.player.boardedTransport.fire(targetHex);
+      // this.game.player.boardedTransport.fire(mouseCoords);
     } else {
-      this.game.player.fire(mouseCoords);
+      this.game.player.fire(targetHex);
+      // this.game.player.fire(mouseCoords);
     }
   }
 
@@ -615,9 +659,10 @@ export default class GameboardService extends Service {
 
           } else {
             // 12/30/19 - no need to go through findPath since we are only moving one hex and we have targetHex already
-            // let path = this.mapService.findPath(this.mapService.allHexesMap, this.game.player.hex, targetHex, {agent:this.game.player, debug:this.game.pathFindingDebug});
-            // this.transport.movePlayerAlongPath(path);
-            this.transport.movePlayerAlongPath([targetHex]);
+            // 12/31/19 - but if we don't, it doesn't check for blocked hexes and the visited hexes don't do fill alpha opacity correctly
+            let path = this.mapService.findPath(this.mapService.allHexesMap, this.game.player.hex, targetHex, {agent:this.game.player, debug:this.game.pathFindingDebug});
+            this.transport.movePlayerAlongPath(path);
+            // this.transport.movePlayerAlongPath([targetHex]);
           }
         }
       }

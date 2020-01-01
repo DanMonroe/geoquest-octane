@@ -4,7 +4,8 @@ import { Point } from 'geoquest-octane/objects/point'
 export default function(server) {
   const layout = new Layout({
     orientation: Layout.FLAT,
-    size: new Point({x:37, y:43}),
+    // size: new Point({x:37, y:43}),
+    size: new Point({x:36, y:41.75}),
     origin: new Point({x:0, y:0})
   });
 
@@ -1174,7 +1175,7 @@ export default function(server) {
   const hex11_18 = server.create('hex', {layout: layout, col: 11, row: 18, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
   const hex12_18 = server.create('hex', {layout: layout, col: 12, row: 18, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
   const hex13_18 = server.create('hex', {layout: layout, col: 13, row: 18, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
-  const hex14_18 = server.create('hex', {layout: layout, col: 14, row: 18, sightFlags: 0, travelFlags: 3, specialFlags: 0, tiles: []});
+  const hex14_18 = server.create('hex', {layout: layout, col: 14, row: 18, sightFlags: 0, travelFlags: 3, specialFlags: 1, tiles: []});
   const hex15_18 = server.create('hex', {layout: layout, col: 15, row: 18, sightFlags: 0, travelFlags: 6, specialFlags: 0, tiles: []});
   const hex16_18 = server.create('hex', {layout: layout, col: 16, row: 18, sightFlags: 0, travelFlags: 6, specialFlags: 0, tiles: []});
   const hex17_18 = server.create('hex', {layout: layout, col: 17, row: 18, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
@@ -1276,7 +1277,7 @@ export default function(server) {
   const hex49_19 = server.create('hex', {layout: layout, col: 49, row: 19, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
   const hex50_19 = server.create('hex', {layout: layout, col: 50, row: 19, sightFlags: 0, travelFlags: 6, specialFlags: 0, tiles: []});
   const hex51_19 = server.create('hex', {layout: layout, col: 51, row: 19, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
-  const hex52_19 = server.create('hex', {layout: layout, col: 52, row: 19, sightFlags: 0, travelFlags: 3, specialFlags: 0, tiles: []});
+  const hex52_19 = server.create('hex', {layout: layout, col: 52, row: 19, sightFlags: 0, travelFlags: 3, specialFlags: 1, tiles: []});
   const hex53_19 = server.create('hex', {layout: layout, col: 53, row: 19, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
   const hex54_19 = server.create('hex', {layout: layout, col: 54, row: 19, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
   const hex55_19 = server.create('hex', {layout: layout, col: 55, row: 19, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
@@ -1960,7 +1961,7 @@ export default function(server) {
   const hex29_30 = server.create('hex', {layout: layout, col: 29, row: 30, sightFlags: 0, travelFlags: 6, specialFlags: 0, tiles: []});
   const hex30_30 = server.create('hex', {layout: layout, col: 30, row: 30, sightFlags: 0, travelFlags: 6, specialFlags: 0, tiles: []});
   const hex31_30 = server.create('hex', {layout: layout, col: 31, row: 30, sightFlags: 0, travelFlags: 6, specialFlags: 0, tiles: []});
-  const hex32_30 = server.create('hex', {layout: layout, col: 32, row: 30, sightFlags: 0, travelFlags: 3, specialFlags: 0, tiles: []});
+  const hex32_30 = server.create('hex', {layout: layout, col: 32, row: 30, sightFlags: 0, travelFlags: 3, specialFlags: 1, tiles: []});
   const hex33_30 = server.create('hex', {layout: layout, col: 33, row: 30, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
   const hex34_30 = server.create('hex', {layout: layout, col: 34, row: 30, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
   const hex35_30 = server.create('hex', {layout: layout, col: 35, row: 30, sightFlags: 0, travelFlags: 5, specialFlags: 0, tiles: []});
@@ -2090,6 +2091,7 @@ export default function(server) {
   const hexRow30 = server.create('hex-row', {hexes: [hex0_30,hex1_30,hex2_30,hex3_30,hex4_30,hex5_30,hex6_30,hex7_30,hex8_30,hex9_30,hex10_30,hex11_30,hex12_30,hex13_30,hex14_30,hex15_30,hex16_30,hex17_30,hex18_30,hex19_30,hex20_30,hex21_30,hex22_30,hex23_30,hex24_30,hex25_30,hex26_30,hex27_30,hex28_30,hex29_30,hex30_30,hex31_30,hex32_30,hex33_30,hex34_30,hex35_30,hex36_30,hex37_30,hex38_30,hex39_30,hex40_30,hex41_30,hex42_30,hex43_30,hex44_30,hex45_30,hex46_30,hex47_30,hex48_30,hex49_30,hex50_30,hex51_30,hex52_30,hex53_30,hex54_30,hex55_30,hex56_30,hex57_30,hex58_30,hex59_30,hex60_30,hex61_30,hex62_30,hex63_30]});
   const hexRow31 = server.create('hex-row', {hexes: [hex0_31,hex1_31,hex2_31,hex3_31,hex4_31,hex5_31,hex6_31,hex7_31,hex8_31,hex9_31,hex10_31,hex11_31,hex12_31,hex13_31,hex14_31,hex15_31,hex16_31,hex17_31,hex18_31,hex19_31,hex20_31,hex21_31,hex22_31,hex23_31,hex24_31,hex25_31,hex26_31,hex27_31,hex28_31,hex29_31,hex30_31,hex31_31,hex32_31,hex33_31,hex34_31,hex35_31,hex36_31,hex37_31,hex38_31,hex39_31,hex40_31,hex41_31,hex42_31,hex43_31,hex44_31,hex45_31,hex46_31,hex47_31,hex48_31,hex49_31,hex50_31,hex51_31,hex52_31,hex53_31,hex54_31,hex55_31,hex56_31,hex57_31,hex58_31,hex59_31,hex60_31,hex61_31,hex62_31,hex63_31]});
 
+  // size: new Point({x:36, y:41.75}),
   server.create('map', {
     id: 2,
     layout: layout,
@@ -2097,8 +2099,8 @@ export default function(server) {
     backgroundImage: 'largetest.png',
     backgroundImageWidth: 3527,
     backgroundImageHeight: 2412,
-    backgroundOffsetX: -8,
-    backgroundOffsetY: -35,
+    backgroundOffsetX: -62,
+    backgroundOffsetY: -72,
     hexRows: [hexRow0,hexRow1,hexRow2,hexRow3,hexRow4,hexRow5,hexRow6,hexRow7,hexRow8,hexRow9,hexRow10,hexRow11,hexRow12,hexRow13,hexRow14,hexRow15,hexRow16,hexRow17,hexRow18,hexRow19,hexRow20,hexRow21,hexRow22,hexRow23,hexRow24,hexRow25,hexRow26,hexRow27,hexRow28,hexRow29,hexRow30,hexRow31]
   });
 }

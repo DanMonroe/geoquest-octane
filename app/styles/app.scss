@@ -64,6 +64,9 @@ p {
     //background: rgba(0,0,0,.7);
     //box-shadow: 0px 0px 25px 25px rgba(0,0,0, 1);
   }
+  .gameboard {
+    z-index: 100;
+  }
 }
 
 .header {
@@ -807,11 +810,10 @@ button:focus {
 }
 
 .debugWrapper {
-  //display: none;
   position: absolute;
   right: 20px;
   top: 0;
-  //z-index: 2;
+  z-index: 2;
 
   margin: 5px;
 

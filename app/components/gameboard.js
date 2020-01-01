@@ -94,7 +94,7 @@ export default class GameboardComponent extends Component {
   @action
   setupGame(/*konvaContainer*/) {
 console.log('gameboard setup');
-    this.mapService.loadEmberDataMap(config.game.startingMapIndex);
+    this.mapService.loadMap(config.game.startingMapIndex);
 
     this.game.gameClock.perform();
   }

@@ -28,6 +28,7 @@ export default class GameService extends Service {
   @service sound;
   @service transport;
   @service gameboard;
+  @service agent;
   @service ('hex') hexService;
   @service ('fieldOfView') fov;
 
@@ -219,7 +220,7 @@ export default class GameService extends Service {
 
     if (distance <= transport.sightRange) {
       // if (pathDistanceToShipHex.length <= transport.sightRange) {
-      transport.playerInRange();
+      this.agent.playerInRange(transport);
     }
   }
 
@@ -345,12 +346,12 @@ export default class GameService extends Service {
 
   onBeforeMovePlayer(targetHex) {
     if (targetHex.actions && targetHex.actions.b) {
-      this.performHexAction(targetHex, targetHex.actions.b.id)  // before
+      return this.performHexAction(targetHex, targetHex.actions.b.id)  // before
     }
   }
   onAfterMovePlayer(targetHex) {
     if (targetHex.actions && targetHex.actions.a) {
-      this.performHexAction(targetHex, targetHex.actions.a.id)  // after
+      return this.performHexAction(targetHex, targetHex.actions.a.id)  // after
     }
   }
 

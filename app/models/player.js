@@ -3,7 +3,8 @@ import { Point } from '../objects/point'
 
 export default class PlayerModel extends BaseAgentModel {
 
-  fire(mousecoords) {
+  fire(targetHex) {
+  // fire(mousecoords) {
     console.log('Player Fire!');
 
     if (!this.weapons || this.weapons.length === 0) {
@@ -24,7 +25,8 @@ export default class PlayerModel extends BaseAgentModel {
     }
 
     let startPoint = this.point;
-    let targetPoint = new Point({x:mousecoords.x, y:mousecoords.y}); // harder to aim
+    // let targetPoint = new Point({x:mousecoords.x, y:mousecoords.y}); // harder to aim
+    let targetPoint = targetHex.point;
 
     this.agent.fireWeapon.perform(this, weapon, startPoint, targetPoint);
   }

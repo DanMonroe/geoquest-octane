@@ -12,7 +12,7 @@ export default function(server) {
 
   const layout = new Layout({
     orientation: Layout.FLAT,
-    size: new Point({x:37, y:43}),
+    size: new Point({x:36, y:41.75}),
     // size: new Point({x:36, y:41.5}),
     origin: new Point({x:0, y:0})
   });
@@ -198,8 +198,8 @@ export default function(server) {
     // layoutHexSizeY: 41.5,
 
     name: 'Test Map 1',
-    // backgroundImage: 'testhex1_hexes.png',
-    backgroundImage: 'testhex1.png',
+    backgroundImage: 'testhex1_hexes.png',
+    // backgroundImage: 'testhex1.png',
     backgroundImageWidth: 612,
     backgroundImageHeight: 828,
     backgroundOffsetX: -8,

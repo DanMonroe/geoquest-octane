@@ -27,7 +27,8 @@ export default class MapService extends Service {
   @service ('path') pathService;
   @service camera;
   @service ('hex') hexService;
-  @service ('game') game;
+  @service game;
+  @service config;
   @service sound;
   @service ('fieldOfView') fov;
 
@@ -72,7 +73,7 @@ export default class MapService extends Service {
   }
 
   // TODO 12/21/19 This method does a lot.. break up
-  async loadEmberDataMap(mapIndex) {
+  async loadMap(mapIndex) {
     this.game.saveGame();
 
     this.emberDataMap = await this.store.findRecord('map', mapIndex, {include:'hexRows'});
@@ -110,12 +111,14 @@ export default class MapService extends Service {
         start: {
           // Q: 6,
           // R: 0,
-          col: 5,
-          row: 4
+          col: 6,
+          row: 3
         }
       },
       transports: [ 1 ],
-      enemies: [ 1 ]
+      enemies: [ ]
+      // transports: [ 1 ],
+      // enemies: [ 1 ]
     }
 
     await this.transport.setupAgents(tempAgents);
@@ -127,9 +130,9 @@ export default class MapService extends Service {
     this.gameboard.drawGrid({
       emberDataMap: this.emberDataMap,
       hexMap: this.hexMap,
-      withLabels: this.game.showDebugLayer,
-      withTiles: this.game.showTileGraphics,
-      useEmberDataTiles: true
+      withLabels: this.game.showDebugLayer
+      // withTiles: this.game.showTileGraphics,
+      // useEmberDataTiles: true
     });
     console.timeEnd('drawGrid');
 
@@ -384,11 +387,11 @@ export default class MapService extends Service {
 
   // https://briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated/
   findPath(gridIn, startHex, targetHex, options = {}) {
-performance.mark("findPathStart");
-    if (options.debug) {
-      console.time("findPath");
-      console.log(`findPath from ${startHex.id} to ${targetHex.id} in gridIn`, gridIn, 'graph:', this.graph);
-    }
+// performance.mark("findPathStart");
+//     if (options.debug) {
+      // console.time("findPath");
+      // console.log(`findPath from ${startHex.id} to ${targetHex.id} in gridIn`, gridIn, 'graph:', this.graph);
+    // }
 
     let distance = this.pathService.heuristics.hex;
 
@@ -398,21 +401,15 @@ performance.mark("findPathStart");
 
     // TODO 4/11/19 do we need to clean all nodes each time we find path?  12/5/2019 - Yes
     let graph = this.graph;
-// performance.mark("cleanNodesStart");
     graph.cleanNodes();
-// performance.mark("cleanNodesEnd");
-// performance.measure("measure cleanNodesStart to cleanNodesEnd", "cleanNodesStart", "cleanNodesEnd");
 
-// performance.mark("findNodeFromHexStart");
     let startNode = this.findNodeFromHex(graph.gridIn, startHex);
-// performance.mark("findNodeFromHexEnd");
-// performance.measure("measure findNodeFromHexStart to findNodeFromHexEnd", "findNodeFromHexStart", "findNodeFromHexEnd");
     let endNode = this.findNodeFromHex(graph.gridIn, targetHex);
 
     const agent = options.agent || this.game.player;
-    if (options.debug) {
-      console.log('agent.travelFlags', agent.travelFlags, 'endNode.travelFlags', endNode.travelFlags);
-    }
+    // if (options.debug) {
+    //   console.log('agent.travelFlags', agent.travelFlags, 'endNode.travelFlags', endNode.travelFlags);
+    // }
 
     if (this.isBlockedByFlags(agent.travelFlags, endNode.travelFlags)) {
       if (options.debug) {
@@ -435,9 +432,9 @@ performance.mark("findPathStart");
 
     openHeap.push(startNode);
 
-    if (options.debug) {
-      console.log('startNode', startNode, 'endNode', endNode);
-    }
+    // if (options.debug) {
+    //   console.log('startNode', startNode, 'endNode', endNode);
+    // }
 
     let visitedCounter = 0;
 
@@ -451,19 +448,14 @@ performance.mark("findPathStart");
         let path = this.pathService.to(currentNode);
         if (options.debug) {
           console.log('path', path);
-          console.groupEnd();
-          console.timeEnd("findPath");
+          // console.groupEnd();
+          // console.timeEnd("findPath");
         }
 
-performance.mark("findPathEnd");
-performance.measure("measure findPathStart to findPathEnd", "findPathStart", "findPathEnd");
+// performance.mark("findPathEnd");
+// performance.measure("measure findPathStart to findPathEnd", "findPathStart", "findPathEnd");
 
-// Pull out all of the measurements.
-console.log(performance.getEntriesByType("measure"));
-
-// Finally, clean up the entries.
-performance.clearMarks();
-performance.clearMeasures();
+// this.config.reportAndResetPerformance();
         return path;
       }
 
@@ -534,15 +526,15 @@ performance.clearMeasures();
 
     if (closest) {
       let path = this.pathService.to(closestNode);
-      if (options.debug) {
-        console.groupEnd();
-      }
+      // if (options.debug) {
+      //   console.groupEnd();
+      // }
       return path;
     }
 
-    if (options.debug) {
-      console.groupEnd();
-    }
+    // if (options.debug) {
+    //   console.groupEnd();
+    // }
 
     // No result was found - empty array signifies failure to find path.
     return [];

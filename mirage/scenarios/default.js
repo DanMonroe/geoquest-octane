@@ -1,6 +1,5 @@
 import largetest from './largetest';
-// import testmap from './testmap';
-// import map2 from './map2';
+import testmap from './testmap';
 
 export default function(server) {
 
@@ -96,8 +95,8 @@ export default function(server) {
     type: 2,  // PLAYER:0, ENEMY:1, TRANSPORT:2
     name: 'ship',
     startHex: {
-      col: 5,
-      row: 3
+      col: 13,
+      row: 17
     },
     agentImage: "/images/transports/ship.svg",
     opacity: 1,
@@ -123,11 +122,11 @@ export default function(server) {
     type: 1, // PLAYER:0, ENEMY:1, TRANSPORT:2
     index: 1,
     startHex: {
-      col: 1,
-      row: 1,
+      col: 19,
+      row: 12,
     },
     agentImage: "/images/transports/galleon.svg",
-    opacity: 0,
+    opacity: 1,
     agentImageSize: 60,
     sightRange: 3,
     speed: 2000,
@@ -135,7 +134,7 @@ export default function(server) {
     aggressionSpeed: 1500,  // delay time in between aggression turns
     respawnTime: 10000,
     patrolMethod: 'random',
-    patrol: [{col:4,row:4},{col:2,row:3}],
+    patrol: [{col:19,row:12},{col:21,row:4}],
     maxHitPoints: 25,
     currentHitPoints: 5,
     maxPower: 25,
@@ -214,7 +213,6 @@ export default function(server) {
 
   largetest(server);
   // testmap(server);
-  // map2(server, water1, sand1);
 
 
 // // FLAGS = {
