@@ -67,6 +67,8 @@ export default class CameraService extends Service {
   @reads('stage.width') viewportWidth;  // Is used?
   @reads('stage.height') viewportHeight;// Is used?
 
+  @tracked backgroundImageObj;
+
   /**
    * maxX and maxY: The limit for the camera's position
    * — The lower limit will nearly always be (0,0),
@@ -109,10 +111,10 @@ export default class CameraService extends Service {
   }
 
   get stageScaleDisplay() {
-    console.log(this.stageScale);
+    // console.log(this.stageScale);
     if (this.stage) {
       const newScale = this.stageScale/100;
-      console.log('newScale', newScale);
+      // console.log('newScale', newScale);
       this.stage.setScale({
         x: newScale,
         y: newScale
@@ -164,7 +166,8 @@ export default class CameraService extends Service {
     return this.getHexLayer().find(`#${this.GROUPS.HEX}`);
   }
   getBackgroundMapLayerGroup() {
-    return this.getBackgroundMapLayer().find(`#${this.GROUPS.BACKGROUNDMAP}`);
+    return this.getGameLayer().find(`#${this.GROUPS.BACKGROUNDMAP}`);
+    // return this.getBackgroundMapLayer().find(`#${this.GROUPS.BACKGROUNDMAP}`);
   }
   getDebugLayerGroup() {
     let group = this.getDebugLayer().find(`#${this.GROUPS.DEBUG}`);

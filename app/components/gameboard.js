@@ -121,17 +121,26 @@ console.log('gameboard teardown');
   async clickGems() {
     console.log('click gems');
 
+    const mapGroup = this.game.camera.getBackgroundMapLayerGroup()
+    console.log('mapGroup', mapGroup);
+
+    const background = mapGroup.findOne('#background');
+    console.log('backgroundOne', background);
+
+
+    const currentX = this.game.camera.backgroundImageObj.x();
+    const currentY = this.game.camera.backgroundImageObj.y();
+    console.log('backgroundImageObj', this.game.camera.backgroundImageObj, currentX, currentY);
+
+    this.game.camera.backgroundImageObj.to({
+      // stroke: 'rgba(226,148,0,.75)',
+      // stroke:  this.mapService.MAPFILLOPACITY.VISIBLE,
+      x: currentX,
+      y: currentY - 40
+    });
+    console.log('backgroundImageObj', this.game.camera.backgroundImageObj, currentX, currentY);
+
     // debugger;
-    let testhex = this.transport.api.store.peekRecord('hex', 1);
-
-    console.log('testhex', testhex);
-
-    testhex.set('special-flags', 1337);
-    testhex.set('specialFlags', 13);
-
-    testhex.save();
-
-    console.log('testhex', testhex);
 
     // this.game.showTileHexInfo = !this.game.showTileHexInfo;
     // console.log('this.game.showTileHexInfo', this.game.showTileHexInfo);

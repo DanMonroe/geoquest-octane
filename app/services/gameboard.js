@@ -316,7 +316,8 @@ export default class GameboardService extends Service {
       image.src = `/images/maps/${emberDataMap.backgroundImage}`;
       image.onload = () => {
         let imageObj = new Konva.Image({
-          id: "background" + emberDataMap.id,
+          id: "background",
+          // id: "background" + emberDataMap.id,
 
           x: emberDataMap.backgroundOffsetX,
           y: emberDataMap.backgroundOffsetY,
@@ -325,12 +326,16 @@ export default class GameboardService extends Service {
           height: emberDataMap.backgroundImageHeight
         });
 
-        let mapLayer = this.game.camera.getGameLayer();
+        // let mapLayer = this.game.camera.getGameLayer();
         // let mapLayer = this.game.camera.getBackgroundMapLayer();
-        const mapGroup = mapLayer.find('#map');
+        // const mapGroup = mapLayer.find('#map');
+        const mapGroup = this.game.camera.getBackgroundMapLayerGroup()
         mapGroup.add(imageObj);
         // mapLayer.add(imageObj);
-        mapLayer.batchDraw();
+        // mapLayer.batchDraw();
+        this.game.camera.stage.batchDraw();
+
+        this.game.camera.backgroundImageObj = imageObj;
       };
     }
   }
