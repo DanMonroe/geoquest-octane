@@ -20,6 +20,14 @@ export default class MapModel extends Model {
 
   @hasMany('hex-row') hexRows;
 
+  get backgroundFinalWidth() {
+    return this.backgroundImageWidth + this.backgroundOffsetX;
+  }
+
+  get backgroundFinalHeight() {
+    return this.backgroundImageHeight + this.backgroundOffsetY;
+  }
+
   @computed('hexRows.[]')
   get tileImages() {
     let tileSet = new Set();

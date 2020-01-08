@@ -117,7 +117,7 @@ export default class AgentService extends Service {
   }
 
   canFireWeapon(agent, powerRequirement) {
-    console.log('canFire', agent.currentPower, powerRequirement);
+    // console.log('canFire', agent.currentPower, powerRequirement);
     return agent.currentPower >= powerRequirement;
   }
 

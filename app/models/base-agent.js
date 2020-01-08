@@ -43,6 +43,7 @@ export class BaseAgentModel extends Model {
   @hasMany('weapon', {async: false}) weapons;
 
   @tracked hex;
+  @tracked previousHex;
 
   get point() {
     if (this.mapService && this.mapService.currentLayout) {

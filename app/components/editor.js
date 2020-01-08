@@ -40,7 +40,7 @@ import { Point } from 'geoquest-octane/objects/point'
 export default function(server) {
   const layout = new Layout({
     orientation: Layout.FLAT,
-    size: new Point({x:37, y:43}),
+    size: new Point({x:36, y:41.75}),
     origin: new Point({x:0, y:0})
   });
 
@@ -90,12 +90,12 @@ ${hexRowsText}
 
   createArrayFromTextarea() {
     let lines = this.mapText.trim().split('\n');
-    this.shiftAndPopArray(lines);
+    // this.shiftAndPopArray(lines);
 
     this.mapArray = [];
     lines.forEach(line => {
       let hexes = line.split(', ');
-      this.shiftAndPopArray(hexes);
+      // this.shiftAndPopArray(hexes);
       this.mapArray.push(hexes);
     });
   }

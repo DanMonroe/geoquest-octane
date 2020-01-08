@@ -40,4 +40,21 @@ export default class ConstantsService extends Service {
     RANDOM: 'random',
     STATIC: 'static'
   }
+
+  MAPOPACITY = {
+    HIDDEN: 0,
+    PREVIOUSLYSEEN: .4,
+    VISIBLE: 1
+  }
+  MAPFILLOPACITY = {
+    HIDDEN: 'rgba(0,0,0,.7)',
+    // HIDDEN: 'rgba(0,0,0,1)',
+    PREVIOUSLYSEEN: 'rgba(0,0,0,0.6)',
+    VISIBLE: 'rgba(0,0,0,0)',
+    DEBUGVISIBLE: 'rgba(33,0,33,0.2)'
+  }
+  MAPFILLTWEENDURATION = 0.5;
+
+  PLAYERMOVETWEENDURATION = 0.5;
+
 }

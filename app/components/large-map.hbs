@@ -1,7 +1,12 @@
 <div class="hexwrapper">
-  <div id="scroll-container">
-    <div id="large-container" {{style minWidth=@backgroundImageWidth}} {{style minHeight=@backgroundImageHeight}}>
-      <figure id="konvaContainer" />
+  <div id="scroll-container" {{did-insert (action this.testContainer)}}>
+    <div id="large-container"
+      {{style minWidth=@backgroundImageWidth}}
+      {{style minHeight=@backgroundImageHeight}}
+      {{style width=@backgroundImageWidth}}
+      {{style height=@backgroundImageHeight}}>
+        <figure id="konvaContainer" {{autofocus}}/>
     </div>
   </div>
 </div>
+

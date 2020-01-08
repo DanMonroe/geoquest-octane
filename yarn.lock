@@ -4938,6 +4938,14 @@ ember-auto-import@^1.2.19, ember-auto-import@^1.2.21, ember-auto-import@^1.5.2:
     walk-sync "^0.3.3"
     webpack "~4.28"
 
+ember-autofocus-modifier@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ember-autofocus-modifier/-/ember-autofocus-modifier-1.0.0.tgz#dcf545540ca35b90db3afe430e6749b06cb13353"
+  integrity sha512-PsyYRH9CKQRyVQnwD5mjUqkKcIIPzFCrNhaeTqe7sFaoAdE757nRK88FaI79gNr6Sm0n6XoPTkThyVRq7O2CMg==
+  dependencies:
+    ember-cli-babel "^7.11.1"
+    ember-modifier "^1.0.2"
+
 ember-basic-dropdown@^2.0.5:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/ember-basic-dropdown/-/ember-basic-dropdown-2.0.10.tgz#e0f985d59a762cd3992e889e16c34697446f9842"
@@ -5564,6 +5572,15 @@ ember-local-storage@^1.7.0:
     ember-cli-string-utils "^1.1.0"
     ember-cli-version-checker "^2.1.0"
     ember-copy "^1.0.0"
+
+ember-math-helpers@^2.12.1:
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/ember-math-helpers/-/ember-math-helpers-2.12.1.tgz#a08faee5563f42dd315ff9db613221dc818654a9"
+  integrity sha512-vnL3+ndIea5c7sUmkVFFsCiYNfdyylx7irlpYqoYJ/jakO0eHzmF+9vYU2LtO0pLo8/PjgyZSEO00LPAff7b/g==
+  dependencies:
+    broccoli-funnel "^2.0.2"
+    ember-cli-babel "^7.13.0"
+    ember-cli-htmlbars "^4.2.0"
 
 ember-maybe-import-regenerator@^0.1.5, ember-maybe-import-regenerator@^0.1.6:
   version "0.1.6"

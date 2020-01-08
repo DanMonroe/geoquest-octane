@@ -1,5 +1,4 @@
 import Model, {attr, belongsTo, hasMany } from '@ember-data/model';
-import {computed} from '@ember/object';
 import {reads} from '@ember/object/computed';
 import { Point } from '../objects/point'
 
@@ -25,12 +24,14 @@ export default class HexModel extends Model {
   @reads('layout.size') layoutSize;
   @reads('layout.origin') layoutOrigin;
 
-  @computed('col','row')
   get r() {
     return -(Math.floor(this.col / 2)) + this.row;
   }
 
-  @computed('q','r')
+  get colRowText() {
+    return `col ${this.col}, row: ${this.row}`;
+  }
+
   get s() {
     return -this.q - this.r;
   }
@@ -39,7 +40,7 @@ export default class HexModel extends Model {
 
   @belongsTo('hex-row') hexRow;
 
-  @computed('layoutOrientation.{type,f0,f1,f2,f3}','layoutSize.{x,y}','q','r','col','row','layoutOrigin.{x,y}')
+  // @computed('layoutOrientation.{type,f0,f1,f2,f3}','layoutSize.{x,y}','q','r','col','row','layoutOrigin.{x,y}')
   get point() {
     if(this.layoutOrientation.type === 'flat') {
       let x = (this.layoutOrientation.f0 * this.q + this.layoutOrientation.f1 * this.r) * this.layoutSize.x;
@@ -53,14 +54,18 @@ export default class HexModel extends Model {
     }
   }
 
-  @computed('layoutOrientation.type', 'layoutSize.x')
+  get roundedPoint() {
+    return new Point({x: Math.round(this.point.x), y: Math.round(this.point.y)})
+  }
+
+  // @computed('layoutOrientation.type', 'layoutSize.x')
   get hexWidth() {
     const hexWidth = Math.round(this.layoutOrientation.type === 'flat' ?
       2 * this.layoutSize.x : Math.sqrt(3) * this.layoutSize.x);
     return hexWidth;
   }
 
-  @computed('layoutOrientation.type', 'layoutSize.y')
+  // @computed('layoutOrientation.type', 'layoutSize.y')
   get hexHeight() {
     const hexHeight = Math.round(this.layoutOrientation.type === 'flat' ?
       Math.sqrt(3) * this.layoutSize.y : 2 * this.layoutSize.y);
@@ -95,7 +100,6 @@ export default class HexModel extends Model {
 
       points.push(this.point.x + this.layoutSize.x * Math.cos(angle));
       points.push(this.point.y + this.layoutSize.y * Math.sin(angle));
-
     }
     return points;
   }

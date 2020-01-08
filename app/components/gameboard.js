@@ -20,6 +20,7 @@ export default class GameboardComponent extends Component {
   @tracked showTileGraphics = true;
   @tracked showTileHexInfo = true;
   @tracked showDebugLayer = true;
+  @tracked showScrollRectangle = true;
   @tracked pathFindingDebug = false;
   @tracked showFieldOfViewLayer = true;
 
@@ -36,6 +37,7 @@ export default class GameboardComponent extends Component {
     this.game.showTileGraphics = config.game.board.showTileGraphics;
     this.game.showTileHexInfo = config.game.board.showTileHexInfo;
     this.game.showDebugLayer = config.game.board.showDebugLayer;
+    this.game.showScrollRectangle = config.game.board.showScrollRectangle;
     this.game.pathFindingDebug = config.game.board.pathFindingDebug;
     this.game.showFieldOfViewLayer = config.game.board.showFieldOfViewLayer;
     this.sound.soundEnabled = config.game.enableGameSounds;
@@ -121,34 +123,7 @@ console.log('gameboard teardown');
   async clickGems() {
     console.log('click gems');
 
-    const mapGroup = this.game.camera.getBackgroundMapLayerGroup()
-    console.log('mapGroup', mapGroup);
 
-    const background = mapGroup.findOne('#background');
-    console.log('backgroundOne', background);
-
-
-    const currentX = this.game.camera.backgroundImageObj.x();
-    const currentY = this.game.camera.backgroundImageObj.y();
-    console.log('backgroundImageObj', this.game.camera.backgroundImageObj, currentX, currentY);
-
-    this.game.camera.backgroundImageObj.to({
-      // stroke: 'rgba(226,148,0,.75)',
-      // stroke:  this.mapService.MAPFILLOPACITY.VISIBLE,
-      x: currentX,
-      y: currentY - 40
-    });
-    console.log('backgroundImageObj', this.game.camera.backgroundImageObj, currentX, currentY);
-
-    // debugger;
-
-    // this.game.showTileHexInfo = !this.game.showTileHexInfo;
-    // console.log('this.game.showTileHexInfo', this.game.showTileHexInfo);
-    // let hexGroup = this.camera.getHexLayerGroup();
-    // console.log('hexGroup visible', hexGroup.isVisible());
-    // hexGroup.visible(this.game.showTileHexInfo);
-    // this.camera.stage.batchDraw();
-    // console.log('hexGroup visible', hexGroup.isVisible());
   }
 
   // @action

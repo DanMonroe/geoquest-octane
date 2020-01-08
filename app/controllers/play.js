@@ -10,7 +10,7 @@ export default class PlayController extends Controller {
 
   @action
   setup(element) {
-    console.log('setup', element);
+    // console.log('setup', element);
     this.setupKeyboardListeners();
     // this.setupMouseEvents();
     // this.setupScrollListener();
@@ -26,41 +26,57 @@ export default class PlayController extends Controller {
   setupKeyboardListeners() {
     // using 'element' does not work for keyboard events ?
     document.addEventListener('keydown', (e) => {
-      switch(e.key.toUpperCase()) {
-        case 'Q':  // Q
-          this.gameboard.movePlayer('NW');
-          e.preventDefault();
-          break;
-        case 'W':  // W
-          this.gameboard.movePlayer('N');
-          e.preventDefault();
-          break;
-        case 'E':  // E
-          this.gameboard.movePlayer('NE');
-          e.preventDefault();
-          break;
-        case 'A':  // A
-          this.gameboard.movePlayer('SW');
-          e.preventDefault();
-          break;
-        case 'S':  // S
-          this.gameboard.movePlayer('S');
-          e.preventDefault();
-          break;
-        case 'D':  // D
-          this.gameboard.movePlayer('SE');
-          e.preventDefault();
-          break;
-        case 'V':  // show/hide Field of View
-          this.config.togglePathFindingDebug();
-          e.preventDefault();
-          break;
-        case 'B':  // show/hide Debug Group
-          this.config.toggleDebugGroup();
-          e.preventDefault();
-          break;
-        default:
-          break;
+      // console.log(e);
+      if (e.metaKey) {
+        switch (e.key.toUpperCase()) {
+          case 'H':  // Cmd H  toggle hex info
+            this.config.toggleHexInfo();
+            e.preventDefault();
+            break;
+          case 'V':  // show/hide Field of View
+            this.config.togglePathFindingDebug();
+            e.preventDefault();
+            break;
+          case 'D':  // show/hide Debug Group
+            this.config.toggleDebugGroup();
+            e.preventDefault();
+            break;
+          case 'S':  // show/hide Scroll Red Group
+            this.config.toggleScrollRectGroup();
+            e.preventDefault();
+            break;
+
+          default:
+        }
+      } else {
+        switch (e.key.toUpperCase()) {
+          case 'Q':  // Q
+            this.gameboard.movePlayer('NW');
+            e.preventDefault();
+            break;
+          case 'W':  // W
+            this.gameboard.movePlayer('N');
+            e.preventDefault();
+            break;
+          case 'E':  // E
+            this.gameboard.movePlayer('NE');
+            e.preventDefault();
+            break;
+          case 'A':  // A
+            this.gameboard.movePlayer('SW');
+            e.preventDefault();
+            break;
+          case 'S':  // S
+            this.gameboard.movePlayer('S');
+            e.preventDefault();
+            break;
+          case 'D':  // D
+            this.gameboard.movePlayer('SE');
+            e.preventDefault();
+            break;
+          default:
+            break;
+        }
       }
     });
   }

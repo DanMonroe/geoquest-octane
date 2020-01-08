@@ -12,6 +12,8 @@ export default class ConfigDialogComponent extends Component {
   @service sound;
   @service config;
 
+
+  // TODO  not really used anymore  1/8/20
   @action
   toggleDebugLayer() {
     this.game.showDebugLayer = !this.game.showDebugLayer;
@@ -33,6 +35,7 @@ export default class ConfigDialogComponent extends Component {
     }
   }
 
+  // TODO  not really used anymore  1/8/20
   @action
   toggleTiles() {
     this.game.showTileGraphics = !this.game.showTileGraphics;
@@ -50,11 +53,13 @@ export default class ConfigDialogComponent extends Component {
     }
   }
 
+  // TODO  not really used anymore  1/8/20
   @action
   toggleHexInfo() {
     this.config.toggleHexInfo();
   }
 
+  // TODO  not really used anymore  1/8/20
   @action
   togglePathFindingDebug() {
     this.config.togglePathFindingDebug();

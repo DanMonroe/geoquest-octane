@@ -14,29 +14,42 @@
     <AnimatedContainer class="gameboard">
       <section>
         <LargeMap
-          @backgroundImageHeight="{{this.mapService.emberDataMap.backgroundImageHeight}}px"
-          @backgroundImageWidth="{{this.mapService.emberDataMap.backgroundImageWidth}}px"
+          @backgroundImageHeight="{{this.mapService.emberDataMap.backgroundFinalHeight}}px"
+          @backgroundImageWidth="{{this.mapService.emberDataMap.backgroundFinalWidth}}px"
         />
       </section>
     </AnimatedContainer>
 
     <div class="debugWrapper">
+      {{#if this.game.showDebugLayer}}
       <div class="row">
         <div class="col">
+          {{!log "this.camera.stage" this.camera.stage}}
           <div>
             Mouse: {{this.gameboard.currentHex}}
           </div>
           <div>
-            Player: {{this.game.gameboard.playerHex}}
+            Player: {{this.game.player.hex.colRowText}}
           </div>
-          {{#if true}}
             [{{this.game.player.sightRange}}]
-          <div>
-            Ship: <p>{{this.game.gameboard.shipHex}}&nbsp;/&nbsp;{{this.game.gameboard.shipXY}}</p>
-          </div>
-          {{#if showCameraDebug}}
+          {{!#if showCameraDebug}}
             <div>
-              Camera:
+              Camera: {{this.camera.viewportWidth}} x {{this.camera.viewportHeight}}
+            </div>
+            <div>
+              Window: {{this.camera.scrollContainerWidth}} x {{this.camera.scrollContainerHeight}}
+            </div>
+            <div>
+              Map Offset: X:{{trunc this.camera.mapOffsetX}} Y:{{trunc this.camera.mapOffsetY}}
+            </div>
+            <div>
+              Boundry: left:{{trunc this.camera.leftSightRangeBoundary}} right:{{trunc this.camera.rightSightRangeBoundary}}
+            </div>
+            <div>
+              Boundry: top:{{trunc this.camera.topSightRangeBoundary}} bottom:{{trunc this.camera.bottomSightRangeBoundary}}
+            </div>
+            <div>
+              Hexes: {{this.camera.maxNumberOfVisibleHexesX}} x {{this.camera.maxNumberOfVisibleHexesY}}<br />
             </div>
             <div>
               world width:{{this.camera.worldX}} height:{{this.camera.worldY}}
@@ -50,7 +63,6 @@
             <div>
               bottom right: x:{{this.mapService.bottomRightPoint.x}} y:{{this.mapService.bottomRightPoint.y}}
             </div>
-          {{/if}}
           <div>
               Path Distance: {{this.gameboard.pathDistanceToMouseHex}}
             <p>pathFindingDebug {{this.game.pathFindingDebug}}</p>
@@ -62,12 +74,15 @@
             Player Flags: {{this.game.describePlayerFlags}}
           </div>
           <div>
+            Ship: <p>{{!this.game.gameboard.shipHex}}</p>
+          </div>
+          <div>
             Ship Health: {{#if this.game.player.boardedTransport}}{{this.game.player.boardedTransport.healthPercentage}}%{{/if}}
           </div>
-          {{/if}}
         </div>
 
       </div>
+      {{/if}}
     </div>
 
     <div>

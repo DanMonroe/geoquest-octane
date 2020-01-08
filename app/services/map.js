@@ -1,25 +1,13 @@
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service'
 import { Layout } from '../objects/layout'
 import { Point } from '../objects/point'
 import { Graph } from '../objects/graph'
 import { BinaryHeap } from '../objects/binary-heap'
-import { tracked } from '@glimmer/tracking';
-import { inject as service } from '@ember/service';
-import Konva from 'konva';
+import { tracked } from '@glimmer/tracking'
+import { isEmpty } from '@ember/utils';
+import Konva from 'konva'
 
 export default class MapService extends Service {
-
-  MAPOPACITY = {
-    HIDDEN: 0,
-    PREVIOUSLYSEEN: .4,
-    VISIBLE: 1
-  }
-  MAPFILLOPACITY = {
-    HIDDEN: 'rgba(0,0,0,1)',
-    PREVIOUSLYSEEN: 'rgba(0,0,0,0.6)',
-    VISIBLE: 'rgba(0,0,0,0)'
-  }
-  MAPFILLTWEENDURATION = 0.5;
 
   @service ('store') store;
   @service gameboard;
@@ -46,20 +34,39 @@ export default class MapService extends Service {
 
   @tracked emberDataMap = null;
 
-  worldMap = null;
+  @tracked worldMap = null;
   // worldMapHexArray = null;
   // worldMapHexes = null;  //  TODO need both worldMap and worldMapHexes?
   tileGraphics = [];
-  currentLayout = null;
+
+  @tracked currentLayout = null;
+  // TODO  convert to model 1/5/20
+  // get currentLayout() {
+  //   if (isEmpty(this.emberDataMap)) {
+  //     return null;
+  //   }
+  //   return this.emberDataMap.layout;
+  // }
+
   @tracked tilesLoaded = false;
 
-  // what hexes are currently loaded in the map
-  @tracked topLeftPoint;
-  @tracked bottomRightPoint;
   @tracked startRow;
   @tracked startCol;
-  @tracked numRows = 0;
-  @tracked numCols = 0;
+  // @tracked numRows = 0;
+  // @tracked numCols = 0;
+
+  get numMapRows() {
+    if (isEmpty(this.worldMap)) {
+      return 0;
+    }
+    return this.worldMap.length;
+  }
+  get numMapColumns() {
+    if (isEmpty(this.worldMap) && isEmpty(this.worldMap[0])) {
+      return 0;
+    }
+    return this.worldMap[0].length;
+  }
 
   initMap(args) {
     let { map } = args;
@@ -91,7 +98,7 @@ export default class MapService extends Service {
     // Creates a Graph Object
     this.initMap({map: this.emberDataMap.hexGrid});
 
-    this.camera.initCamera();
+    this.camera.initCamera();  // 1/3/20  - still needed?
 
     // this.gameboard.setupMinimapCanvases();
     this.gameboard.setupGameboardCanvases();
@@ -112,7 +119,7 @@ export default class MapService extends Service {
           // Q: 6,
           // R: 0,
           col: 6,
-          row: 3
+          row: 5
         }
       },
       transports: [ 1 ],
@@ -125,22 +132,68 @@ export default class MapService extends Service {
 
     this.transport.setupPatrols();
 
-    console.time('drawGrid')
+    console.time('drawGrid');
 
     this.gameboard.drawGrid({
       emberDataMap: this.emberDataMap,
       hexMap: this.hexMap,
-      withLabels: this.game.showDebugLayer
+      withTileHexInfo: this.game.showTileHexInfo
       // withTiles: this.game.showTileGraphics,
       // useEmberDataTiles: true
     });
     console.timeEnd('drawGrid');
 
     // this.fov.updatePlayerFieldOfView(this.game.player.hex)
-    this.fov.updatePlayerFieldOfView()
+    this.fov.updatePlayerFieldOfView();
 
     this.transport.moveQueueTask.perform();
 
+  }
+
+  // what hexes are currently loaded in the map
+  get topLeftPoint() {
+    if (this.worldMap) {
+      return this.worldMap[0][0].roundedPoint;
+    }
+    return new Point({x:0, y:0});
+  }
+  get bottomRightPoint() {
+    if (this.worldMap) {
+      let numRows = this.worldMap.length;
+      let numCols = this.worldMap[0].length;
+      return this.worldMap[numRows-1][numCols-1].roundedPoint;
+    }
+    return new Point({x:0, y:0})
+  }
+
+  /* current player's sightRange distance in pixels
+  * used to determine scrolling player or map
+  * left/right
+  * (sightRange - .5)  * hex width  if sightRange is even
+  * (sightRange + .25) * hex width  if sightRange is odd
+  *
+  * up/down
+  * (sightRange + .5) * hex height
+  */
+  get playerVerticalSightRange() {
+    if (isEmpty(this.game.player)) {
+      return 0;
+    }
+    if(this.game.player.sightRange && this.worldMap) {
+      return (this.game.player.sightRange + .5) * this.currentLayout.hexHeight;
+    }
+    return 0;
+  }
+  get playerHorizontalSightRange() {
+    if (isEmpty(this.game.player)) {
+      return 0;
+    }
+    if(this.game.player.sightRange && this.worldMap) {
+      return this.game.player.sightRange % 2 === 1 ?
+        (this.game.player.sightRange + .25) * this.currentLayout.hexWidth :
+        (this.game.player.sightRange - .5) * this.currentLayout.hexWidth;
+    }
+    return 0;
   }
 
 
@@ -339,13 +392,13 @@ export default class MapService extends Service {
     this.set('numRows', numRows);
     this.set('numCols', numCols);
 
-    let mapLength = this.hexMap.length;
-    let topLeftPoint = this.hexMap[startCol*numRows].point;
-    let bottomRightPoint = this.hexMap[mapLength-1].point;
-    // let topLeftPoint = this.currentLayout.hexToPixel(this.hexMap[startCol*numRows]);
-    // let bottomRightPoint = this.currentLayout.hexToPixel(this.hexMap[mapLength-1]);
-    this.set('topLeftPoint', topLeftPoint);
-    this.set('bottomRightPoint', bottomRightPoint);
+    // let mapLength = this.hexMap.length;
+    // let topLeftPoint = this.hexMap[startCol*numRows].point;
+    // let bottomRightPoint = this.hexMap[mapLength-1].point;
+    // // let topLeftPoint = this.currentLayout.hexToPixel(this.hexMap[startCol*numRows]);
+    // // let bottomRightPoint = this.currentLayout.hexToPixel(this.hexMap[mapLength-1]);
+    // this.set('topLeftPoint', topLeftPoint);
+    // this.set('bottomRightPoint', bottomRightPoint);
   }
 
   createHeap() {
@@ -385,7 +438,12 @@ export default class MapService extends Service {
     return this.pathService.heuristics.hex(startHex, targetHex);
   }
 
-  // https://briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated/
+  // returns a Point object with x/y coords that are the differences between the two hexes
+  distanceInPoint(startHex, targetHex) {
+    return this.pathService.heuristics.point(startHex, targetHex);
+  }
+
+    // https://briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated/
   findPath(gridIn, startHex, targetHex, options = {}) {
 // performance.mark("findPathStart");
 //     if (options.debug) {

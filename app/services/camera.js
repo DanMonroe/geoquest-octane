@@ -22,7 +22,9 @@ export default class CameraService extends Service {
     BACKGROUNDMAP: "map",
     HEX: "hex",
     DEBUG: "debug",
-    FOV: "fov"
+    FOV: "fov",
+    HEXINFO: "hexinfo",
+    SCROLLREC: "scrollrec",
     // FOV: 4,
     // AGENTS: "agents",
     // MINIMAP: 0
@@ -39,15 +41,16 @@ export default class CameraService extends Service {
   // };
 
   @service ('map') mapService;
-  @service gameboard;  // remove this ?
 
   /**
-   * x and y: The current position of the camera.
+   * x and y: The current position of the background map.
    * In this implementation, we are assuming that (x,y)
    * points to the top left corner of visible portion of the map.
    */
-  @tracked x = 0;
-  @tracked y = 0;
+  // @tracked x = 0;
+  // @tracked y = 0;
+  @tracked mapOffsetX = 0;
+  @tracked mapOffsetY = 0;
 
   // camera viewport
   // viewport = null;
@@ -56,7 +59,8 @@ export default class CameraService extends Service {
   @tracked stage = null;
   @tracked miniMapStage = null;
 
-  @tracked stageScale = 75;
+  @tracked stageScale = 100;
+  // @tracked stageScale = 75;
 
   /**
    * width and height: The size of the camera's viewport.
@@ -64,8 +68,12 @@ export default class CameraService extends Service {
    */
   @tracked stageWidth = 0;              // Is used?
   @tracked stageHeight = 0;             // Is used?
-  @reads('stage.width') viewportWidth;  // Is used?
-  @reads('stage.height') viewportHeight;// Is used?
+  @reads('stage.attrs.width') viewportWidth;
+  @reads('stage.attrs.height') viewportHeight;
+
+  @tracked scrollContainerWidth = 0;
+  @tracked scrollContainerHeight = 0;
+
 
   @tracked backgroundImageObj;
 
@@ -83,6 +91,29 @@ export default class CameraService extends Service {
   get maxY() {
     let maxY = this.worldY - this.viewportHeight;
     return maxY;
+  }
+
+  get maxNumberOfVisibleHexesX() {
+    if (this.scrollContainerWidth && this.mapService.currentLayout) {
+      // debugger;
+      const numHexPairs = Math.floor(this.scrollContainerWidth / this.mapService.currentLayout.hexPairWidth);
+      const remainderWidth = this.scrollContainerWidth % this.mapService.currentLayout.hexPairWidth
+      const numHexes = (numHexPairs * 2) + Math.floor(remainderWidth / this.mapService.currentLayout.hexWidth);
+      // console.log('getMaxNumberOfVisibleHexesX  this.scrollContainerWidth/hexPairWidth/hexWidth/numHexPairs/numHexes', this.scrollContainerWidth, this.mapService.currentLayout.hexPairWidth, this.mapService.currentLayout.hexWidth, numHexPairs, numHexes);
+      return numHexes;
+    }
+    return 0;
+  }
+
+  get maxNumberOfVisibleHexesY() {
+    if (this.scrollContainerHeight && this.mapService.currentLayout) {
+      // debugger;
+      const hexHeight = this.mapService.currentLayout.hexHeight;
+      const numHexes = Math.floor(this.scrollContainerHeight / hexHeight);
+      // console.log('getMaxNumberOfVisibleHexesY  this.scrollContainerHeight/hexHeight/numHexes', this.scrollContainerHeight, hexHeight, numHexes);
+      return numHexes;
+    }
+    return 0;
   }
 
   // TODO do we need worldX / worldY set?  if not, delete this method
@@ -109,6 +140,67 @@ export default class CameraService extends Service {
     this.set('worldY', worldY);
 
   }
+
+  // @tracked bottomSightRangeBoundary;
+  // @tracked topSightRangeBoundary;
+  // @tracked leftSightRangeBoundary;
+  // @tracked rightSightRangeBoundary;
+
+  get bottomSightRangeBoundary() {
+    // console.log('bottomSightRangeBoundary',this.scrollContainerHeight - this.mapService.playerVerticalSightRange - this.mapOffsetY);
+    // console.log('bottomSightRangeBoundary', this.scrollContainerHeight - this.mapService.playerVerticalSightRange - this.mapOffsetY,
+    //   `${this.scrollContainerHeight} - ${this.mapService.playerVerticalSightRange} - ${this.mapOffsetY}`);
+    return this.scrollContainerHeight - this.mapService.playerVerticalSightRange - this.mapOffsetY;
+  }
+
+  get topSightRangeBoundary() {
+    // console.log('topSightRangeBoundary', this.mapService.playerVerticalSightRange - this.mapOffsetY,
+    //   `${this.mapService.playerVerticalSightRange} - ${this.mapOffsetY}`);
+    return this.mapService.playerVerticalSightRange - this.mapOffsetY;
+  }
+
+  get leftSightRangeBoundary() {
+    return this.mapService.playerHorizontalSightRange - this.mapOffsetX;
+  }
+
+  get rightSightRangeBoundary() {
+    return this.scrollContainerWidth - this.mapService.playerHorizontalSightRange - this.mapOffsetX;
+    // return this.scrollContainerWidth - (this.mapService.playerHorizontalSightRange - this.mapOffsetX);
+  }
+
+  hexIsInsideSightRangeBoundary(targetHex) {
+    console.log(targetHex.point);
+    console.log(`
+bottom  ${targetHex.point.y} <= ${this.bottomSightRangeBoundary} (scrollContainerHeight ${this.scrollContainerHeight} - verticalSightRange ${this.mapService.playerVerticalSightRange} - mapOffsetY ${this.mapOffsetY}),
+top     ${targetHex.point.y} >= ${this.topSightRangeBoundary} (verticalSightRange ${this.mapService.playerVerticalSightRange} - mapOffsetY ${this.mapOffsetY}),
+left    ${targetHex.point.x} >= ${this.leftSightRangeBoundary} (horizontalSightRange ${this.mapService.playerHorizontalSightRange} - mapOffsetX ${this.mapOffsetX}),
+righ    ${targetHex.point.x} <= ${this.rightSightRangeBoundary} (scrollContainerWidth ${this.scrollContainerWidth} - horizontalSightRange ${this.mapService.playerHorizontalSightRange} - mapOffsetX ${this.mapOffsetX})
+
+    `);
+    return (
+      targetHex.point.y <= this.bottomSightRangeBoundary &&
+      targetHex.point.y >= this.topSightRangeBoundary &&
+      targetHex.point.x >= this.leftSightRangeBoundary &&
+      targetHex.point.x <= this.rightSightRangeBoundary
+    );
+  }
+
+  adjustMapOffset(adjustmentPoint) {
+    this.mapOffsetX -= adjustmentPoint.x;
+    this.mapOffsetY -= adjustmentPoint.y;
+  }
+  // setSightRangeBoundaries() {
+  //   // since this.game.camera.backgroundImageObj uses functions to get x() and y() then this can't be tracked
+  //   // call this whenever the player moves outside the Boundary (when the map scrolls)
+  //   // map offset y = this.game.camera.backgroundImageObj.y()
+  //   // map offset x = this.game.camera.backgroundImageObj.x()
+  //   if (this.backgroundImageObj) {
+  //     this.bottomSightRangeBoundary = this.scrollContainerHeight - (this.mapService.playerVerticalSightRange - this.mapOffsetY);
+  //     this.topSightRangeBoundary = this.mapService.playerVerticalSightRange - this.mapOffsetY;
+  //     this.leftSightRangeBoundary = this.mapService.playerHorizontalSightRange - this.mapOffsetX;
+  //     this.rightSightRangeBoundary = this.scrollContainerWidth - (this.mapService.playerHorizontalSightRange - this.mapOffsetX);
+  //   }
+  // }
 
   get stageScaleDisplay() {
     // console.log(this.stageScale);
@@ -139,7 +231,6 @@ export default class CameraService extends Service {
   }
   getHexLayer() {
     return this.stage.getLayers()[this.LAYERS.GAME];
-    // return this.stage.getLayers()[this.LAYERS.HEX];
   }
   getBackgroundMapLayer() {
     return this.stage.getLayers()[this.LAYERS.BACKGROUNDMAP];
@@ -175,7 +266,22 @@ export default class CameraService extends Service {
       return group[0];
     }
     return group;
-    // return this.getDebugLayer().find(`#${this.GROUPS.DEBUG}`);
+  }
+  getScrollRecGroup() {
+    let group = this.getDebugLayer().find(`#${this.GROUPS.SCROLLREC}`);
+    if (group.length) {
+      return group[0];
+    }
+    return group;
+
+  }
+
+  getHexInfoGroup() {
+    let group = this.getDebugLayer().find(`#${this.GROUPS.HEXINFO}`);
+    if (group.length) {
+      return group[0];
+    }
+    return group;
   }
   getFOVLayerGroup() {
     let group = this.getFOVLayer().find(`#${this.GROUPS.FOV}`);

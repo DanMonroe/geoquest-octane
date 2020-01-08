@@ -8,31 +8,60 @@ export default class FieldOfViewService extends Service {
   @service transport;
   @service camera;
   @service config;
+  @service constants;
   @service ('path') pathService;
   @service ('agent') agentService;
-  @service ('game') game;
+  @service game;
 
   @tracked lastNeighborsInRangeArray = {};
 
-  updatePlayerFieldOfView() {
+  updatePlayerFieldOfView(foo) {
 // performance.mark("updatePlayerFieldOfView Start");
-
     let player = this.game.player;
+
+    const originHex = player.hex;
+    // const originHex = player.previousHex || player.hex;
+    // console.log('updatePlayerFieldOfView player.hex', player.hex.colRowText);
 
     // recursive
     let neighborsInRangeArray = [];
-    this.mapService.getNeighborHexesInRange(1, player.sightRange, player.hex, neighborsInRangeArray);
-    this.clean(player.hex, neighborsInRangeArray);
+    this.mapService.getNeighborHexesInRange(1, player.sightRange, originHex, neighborsInRangeArray);
+    this.clean(originHex, neighborsInRangeArray);
 
-    let finalFovHexes = this.buildFieldOfVisionVisibleAndBlockedHexes(neighborsInRangeArray, player.hex);
+    // console.log('neighborsInRangeArray', neighborsInRangeArray);
+
+    let finalFovHexes = this.buildFieldOfVisionVisibleAndBlockedHexes(neighborsInRangeArray, originHex);
+
+    // console.log('finalFovHexes 1', finalFovHexes);
+    // this.consoleLogHexIds('visible', finalFovHexes.visible);
+    // this.consoleLogHexIds('noLongerVisible', finalFovHexes.noLongerVisible);
+
+
 
     this.mapService.updateSeenHexes(finalFovHexes);
+    // console.log('finalFovHexes 2', finalFovHexes);
     this.updateGameboardTilesOpacity(finalFovHexes);
+    // console.log('finalFovHexes 3', finalFovHexes);
+    // if (!foo) {
     this.updateStaticEnemyOpacity(finalFovHexes);
+    // console.log('finalFovHexes 4', finalFovHexes);
 // performance.mark("updatePlayerFieldOfView End");
 // performance.measure("measure updatePlayerFieldOfView Start to updatePlayerFieldOfView End", "updatePlayerFieldOfView Start", "updatePlayerFieldOfView End");
 
+    // }
     // this.config.reportAndResetPerformance();
+  }
+
+  consoleLogHexIds (label, hexes) {
+    let hexIds = '';
+    hexes.forEach(hex => {
+      if (hexIds) {
+        hexIds += ', ';
+      }
+      hexIds += `[${hex.id}/${hex.colRowText}]`;
+    });
+    console.log(`hexes-${label} length`, hexes.length, hexIds);
+
   }
 
   clean(originHex, neighborsInRangeArray) {
@@ -165,12 +194,15 @@ export default class FieldOfViewService extends Service {
     // console.log('layer', layer);
     const hexGroup = layer.find('#hex');
     // console.log('hexGroup',hexGroup);
+    console.log('updateGameboardTilesOpacityForLayer');
     if (hexGroup.length > 0) {
 
       const hexes = hexGroup[0];
       // console.log('hexes',hexes);
-
+      //
       // console.log('finalFovHexes', finalFovHexes);
+
+
       let visibleIds = finalFovHexes.visible.map(function(h){
         return h.id;
       })
@@ -180,16 +212,19 @@ export default class FieldOfViewService extends Service {
         return visibleIds.includes(node.id());
       });
   // console.log('visibleHexImages', visibleHexImages);
-      visibleHexImages.forEach(tile => {
+      visibleHexImages.forEach((tile,index) => {
         // tile.to({opacity: 0});
+
+        const fillcolor = `rgb(${index*10},0,0)`;
+// console.log('fillcolor', fillcolor);
         tile.to({
           // stroke: 'rgba(226,148,0,.75)',
-          // stroke:  this.mapService.MAPFILLOPACITY.VISIBLE,
-          fill: this.mapService.MAPFILLOPACITY.VISIBLE,
-          duration : this.mapService.MAPFILLTWEENDURATION
+          // stroke:  this.constants.MAPFILLOPACITY.VISIBLE,
+          // fill: this.constants.MAPFILLOPACITY.DEBUGVISIBLE,
+          // fill: fillcolor,
+          fill: this.constants.MAPFILLOPACITY.VISIBLE,
+          duration : this.constants.MAPFILLTWEENDURATION
         });
-        // tile.to({fillA: this.mapService.MAPFILLOPACITY.VISIBLE});
-        // tile.to({opacity: this.mapService.MAPOPACITY.VISIBLE});
       });
 
       // No longer visible
@@ -207,11 +242,11 @@ export default class FieldOfViewService extends Service {
 
       noLongerVisibleHexImages.forEach(tile => {
         tile.to({
-          fill: this.mapService.MAPFILLOPACITY.PREVIOUSLYSEEN,
-          duration : this.mapService.MAPFILLTWEENDURATION
+          fill: this.constants.MAPFILLOPACITY.PREVIOUSLYSEEN,
+          duration : this.constants.MAPFILLTWEENDURATION
         });
-        // tile.to({fill: this.mapService.MAPFILLOPACITY.PREVIOUSLYSEEN});
-        // tile.to({opacity: this.mapService.MAPOPACITY.PREVIOUSLYSEEN});
+        // tile.to({fill: this.constants.MAPFILLOPACITY.PREVIOUSLYSEEN});
+        // tile.to({opacity: this.constants.MAPOPACITY.PREVIOUSLYSEEN});
       });
 
       this.camera.stage.batchDraw();

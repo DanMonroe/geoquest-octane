@@ -1,5 +1,8 @@
 ## Notes and Ideas
 
+#### TODOs
+1/8/20 remove the extra layer for the red scroll rectangle 
+
 #### Implement state machine
 
 https://www.gamedev.net/articles/programming/artificial-intelligence/the-total-beginners-guide-to-game-ai-r4942/

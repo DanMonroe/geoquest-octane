@@ -22,15 +22,12 @@ export default class GameboardService extends Service {
   @tracked redraw = false;
 
   @tracked pathDistanceToMouseHex = 0;
-  @tracked mousePoint = `X: Y:`;
-  @tracked mouseXY = `X: Y:`;
-  @tracked currentHex = `Q:  R:`;
+  @tracked mousePoint = ``;
+  @tracked currentHex = ``;
   @tracked lastMouseMoveTargetId = null;
-  @tracked playerHex = `Q:  R:`;
-  @tracked playerXY = `X: Y:`;
-  @tracked shipHex = `Q:  R:`;
-  @tracked shipXY = `X: Y:`;
-  @tracked enemyHex = `Q:  R:`;
+  // @tracked playerHex = ``;
+  // @tracked shipHex = ``;
+  @tracked enemyHex = ``;
 
   setupMinimapCanvases() {
     const stage = new Konva.Stage({
@@ -53,14 +50,15 @@ export default class GameboardService extends Service {
 
   setupGameboardCanvases() {
 
+    // console.log('window.innerWidth,window.innerHeight',window.innerWidth,window.innerHeight);
     // style="min-width: 3527px; min-height: 2412px;"
     let stage = new Konva.Stage({
-      width: 3527/2,
-      height: 2412/2,
+      // width: 3527/2,
+      // height: 2412/2,
       // width: 3527,
       // height: 2412,
-      // width: window.innerWidth,
-      // height: window.innerHeight,
+      width: window.innerWidth,
+      height: window.innerHeight,
       container: '#konvaContainer'
     });
 
@@ -69,6 +67,8 @@ export default class GameboardService extends Service {
     // const agentsLayer = new Konva.Layer({draggable: false});
     // const gameLayer = new Konva.Layer({draggable: false, hitGraphEnabled: false});
     const agentsLayer = new Konva.Layer({draggable: false, hitGraphEnabled: false});
+
+    // const scrollRecLayer = new Konva.Layer({draggable: false, hitGraphEnabled: false});
 
     const mapGroup = new Konva.Group({
       id: this.camera.GROUPS.BACKGROUNDMAP
@@ -86,9 +86,18 @@ export default class GameboardService extends Service {
       id: this.camera.GROUPS.DEBUG
     });
     gameLayer.add(debugGroup);
+    const scrollRecGroup = new Konva.Group({
+      id: this.camera.GROUPS.SCROLLREC
+    });
+    gameLayer.add(scrollRecGroup);
+    const hexInfoGroup = new Konva.Group({
+      id: this.camera.GROUPS.HEXINFO
+    });
+    gameLayer.add(hexInfoGroup);
 
     stage.add(gameLayer);
     stage.add(agentsLayer);
+    // stage.add(scrollRecLayer);
 
     this.camera.stage = stage;
     // this.camera.viewportWidth = stage.width();
@@ -106,6 +115,7 @@ export default class GameboardService extends Service {
     // this.mapService.setHexmapSubset(startRow, startCol, rowsToGrab, colsToGrab);
 
     this.showDebugLayer = this.game.showDebugLayer;
+    this.showScrollRectangle = this.game.showScrollRectangle;
     this.showFieldOfViewLayer = this.game.showFieldOfViewLayer;
 
   }
@@ -150,7 +160,7 @@ export default class GameboardService extends Service {
 
 
   drawGrid(args) {
-    let { emberDataMap, hexMap, withLabels/*, withTiles, useEmberDataTiles */} = args;
+    let { emberDataMap, hexMap, withTileHexInfo/*, withTiles, useEmberDataTiles */} = args;
 // console.log('emberDataMap', emberDataMap, 'hexMap', hexMap);
     // let miniMapLayer = this.camera.getMiniMapLayer();
 
@@ -158,6 +168,8 @@ export default class GameboardService extends Service {
 
     const hexGroup = this.camera.getHexLayerGroup();
     const debugGroup = this.camera.getDebugLayerGroup();
+    const tileHexInfoGroup = this.camera.getHexInfoGroup();
+
 
     let thisMapsSeenHexes = this.mapService.getSeenHexesForLoadedMap();
 
@@ -165,15 +177,39 @@ export default class GameboardService extends Service {
       hexRow.forEach((hex) => {
         const previouslySeenThisHex = thisMapsSeenHexes && thisMapsSeenHexes.has(hex.id);
         this.drawHex(hexGroup, hex, previouslySeenThisHex);
-        if (withLabels) {
-          this.drawHexLabel(debugGroup, hex);
-        }
+        this.drawHexLabel(tileHexInfoGroup, hex);
+
     //   this.drawHexTile(gameLayer, hex, previouslySeenThisHex, useEmberDataTiles, false);
     //   this.drawMiniMapHexTile(miniMapLayer, hex, previouslySeenThisHex, useEmberDataTiles, true);
       });
     });
 
+    tileHexInfoGroup.visible(this.game.showTileHexInfo);
+
+    // this.drawPlayerScrollRectangle();
+
     this.camera.stage.batchDraw();
+  }
+
+  drawPlayerScrollRectangle() {
+
+      const scrollRecGroup = this.camera.getScrollRecGroup();
+    // const scrollRecLayer = this.camera.getScrollRecLayer();
+
+    if (scrollRecGroup) {
+console.log('adding scroll rectangle');
+      scrollRecGroup.add(new Konva.Rect({
+        x: this.camera.leftSightRangeBoundary,
+        y: this.camera.topSightRangeBoundary,
+        width: this.camera.rightSightRangeBoundary - this.camera.leftSightRangeBoundary,
+        height: this.camera.bottomSightRangeBoundary - this.camera.topSightRangeBoundary,
+        stroke: 'red',
+        strokeWidth: 1,
+        listening: false
+      }));
+
+      // scrollRecGroup.add(playerScrollRect);
+    }
   }
 
   drawHex(hexGroup, hex, previouslySeenThisHex) {
@@ -181,10 +217,9 @@ export default class GameboardService extends Service {
     let hexagon = new Konva.Line({
         points: hex.polygonPoints,
         closed: true,
-        fill: previouslySeenThisHex ? this.mapService.MAPFILLOPACITY.PREVIOUSLYSEEN : this.mapService.MAPFILLOPACITY.HIDDEN,
-        // stroke: 'rgba(226,148,0,.75)',
-        // stroke: 'rgba(0,0,0,.25)',
+        // stroke: 'blue',
         // strokeWidth: 1,
+        fill: previouslySeenThisHex ? this.constants.MAPFILLOPACITY.PREVIOUSLYSEEN : this.constants.MAPFILLOPACITY.HIDDEN,
         dashEnabled: false,
         shadowEnabled: false,
         listening: true,
@@ -194,6 +229,8 @@ export default class GameboardService extends Service {
     });
     // let poly = new Konva.Line(polyConfig);
     hexagon.id(hex.id);
+    // hexagon.filters([Konva.Filters.Blur]);
+    // hexagon.blurRadius(10);
 
     // hexGroup.add(poly);
 
@@ -211,7 +248,7 @@ export default class GameboardService extends Service {
     //     scaleY: 1.1,
     //     // radius: hex.layout.size.x,
     //     // fill: hex.row === 2 ? 'red' : 'blue',
-    //     fill: previouslySeenThisHex ? this.mapService.MAPFILLOPACITY.PREVIOUSLYSEEN : this.mapService.MAPFILLOPACITY.HIDDEN,
+    //     fill: previouslySeenThisHex ? this.constants.MAPFILLOPACITY.PREVIOUSLYSEEN : this.constants.MAPFILLOPACITY.HIDDEN,
     //     rotation: 30,
     //     stroke: 0,
     //     hitStrokeWidth: 0,
@@ -219,7 +256,6 @@ export default class GameboardService extends Service {
     //   });
 
       hexagon.on('click', (evt) => {
-        console.log('click', arguments);
         if (arguments.length >= 2) {
           this.hexClick(arguments[1]);
         }
@@ -227,7 +263,6 @@ export default class GameboardService extends Service {
       });
 
       hexagon.on('mouseover', (evt) => {
-        // console.log('mouseover', arguments);
         if (arguments.length >= 2) {
           this.hexMouseMove(arguments[1], true);
         }
@@ -240,33 +275,35 @@ export default class GameboardService extends Service {
   }
 
   drawHexLabel(group, hex) {
-    let center = hex.point;
+    if (this.game.showTileHexInfo) {
 
-    let idText = new Konva.Text({
-      x: center.x,
-      y: center.y-17,
-      text: 'id:' + hex.id,
-      fontSize: 11,
-      fontFamily: 'sans-serif',
-      fill: this.colorForHex(hex),
-      listening: false
-    });
-    idText.offsetX(idText.width() / 2);
+      let center = hex.point;
+      let idText = new Konva.Text({
+        x: center.x,
+        y: center.y - 17,
+        text: 'id:' + hex.id,
+        fontSize: 11,
+        fontFamily: 'sans-serif',
+        fill: this.colorForHex(hex),
+        listening: false
+      });
 
-    let qrsText = new Konva.Text({
-      x: center.x,
-      y: center.y+9,
-      text: hex.col + "," + hex.row,
-      fontSize: 11,
-      fontFamily: 'sans-serif',
-      fill: this.colorForHex(hex),
-      listening: false
-    });
-    qrsText.offsetX(qrsText.width() / 2);
+      idText.offsetX(idText.width() / 2);
+      let qrsText = new Konva.Text({
+        x: center.x,
+        y: center.y + 9,
+        text: hex.col + "," + hex.row,
+        fontSize: 11,
+        fontFamily: 'sans-serif',
+        fill: this.colorForHex(hex),
+        listening: false
+      });
 
-    group.add(idText);
-    group.add(qrsText);
+      qrsText.offsetX(qrsText.width() / 2);
 
+      group.add(idText);
+      group.add(qrsText);
+    }
     // TODO put map t (tile) back in when we add map to the hex
   }
 
@@ -297,7 +334,7 @@ export default class GameboardService extends Service {
         y: y,
         image: tile,
         // opacity: 1,
-        opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
+        opacity: previouslySeenThisHex ? this.constants.MAPOPACITY.PREVIOUSLYSEEN : this.constants.MAPOPACITY.HIDDEN,
         width: (this.mapService.currentLayout.size.x*2)+1,
         height: (this.mapService.currentLayout.size.y*2)+1,
         listening: false
@@ -326,16 +363,23 @@ export default class GameboardService extends Service {
           height: emberDataMap.backgroundImageHeight
         });
 
-        // let mapLayer = this.game.camera.getGameLayer();
-        // let mapLayer = this.game.camera.getBackgroundMapLayer();
+        // let mapLayer = this.camera.getGameLayer();
+        // let mapLayer = this.camera.getBackgroundMapLayer();
         // const mapGroup = mapLayer.find('#map');
-        const mapGroup = this.game.camera.getBackgroundMapLayerGroup()
+        const mapGroup = this.camera.getBackgroundMapLayerGroup()
         mapGroup.add(imageObj);
         // mapLayer.add(imageObj);
         // mapLayer.batchDraw();
-        this.game.camera.stage.batchDraw();
 
-        this.game.camera.backgroundImageObj = imageObj;
+        // TODO remove this extra layer for scroll rectangle
+        this.drawPlayerScrollRectangle();
+
+        this.camera.stage.batchDraw();
+
+        this.camera.backgroundImageObj = imageObj;
+
+        // this.camera.setSightRangeBoundaries();
+
       };
     }
   }
@@ -365,7 +409,7 @@ export default class GameboardService extends Service {
         y: y,
         image: tile,
         // opacity: 1,
-        opacity: previouslySeenThisHex ? this.mapService.MAPOPACITY.PREVIOUSLYSEEN : this.mapService.MAPOPACITY.HIDDEN,
+        opacity: previouslySeenThisHex ? this.constants.MAPOPACITY.PREVIOUSLYSEEN : this.constants.MAPOPACITY.HIDDEN,
         width: (this.mapService.currentLayout.size.x*2)+1,
         height: (this.mapService.currentLayout.size.y*2)+1,
         listening: false

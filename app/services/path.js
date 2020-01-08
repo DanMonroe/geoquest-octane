@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import { BinaryHeap } from '../objects/binary-heap';
 import {inject as service} from '@ember/service';
+import { Point } from '../objects/point'
 
 export default class PathService extends Service {
 
@@ -34,6 +35,23 @@ export default class PathService extends Service {
       // console.groupEnd();
 
       return distance
+    },
+
+    // HexModel objects have a point
+    point(startHex, targetHex) {
+      /**
+        target -2, -2 diff = -x/-y -3, -1             target  2, -2 diff +x/-y = 1, -1 (adjustment to smaller y)
+
+                           startHex: 1,1
+
+        target -2, 2 diff = -x/+y -3, 3            target  2, 2 diff = +x/+y 1, 3 (adjustment to larger y)
+       **/
+
+      const diffX = targetHex.point.x - startHex.point.x;
+      const diffY = targetHex.point.y - startHex.point.y;
+      // console.log('distanceInPoint startHex.point', startHex.point, 'targetHex.point', targetHex.point, new Point({x: diffX, y: diffY}));
+
+      return new Point({x: diffX, y: diffY});
     },
 
     doubleCoord(posA, posB) {

@@ -45,6 +45,7 @@ export default class GameService extends Service {
   @tracked showTileHexInfo = true;
   @tracked pathFindingDebug = false;
   @tracked showDebugLayer = true;
+  @tracked showScrollRectangle = true;
   @tracked showFieldOfViewLayer = true;
 
   gameStorage = storageFor('game')
@@ -59,7 +60,7 @@ export default class GameService extends Service {
     // let encoded = window.btoa(stringified);
     // window.localStorage.setItem('gqmap', encoded);
 
-    // let seenHexesJSON = JSON.stringify(this.mapService.mapSeenHexes);
+    // let seenHexesJSON = JSON.stringify(this.constants.MAPSeenHexes);
     if (this.mapService.mapSeenHexes) {
       let seenHexesObj = {}
       this.mapService.mapSeenHexes.forEach((seenHexes, mapIndex) => {

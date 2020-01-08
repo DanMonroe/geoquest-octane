@@ -202,7 +202,7 @@ export default class TransportService extends Service {
     // node: transport.imageObj,
     let tween = new Konva.Tween({
       node: transport.imageGroup,
-      duration: 0.5,
+      duration: this.constants.PLAYERMOVETWEENDURATION,
       easing: Konva.Easings.EaseInOut,
       x: point.x,
       y: point.y
@@ -226,47 +226,26 @@ export default class TransportService extends Service {
 
   // @task
   @task({drop:true})
-  *movePlayerToHexTask(playerObj, targetHex) {
-// console.log('move', 'playerObj', playerObj, 'targetHex', targetHex);
+  *movePlayerToHexTask(targetHex) {
+// console.log('move player', this.game.player, 'player hex', this.game.player.hex.colRowText, 'targetHex', targetHex);
     this.game.onBeforeMovePlayer(targetHex);
 
-    playerObj.hex = targetHex;
+    const currentHex = this.game.player.hex;
+    // this.game.player.previousHex = this.game.player.hex;
+    this.game.player.hex = targetHex;
 
-    let point = targetHex.point;
-    // let point = this.game.mapService.currentLayout.hexToPixel(targetHex);
-
-    // for debugging:
-    this.game.gameboard.playerHex = `Q:${targetHex.q} R:${targetHex.r} col:${targetHex.col} row:${targetHex.row}`;
-    this.game.gameboard.playerXY = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
-
-    let objectToVisuallyMove = playerObj;
+    let objectToVisuallyMove = this.game.player;
 
     // if the player is on a transport, move the transport
-    if (playerObj.boardedTransport) {
-      playerObj.boardedTransport.hex = targetHex;
-      objectToVisuallyMove = playerObj.boardedTransport;
-
-      // for debugging:
-      this.game.gameboard.shipHex = `Q:${targetHex.q} R:${targetHex.r}`;
-      this.game.gameboard.shipXY = `X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
-
+    if (this.game.player.boardedTransport) {
+      // this.game.player.boardedTransport.previousHex = this.game.player.boardedTransport.hex;
+      this.game.player.boardedTransport.hex = targetHex;
+      objectToVisuallyMove = this.game.player.boardedTransport;
     }
 
-      // node: objectToVisuallyMove.imageObj,
-    let tween = new Konva.Tween({
-      node: objectToVisuallyMove.imageGroup,
-      duration: 0.5,
-      easing: Konva.Easings.EaseInOut,
-      x: point.x,
-      y: point.y
-    });
-      // x: point.x - 18,
-      // y: point.y - 18
+    const playerMoved = this.tweenPlayerOrMap(this.game.player, objectToVisuallyMove, currentHex, targetHex);
 
-    tween.play();
-
-    this.game.fov.updatePlayerFieldOfView();
-    // this.game.fov.updatePlayerFieldOfView(playerObj.hex);
+    this.game.fov.updatePlayerFieldOfView(playerMoved?"":"foo");
 
     this.game.camera.stage.batchDraw();
 
@@ -274,8 +253,185 @@ export default class TransportService extends Service {
     // yield this.game.onAfterMovePlayer(targetHex);
 
 
-    yield timeout(playerObj.speed);
+    yield timeout(this.game.player.speed);
 
+  }
+
+  shouldMovePlayer(targetWithinSightRangeBoundaryBox, targetIsNearEdge) {
+    return targetWithinSightRangeBoundaryBox || targetIsNearEdge;
+  }
+
+  tweenPlayerOrMap(player, objectToVisuallyMove, currentHex, targetHex) {
+    // node: objectToVisuallyMove.imageObj,
+
+    // TODO here 1/1/20  something is up with fov seen hexes
+    let movePlayer = true;
+
+    /**
+     * move player or map?
+     *
+     * 1/6/20:
+     * if within the sight range box, move player
+     * if within sight range of edge of map AND moving that/or opposite direction, move player
+     *
+     *
+     *
+     *
+     * if the player is within sightRange of the edge of the map
+     * and there is additional portions of the map beyond the edge of the camera viewport
+     * then tween map
+     *
+     * otherwise, tween player
+     *
+     *
+     */
+    console.group('tweenPlayerOrMap');
+
+    const adjustmentPoint = this.mapService.distanceInPoint(currentHex, targetHex)
+
+// console.log('   this.camera.mapOffsetY', this.camera.mapOffsetY);
+// console.log('   this.camera.bottomSightRangeBoundary', this.camera.bottomSightRangeBoundary);
+//     // movePlayer = this.playerMoveIsWithinSightRangeOfMapEdge(targetHex);
+//     const playerMoveIsWithinSightRangeOfMapEdge = this.playerMoveIsWithinSightRangeOfMapEdge(adjustmentPoint, targetHex);
+//     const playerMoveIsNearEdge = this.playerMoveIsNearEdge(adjustmentPoint, targetHex)
+//     const mapAreaAvailableOtherSideOfSightRangeBox = this.mapAreaAvailableOtherSideOfSightRangeBox(adjustmentPoint, targetHex)
+//     movePlayer = playerMoveIsNearEdge || playerMoveIsWithinSightRangeOfMapEdge || (playerMoveIsWithinSightRangeOfMapEdge && mapAreaAvailableOtherSideOfSightRangeBox);
+
+    // console.log('movePlayer', movePlayer, `${playerMoveIsNearEdge}, ${playerMoveIsWithinSightRangeOfMapEdge}, ${mapAreaAvailableOtherSideOfSightRangeBox}`);
+
+
+    const playerMoveIsNearEdge = this.playerMoveIsNearEdge(targetHex);
+    const playerMoveWillBeInsideSightRangeBoundary = this.playerMoveWillBeInsideSightRangeBoundary(targetHex);
+
+    movePlayer = this.shouldMovePlayer(playerMoveIsNearEdge, playerMoveWillBeInsideSightRangeBoundary);
+
+    console.log('movePlayer', movePlayer, `
+      playerMoveIsNearEdge: ${playerMoveIsNearEdge},
+      playerMoveWillBeInsideSightRangeBoundary: ${playerMoveWillBeInsideSightRangeBoundary}
+
+      `);
+
+    if (movePlayer) {
+    // if (movePlayer) {
+      const tween = new Konva.Tween({
+        node: objectToVisuallyMove.imageGroup,
+        duration: this.constants.PLAYERMOVETWEENDURATION,
+        easing: Konva.Easings.EaseInOut,
+        x: targetHex.point.x + this.camera.mapOffsetX,
+        y: targetHex.point.y + this.camera.mapOffsetY
+      });
+      tween.play();
+
+    } else {
+
+      // console.log('move map from ', this.camera.mapOffsetX, this.camera.mapOffsetY, adjustmentPoint);
+      this.camera.adjustMapOffset(adjustmentPoint);
+      // this.camera.mapOffsetX -= adjustmentPoint.x;
+      // this.camera.mapOffsetY -= adjustmentPoint.y;
+
+      // console.log('move map to ', this.camera.mapOffsetX, this.camera.mapOffsetY, adjustmentPoint);
+
+      this.camera.backgroundImageObj.to({
+        x: this.camera.mapOffsetX,
+        y: this.camera.mapOffsetY,
+        duration: this.constants.PLAYERMOVETWEENDURATION
+      });
+
+      // also move tile hex info
+      const tileHexInfoGroup = this.camera.getHexInfoGroup();
+      if (tileHexInfoGroup) {
+        tileHexInfoGroup.to({
+          x: tileHexInfoGroup.x() - adjustmentPoint.x,
+          y: tileHexInfoGroup.y() - adjustmentPoint.y,
+          duration: this.constants.PLAYERMOVETWEENDURATION
+        });
+      }
+
+      // this moved fog of war.  is there a better way
+      const hexGroup = this.camera.getHexLayerGroup();
+      if (hexGroup) {
+        hexGroup.to({
+          x: tileHexInfoGroup.x() - adjustmentPoint.x,
+          y: tileHexInfoGroup.y() - adjustmentPoint.y,
+          duration: this.constants.PLAYERMOVETWEENDURATION
+        });
+      }
+
+    }
+console.log(`mapOffsetY, ${this.camera.mapOffsetY}
+mapOffsetX, ${this.camera.mapOffsetX}
+`);
+// console.log('   this.camera.bottomSightRangeBoundary', this.camera.bottomSightRangeBoundary);
+console.groupEnd();
+    return movePlayer;
+
+  }
+
+  playerMoveWillBeInsideSightRangeBoundary(targetHex) {
+    return this.camera.hexIsInsideSightRangeBoundary(targetHex);
+  }
+
+  playerMoveIsNearEdge(targetHex) {
+    const range = this.game.player.sightRange-1;
+    let nearLeftEdge = targetHex.col <= range;
+    let nearRightEdge = targetHex.col >= ((this.mapService.numMapColumns-1) - range);
+    let nearTopEdge = targetHex.row <= range;
+    let nearBottomEdge = targetHex.row >= ((this.mapService.numMapRows-1) - range);
+
+    console.log(`nearLeftEdge: ${nearLeftEdge}   targetHex.col <= range = ${targetHex.col} <= ${range}`);
+    return nearLeftEdge || nearTopEdge || nearRightEdge || nearBottomEdge;
+  }
+
+  mapAreaAvailableOtherSideOfSightRangeBox(adjustmentPoint, targetHex) {
+    let mapAreaAvailableOtherSideOfSightRangeBox;
+
+    // let nearLeftEdge = false;
+    // let nearRightEdge = false;
+    let isAreaNorth = false;
+    // let nearBottomEdge = false;
+    // let mapRows = this.mapService.worldMap.length
+    // let mapColumns = this.mapService.worldMap[0].length
+
+    // if (adjustmentPoint.x < 0) {
+    //   nearLeftEdge = targetHex.col <= this.game.player.sightRange;
+    // }
+    // if (adjustmentPoint.y < 0) {
+    // nearTopEdge = targetHex.row <= this.game.player.sightRange;
+    // }
+    // if (adjustmentPoint.x > 0) {
+    // nearRightEdge = targetHex.col >= ((mapColumns-1) - this.game.player.sightRange);
+    // }
+    if (adjustmentPoint.y < 0) {
+// console.log('going north', this.camera.mapOffsetY, 'this.camera.mapOffsetY < 0', this.camera.mapOffsetY < 0);
+      isAreaNorth = this.camera.mapOffsetY < 0;
+    }
+    mapAreaAvailableOtherSideOfSightRangeBox = isAreaNorth;
+    // mapAreaAvailableOtherSideOfSightRangeBox = nearLeftEdge || nearTopEdge || nearRightEdge || nearBottomEdge;
+    // console.log('mapAreaAvailableOtherSideOfSightRangeBox: adjustmentPoint', adjustmentPoint, 'mapAreaAvailableOtherSideOfSightRangeBox', mapAreaAvailableOtherSideOfSightRangeBox);
+    return mapAreaAvailableOtherSideOfSightRangeBox;
+  }
+  /**
+   * Check to see if the player is within sight range of map edge
+   *
+   */
+  playerMoveIsWithinSightRangeOfMapEdge(adjustmentPoint, targetHex) {
+    let outOfRangeTop = false;
+    let outOfRangeBottom = false;
+    // const outOfRangeLeft = targetHex.point.x <= this.camera.leftSightRangeBoundary;
+    if (adjustmentPoint.y < 0) {
+      outOfRangeTop = (targetHex.point.y - this.camera.mapOffsetY) <= this.camera.topSightRangeBoundary;
+    }
+    // const outOfRangeRight = targetHex.point.x >= this.camera.rightSightRangeBoundary;
+    if (adjustmentPoint.y > 0) {
+      // outOfRangeBottom = ((targetHex.point.y - adjustmentPoint.y) - this.camera.mapOffsetY) >= this.camera.bottomSightRangeBoundary;
+      outOfRangeBottom = (targetHex.point.y - this.camera.mapOffsetY) >= this.camera.bottomSightRangeBoundary;
+    }
+
+    console.log('outOfRangeTop', outOfRangeTop, `${(targetHex.point.y - this.camera.mapOffsetY)} <= ${this.camera.topSightRangeBoundary}`);
+    console.log('outOfRangeBottom', outOfRangeBottom, `${(targetHex.point.y - this.camera.mapOffsetY)} >= ${this.camera.bottomSightRangeBoundary}`);
+    // console.log('targetHex.point, outOfRangeLeft || outOfRangeTop || outOfRangeRight || outOfRangeBottom', targetHex.point, outOfRangeLeft, outOfRangeTop, outOfRangeRight, outOfRangeBottom);
+    return (outOfRangeTop || outOfRangeBottom) === false;  // Nothing out of range, player move is in range
+    // return (outOfRangeLeft || outOfRangeTop || outOfRangeRight || outOfRangeBottom) === false;  // Nothing out of range, player move is in range
   }
 
   movePlayerAlongPath(path) {
@@ -283,8 +439,7 @@ export default class TransportService extends Service {
       for (let move = 0, pathLen = path.length; move < pathLen; move++) {
         let nextHex = path[move];
 
-        let player = this.game.player;
-        this.movePlayerToHexTask.perform(player, nextHex);
+        this.movePlayerToHexTask.perform(nextHex);
       }
     }
   }
