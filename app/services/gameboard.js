@@ -193,12 +193,10 @@ export default class GameboardService extends Service {
 
   drawPlayerScrollRectangle() {
 
-      const scrollRecGroup = this.camera.getScrollRecGroup();
-    // const scrollRecLayer = this.camera.getScrollRecLayer();
+      const scrollRectGroup = this.camera.getScrollRecGroup();
 
-    if (scrollRecGroup) {
-console.log('adding scroll rectangle');
-      scrollRecGroup.add(new Konva.Rect({
+    if (scrollRectGroup) {
+      scrollRectGroup.add(new Konva.Rect({
         x: this.camera.leftSightRangeBoundary,
         y: this.camera.topSightRangeBoundary,
         width: this.camera.rightSightRangeBoundary - this.camera.leftSightRangeBoundary,
@@ -207,8 +205,7 @@ console.log('adding scroll rectangle');
         strokeWidth: 1,
         listening: false
       }));
-
-      // scrollRecGroup.add(playerScrollRect);
+      scrollRectGroup.visible(this.game.showScrollRectangle);
     }
   }
 
@@ -232,28 +229,6 @@ console.log('adding scroll rectangle');
     // hexagon.filters([Konva.Filters.Blur]);
     // hexagon.blurRadius(10);
 
-    // hexGroup.add(poly);
-
-    // if (hex.row === 2 || hex.row === 3) {
-    // if (hex.col === 2 && hex.row === 2) {
-    //   console.log('2/2 hex', hex);
-    //   const hexagon = new Konva.RegularPolygon({
-    //     id: hex.id,
-    //     x: hex.point.x,
-    //     y: hex.point.y,
-    //     sides: 6,
-    //     height: hex.layout.size.y * 2,
-    //     width: hex.layout.size.x * 2,
-    //     scaleX: 1.1,
-    //     scaleY: 1.1,
-    //     // radius: hex.layout.size.x,
-    //     // fill: hex.row === 2 ? 'red' : 'blue',
-    //     fill: previouslySeenThisHex ? this.constants.MAPFILLOPACITY.PREVIOUSLYSEEN : this.constants.MAPFILLOPACITY.HIDDEN,
-    //     rotation: 30,
-    //     stroke: 0,
-    //     hitStrokeWidth: 0,
-    //     perfectDrawEnabled: false
-    //   });
 
       hexagon.on('click', (evt) => {
         if (arguments.length >= 2) {
@@ -281,7 +256,7 @@ console.log('adding scroll rectangle');
       let idText = new Konva.Text({
         x: center.x,
         y: center.y - 17,
-        text: 'id:' + hex.id,
+        text: "#" + hex.id + " " + hex.col + "," + hex.row,
         fontSize: 11,
         fontFamily: 'sans-serif',
         fill: this.colorForHex(hex),
@@ -292,7 +267,7 @@ console.log('adding scroll rectangle');
       let qrsText = new Konva.Text({
         x: center.x,
         y: center.y + 9,
-        text: hex.col + "," + hex.row,
+        text: hex.wesnoth,
         fontSize: 11,
         fontFamily: 'sans-serif',
         fill: this.colorForHex(hex),

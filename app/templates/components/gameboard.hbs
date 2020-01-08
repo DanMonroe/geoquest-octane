@@ -10,6 +10,26 @@
     </div>
     <div class="header">
       <h2>GeoQuest - Octane</h2>
+      <div class="zoom">
+        <PressAndHoldButton @press={{perform this.camera.scaleStageBy -1}} @release={{cancel-all this.camera.scaleStageBy}}>--</PressAndHoldButton>
+        <input type="range" id="zoom" name="zoom" min="0" max="100" value="{{this.camera.stageScaleDisplay}}" step="10">
+        <PressAndHoldButton @press={{perform this.camera.scaleStageBy 1}} @release={{cancel-all this.camera.scaleStageBy}}>++</PressAndHoldButton>
+      </div>
+      <div class="game-controls">
+        <button class="btn inventory" {{on "click" (fn showInventory)}} >
+          <EmberTooltip tooltipClass="tooltip-controls" >Inventory</EmberTooltip>
+        </button>
+        <button class="btn trophy" {{on "click" (fn saveGame)}}>
+          <EmberTooltip tooltipClass="tooltip-controls" >Awards</EmberTooltip>
+        </button>
+        <button class="btn gems" {{on "click" (fn clickGems)}}>
+          <EmberTooltip tooltipClass="tooltip-controls">Gems</EmberTooltip>
+        </button>
+        <button class="btn settings" {{on "click" (fn showConfigDialog)}} >
+          <EmberTooltip tooltipClass="tooltip-controls" >Settings</EmberTooltip>
+        </button>
+      </div>
+
     </div>
     <AnimatedContainer class="gameboard">
       <section>
@@ -85,36 +105,10 @@
       {{/if}}
     </div>
 
-    <div>
-      <input type="range" id="zoom" name="zoom"
-             min="0" max="100" value="{{this.camera.stageScaleDisplay}}" step="10">
-      <label for="zoom">Zoom</label>
-    </div>
 
-    <PressAndHoldButton
-      @press={{perform this.camera.scaleStageBy -1}}
-      @release={{cancel-all this.camera.scaleStageBy}}>--</PressAndHoldButton>
-
-    <PressAndHoldButton
-      @press={{perform this.camera.scaleStageBy 1}}
-      @release={{cancel-all this.camera.scaleStageBy}}>++</PressAndHoldButton>
 
 <!--    <MiniMap @map={{!@model.mirageMap}} />-->
 
-    <div class="game-controls">
-      <button class="btn inventory" {{on "click" (fn showInventory)}} >
-        <EmberTooltip tooltipClass="tooltip-controls" >Inventory</EmberTooltip>
-      </button>
-      <button class="btn trophy" {{on "click" (fn saveGame)}}>
-        <EmberTooltip tooltipClass="tooltip-controls" >Awards</EmberTooltip>
-      </button>
-      <button class="btn gems" {{on "click" (fn clickGems)}}>
-        <EmberTooltip tooltipClass="tooltip-controls">Gems</EmberTooltip>
-      </button>
-      <button class="btn settings" {{on "click" (fn showConfigDialog)}} >
-        <EmberTooltip tooltipClass="tooltip-controls" >Settings</EmberTooltip>
-      </button>
-    </div>
 
   </div>
 </div>

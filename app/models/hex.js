@@ -5,6 +5,7 @@ import { Point } from '../objects/point'
 export default class HexModel extends Model {
   @attr col;
   @attr row;
+  @attr wesnoth; // source terrain code from Battle of Wesnoth map editor
   @attr({ defaultValue: 0 }) travelFlags;
   @attr({ defaultValue: 0 }) sightFlags;
   @attr({ defaultValue: 0 }) specialFlags; // isDock, etc

@@ -61,11 +61,12 @@ p {
     width: 100%;
   }
   .hexwrapper {
-    //background: rgba(0,0,0,.7);
+    height: 100vh;
+    background: rgba(0,0,0,.7);
     //box-shadow: 0px 0px 25px 25px rgba(0,0,0, 1);
   }
   .gameboard {
-    z-index: 100;
+    //z-index: 100;
   }
 }
 
@@ -692,14 +693,19 @@ button:focus {
   }
 }
 
+.zoom {
+  position: absolute;
+  top: 15px;
+  left: 46%;
+}
 .game-controls {
   position: absolute;
-  right: 1%;
-  bottom: 1%;
+  right: 2.5%;
+  top: 1%;
   z-index: 2;
   .btn {
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
     background: url(/images/menu_icons.png) no-repeat;
     position: relative;
     background-size: cover;
@@ -708,13 +714,13 @@ button:focus {
     -webkit-box-shadow: 2px 2px 4px black;
     box-shadow: 2px 2px 4px black;
     border: 0;
-    border-radius: 12px;
+    border-radius: 6px;
     filter: none;
-    margin-left: 30px;
+    margin-left: 10px;
 
     &:hover {
-      -webkit-box-shadow: 0 0 12px #bbf;
-      box-shadow: 0 0 12px #bbf;
+      -webkit-box-shadow: 0 0 6px #bbf;
+      box-shadow: 0 0 6px #bbf;
     }
     &:focus {
       outline: none;
@@ -724,22 +730,23 @@ button:focus {
     //}
 
     &.inventory {
-      background-position: -80px 0px
+      background-position: -40px 0px
     }
     &.trophy {
-      background-position: -240px 0px;
+      background-position: -120px 0px;
     }
     &.gems {
-      background-position: -480px 0px;
+      background-position: -240px 0px;
     }
     &.settings {
-      background-position: -400px 0px;
+      background-position: -200px 0px;
     }
   }
   .tooltip {
       background-color: #000;
       color: #fff;
       font-size: 1.1em;
+      z-index: 150;
     .tooltip-arrow {
       display: none;
     }
@@ -758,17 +765,17 @@ button:focus {
   position: relative;
   margin: 0;
   min-height: 440px;
-  //background-color: #000;
+  background-color: #000;
 }
 
 #scroll-container {
-  width: calc(100% - 22px);
-  height: calc(80vh - 22px);
+  width: 100vw;
+  height: 100vh;
   //height: calc(55vh - 22px);
   overflow: auto;
-  margin: 10px;
+  //margin: 10px;
   //border: 1px solid grey;
-  //background-color: black;
+  background-color: black;
 }
 
 #mini-container {

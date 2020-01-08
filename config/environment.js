@@ -49,9 +49,9 @@ module.exports = function(environment) {
       },
       board: {
         showTileGraphics: true,
-        showTileHexInfo: true,
-        showDebugLayer: true,
-        showScrollRectangle: true,
+        showTileHexInfo: false,
+        showDebugLayer: false,
+        showScrollRectangle: false,
         showFieldOfViewLayer: true,
         pathFindingDebug: false
       }
@@ -76,9 +76,10 @@ module.exports = function(environment) {
     ENV.game.enableGameSounds = false;
     ENV.game.transport.moveQueueEnabled = true;
     ENV.game.board.showTileGraphics = true;
-    ENV.game.board.showTileHexInfo = true;
+    ENV.game.board.showTileHexInfo = false;
     ENV.game.board.showDebugLayer = false;
     ENV.game.board.showFieldOfViewLayer = true;
+    ENV.game.board.showScrollRectangle = false;
     ENV.game.board.pathFindingDebug = false;
 
   }

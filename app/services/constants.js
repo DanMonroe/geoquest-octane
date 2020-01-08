@@ -47,8 +47,8 @@ export default class ConstantsService extends Service {
     VISIBLE: 1
   }
   MAPFILLOPACITY = {
-    HIDDEN: 'rgba(0,0,0,.7)',
-    // HIDDEN: 'rgba(0,0,0,1)',
+    // HIDDEN: 'rgba(0,0,0,.7)',
+    HIDDEN: 'rgba(0,0,0,1)',
     PREVIOUSLYSEEN: 'rgba(0,0,0,0.6)',
     VISIBLE: 'rgba(0,0,0,0)',
     DEBUGVISIBLE: 'rgba(33,0,33,0.2)'

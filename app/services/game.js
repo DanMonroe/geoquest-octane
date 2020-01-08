@@ -42,10 +42,10 @@ export default class GameService extends Service {
 
   @tracked gameClockEnabled = true;
   @tracked showTileGraphics = true;
-  @tracked showTileHexInfo = true;
+  @tracked showTileHexInfo = false;
   @tracked pathFindingDebug = false;
   @tracked showDebugLayer = true;
-  @tracked showScrollRectangle = true;
+  @tracked showScrollRectangle = false;
   @tracked showFieldOfViewLayer = true;
 
   gameStorage = storageFor('game')

@@ -84,7 +84,7 @@ ${hexRowsText}
     const travelFlags = this.getTravelFlags(terrain);
     const sightFlags = this.getSightFlags(terrain);
     const specialFlags = 0;
-    let hextext = `const hex${col}_${row} = server.create('hex', {layout: layout, col: ${col}, row: ${row}, sightFlags: ${sightFlags}, travelFlags: ${travelFlags}, specialFlags: ${specialFlags}, tiles: []});`;
+    let hextext = `const hex${col}_${row} = server.create('hex', {layout: layout, col: ${col}, row: ${row}, wesnoth: "${terrain.replace(/\\/g,"\\\\")}", sightFlags: ${sightFlags}, travelFlags: ${travelFlags}, specialFlags: ${specialFlags}, tiles: []});`;
     return hextext;
   }
 
@@ -140,6 +140,7 @@ ${hexRowsText}
         }
         break;
       case this.WESNOTH.IMPASSABLE:
+        debugger;
         terrainFlags |= this.constants.FLAGS.TRAVEL.IMPASSABLE.value;
         break;
       default:

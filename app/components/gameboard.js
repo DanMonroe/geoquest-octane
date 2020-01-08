@@ -18,9 +18,9 @@ export default class GameboardComponent extends Component {
   @service ('modals') modals;
 
   @tracked showTileGraphics = true;
-  @tracked showTileHexInfo = true;
+  @tracked showTileHexInfo = false;
   @tracked showDebugLayer = true;
-  @tracked showScrollRectangle = true;
+  @tracked showScrollRectangle;
   @tracked pathFindingDebug = false;
   @tracked showFieldOfViewLayer = true;
 
