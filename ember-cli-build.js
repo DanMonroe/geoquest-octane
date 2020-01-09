@@ -10,7 +10,13 @@ module.exports = function(defaults) {
         'images/hex',
         'images/agents',
         'images/transports',
-        'images/icons'
+        'images/icons',
+        'images/backgrounds',
+        'images/maps',
+        'images/particles',
+        'images/items',
+        'images/common',
+        'sounds'
       ]
     }
 

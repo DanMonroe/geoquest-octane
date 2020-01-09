@@ -100,6 +100,18 @@ module.exports = function(environment) {
     ENV['ember-cli-mirage'] = {
       enabled: true
     };
+
+    ENV.game.startingMapIndex = 2;
+    ENV.game.gameClockEnabled = false;
+    ENV.game.enableGameSounds = false;
+    ENV.game.transport.moveQueueEnabled = true;
+    ENV.game.board.showTileGraphics = true;
+    ENV.game.board.showTileHexInfo = false;
+    ENV.game.board.showDebugLayer = false;
+    ENV.game.board.showFieldOfViewLayer = true;
+    ENV.game.board.showScrollRectangle = false;
+    ENV.game.board.pathFindingDebug = false;
+
   }
 
   return ENV;
