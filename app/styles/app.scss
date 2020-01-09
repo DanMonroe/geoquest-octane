@@ -48,6 +48,11 @@ h3, .h3 {
 p {
   margin: 0 0 10px;
 }
+a {
+  color: #efefef;
+  text-decoration: none;
+
+}
 .game {
   top: 0;
   right: 0;
@@ -74,6 +79,9 @@ p {
   margin: 20px;
 }
 
+.instructions {
+  margin: 25px;
+}
 .absolute {
   position: absolute;
 }
