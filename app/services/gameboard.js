@@ -250,7 +250,7 @@ export default class GameboardService extends Service {
   }
 
   drawHexLabel(group, hex) {
-    if (this.game.showTileHexInfo) {
+    // if (this.game.showTileHexInfo) {
 
       let center = hex.point;
       let idText = new Konva.Text({
@@ -278,7 +278,7 @@ export default class GameboardService extends Service {
 
       group.add(idText);
       group.add(qrsText);
-    }
+    // }
     // TODO put map t (tile) back in when we add map to the hex
   }
 

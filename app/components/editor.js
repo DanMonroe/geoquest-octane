@@ -156,7 +156,7 @@ ${hexRowsText}
 
     const terrainParts = this.getWesnothTerrainParts(terrain);
 
-    switch (terrainParts.primary) {
+    switch (terrainParts.secondary) {
       case this.WESNOTH.IMPASSABLE:
         sightFlags |= this.constants.FLAGS.SIGHT.IMPASSABLE.value;
         break;

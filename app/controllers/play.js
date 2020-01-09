@@ -27,13 +27,13 @@ export default class PlayController extends Controller {
     // using 'element' does not work for keyboard events ?
     document.addEventListener('keydown', (e) => {
       // console.log(e);
-      if (e.metaKey) {
+      if (e.metaKey && e.shiftKey) {  // Cmd Shift
         switch (e.key.toUpperCase()) {
           case 'H':  // Cmd H  toggle hex info
             this.config.toggleHexInfo();
             e.preventDefault();
             break;
-          case 'V':  // show/hide Field of View
+          case 'F':  // show/hide Field of View
             this.config.togglePathFindingDebug();
             e.preventDefault();
             break;
