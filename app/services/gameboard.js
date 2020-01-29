@@ -324,6 +324,8 @@ export default class GameboardService extends Service {
 
   drawBackgroundMap(emberDataMap) {
     if (emberDataMap.backgroundImage) {
+
+      console.time('background image load');
       let image = new Image();
       image.src = `/images/maps/${emberDataMap.backgroundImage}`;
       image.onload = () => {
@@ -338,22 +340,28 @@ export default class GameboardService extends Service {
           height: emberDataMap.backgroundImageHeight
         });
 
-        // let mapLayer = this.camera.getGameLayer();
-        // let mapLayer = this.camera.getBackgroundMapLayer();
-        // const mapGroup = mapLayer.find('#map');
-        const mapGroup = this.camera.getBackgroundMapLayerGroup()
-        mapGroup.add(imageObj);
-        // mapLayer.add(imageObj);
-        // mapLayer.batchDraw();
+      console.timeEnd('background image load');
 
-        // TODO remove this extra layer for scroll rectangle
-        this.drawPlayerScrollRectangle();
+console.log('emberDataMap', emberDataMap);
+this.camera.mapOffsetX = emberDataMap.backgroundOffsetX;
+this.camera.mapOffsetY = emberDataMap.backgroundOffsetY;
 
-        this.camera.stage.batchDraw();
+      // let mapLayer = this.camera.getGameLayer();
+      // let mapLayer = this.camera.getBackgroundMapLayer();
+      // const mapGroup = mapLayer.find('#map');
+      const mapGroup = this.camera.getBackgroundMapLayerGroup()
+      mapGroup.add(imageObj);
+      // mapLayer.add(imageObj);
+      // mapLayer.batchDraw();
 
-        this.camera.backgroundImageObj = imageObj;
+      // TODO remove this extra layer for scroll rectangle
+      this.drawPlayerScrollRectangle();
 
-        // this.camera.setSightRangeBoundaries();
+      this.camera.stage.batchDraw();
+
+      this.camera.backgroundImageObj = imageObj;
+
+      // this.camera.setSightRangeBoundaries();
 
       };
     }
@@ -620,7 +628,7 @@ export default class GameboardService extends Service {
   hexMouseMove(targetHex, shouldUpdateDebugInfo) {
 
     if(shouldUpdateDebugInfo && targetHex) {
-      this.currentHex = `col:${targetHex.col} row:${targetHex.row}`;
+      this.currentHex = `col:${targetHex.col} row:${targetHex.row} ${targetHex.roundedPoint.x}:${targetHex.roundedPoint.y}`;
     }
 
     if (this.game.pathFindingDebug && (targetHex && targetHex.id != this.lastMouseMoveTargetId) ) {
@@ -716,7 +724,7 @@ export default class GameboardService extends Service {
 
     switch (targetMode) {
       case this.transport.TRANSPORTMODES.SEA:
-        this.game.boardTransport('ship');
+        this.game.boardTransport('ship', targetHex);
         this.movePlayerTowardsTransportThenFade(targetHex);
         break;
 
@@ -731,8 +739,6 @@ export default class GameboardService extends Service {
   }
 
   movePlayerFromTransportOntoLand(targetHex) {
-    let agentsLayer = this.camera.getAgentsLayer();
-
     // show and move land avatar
     let point = targetHex.point;
     // let point = targetHex.mapObject.point;
@@ -741,25 +747,30 @@ export default class GameboardService extends Service {
     this.game.player.imageGroup.y(point.y);
     this.game.player.imageGroup.to({opacity: 1});
 
-    agentsLayer.draw();
+    this.camera.getPlayerGroup().draw();
   }
 
   movePlayerTowardsTransportThenFade(targetHex) {
-    let agentsLayer = this.camera.getAgentsLayer();
     let point = targetHex.point;
     // let point = targetHex.mapObject.point;
     // let point = this.mapService.currentLayout.hexToPixel(targetHex);
 
+    console.log('[point]', point);
     // move avatar to ship
     this.game.player.imageGroup.to({
-      x: point.x - 18,
-      y: point.y - 18
+      x: point.x,
+      y: point.y,
+      opacity: 0
+      // x: point.x - 18,
+      // y: point.y - 18
     });
-    agentsLayer.draw();
+    // agentsLayer.draw();
 
     // fade the avatar
-    this.game.player.imageGroup.to({opacity: 0});
-    agentsLayer.draw();
+    // this.game.player.imageGroup.to({opacity: 0});
+    // agentsLayer.draw();
+
+    this.camera.getPlayerGroup().draw();
 
   }
 

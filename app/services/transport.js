@@ -44,12 +44,27 @@ export default class TransportService extends Service {
   // Loads player, all transports, and all enemies
   async setupAgents(agents) {
 
+    // var nodes = layer.findOne('.bar');
+    // create group for player and transports/enemies separately
+    let agentsLayer = this.game.camera.getAgentsLayer();
+    const playerGroup = new Konva.Group({
+      // id: this.camera.GROUPS.PLAYER
+      name: this.camera.GROUPS.PLAYER
+    });
+    agentsLayer.add(playerGroup);
+    const transportsEnemiesGroup = new Konva.Group({
+      name: this.camera.GROUPS.AGENTS
+      // id: this.camera.GROUPS.AGENTS
+    });
+    agentsLayer.add(transportsEnemiesGroup);
+
+
     let transportsArray = emberArray();
 
     if(agents.transports) {
       for (let i = 0; i < agents.transports.length; i++) {
 
-        let transport = await this.get('api.loadTransport').perform(agents.transports[i]);
+        let transport = await this.api.loadTransport.perform(agents.transports[i]);
         transport.set('hex', this.mapService.findHexByColRow(transport.startHex.col, transport.startHex.row));
         this.agent.buildDisplayGroup(transport);
         transportsArray.push(transport);
@@ -225,6 +240,7 @@ export default class TransportService extends Service {
 
 
   // @task
+  // @task()
   @task({drop:true})
   *movePlayerToHexTask(targetHex) {
 // console.log('move player', this.game.player, 'player hex', this.game.player.hex.colRowText, 'targetHex', targetHex);
@@ -245,7 +261,7 @@ export default class TransportService extends Service {
 
     const playerMoved = this.tweenPlayerOrMap(this.game.player, objectToVisuallyMove, currentHex, targetHex);
 
-    this.game.fov.updatePlayerFieldOfView(playerMoved?"":"foo");
+    this.game.fov.updatePlayerFieldOfView(playerMoved);
 
     this.game.camera.stage.batchDraw();
 
@@ -311,14 +327,22 @@ export default class TransportService extends Service {
 
       `);
 
+    // movePlayer = false;
+
     if (movePlayer) {
-    // if (movePlayer) {
+      console.log(' +++ moving player', objectToVisuallyMove.imageGroup.getX(),objectToVisuallyMove.imageGroup.getY());
+
+      console.log('new x', playerMoveIsNearEdge ? this.camera.mapOffsetX : targetHex.point.x);
+      console.log('new y', playerMoveIsNearEdge ? this.camera.mapOffsetY : targetHex.point.y);
       const tween = new Konva.Tween({
         node: objectToVisuallyMove.imageGroup,
         duration: this.constants.PLAYERMOVETWEENDURATION,
+        // duration: this.constants.PLAYERMOVETWEENDURATION,
         easing: Konva.Easings.EaseInOut,
-        x: targetHex.point.x + this.camera.mapOffsetX,
-        y: targetHex.point.y + this.camera.mapOffsetY
+        x: playerMoveIsNearEdge ? this.camera.mapOffsetX : targetHex.point.x,
+        y: playerMoveIsNearEdge ? this.camera.mapOffsetY : targetHex.point.y,
+        // x: targetHex.point.x + this.camera.mapOffsetX,
+        // y: targetHex.point.y + this.camera.mapOffsetY
       });
       tween.play();
 
@@ -329,7 +353,7 @@ export default class TransportService extends Service {
       // this.camera.mapOffsetX -= adjustmentPoint.x;
       // this.camera.mapOffsetY -= adjustmentPoint.y;
 
-      // console.log('move map to ', this.camera.mapOffsetX, this.camera.mapOffsetY, adjustmentPoint);
+      console.log(' --- moving map to ', this.camera.mapOffsetX, this.camera.mapOffsetY, adjustmentPoint);
 
       this.camera.backgroundImageObj.to({
         x: this.camera.mapOffsetX,
@@ -347,10 +371,30 @@ export default class TransportService extends Service {
         });
       }
 
-      // this moved fog of war.  is there a better way
+      // this move fog of war.  is there a better way
       const hexGroup = this.camera.getHexLayerGroup();
       if (hexGroup) {
         hexGroup.to({
+          x: tileHexInfoGroup.x() - adjustmentPoint.x,
+          y: tileHexInfoGroup.y() - adjustmentPoint.y,
+          duration: this.constants.PLAYERMOVETWEENDURATION
+        });
+      }
+
+      // also move FOV layer
+      const fovGroup = this.camera.getFOVLayerGroup();
+      if (fovGroup) {
+        fovGroup.to({
+          x: tileHexInfoGroup.x() - adjustmentPoint.x,
+          y: tileHexInfoGroup.y() - adjustmentPoint.y,
+          duration: this.constants.PLAYERMOVETWEENDURATION
+        });
+      }
+
+      // also move agents layer
+      const agentsLayer = this.camera.getEnemiesGroup(); // same for transports
+      if (agentsLayer) {
+        agentsLayer.to({
           x: tileHexInfoGroup.x() - adjustmentPoint.x,
           y: tileHexInfoGroup.y() - adjustmentPoint.y,
           duration: this.constants.PLAYERMOVETWEENDURATION

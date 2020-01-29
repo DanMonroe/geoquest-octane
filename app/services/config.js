@@ -33,6 +33,24 @@ export default class ConfigService extends Service {
     this.game.pathFindingDebug = !this.game.pathFindingDebug;
   }
 
+  toggleFieldOfView() {
+    // this.game.gameboard.clearFOVLayer();
+    // this.game.gameboard.clearDebugLayer();
+    this.game.showFieldOfViewLayer = !this.game.showFieldOfViewLayer;
+    console.log('toggleFieldOfView', this.game.showFieldOfViewLayer);
+    // const fovGroup = this.camera.getFOVLayerGroup();
+    // fovGroup.visible(this.game.showFieldOfViewLayer);
+
+    if (this.game.showFieldOfViewLayer) {
+      this.game.fov.setAllHexesVisibility(false);
+      this.game.fov.updatePlayerFieldOfView();
+    } else {
+      this.game.fov.setAllHexesVisibility(true);
+    }
+
+    this.camera.stage.batchDraw();
+  }
+
   reportAndResetPerformance() {
     console.log(performance.getEntriesByType("measure"));
     performance.clearMarks();

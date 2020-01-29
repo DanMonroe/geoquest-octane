@@ -7,6 +7,7 @@ export default class PlayController extends Controller {
   @service camera;
   @service gameboard;
   @service config;
+  @service game;
 
   @action
   setup(element) {
@@ -33,8 +34,12 @@ export default class PlayController extends Controller {
             this.config.toggleHexInfo();
             e.preventDefault();
             break;
-          case 'F':  // show/hide Field of View
+          case 'P':  // show/hide Field of View
             this.config.togglePathFindingDebug();
+            e.preventDefault();
+            break;
+          case 'F':  // show/hide Field of View
+            this.config.toggleFieldOfView();
             e.preventDefault();
             break;
           case 'D':  // show/hide Debug Group
@@ -74,6 +79,12 @@ export default class PlayController extends Controller {
             this.gameboard.movePlayer('SE');
             e.preventDefault();
             break;
+
+          case 'X':  // experiments
+            this.game.doDebugStuff();
+            e.preventDefault();
+            break;
+
           default:
             break;
         }

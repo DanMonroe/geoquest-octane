@@ -1,8 +1,9 @@
 // import largetest from './largetest';
-// import testmap from './testmap';
+import testmap from './testmap';
 // import scrolltest from './scrolltest';
-// import scrolltestsmall from './scrolltestsmall';
-import landsea from './landsea';
+import scrolltestsmall from './scrolltestsmall';
+// import landsea from './landsea';
+// import cave1 from './cave1';
 
 export default function(server) {
 
@@ -70,7 +71,7 @@ export default function(server) {
     index: 0,
     opacity: 1,
     startHex: {
-      col: 5,
+      col: 7,
       row: 3
     },
     agentImage: "/images/agents/pirate.svg",
@@ -98,11 +99,11 @@ export default function(server) {
     type: 2,  // PLAYER:0, ENEMY:1, TRANSPORT:2
     name: 'ship',
     startHex: {
-      col: 3,
-      row: 16
+      col: 10,
+      row: 8
     },
     agentImage: "/images/transports/ship.svg",
-    opacity: 1,
+    opacity: 0,
     agentImageSize: 60,
     sightRange: 3,
     speed: 500,
@@ -214,11 +215,14 @@ export default function(server) {
   // const water1 = server.create('tile', { name: 'ZeshioHexKitDemo_096.png' });
   // const sand1 = server.create('tile', { name: 'ZeshioHexKitDemo_104.png' });
 
-  landsea(server);
+  // landsea(server);
+  // cave1(server);
+
   // scrolltestsmall(server);
+  testmap(server);
+
   // scrolltest(server);
   // largetest(server);
-  // testmap(server);
 
 
 }

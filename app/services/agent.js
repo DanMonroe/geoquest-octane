@@ -52,48 +52,70 @@ export default class AgentService extends Service {
       listening: false
     });
 
-    let imageObj = new Image();
-    // image.src = agent.agentImage;
-    imageObj.src = agent.agentImage;
+    const useCircle = false;
 
+    if (useCircle) {
 
-    imageObj.onload = () => {
-      agent.imageObj = new Konva.Image({
-        // id: "agent" + agent.id,
-        // id: "agent" + agent.index,
-        x: -(agent.agentImageSize / 2),
-        y: -(agent.agentImageSize / 2) - 20,
-        image: imageObj,
-        opacity: agent.opacity,
-        width: agent.agentImageSize,
-        height: agent.agentImageSize
-      });
+      let agentCircleColor = 'purple';
       switch (agent.type) {
         case this.game.constants.AGENTTYPES.PLAYER:
-          agent.imageObj.id = agent.name;
-          agent.imageGroup.add(agent.imageObj, healthBar, powerBar);
           break;
         case this.game.constants.AGENTTYPES.ENEMY:
-          agent.imageObj.id = "agent" + agent.id;
-          agent.imageGroup.add(agent.imageObj, healthBar);
+          agentCircleColor = 'red';
           break;
         case this.game.constants.AGENTTYPES.TRANSPORT:
-          agent.imageObj.id = "agent" + agent.id;
-          agent.imageGroup.add(agent.imageObj, healthBar, powerBar);
+          agentCircleColor = 'yellow';
           break;
         default:
       }
-
-      let agentsLayer = this.game.camera.getAgentsLayer();
-      // agent.imageGroup.add(agent.imageObj, healthBar, powerBar);
-      // healthBar.moveToBottom();
-      // powerBar.moveToBottom();
-      agentsLayer.add(agent.imageGroup);
-      // agentsLayer.add(this.imageObj);
-      // agentsLayer.draw();
+      let circle = new Konva.Circle({
+        x: 0,
+        y: 0,
+        radius: 4,
+        fill: agentCircleColor,
+        listening: false
+      });
+      let agentsGroup = this.game.camera.getAgentGroup(agent.type);
+      agent.imageGroup.add(circle, healthBar, powerBar);
+      agentsGroup.add(agent.imageGroup);
       this.game.camera.stage.batchDraw();
-    };
-    // imageObj.src = agent.agentImage;
+
+    } else {
+
+      let imageObj = new Image();
+      imageObj.src = agent.agentImage;
+
+
+      imageObj.onload = () => {
+        agent.imageObj = new Konva.Image({
+          x: -(agent.agentImageSize / 2),
+          y: -(agent.agentImageSize / 2) - 20,
+          image: imageObj,
+          width: agent.agentImageSize,
+          height: agent.agentImageSize
+        });
+        switch (agent.type) {
+          case this.game.constants.AGENTTYPES.PLAYER:
+            agent.imageObj.id = agent.name;
+            agent.imageGroup.add(agent.imageObj, healthBar, powerBar);
+            break;
+          case this.game.constants.AGENTTYPES.ENEMY:
+            agent.imageObj.id = "agent" + agent.id;
+            agent.imageGroup.add(agent.imageObj, healthBar);
+            break;
+          case this.game.constants.AGENTTYPES.TRANSPORT:
+            agent.imageObj.id = "transport" + agent.id;
+            agent.imageGroup.add(agent.imageObj, healthBar, powerBar);
+            break;
+          default:
+        }
+
+        let agentsGroup = this.game.camera.getAgentGroup(agent.type);
+        agentsGroup.add(agent.imageGroup);
+
+        this.game.camera.stage.batchDraw();
+      };
+    }
   }
 
   healthPercentage(agent) {

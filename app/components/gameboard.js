@@ -31,6 +31,8 @@ export default class GameboardComponent extends Component {
 
   @tracked epmModalContainerClass = '';
 
+  @tracked zoomEnabled = true;
+
   constructor() {
     super(...arguments);
 
@@ -96,7 +98,10 @@ export default class GameboardComponent extends Component {
   @action
   setupGame(/*konvaContainer*/) {
 console.log('gameboard setup');
-    this.mapService.loadMap(config.game.startingMapIndex);
+    this.mapService.loadMap( 2 );  //
+
+    // TOD uncomment for prod:
+    // this.mapService.loadMap(config.game.startingMapIndex);
 
     this.game.gameClock.perform();
   }

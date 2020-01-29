@@ -118,8 +118,10 @@ export default class MapService extends Service {
         start: {
           // Q: 6,
           // R: 0,
-          col: 6,
-          row: 5
+          col: 7,
+          row: 3
+          // col: 6,
+          // row: 15
         }
       },
       transports: [ 1 ],

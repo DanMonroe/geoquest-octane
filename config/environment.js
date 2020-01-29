@@ -71,15 +71,15 @@ module.exports = function(environment) {
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
 
     // ENV.game.startingMapIndex = 1;
-    ENV.game.startingMapIndex = 2;
+    ENV.game.startingMapIndex = 1;
     ENV.game.gameClockEnabled = false;
     ENV.game.enableGameSounds = false;
     ENV.game.transport.moveQueueEnabled = true;
     ENV.game.board.showTileGraphics = true;
-    ENV.game.board.showTileHexInfo = false;
-    ENV.game.board.showDebugLayer = false;
+    ENV.game.board.showTileHexInfo = true;
+    ENV.game.board.showDebugLayer = true;
     ENV.game.board.showFieldOfViewLayer = true;
-    ENV.game.board.showScrollRectangle = false;
+    ENV.game.board.showScrollRectangle = true;
     ENV.game.board.pathFindingDebug = false;
 
   }

@@ -89,8 +89,8 @@ export default function(server) {
   const  hex1_5 = server.create('hex', {layout: layout, col: 1, row:  5, travelFlags: 1, tiles: []});
   const  hex2_5 = server.create('hex', {layout: layout, col: 2, row:  5, travelFlags: 1, tiles: []});
   const  hex3_5 = server.create('hex', {layout: layout, col: 3, row:  5, travelFlags: 2, tiles: []});
-  const  hex4_5 = server.create('hex', {layout: layout, col: 4, row:  5, travelFlags: 1, sightFlags: 1, tiles: []});
-  const  hex5_5 = server.create('hex', {layout: layout, col: 5, row:  5, travelFlags: 1, sightFlags: 1, tiles: []});
+  const  hex4_5 = server.create('hex', {layout: layout, col: 4, row:  5, travelFlags: 1, sightFlags: 0, tiles: []});
+  const  hex5_5 = server.create('hex', {layout: layout, col: 5, row:  5, travelFlags: 1, sightFlags: 0, tiles: []});
   const  hex6_5 = server.create('hex', {layout: layout, col: 6, row:  5, travelFlags: 2, sightFlags: 1, tiles: []});
   const  hex7_5 = server.create('hex', {layout: layout, col: 7, row:  5, travelFlags: 2, tiles: []});
   const  hex8_5 = server.create('hex', {layout: layout, col: 8, row:  5, travelFlags: 2, tiles: []});
@@ -191,7 +191,7 @@ export default function(server) {
 
 
   server.create('map', {
-    id: 1,
+    id: 2,
     layout: layout,
 
     // layoutHexSizeX: 36,

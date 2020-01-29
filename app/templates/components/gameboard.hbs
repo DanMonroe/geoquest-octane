@@ -10,11 +10,13 @@
     </div>
     <div class="header">
       <h2>GeoQuest - Octane</h2>
-      <div class="zoom">
-        <PressAndHoldButton @press={{perform this.camera.scaleStageBy -1}} @release={{cancel-all this.camera.scaleStageBy}}>--</PressAndHoldButton>
-        <input type="range" id="zoom" name="zoom" min="0" max="100" value="{{this.camera.stageScaleDisplay}}" step="10">
-        <PressAndHoldButton @press={{perform this.camera.scaleStageBy 1}} @release={{cancel-all this.camera.scaleStageBy}}>++</PressAndHoldButton>
-      </div>
+      {{#if zoomEnabled}}
+        <div class="zoom">
+          <PressAndHoldButton @press={{perform this.camera.scaleStageBy -1}} @release={{cancel-all this.camera.scaleStageBy}}>--</PressAndHoldButton>
+          <input type="range" id="zoom" name="zoom" min="0" max="100" value="{{this.camera.stageScaleDisplay}}" step="10">
+          <PressAndHoldButton @press={{perform this.camera.scaleStageBy 1}} @release={{cancel-all this.camera.scaleStageBy}}>++</PressAndHoldButton>
+        </div>
+      {{/if}}
       <div class="game-controls">
         <button class="btn inventory" {{on "click" (fn showInventory)}} >
           <EmberTooltip tooltipClass="tooltip-controls" >Inventory</EmberTooltip>
@@ -49,7 +51,7 @@
             Mouse: {{this.gameboard.currentHex}}
           </div>
           <div>
-            Player: {{this.game.player.hex.colRowText}}
+            Player: {{this.game.player.hex.colRowText}} {{this.game.player.hex.roundedPoint.x}}:{{this.game.player.hex.roundedPoint.y}}
           </div>
             [{{this.game.player.sightRange}}]
           {{!#if showCameraDebug}}

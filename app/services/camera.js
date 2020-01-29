@@ -26,7 +26,8 @@ export default class CameraService extends Service {
     HEXINFO: "hexinfo",
     SCROLLREC: "scrollrec",
     // FOV: 4,
-    // AGENTS: "agents",
+    AGENTS: "agents",
+    PLAYER: "player"
     // MINIMAP: 0
 
   }
@@ -41,6 +42,7 @@ export default class CameraService extends Service {
   // };
 
   @service ('map') mapService;
+  @service constants;
 
   /**
    * x and y: The current position of the background map.
@@ -49,8 +51,10 @@ export default class CameraService extends Service {
    */
   // @tracked x = 0;
   // @tracked y = 0;
-  @tracked mapOffsetX = 0;
-  @tracked mapOffsetY = 0;
+  // @tracked mapOffsetX = -8;
+  // @tracked mapOffsetY = -35;
+  @tracked mapOffsetX;
+  @tracked mapOffsetY;
 
   // camera viewport
   // viewport = null;
@@ -59,8 +63,9 @@ export default class CameraService extends Service {
   @tracked stage = null;
   @tracked miniMapStage = null;
 
-  @tracked stageScale = 100;
-  // @tracked stageScale = 75;
+  // @tracked stageScale = 100;
+  // @tracked stageScale = 50;
+  @tracked stageScale = 75;
 
   /**
    * width and height: The size of the camera's viewport.
@@ -73,6 +78,9 @@ export default class CameraService extends Service {
 
   @tracked scrollContainerWidth = 0;
   @tracked scrollContainerHeight = 0;
+
+  @tracked worldX = 0;
+  @tracked worldY = 0;
 
 
   @tracked backgroundImageObj;
@@ -150,7 +158,10 @@ export default class CameraService extends Service {
     // console.log('bottomSightRangeBoundary',this.scrollContainerHeight - this.mapService.playerVerticalSightRange - this.mapOffsetY);
     // console.log('bottomSightRangeBoundary', this.scrollContainerHeight - this.mapService.playerVerticalSightRange - this.mapOffsetY,
     //   `${this.scrollContainerHeight} - ${this.mapService.playerVerticalSightRange} - ${this.mapOffsetY}`);
-    return this.scrollContainerHeight - this.mapService.playerVerticalSightRange - this.mapOffsetY;
+    const height = ( this.worldY && this.worldY < this.scrollContainerHeight) ? this.worldY : this.scrollContainerHeight;
+
+    return height - this.mapService.playerVerticalSightRange - this.mapOffsetY;
+    // return this.scrollContainerHeight - this.mapService.playerVerticalSightRange - this.mapOffsetY;
   }
 
   get topSightRangeBoundary() {
@@ -164,8 +175,9 @@ export default class CameraService extends Service {
   }
 
   get rightSightRangeBoundary() {
-    return this.scrollContainerWidth - this.mapService.playerHorizontalSightRange - this.mapOffsetX;
-    // return this.scrollContainerWidth - (this.mapService.playerHorizontalSightRange - this.mapOffsetX);
+    const width = ( this.worldX && this.worldX < this.scrollContainerWidth) ? this.worldX : this.scrollContainerWidth;
+    return width - this.mapService.playerHorizontalSightRange - this.mapOffsetX;
+    // return this.scrollContainerWidth - this.mapService.playerHorizontalSightRange - this.mapOffsetX;
   }
 
   hexIsInsideSightRangeBoundary(targetHex) {
@@ -188,6 +200,7 @@ righ    ${targetHex.point.x} <= ${this.rightSightRangeBoundary} (scrollContainer
   adjustMapOffset(adjustmentPoint) {
     this.mapOffsetX -= adjustmentPoint.x;
     this.mapOffsetY -= adjustmentPoint.y;
+    console.log('                    adjustMapOffset adjustmentPoint', adjustmentPoint, this.mapOffsetX, this.mapOffsetY);
   }
   // setSightRangeBoundaries() {
   //   // since this.game.camera.backgroundImageObj uses functions to get x() and y() then this can't be tracked
@@ -290,9 +303,37 @@ righ    ${targetHex.point.x} <= ${this.rightSightRangeBoundary} (scrollContainer
     }
     return group;
   }
-  // getAgentsLayer() {
-  //   return this.stage.getLayers()[this.LAYERS.AGENTS];
-  // }
+
+  getAgentGroup(agentType) {
+    let player, agent;
+    switch (agentType) {
+      case this.constants.AGENTTYPES.PLAYER:
+        player = this.getAgentsLayer().findOne(`.${this.GROUPS.PLAYER}`);
+        return player;
+        // return this.getAgentsLayer().find(`#${this.GROUPS.PLAYER}`);
+      case this.constants.AGENTTYPES.ENEMY:
+      case this.constants.AGENTTYPES.TRANSPORT:
+        agent = this.getAgentsLayer().findOne(`.${this.GROUPS.AGENTS}`);
+        return agent;
+        // return this.getAgentsLayer().find(`#${this.GROUPS.AGENTS}`);
+      default:
+    }
+
+    return null;
+  }
+
+  getPlayerGroup() {
+    return this.getAgentGroup(this.constants.AGENTTYPES.PLAYER);
+  }
+
+  getTransportsGroup() {
+    return this.getAgentGroup(this.constants.AGENTTYPES.TRANSPORT);
+  }
+
+  getEnemiesGroup() {
+    return this.getAgentGroup(this.constants.AGENTTYPES.ENEMY);
+  }
+
   // getMiniMapLayer() {
   //   return this.miniMapStage.getLayers()[this.LAYERS.MINIMAP];
   // }

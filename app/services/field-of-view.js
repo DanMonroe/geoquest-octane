@@ -15,7 +15,7 @@ export default class FieldOfViewService extends Service {
 
   @tracked lastNeighborsInRangeArray = {};
 
-  updatePlayerFieldOfView(foo) {
+  updatePlayerFieldOfView() {
 // performance.mark("updatePlayerFieldOfView Start");
     let player = this.game.player;
 
@@ -39,11 +39,11 @@ export default class FieldOfViewService extends Service {
 
 
     this.mapService.updateSeenHexes(finalFovHexes);
-    // console.log('finalFovHexes 2', finalFovHexes);
+    console.log('finalFovHexes 2', finalFovHexes);
     this.updateGameboardTilesOpacity(finalFovHexes);
     // console.log('finalFovHexes 3', finalFovHexes);
     // if (!foo) {
-    this.updateStaticEnemyOpacity(finalFovHexes);
+    this.updateAgentOpacity(finalFovHexes);
     // console.log('finalFovHexes 4', finalFovHexes);
 // performance.mark("updatePlayerFieldOfView End");
 // performance.measure("measure updatePlayerFieldOfView Start to updatePlayerFieldOfView End", "updatePlayerFieldOfView Start", "updatePlayerFieldOfView End");
@@ -130,38 +130,55 @@ export default class FieldOfViewService extends Service {
     return finalFovHexes;
   }
 
-  updateStaticEnemyOpacity(finalFovHexes) {
-    // get all enemies that are in finalFovHexes.visible
+  updateAgentOpacity(finalFovHexes) {
+    // get all agent that are in finalFovHexes.visible
     // then set opacity to 1
-    // get all enemies that are in finalFovHexes.noLongerVisible
+    // get all agent that are in finalFovHexes.noLongerVisible
     // then set opacity to 0
 
-    let agentsLayer = this.camera.getAgentsLayer();
+    // let agentsLayer = this.camera.getAgentsLayer();
 
-    this.game.agents.forEach((transportAgent) => {
+    const agents = [...this.game.agents, ...this.game.transports];
+
+    agents.forEach((transportAgent) => {
+    // this.game.agents.forEach((transportAgent) => {
+    // this.game.agents.forEach((transportAgent) => {
       // console.log('transportAgent.name', transportAgent.name, transportAgent.imageGroup.attrs.opacity);
       if(transportAgent.imageGroup.attrs.opacity === 0){
         // make visible
-        this.setStaticEnemyOpacity(transportAgent, finalFovHexes.visible, true);
+        this.setAgentOpacity(transportAgent, finalFovHexes.visible, true);
       } else {
         // make non visible
-        this.setStaticEnemyOpacity(transportAgent, finalFovHexes.noLongerVisible, false);
+        this.setAgentOpacity(transportAgent, finalFovHexes.noLongerVisible, false);
       }
-      this.checkPlayerInRangeForAgent(transportAgent);
+      if (transportAgent.type === this.game.constants.AGENTTYPES.ENEMY) {
+        this.checkPlayerInRangeForAgent(transportAgent);
+      }
     });
 
-    agentsLayer.draw();
+    this.camera.stage.batchDraw();
+    // agentsLayer.draw();
   }
 
   // hexesToCheck visible or noLongerVisible
-  setStaticEnemyOpacity(transportAgent, hexesToCheck, isVisible) {
-    // console.log('setStaticEnemyOpacity', transportAgent.id, transportAgent);
+  setAgentOpacity(transportAgent, hexesToCheck, isVisible) {
+    // console.log('setAgentOpacity', transportAgent.id, transportAgent);
     if (transportAgent.hex && hexesToCheck.includes(transportAgent.hex)) {
 
-      let agentsLayer = this.camera.getAgentsLayer()
-      let visibleAgentImages = agentsLayer.getChildren((node) => {
-        // console.log('node.name()',node.name());
-        return `agent${transportAgent.id}` === node.name();
+      let keyPrefix = 'agent';
+      switch (transportAgent.type) {
+        case this.game.constants.AGENTTYPES.ENEMY:
+          keyPrefix = 'agent';
+          break;
+        case this.game.constants.AGENTTYPES.TRANSPORT:
+          keyPrefix = 'transport';
+          break;
+        default:
+      }
+
+      let visibleAgentImages = this.camera.getTransportsGroup().getChildren((node) => {
+      // let visibleAgentImages = this.camera.getAgentsLayer().getChildren((node) => {
+        return `${keyPrefix}${transportAgent.id}` === node.name();
       });
       visibleAgentImages.forEach(agentImageGroup => {
         agentImageGroup.to({opacity: isVisible ? 1 : 0});
@@ -184,6 +201,20 @@ export default class FieldOfViewService extends Service {
 
   }
 
+  setAllHexesVisibility(isVible) {
+    const hexGroup = this.camera.getGameLayer().find('#hex');
+    if (hexGroup.length > 0) {
+
+      const hexes = hexGroup[0].children;
+      hexes.forEach((tile) => {
+        tile.to({
+          fill: isVible ? this.constants.MAPFILLOPACITY.VISIBLE : this.constants.MAPFILLOPACITY.HIDDEN,
+          duration : 0
+        });
+      });
+    }
+  }
+
   // update both main and mini maps
   updateGameboardTilesOpacity(finalFovHexes) {
     this.updateGameboardTilesOpacityForLayer(finalFovHexes, this.camera.getGameLayer());
@@ -191,67 +222,67 @@ export default class FieldOfViewService extends Service {
   }
 
   updateGameboardTilesOpacityForLayer(finalFovHexes, layer) {
-    // console.log('layer', layer);
-    const hexGroup = layer.find('#hex');
-    // console.log('hexGroup',hexGroup);
-    console.log('updateGameboardTilesOpacityForLayer');
-    if (hexGroup.length > 0) {
+    if(this.game.showFieldOfViewLayer) {
+      // console.log('layer', layer);
+      const hexGroup = layer.find('#hex');
+      // console.log('hexGroup',hexGroup);
+      console.log('updateGameboardTilesOpacityForLayer');
+      if (hexGroup.length > 0) {
 
-      const hexes = hexGroup[0];
-      // console.log('hexes',hexes);
-      //
-      // console.log('finalFovHexes', finalFovHexes);
+        const hexes = hexGroup[0];
+        // console.log('hexes',hexes);
+        //
+        // console.log('finalFovHexes', finalFovHexes);
 
+        let visibleIds = finalFovHexes.visible.map(function (h) {
+          return h.id;
+        })
 
-      let visibleIds = finalFovHexes.visible.map(function(h){
-        return h.id;
-      })
-
-      let visibleHexImages = hexes.getChildren((node) => {
-      // let visibleHexImages = layer.getChildren((node) => {
-        return visibleIds.includes(node.id());
-      });
-  // console.log('visibleHexImages', visibleHexImages);
-      visibleHexImages.forEach((tile,index) => {
-        // tile.to({opacity: 0});
-
-        const fillcolor = `rgb(${index*10},0,0)`;
-// console.log('fillcolor', fillcolor);
-        tile.to({
-          // stroke: 'rgba(226,148,0,.75)',
-          // stroke:  this.constants.MAPFILLOPACITY.VISIBLE,
-          // fill: this.constants.MAPFILLOPACITY.DEBUGVISIBLE,
-          // fill: fillcolor,
-          fill: this.constants.MAPFILLOPACITY.VISIBLE,
-          duration : this.constants.MAPFILLTWEENDURATION
+        let visibleHexImages = hexes.getChildren((node) => {
+          // let visibleHexImages = layer.getChildren((node) => {
+          return visibleIds.includes(node.id());
         });
-      });
+        // console.log('visibleHexImages', visibleHexImages);
+        visibleHexImages.forEach((tile) => {
+          // tile.to({opacity: 0});
 
-      // No longer visible
-      let noLongerVisibleIds = finalFovHexes.noLongerVisible.map(function(h){
-        return h.id;
-      })
-      let noLongerVisibleHexImages = hexes.getChildren((node) => {
-      // let noLongerVisibleHexImages = layer.getChildren((node) => {
-        return noLongerVisibleIds.includes(node.id());
-      });
-      // remove any hex that is in visible hexes
-      noLongerVisibleHexImages = noLongerVisibleHexImages.filter((node) => {
-        return !visibleHexImages.includes(node);
-      });
-
-      noLongerVisibleHexImages.forEach(tile => {
-        tile.to({
-          fill: this.constants.MAPFILLOPACITY.PREVIOUSLYSEEN,
-          duration : this.constants.MAPFILLTWEENDURATION
+          // const fillcolor = `rgb(${index*10},0,0)`;
+          // console.log('fillcolor', fillcolor);
+          tile.to({
+            // stroke: 'rgba(226,148,0,.75)',
+            // stroke:  this.constants.MAPFILLOPACITY.VISIBLE,
+            // fill: this.constants.MAPFILLOPACITY.DEBUGVISIBLE,
+            // fill: fillcolor,
+            fill: this.constants.MAPFILLOPACITY.VISIBLE,
+            duration: this.constants.MAPFILLTWEENDURATION
+          });
         });
-        // tile.to({fill: this.constants.MAPFILLOPACITY.PREVIOUSLYSEEN});
-        // tile.to({opacity: this.constants.MAPOPACITY.PREVIOUSLYSEEN});
-      });
 
-      this.camera.stage.batchDraw();
-      // layer.batchDraw();
+        // No longer visible
+        let noLongerVisibleIds = finalFovHexes.noLongerVisible.map(function (h) {
+          return h.id;
+        })
+        let noLongerVisibleHexImages = hexes.getChildren((node) => {
+          // let noLongerVisibleHexImages = layer.getChildren((node) => {
+          return noLongerVisibleIds.includes(node.id());
+        });
+        // remove any hex that is in visible hexes
+        noLongerVisibleHexImages = noLongerVisibleHexImages.filter((node) => {
+          return !visibleHexImages.includes(node);
+        });
+
+        noLongerVisibleHexImages.forEach(tile => {
+          tile.to({
+            fill: this.constants.MAPFILLOPACITY.PREVIOUSLYSEEN,
+            duration: this.constants.MAPFILLTWEENDURATION
+          });
+          // tile.to({fill: this.constants.MAPFILLOPACITY.PREVIOUSLYSEEN});
+          // tile.to({opacity: this.constants.MAPOPACITY.PREVIOUSLYSEEN});
+        });
+
+        this.camera.stage.batchDraw();
+        // layer.batchDraw();
+      }
     }
-
   }
 }

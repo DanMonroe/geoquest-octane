@@ -186,10 +186,11 @@ export default class GameService extends Service {
     return sourceFlags & targetFlag;
   }
 
-  boardTransport(transportName) {
+  boardTransport(transportName, targetHex) {
     this.turnOffPlayerTravelAbilityFlag(this.constants.FLAGS.TRAVEL.LAND);
     this.turnOnPlayerTravelAbilityFlag(this.constants.FLAGS.TRAVEL.SEA);
     this.player.boardedTransport = this.transport.findTransportByName(transportName);
+    this.player.hex = targetHex;
   }
 
   disembarkTransportToHex(targetHex) {
@@ -372,5 +373,10 @@ export default class GameService extends Service {
       default:
         break;
     }
+  }
+
+  doDebugStuff() {
+    console.log('player hex', this.player.hex);
+    this.transport.movePlayerAlongPath([this.player.hex]);
   }
 }

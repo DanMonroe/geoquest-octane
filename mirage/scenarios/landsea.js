@@ -179,7 +179,7 @@ export default function(server) {
   const hex33_4 = server.create('hex', {layout: layout, col: 33, row: 4, wesnoth: "Gll^Fp", sightFlags: 0, travelFlags: 6, specialFlags: 0, tiles: []});
   const hex0_5 = server.create('hex', {layout: layout, col: 0, row: 5, wesnoth: "Md^Xm", sightFlags: 1, travelFlags: 6, specialFlags: 0, tiles: []});
   const hex1_5 = server.create('hex', {layout: layout, col: 1, row: 5, wesnoth: "Aa", sightFlags: 0, travelFlags: 6, specialFlags: 0, tiles: []});
-  const hex2_5 = server.create('hex', {layout: layout, col: 2, row: 5, wesnoth: "Kud", sightFlags: 0, travelFlags: 6, specialFlags: 0, tiles: []});
+  const hex2_5 = server.create('hex', {layout: layout, col: 2, row: 5, wesnoth: "Kud", sightFlags: 0, travelFlags: 6, specialFlags: 0, tiles: []});  // dwarven castle - go to cave1
   const hex3_5 = server.create('hex', {layout: layout, col: 3, row: 5, wesnoth: "Md^Xm", sightFlags: 1, travelFlags: 6, specialFlags: 0, tiles: []});
   const hex4_5 = server.create('hex', {layout: layout, col: 4, row: 5, wesnoth: "Md^Xm", sightFlags: 1, travelFlags: 6, specialFlags: 0, tiles: []});
   const hex5_5 = server.create('hex', {layout: layout, col: 5, row: 5, wesnoth: "Md^Xm", sightFlags: 1, travelFlags: 6, specialFlags: 0, tiles: []});
@@ -923,11 +923,13 @@ export default function(server) {
     id: 2,
     layout: layout,
     name: 'Land Sea',
-    backgroundImage: 'landsea.png',
+    backgroundImage: 'landsea-min.png',
     backgroundImageWidth: 1800,
     backgroundImageHeight: 1836,
     backgroundOffsetX: -8,
     backgroundOffsetY: -35,
     hexRows: [hexRow0,hexRow1,hexRow2,hexRow3,hexRow4,hexRow5,hexRow6,hexRow7,hexRow8,hexRow9,hexRow10,hexRow11,hexRow12,hexRow13,hexRow14,hexRow15,hexRow16,hexRow17,hexRow18,hexRow19,hexRow20,hexRow21,hexRow22,hexRow23,hexRow24,hexRow25]
   });
+    // backgroundImage: 'landsea-min.png',
+    // backgroundImage: 'landsea.png',
 }
