@@ -59,6 +59,7 @@ export default class MapService extends Service {
 
   // Map setup
   async loadMap(mapIndex) {
+    console.log('loadMap', mapIndex);
     this.game.saveGame();
 
     this.mapIndex = mapIndex;
@@ -187,6 +188,7 @@ export default class MapService extends Service {
         }
       }
 
+      console.log('tileGraphic.src', tileGraphic.src)
       this.tileGraphics.pushObject(tileGraphic);
     }
   }

@@ -197,7 +197,7 @@ export class Map2 extends Basemap {
     "ZeshioHexKitDemo_093.png",
     "ZeshioHexKitDemo_094.png",
     "ZeshioHexKitDemo_095.png",
-    "ZeshioHexKitDemo_096.png",
+    "emberconf_water_096.png",
     "ZeshioHexKitDemo_097.png",
     "ZeshioHexKitDemo_098.png",
     "ZeshioHexKitDemo_099.png",

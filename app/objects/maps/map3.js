@@ -284,13 +284,13 @@ export class Map3 extends Basemap {
     "ZeshioHexKitDemo_093.png",
     "ZeshioHexKitDemo_094.png",
     "ZeshioHexKitDemo_095.png",
-    "ZeshioHexKitDemo_096.png",
+    "emberconf_water_096.png",
     "ZeshioHexKitDemo_097.png",
     "ZeshioHexKitDemo_098.png",
     "ZeshioHexKitDemo_099.png",
     "ZeshioHexKitDemo_100.png",
     "ZeshioHexKitDemo_101.png",
-    "ZeshioHexKitDemo_102.png",
+    "emberconf_sand_102.png",
     "ZeshioHexKitDemo_103.png",
     "ZeshioHexKitDemo_104.png",
     "ZeshioHexKitDemo_105.png",
@@ -424,7 +424,7 @@ export class Map3 extends Basemap {
 ,{id: 35,col: 3,row: 4, t: 96, path: {flags: 1, w:0}}
 ,{id: 45,col: 4,row: 4, t: 102, path: {flags: 2, w:1, v:1}}
 ,{id: 55,col: 5,row: 4, t: 106, path: {flags: 2, w:1, v:1}}
-,{id: 65,col: 6,row: 4, t: [106,115], props: {dock: true}, path: {flags: 2, w:1, v:0}}
+,{id: 65,col: 6,row: 4, t: 106, props: {dock: true}, path: {flags: 2, w:1, v:0}}
 ,{id: 75,col: 7,row: 4, t: 96, path: {flags: 1, w:0}}
 ,{id: 85,col: 8,row: 4, t: 96, path: {flags: 1, w:0}}
 ,{id: 95,col: 9,row: 4, t: 96, path: {flags: 1, w:0}}

@@ -221,10 +221,11 @@ export default class GameboardService extends Service {
 
     let polyConfig = {
       points: points,
-      stroke: 'black',
+      stroke: '#d7d7d7',
       strokeWidth: 1,
       closed: true
     };
+      // stroke: 'black',
     // if (!hex.visual || !hex.visual.canSee) {
     //   polyConfig.fill = 'black';
     //   polyConfig.opacity = 0.5; // change to 1 for prod
@@ -240,15 +241,15 @@ export default class GameboardService extends Service {
   drawHexLabel(layer, hex) {
     let center = this.mapService.currentLayout.hexToPixel(hex);
 
-    let idText = new Konva.Text({
-      x: center.x,
-      y: center.y-17,
-      text: 'id:' + hex.map.id,
-      fontSize: 11,
-      fontFamily: 'sans-serif',
-      fill: this.colorForHex(hex)
-    });
-    idText.offsetX(idText.width() / 2);
+    // let idText = new Konva.Text({
+    //   x: center.x,
+    //   y: center.y-17,
+    //   text: 'id:' + hex.map.id,
+    //   fontSize: 11,
+    //   fontFamily: 'sans-serif',
+    //   fill: this.colorForHex(hex)
+    // });
+    // idText.offsetX(idText.width() / 2);
 
     // let colRowText = new Konva.Text({
     //   x: center.x,
@@ -271,7 +272,7 @@ export default class GameboardService extends Service {
     });
     qrsText.offsetX(qrsText.width() / 2);
 
-    layer.add(idText);
+    // layer.add(idText);
     // layer.add(colRowText);
     layer.add(qrsText);
 

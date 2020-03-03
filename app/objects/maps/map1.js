@@ -8,9 +8,10 @@ export class Map1 extends Basemap {
   };
 
   static TILEIMAGES = [
-    "ZeshioHexKitDemo_096.png", // water
+    "emberconf_water_096.png", // water
     "ZeshioHexKitDemo_104.png"  // sand
   ];
+    // "ZeshioHexKitDemo_096.png", // water
 
   static MAP = [
     [
